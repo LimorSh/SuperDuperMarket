@@ -3,13 +3,8 @@ package course.java.sdm.console;
 import course.java.sdm.engine.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Stream;
 
-import static course.java.sdm.engine.Item.PurchaseType.PER_UNIT;
 
 public class Main {
 
