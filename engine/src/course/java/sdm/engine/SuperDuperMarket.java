@@ -5,10 +5,10 @@ import java.util.Set;
 
 public class SuperDuperMarket {
 
-    private String name;
-    private Set<Store> stores;
-    private Set<Item> items;
-    private Set<Order> orders;
+    private final String name;
+    private final Set<Store> stores;
+    private final Set<Item> items;
+    private final Set<Order> orders;
 
     public SuperDuperMarket(String name) {
         this.name = name;

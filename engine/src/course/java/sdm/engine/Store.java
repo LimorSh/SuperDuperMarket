@@ -1,40 +1,29 @@
 package course.java.sdm.engine;
 
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Store {
 
-    public class ItemAttributes {
+    private static class ItemAttributes {
         private float price;
-        private int quantity = 0;
+        private int totalNumberSold;
 
         public ItemAttributes(float price) {
             this.price = price;
-        }
-
-        public float getPrice() {
-            return price;
         }
 
         public void setPrice(float price) {
             this.price = price;
         }
 
-        public int getQuantity() {
-            return quantity;
-        }
-
-        public void setQuantity(int quantity) {
-            this.quantity = quantity;
+        public void updateTotalNumberSold(int quantity) {
+            this.totalNumberSold += quantity;
         }
 
         @Override
         public String toString() {
             return ", price: " + price +
-                   ", quantity: " + quantity + '}'
+                   ", quantity: " + totalNumberSold + '}'
                    ;
         }
     }
@@ -43,9 +32,9 @@ public class Store {
     private final String name;
     private final float ppk;
     private final Location location;
-    private Map<Item, ItemAttributes> items;
+    private final Map<Item, ItemAttributes> items;
     private int numSoldItems;
-    //private Set<Order> orders;
+    private final Set<Order> orders;
     private float totalDeliveriesRevenue;
 
     public Store(int id, String name, float ppk, Location location) {
@@ -54,6 +43,7 @@ public class Store {
         this.ppk = ppk;
         this.location = location;
         items = new HashMap<>();
+        orders = new HashSet<>();
     }
 
     public int getId() {
@@ -72,9 +62,9 @@ public class Store {
         return ppk;
     }
 
-//    public Set<Order> getOrders() {
-//        return orders;
-//    }
+    public Set<Order> getOrders() {
+        return orders;
+    }
 
     public Map<Item, ItemAttributes> getItems() {
         return items;
@@ -96,22 +86,42 @@ public class Store {
         numSoldItems++;
     }
 
-//    public void addOrder(Order order) {
-//        orders.add(order);
-//    }
+    public void addOrder(Order order) {
+        orders.add(order);
+    }
 
     public void updateTotalDeliveriesRevenue(float deliveriesRevenue) {
         totalDeliveriesRevenue += totalDeliveriesRevenue;
     }
 
+    public float getDeliveryCost(Location location) {
+        return (float) (Distance.getDistanceBetweenTwoLocations(location, this.location) * ppk);
+    }
+
+    public float getItemPrice(Item item) {
+        return items.get(item).price;
+    }
+
+    public float getTotalNumberSold(Item item) {
+        return items.get(item).totalNumberSold;
+    }
+
+    public void updateTotalNumberSoldItem(Item item, float quantity) {
+        int quantityInt = 1;    // item per weight
+        if (item.getPurchaseType().equals(Item.PurchaseType.PER_UNIT)) {
+            quantityInt = (int) quantity;
+        }
+        items.get(item).updateTotalNumberSold(quantityInt);
+    }
+
     @Override
     public String toString() {
-        return
-                "ID: " + id +
+        return "ID: " + id +
                 ", Name:'" + name + '\'' +
                 ", PPK: " + ppk +
                 ", Total Deliveries Revenue: " + totalDeliveriesRevenue +
                 "\nStore items: " + items +
+                "\nStore Orders: " + orders +
                 "\n" + "__________________"
                 ;
     }

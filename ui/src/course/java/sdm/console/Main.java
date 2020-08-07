@@ -2,6 +2,9 @@ package course.java.sdm.console;
 
 import course.java.sdm.engine.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -19,7 +22,7 @@ public class Main {
 //        }
 //    }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Store s1 = new Store(1,"Meni",20, new Location (1, 1) );
         Store s2 = new Store(2,"Joy",100, new Location (15, 3) );
         Store s3 = new Store(3,"Bambi",77, new Location (9, 3) );
@@ -46,11 +49,23 @@ public class Main {
         s2.addItem(item2, 3.2f);
         s3.addItem(item3, 7f);
 
+        Customer customer = new Customer(1, "shira");
+
+        // not working and it's good - not supposed - throws exception as it should:
+//        Order order1 = new Order(1, new Date(), customer, new Location(1, 2), s1);
+//        Order order1 = new Order(1, "01/03/2009", customer, new Location(1, 2), s1);
+
+        // working good as it should:   need to check why is the first one working...
+//        Order order1 = new Order(1, "01/03-11:53:34", customer, new Location(1, 2), s1);
+        Order order1 = new Order(1, "01/03-11:53", customer, new Location(1, 2), s1);
+
+
+        order1.addItem(item1, 12f);
+        s1.addOrder(order1);
+
+
         System.out.println("Show stores:");
-
         Set<Store> stores = sup.getStores();
-
         stores.forEach(System.out::println);
-
     }
 }
