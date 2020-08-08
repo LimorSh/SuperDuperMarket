@@ -1,10 +1,14 @@
 package course.java.sdm.console;
 
-import course.java.sdm.engine.Engine;
+import java.text.ParseException;
 
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world");
-        Engine.foo();
+
+
+
+    public static void main(String[] args) throws ParseException {
+
+        SuperDuperMarket superDuperMarket = new SuperDuperMarket();
+        superDuperMarket.run();
     }
 }
