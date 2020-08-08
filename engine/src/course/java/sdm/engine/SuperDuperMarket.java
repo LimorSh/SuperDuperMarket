@@ -53,8 +53,24 @@ public class SuperDuperMarket {
 
     public float averageItemPrice(Item item) {
 //        Stream stream = stores.stream().filter(store -> store.isItemInTheStore(item));
-//        float x = stream.collect(Collectors.toList())
-//        return ((float) .count());
-        return 0;
+
+        float sum = 0f;
+        for (Store store : stores) {
+            if (store.isItemInTheStore(item)) {
+                sum += store.getItemPrice(item);
+            }
+        }
+        return (sum / numberOfStoresSellingTheItem(item));
+    }
+
+    public int totalNumberItemSold(Item item) {
+        int cnt = 0;
+        for (Order order : orders) {
+            Store store = order.getStore();
+            if (store.isItemInTheStore(item)) {
+                cnt += store.getTotalNumberSold(item);
+            }
+        }
+        return cnt;
     }
 }

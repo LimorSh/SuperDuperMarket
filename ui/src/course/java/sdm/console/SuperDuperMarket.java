@@ -61,6 +61,8 @@ public class SuperDuperMarket {
         order1.addItem(item3, 1.2f);
         order1.finish();
 
+        sup.addOrder(order1);
+
         System.out.println("Show stores:");
         Set<Store> stores = sup.getStores();
         stores.forEach(System.out::println);
@@ -72,6 +74,10 @@ public class SuperDuperMarket {
             System.out.println(item);
             System.out.print("Number of stores selling the item: ");
             System.out.println(sup.numberOfStoresSellingTheItem(item));
+            System.out.print("Average price of the item in stores: ");
+            System.out.println(sup.averageItemPrice(item));
+            System.out.print("Total amount item was sold: ");
+            System.out.println(sup.totalNumberItemSold(item));
         });
     }
 }

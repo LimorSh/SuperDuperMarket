@@ -1,6 +1,7 @@
 package course.java.sdm.engine;
 
 import java.awt.*;
+import java.util.Objects;
 
 public class Location {
 
@@ -17,5 +18,20 @@ public class Location {
 
     public Point getCoordinate() {
         return coordinate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Location location = (Location) o;
+
+        return Objects.equals(coordinate, location.coordinate);
+    }
+
+    @Override
+    public int hashCode() {
+        return coordinate.hashCode();
     }
 }

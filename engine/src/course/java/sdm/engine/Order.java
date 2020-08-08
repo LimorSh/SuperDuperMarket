@@ -77,9 +77,13 @@ public class Order {
     }
 
     public void addItem(Item item, float quantity) {
-        items.put(item, quantity);
+        float totalQuantity = quantity;
+        if (items.containsKey(item)) {
+            totalQuantity += items.get(item);
+        }
+        items.put(item, totalQuantity);
         updateItemsCost(item);
-        updateTotalNumberSoldItemInStore(item, quantity);
+        updateTotalNumberSoldItemInStore(item, totalQuantity);
     }
 
     public void updateItemsCost(Item item) {
@@ -89,6 +93,7 @@ public class Order {
 
     public void finish() {
         updateDeliveryCost();
+        store.updateTotalDeliveriesRevenue(customerLocation);
     }
 
     public void updateDeliveryCost() {
@@ -114,5 +119,20 @@ public class Order {
                 ", Delivery Cost: " + df.format(deliveryCost) +
                 ", Total Cost: " +  df.format(totalCost) +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Order order = (Order) o;
+
+        return id == order.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

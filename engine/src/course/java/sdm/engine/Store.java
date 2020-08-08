@@ -91,8 +91,8 @@ public class Store {
         orders.add(order);
     }
 
-    public void updateTotalDeliveriesRevenue(float deliveriesRevenue) {
-        totalDeliveriesRevenue += totalDeliveriesRevenue;
+    public void updateTotalDeliveriesRevenue(Location location) {
+        totalDeliveriesRevenue += getDeliveryCost(location);
     }
 
     public float getDeliveryCost(Location location) {
@@ -122,13 +122,34 @@ public class Store {
 
     @Override
     public String toString() {
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+
         return "ID: " + id +
                 ", Name:'" + name + '\'' +
                 ", PPK: " + ppk +
-                ", Total Deliveries Revenue: " + totalDeliveriesRevenue +
+                ", Total Deliveries Revenue: " + df.format(totalDeliveriesRevenue) +
                 "\nStore items: " + items +
                 "\nStore Orders: " + orders +
                 "\n" + "__________________"
                 ;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Store store = (Store) o;
+
+        if (id != store.id) return false;
+        return Objects.equals(location, store.location);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        return result;
     }
 }
