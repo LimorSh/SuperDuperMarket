@@ -43,7 +43,10 @@ public class SuperDuperMarket {
         s1.addItem(item2, 7.2f);
         s1.addItem(item3, 2.5f);
 
+        s2.addItem(item1, 4.5f);
         s2.addItem(item2, 3.2f);
+        s2.addItem(item3, 2.21f);
+
         s3.addItem(item3, 7f);
 
         Customer customer = new Customer(1, "shira");
@@ -55,13 +58,20 @@ public class SuperDuperMarket {
         // working good as it should:   need to check why is the first one working...
 //        Order order1 = new Order(1, "01/03-11:53:34", customer, new Location(1, 2), s1);
         Order order1 = new Order(1, "01/03-11:53", customer, new Location(1, 2), s1);
-
         order1.addItem(item1, 12f);
         order1.addItem(item2, 2f);
         order1.addItem(item3, 1.2f);
         order1.finish();
 
+        Order order2 = new Order(2, "01/06-12:11", customer, new Location(1, 2), s2);
+        order2.addItem(item1, 10f);
+        order2.addItem(item2, 4f);
+        order2.addItem(item3, 2.5f);
+        order2.finish();
+
         sup.addOrder(order1);
+        sup.addOrder(order2);
+
 
         System.out.println("Show stores:");
         Set<Store> stores = sup.getStores();
