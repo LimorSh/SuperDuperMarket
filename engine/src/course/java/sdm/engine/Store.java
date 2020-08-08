@@ -1,5 +1,7 @@
 package course.java.sdm.engine;
 
+import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
+
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -43,6 +45,17 @@ public class Store {
         this.name = name;
         this.ppk = ppk;
         this.location = location;
+        items = new HashMap<>();
+        orders = new HashSet<>();
+    }
+
+    public Store(SDMStore sdmStore){
+        this.id = sdmStore.getId();
+        this.name = sdmStore.getName();
+        this.ppk = sdmStore.getDeliveryPpk();
+        int x = sdmStore.getLocation().getX();
+        int y = sdmStore.getLocation().getY();
+        this.location = new Location(x, y);
         items = new HashMap<>();
         orders = new HashSet<>();
     }
