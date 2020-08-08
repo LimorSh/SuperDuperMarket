@@ -1,5 +1,6 @@
 package course.java.sdm.engine;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Store {
@@ -95,7 +96,8 @@ public class Store {
     }
 
     public float getDeliveryCost(Location location) {
-        return (float) (Distance.getDistanceBetweenTwoLocations(location, this.location) * ppk);
+        float distance = (float) (Distance.getDistanceBetweenTwoLocations(location, this.location));
+        return (distance * ppk);
     }
 
     public float getItemPrice(Item item) {

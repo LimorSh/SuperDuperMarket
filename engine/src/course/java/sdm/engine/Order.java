@@ -1,5 +1,6 @@
 package course.java.sdm.engine;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,24 +21,22 @@ public class Order {
 
     public Order(int id, Date date, Customer customer, Location customerLocation, Store store) throws ParseException {
         this.id = id;
-//        this.date = date;
-//        String dateStr = date.toString();
-//        this.date = new SimpleDateFormat(dateFormat).parse(dateStr);
         setDate(date.toString());
         this.customer = customer;
         this.customerLocation = customerLocation;
         this.store = store;
         items = new HashMap<>();
+        store.addOrder(this);
     }
 
     public Order(int id, String dateStr, Customer customer, Location customerLocation, Store store) throws ParseException {
         this.id = id;
         setDate(dateStr);
-//        this.date = new SimpleDateFormat(dateFormat).parse(dateStr);
         this.customer = customer;
         this.customerLocation = customerLocation;
         this.store = store;
         items = new HashMap<>();
+        store.addOrder(this);
     }
 
     private void setDate(String dateStr) throws ParseException {
@@ -80,13 +79,16 @@ public class Order {
     public void addItem(Item item, float quantity) {
         items.put(item, quantity);
         updateItemsCost(item);
-        updateDeliveryCost();
         updateTotalNumberSoldItemInStore(item, quantity);
     }
 
     public void updateItemsCost(Item item) {
         float itemCost = (store.getItemPrice(item));
         itemsCost += itemCost;
+    }
+
+    public void finish() {
+        updateDeliveryCost();
     }
 
     public void updateDeliveryCost() {
@@ -100,14 +102,17 @@ public class Order {
 
     @Override
     public String toString() {
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+
         float totalCost = getTotalCost();
         int totalItem = items.size();
         return "Order{" +
                 "Date: " + date +
-                ", Total items: " + totalItem +
-                ", Items Cost: " + itemsCost +
-                ", Delivery Cost: " + deliveryCost +
-                ", Total Cost: " + totalCost +
+                ", Total items: " +  df.format(totalItem) +
+                ", Items Cost: " +  df.format(itemsCost) +
+                ", Delivery Cost: " + df.format(deliveryCost) +
+                ", Total Cost: " +  df.format(totalCost) +
                 '}';
     }
 }

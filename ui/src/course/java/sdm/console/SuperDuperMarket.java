@@ -17,7 +17,7 @@ public class SuperDuperMarket {
 //    }
 
     public void run() throws ParseException {
-        Store s1 = new Store(1,"Meni",20, new Location(1, 1) );
+        Store s1 = new Store(1,"Meni",20, new Location(3, 4) );
         Store s2 = new Store(2,"Joy",100, new Location (15, 3) );
         Store s3 = new Store(3,"Bambi",77, new Location (9, 3) );
 
@@ -40,6 +40,9 @@ public class SuperDuperMarket {
         sup.addItem(item3);
 
         s1.addItem(item1, 6.54f);
+        s1.addItem(item2, 7.2f);
+        s1.addItem(item3, 2.5f);
+
         s2.addItem(item2, 3.2f);
         s3.addItem(item3, 7f);
 
@@ -55,8 +58,9 @@ public class SuperDuperMarket {
 
 
         order1.addItem(item1, 12f);
-        s1.addOrder(order1);
-
+        order1.addItem(item2, 2f);
+        order1.addItem(item3, 1.2f);
+        order1.finish();
 
         System.out.println("Show stores:");
         Set<Store> stores = sup.getStores();
