@@ -116,6 +116,10 @@ public class Store {
         items.get(item).updateTotalNumberSold(quantityInt);
     }
 
+    public boolean isItemInTheStore(Item item) {
+        return items.containsKey(item);
+    }
+
     @Override
     public String toString() {
         return "ID: " + id +

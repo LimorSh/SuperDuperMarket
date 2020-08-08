@@ -2,6 +2,8 @@ package course.java.sdm.engine;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SuperDuperMarket {
 
@@ -43,5 +45,16 @@ public class SuperDuperMarket {
 
     public void addOrder(Order order) {
         orders.add(order);
+    }
+
+    public int numberOfStoresSellingTheItem(Item item) {
+       return ((int) stores.stream().filter(store -> store.isItemInTheStore(item)).count());
+    }
+
+    public float averageItemPrice(Item item) {
+//        Stream stream = stores.stream().filter(store -> store.isItemInTheStore(item));
+//        float x = stream.collect(Collectors.toList())
+//        return ((float) .count());
+        return 0;
     }
 }

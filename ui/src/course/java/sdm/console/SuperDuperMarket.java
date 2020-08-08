@@ -56,7 +56,6 @@ public class SuperDuperMarket {
 //        Order order1 = new Order(1, "01/03-11:53:34", customer, new Location(1, 2), s1);
         Order order1 = new Order(1, "01/03-11:53", customer, new Location(1, 2), s1);
 
-
         order1.addItem(item1, 12f);
         order1.addItem(item2, 2f);
         order1.addItem(item3, 1.2f);
@@ -65,5 +64,14 @@ public class SuperDuperMarket {
         System.out.println("Show stores:");
         Set<Store> stores = sup.getStores();
         stores.forEach(System.out::println);
+
+
+        System.out.println("Show items:");
+        Set<Item> items = sup.getItems();
+        items.forEach(item -> {
+            System.out.println(item);
+            System.out.print("Number of stores selling the item: ");
+            System.out.println(sup.numberOfStoresSellingTheItem(item));
+        });
     }
 }
