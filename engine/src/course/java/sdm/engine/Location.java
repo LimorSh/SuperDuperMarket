@@ -16,6 +16,12 @@ public class Location {
         this.coordinate = new Point(x, y);
     }
 
+    public Location(course.java.sdm.engine.jaxb.schema.generated.Location sdmLocation) {
+        int x = sdmLocation.getX();
+        int y = sdmLocation.getY();
+        this.coordinate = new Point(x, y);
+    }
+
     public Point getCoordinate() {
         return coordinate;
     }

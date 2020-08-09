@@ -5,7 +5,7 @@ import course.java.sdm.engine.*;
 import java.text.ParseException;
 import java.util.Set;
 
-public class SuperDuperMarket {
+public class Runner {
 
     //    public enum MenuOptions {
 //        SHOW_STORES("show stores"),
@@ -18,7 +18,8 @@ public class SuperDuperMarket {
 
     public void run() throws ParseException {
         DataLoader loader = new DataLoader("C:\\Users\\limorsh\\Desktop\\Java\\SuperDuperMarket\\engine\\src\\course\\java\\sdm\\engine\\resources\\ex1-small.xml");
-
+        SuperDuperMarket superDuperMarket = new SuperDuperMarket("MySuperMarket");
+        loader.loadFromXmlFile(superDuperMarket);
 
 
 
@@ -89,12 +90,16 @@ public class SuperDuperMarket {
 ////        Order order1 = new Order(1, new Date(), customer, new Location(1, 2), s1);
 ////        Order order1 = new Order(1, "01/03/2009", customer, new Location(1, 2), s1);
 //
-//        // working good as it should:   need to check why is the first one working...
-////        Order order1 = new Order(1, "01/03-11:53:34", customer, new Location(1, 2), s1);
+        // working good as it should:   need to check why is the first one working...
+//        Order order1 = new Order(1, "01/03-11:53:34", customer, new Location(1, 2), s1);
+//
+//
+//
+//
 //        Order order1 = new Order(1, "01/03-11:53", customer, new Location(1, 2), s1);
-//        order1.addItem(item1, 12f);
-//        order1.addItem(item2, 2f);
-//        order1.addItem(item3, 1.2f);
+//        order1.addItem(superDuperMarket.getItem(1), 12f);
+//        order1.addItem(superDuperMarket.getItem(2), 2f);
+//        order1.addItem(superDuperMarket.getItem(3), 1.2f);
 //        order1.finish();
 //
 //        Order order2 = new Order(2, "01/06-12:11", customer, new Location(1, 2), s2);

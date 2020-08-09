@@ -40,7 +40,7 @@ public class Order {
     }
 
     private void setDate(String dateStr) throws ParseException {
-        String dateFormat = Configurations.orderDateFormat;
+        String dateFormat = Configurations.ORDER_DATE_FORMAT;
         this.date = new SimpleDateFormat(dateFormat).parse(dateStr);
     }
 

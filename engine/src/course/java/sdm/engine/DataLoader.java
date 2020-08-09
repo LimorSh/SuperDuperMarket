@@ -1,8 +1,6 @@
 package course.java.sdm.engine;
 
-import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
-import course.java.sdm.engine.jaxb.schema.generated.SDMStores;
-import course.java.sdm.engine.jaxb.schema.generated.SuperDuperMarketDescriptor;
+import course.java.sdm.engine.jaxb.schema.generated.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -11,9 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DataLoader {
 
@@ -22,36 +18,48 @@ public class DataLoader {
 
     public DataLoader(String xmlFileName) {
         this.xmlFileName = xmlFileName;
-        readXmlFile();
     }
 
-    private void readXmlFile() {
+    public void loadFromXmlFile(SuperDuperMarket superDuperMarket) {
         try {
             InputStream inputStream = new FileInputStream(new File(xmlFileName));
             SuperDuperMarketDescriptor superDuperMarketDescriptor = deserializeFrom(inputStream);
-
-            List<SDMStore> JAXBStores = superDuperMarketDescriptor.getSDMStores().getSDMStore();
-            SuperDuperMarket superDuperMarket = new SuperDuperMarket("shira-super");
-
-            for (SDMStore jaxbStore : JAXBStores) {
-                Store copyStore = new Store(jaxbStore);
-                superDuperMarket.addStore(copyStore);
-                System.out.println(copyStore);
-            }
-
-
-//            SDMStore JAXBStore = superDuperMarketDescriptor.getSDMStores().getSDMStore().get(0);
-//            Store copyStore = new Store(JAXBStore);
-//            System.out.println(copyStore);
-//            System.out.println("name of first country is: " + superDuperMarketDescriptor.getSDMStores().getSDMStore().get(0).getDeliveryPpk());
-
+            loadItems(superDuperMarketDescriptor, superDuperMarket);
+            loadStores(superDuperMarketDescriptor, superDuperMarket);
         } catch (JAXBException | FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    private void readStores() {
+    private void loadItems(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
+        List<SDMItem> sdmItems = superDuperMarketDescriptor.getSDMItems().getSDMItem();
+        for (SDMItem sdmItem : sdmItems) {
+            Item item = new Item(sdmItem);
+            System.out.println(item);
+            superDuperMarket.addItem(item);
+        }
+    }
 
+    private void loadStores(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
+        List<SDMStore> sdmStores = superDuperMarketDescriptor.getSDMStores().getSDMStore();
+        for (SDMStore sdmStore : sdmStores) {
+            Store store = new Store(sdmStore);
+            superDuperMarket.addStore(store);
+            loadItemsToStore(store, sdmStore, superDuperMarket);
+            System.out.println(store);
+        }
+    }
+
+    private void loadItemsToStore(Store store, SDMStore sdmStore, SuperDuperMarket superDuperMarket) {
+        SDMPrices sdmPrices = sdmStore.getSDMPrices();
+        List<SDMSell> sdmSells = sdmPrices.getSDMSell();
+
+        for (SDMSell sdmSell : sdmSells) {
+            int itemId = sdmSell.getItemId();
+            float itemPrice = sdmSell.getPrice();
+            Item item = superDuperMarket.getItem(itemId);
+            store.addItem(item, itemPrice);
+        }
     }
 
     private SuperDuperMarketDescriptor deserializeFrom(InputStream in) throws JAXBException {

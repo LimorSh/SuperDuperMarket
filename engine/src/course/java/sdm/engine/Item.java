@@ -1,5 +1,7 @@
 package course.java.sdm.engine;
 
+import course.java.sdm.engine.jaxb.schema.generated.SDMItem;
+
 public class Item {
 
     public enum PurchaseType {
@@ -22,6 +24,25 @@ public class Item {
         this.id = id;
         this.name = name;
         this.purchaseType = purchaseType;
+    }
+
+    public Item(Item item) {
+        this.id = item.id;
+        this.name = item.name;
+        this.purchaseType = item.purchaseType;
+    }
+
+    public Item(SDMItem sdmItem) {
+        this.id = sdmItem.getId();
+        this.name = sdmItem.getName().toLowerCase();
+        this.purchaseType = convertStringToPurchaseType(sdmItem.getPurchaseCategory());
+    }
+
+    private PurchaseType convertStringToPurchaseType(String purchaseCategory) {
+        if (purchaseCategory.toLowerCase().contains("quantity")) {
+            return PurchaseType.PER_UNIT;
+        }
+        return PurchaseType.PER_WEIGHT;
     }
 
     public int getId() {

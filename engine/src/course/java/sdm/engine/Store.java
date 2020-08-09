@@ -1,5 +1,8 @@
 package course.java.sdm.engine;
 
+import course.java.sdm.engine.jaxb.schema.generated.SDMItems;
+import course.java.sdm.engine.jaxb.schema.generated.SDMPrices;
+import course.java.sdm.engine.jaxb.schema.generated.SDMSell;
 import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
 
 import java.text.DecimalFormat;
@@ -36,6 +39,7 @@ public class Store {
     private final float ppk;
     private final Location location;
     private final Map<Item, ItemAttributes> items;
+//    private final List<StoreItem> items;
     private int numSoldItems;
     private final Set<Order> orders;
     private float totalDeliveriesRevenue;
@@ -46,17 +50,17 @@ public class Store {
         this.ppk = ppk;
         this.location = location;
         items = new HashMap<>();
+//        items = new HashSet<>();
         orders = new HashSet<>();
     }
 
-    public Store(SDMStore sdmStore){
+    public Store(SDMStore sdmStore) {
         this.id = sdmStore.getId();
         this.name = sdmStore.getName();
         this.ppk = sdmStore.getDeliveryPpk();
-        int x = sdmStore.getLocation().getX();
-        int y = sdmStore.getLocation().getY();
-        this.location = new Location(x, y);
+        this.location = new Location(sdmStore.getLocation());
         items = new HashMap<>();
+//        items = new HashSet<>();
         orders = new HashSet<>();
     }
 
@@ -84,6 +88,10 @@ public class Store {
         return items;
     }
 
+//    public Set<StoreItem> getItems() {
+//        return items;
+//    }
+
     public float getTotalDeliveriesRevenue() {
         return totalDeliveriesRevenue;
     }
@@ -95,6 +103,20 @@ public class Store {
     public void addItem(Item item, float price) {
         items.put(item, new ItemAttributes(price));
     }
+
+//    public void addItem(Item item, float price) {
+//        StoreItem storeItem = new StoreItem(item, price);
+//        items.add(storeItem);
+//    }
+//
+//    public void addItem(StoreItem storeItem) {
+//        items.add(storeItem);
+//    }
+//
+//    public void addItem(int id, String name, Item.PurchaseType purchaseType, float price) {
+//        StoreItem storeItem = new StoreItem(id, name, purchaseType, price);
+//        items.add(storeItem);
+//    }
 
     public void increaseNumItemsSoldByOne() {
         numSoldItems++;
@@ -120,6 +142,14 @@ public class Store {
     public float getTotalNumberSold(Item item) {
         return items.get(item).totalNumberSold;
     }
+
+//    public float getItemPrice(StoreItem storeItem) {
+//        return items.;
+//    }
+
+//    public float getTotalNumberSold(Item item) {
+//        return items.get(item).totalNumberSold;
+//    }
 
     public void updateTotalNumberSoldItem(Item item, float quantity) {
         int quantityInt = 1;    // item per weight

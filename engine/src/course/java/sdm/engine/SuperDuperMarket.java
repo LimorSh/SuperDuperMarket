@@ -1,5 +1,6 @@
 package course.java.sdm.engine;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -45,6 +46,10 @@ public class SuperDuperMarket {
 
     public void addOrder(Order order) {
         orders.add(order);
+    }
+
+    public Item getItem(int id) {
+        return (items.stream().filter((item)->item.getId()==id).findAny().orElse(null));
     }
 
     public int numberOfStoresSellingTheItem(Item item) {

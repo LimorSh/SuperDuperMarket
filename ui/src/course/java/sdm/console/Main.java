@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) throws ParseException {
 
-        SuperDuperMarket superDuperMarket = new SuperDuperMarket();
-        superDuperMarket.run();
+        Runner runner = new Runner();
+        runner.run();
     }
 }
