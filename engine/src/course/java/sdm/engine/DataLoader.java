@@ -13,25 +13,24 @@ import java.util.List;
 
 public class DataLoader {
 
-    private final String xmlFileName;
     private static final String JAXB_XML_PACKAGE_NAME = Configurations.JAXB_XML_PACKAGE_NAME;
 
-    public DataLoader(String xmlFileName) {
-        this.xmlFileName = xmlFileName;
-    }
-
-    public void loadFromXmlFile(SuperDuperMarket superDuperMarket) {
+    public static SuperDuperMarket loadFromXmlFile(String xmlFilePath) {
+        SuperDuperMarket superDuperMarket = null;
         try {
-            InputStream inputStream = new FileInputStream(new File(xmlFileName));
+            superDuperMarket = new SuperDuperMarket();
+            InputStream inputStream = new FileInputStream(new File(xmlFilePath));
             SuperDuperMarketDescriptor superDuperMarketDescriptor = deserializeFrom(inputStream);
             loadItems(superDuperMarketDescriptor, superDuperMarket);
             loadStores(superDuperMarketDescriptor, superDuperMarket);
+            return superDuperMarket;
         } catch (JAXBException | FileNotFoundException e) {
             e.printStackTrace();
         }
+        return superDuperMarket;
     }
 
-    private void loadItems(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
+    private static void loadItems(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
         List<SDMItem> sdmItems = superDuperMarketDescriptor.getSDMItems().getSDMItem();
         for (SDMItem sdmItem : sdmItems) {
             Item item = new Item(sdmItem);
@@ -40,7 +39,7 @@ public class DataLoader {
         }
     }
 
-    private void loadStores(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
+    private static void loadStores(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
         List<SDMStore> sdmStores = superDuperMarketDescriptor.getSDMStores().getSDMStore();
         for (SDMStore sdmStore : sdmStores) {
             Store store = new Store(sdmStore);
@@ -50,7 +49,7 @@ public class DataLoader {
         }
     }
 
-    private void loadItemsToStore(Store store, SDMStore sdmStore, SuperDuperMarket superDuperMarket) {
+    private static void loadItemsToStore(Store store, SDMStore sdmStore, SuperDuperMarket superDuperMarket) {
         SDMPrices sdmPrices = sdmStore.getSDMPrices();
         List<SDMSell> sdmSells = sdmPrices.getSDMSell();
 
@@ -62,7 +61,7 @@ public class DataLoader {
         }
     }
 
-    private SuperDuperMarketDescriptor deserializeFrom(InputStream in) throws JAXBException {
+    private static SuperDuperMarketDescriptor deserializeFrom(InputStream in) throws JAXBException {
         JAXBContext jc = JAXBContext.newInstance(JAXB_XML_PACKAGE_NAME);
         Unmarshaller u = jc.createUnmarshaller();
         return (SuperDuperMarketDescriptor) u.unmarshal(in);

@@ -1,11 +1,14 @@
 package course.java.sdm.console;
 
 import course.java.sdm.engine.*;
+import course.java.sdm.engine.jaxb.schema.generated.SystemManager;
 
 import java.text.ParseException;
 import java.util.Set;
 
 public class Runner {
+
+    private final static String DATA_PATH = "C:\\Users\\limorsh\\Desktop\\Java\\SuperDuperMarket\\engine\\src\\course\\java\\sdm\\engine\\resources\\ex1-small.xml";
 
     //    public enum MenuOptions {
 //        SHOW_STORES("show stores"),
@@ -17,9 +20,8 @@ public class Runner {
 //    }
 
     public void run() throws ParseException {
-        DataLoader loader = new DataLoader("C:\\Users\\limorsh\\Desktop\\Java\\SuperDuperMarket\\engine\\src\\course\\java\\sdm\\engine\\resources\\ex1-small.xml");
-        SuperDuperMarket superDuperMarket = new SuperDuperMarket("MySuperMarket");
-        loader.loadFromXmlFile(superDuperMarket);
+        SystemManager systemManager = new SystemManager();
+        systemManager.loadSystemData(DATA_PATH);
 
 
 

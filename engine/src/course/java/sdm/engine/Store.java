@@ -1,8 +1,5 @@
 package course.java.sdm.engine;
 
-import course.java.sdm.engine.jaxb.schema.generated.SDMItems;
-import course.java.sdm.engine.jaxb.schema.generated.SDMPrices;
-import course.java.sdm.engine.jaxb.schema.generated.SDMSell;
 import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
 
 import java.text.DecimalFormat;
@@ -39,9 +36,9 @@ public class Store {
     private final float ppk;
     private final Location location;
     private final Map<Item, ItemAttributes> items;
-//    private final List<StoreItem> items;
+//    private final Set<StoreItem> items;
     private int numSoldItems;
-    private final Set<Order> orders;
+    private final Map<Integer, Order> orders;
     private float totalDeliveriesRevenue;
 
     public Store(int id, String name, float ppk, Location location) {
@@ -51,7 +48,7 @@ public class Store {
         this.location = location;
         items = new HashMap<>();
 //        items = new HashSet<>();
-        orders = new HashSet<>();
+        orders = new HashMap<>();
     }
 
     public Store(SDMStore sdmStore) {
@@ -61,7 +58,7 @@ public class Store {
         this.location = new Location(sdmStore.getLocation());
         items = new HashMap<>();
 //        items = new HashSet<>();
-        orders = new HashSet<>();
+        orders = new HashMap<>();
     }
 
     public int getId() {
@@ -80,7 +77,7 @@ public class Store {
         return ppk;
     }
 
-    public Set<Order> getOrders() {
+    public Map<Integer, Order> getOrders() {
         return orders;
     }
 
@@ -123,7 +120,10 @@ public class Store {
     }
 
     public void addOrder(Order order) {
-        orders.add(order);
+        int id = order.getId();
+        if (!orders.containsKey(id)) {
+            orders.put(id, order);
+        }
     }
 
     public void updateTotalDeliveriesRevenue(Location location) {

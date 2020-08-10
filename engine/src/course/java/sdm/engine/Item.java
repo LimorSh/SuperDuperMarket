@@ -4,9 +4,12 @@ import course.java.sdm.engine.jaxb.schema.generated.SDMItem;
 
 public class Item {
 
+    private final static String PURCHASE_TYPE_PER_UNIT_STR = "quantity";
+    private final static String PURCHASE_TYPE_PER_WEIGHT_STR = "weight";
+
     public enum PurchaseType {
-        PER_WEIGHT("per weight"),
-        PER_UNIT("per unit"),
+        PER_UNIT(PURCHASE_TYPE_PER_UNIT_STR),
+        PER_WEIGHT(PURCHASE_TYPE_PER_WEIGHT_STR),
         ;
 
         private final String purchaseTypeStr;
@@ -39,7 +42,7 @@ public class Item {
     }
 
     private PurchaseType convertStringToPurchaseType(String purchaseCategory) {
-        if (purchaseCategory.toLowerCase().contains("quantity")) {
+        if (purchaseCategory.toLowerCase().contains(PURCHASE_TYPE_PER_UNIT_STR)) {
             return PurchaseType.PER_UNIT;
         }
         return PurchaseType.PER_WEIGHT;
