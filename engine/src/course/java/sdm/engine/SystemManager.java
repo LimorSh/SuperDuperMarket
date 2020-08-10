@@ -1,9 +1,9 @@
 package course.java.sdm.engine;
 
-import course.java.sdm.engine.DataLoader;
-import course.java.sdm.engine.SuperDuperMarket;
+import course.java.sdm.engine.systemDto.StoreDto;
+import course.java.sdm.engine.systemDto.SuperDuperMarketDto;
 
-import java.util.Map;
+import java.util.Collection;
 
 public class SystemManager {
 
@@ -13,7 +13,11 @@ public class SystemManager {
         superDuperMarket = DataLoader.loadFromXmlFile(dataPath);
     }
 
-    public static Map<Integer, Store> getStores() {
-        return superDuperMarket.getStores();
+//    public static Map<Integer, Store> getStores() {
+//        return superDuperMarket.getStores();
+//    }
+
+    public static Collection<StoreDto> getStoresDto() {
+        return SuperDuperMarketDto.getStoresDto(superDuperMarket.getStores());
     }
 }

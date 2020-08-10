@@ -16,8 +16,8 @@ public class SuperDuperMarket {
         orders = new HashMap<>();
     }
 
-    public Map<Integer, Store> getStores() {
-        return stores;
+    public Collection<Store> getStores() {
+        return stores.values();
     }
 
     public Map<Integer, Item> getItems() {

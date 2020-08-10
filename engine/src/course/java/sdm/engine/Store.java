@@ -53,7 +53,7 @@ public class Store {
 
     public Store(SDMStore sdmStore) {
         this.id = sdmStore.getId();
-        this.name = sdmStore.getName();
+        this.name = sdmStore.getName().toLowerCase();
         this.ppk = sdmStore.getDeliveryPpk();
         this.location = new Location(sdmStore.getLocation());
         storeItems = new HashMap<>();
@@ -76,12 +76,12 @@ public class Store {
         return ppk;
     }
 
-    public Map<Integer, Order> getOrders() {
-        return orders;
+    public Collection<Order> getOrders() {
+        return orders.values();
     }
 
-    public Map<Integer, StoreItem> getStoreItems() {
-        return storeItems;
+    public Collection<StoreItem> getStoreItems() {
+        return storeItems.values();
     }
 
 //    public Set<StoreItem> getItems() {

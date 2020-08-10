@@ -1,36 +1,105 @@
 package course.java.sdm.console;
 
-import course.java.sdm.engine.Store;
+import course.java.sdm.engine.systemDto.*;
 import course.java.sdm.engine.SystemManager;
 
-import java.text.ParseException;
-import java.util.Map;
+import java.util.Collection;
+import java.util.Scanner;
 
 public class Runner {
 
+    private static final String LINE_SEPARATOR = "\n------------------------------------------------------";
+    private static final String SPACE_SEPARATOR = ", ";
+    private static final String WELCOME_STR = "Welcome to Super Duper Market!";
+    private static final String GET_MENU_OPTION_FROM_USER_STR = "Please choose an action from the menu:";
+
     private final static String DATA_PATH = "C:\\Users\\limorsh\\Desktop\\Java\\SuperDuperMarket\\engine\\src\\course\\java\\sdm\\engine\\resources\\ex1-small.xml";
 
-        public enum MenuOptions {
+    public enum MenuOptions {
         SHOW_STORES(1, "show stores"),
 //        SHOW_ITEMS,
         ;
 
-        MenuOptions(int optionNumber, String option) {
+        private final int optionNumber;
+        private final String optionName;
+
+        MenuOptions(int optionNumber, String optionName) {
+            this.optionNumber = optionNumber;
+            this.optionName = optionName;
+        }
+
+        public int getOptionNumber() {
+            return optionNumber;
+        }
+        public String getOptionName() {
+            return optionName;
         }
     }
 
+    public int getOptionFromUser() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextInt();
+    }
+
+    public void printWelcome() {
+        System.out.println(WELCOME_STR);
+    }
+
+    public void showMenu() {
+        System.out.println(GET_MENU_OPTION_FROM_USER_STR);
+        int option = getOptionFromUser();
+        switch (option) {
+            case 1:
+                SystemManager.loadSystemData(DATA_PATH);
+                showStores();
+
+                break;
+            case 2:
+                showStores();
+                break;
+
+        }
+    }
+
+
+
     public void showStores() {
         System.out.println("The stores in the super market are:");
-        Map<Integer, Store> stores = SystemManager.getStores();
-        stores.values().forEach(System.out::println);
+        Collection<StoreDto> storesDto = SystemManager.getStoresDto();
+
+        for (StoreDto storeDto : storesDto) {
+            System.out.print("ID: " + storeDto.getId() + SPACE_SEPARATOR);
+            System.out.print("Name: " + storeDto.getName() + SPACE_SEPARATOR);
+            System.out.print("PPK: " + storeDto.getPpk() + SPACE_SEPARATOR);
+            System.out.print("Total deliveries revenue: " + storeDto.getTotalDeliveriesRevenue());
+            System.out.println(LINE_SEPARATOR);
+
+            System.out.println("The items in the store are:");
+            for (StoreItemDto storeItemDto : storeDto.getStoreItemsDto()) {
+                System.out.print("ID: " + storeItemDto.getId() + SPACE_SEPARATOR);
+                System.out.print("Name: " + storeItemDto.getName() + SPACE_SEPARATOR);
+                System.out.print("Purchase Category: " + storeItemDto.getPurchaseType() + SPACE_SEPARATOR);
+                System.out.print("Price in the store: " + storeItemDto.getPrice() + SPACE_SEPARATOR); //#change later
+                System.out.println("Total sold items: " + storeItemDto.getTotalNumberSold());
+            }
+            System.out.println(LINE_SEPARATOR);
+
+//            System.out.println("The orders in the store are:");
+//
+//            Collection<OrderDto> o = storeDto.getOrdersDto();
+//
+//            for (OrderDto orderDto : o) {
+//                System.out.print("Date: " + orderDto.getDate() + SPACE_SEPARATOR);
+//                System.out.print("Items cost: " + orderDto.getItemsCost() + SPACE_SEPARATOR);
+//                System.out.print("Delivery cost: " + orderDto.getDeliveryCost() + SPACE_SEPARATOR);
+//            }
+        }
     }
 
 
     public void run() {
-        SystemManager.loadSystemData(DATA_PATH);
-        showStores();
-
-
+        printWelcome();
+        showMenu();
 
 
 
