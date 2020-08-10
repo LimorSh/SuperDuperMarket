@@ -1,28 +1,34 @@
 package course.java.sdm.console;
 
-import course.java.sdm.engine.*;
-import course.java.sdm.engine.jaxb.schema.generated.SystemManager;
+import course.java.sdm.engine.Store;
+import course.java.sdm.engine.SystemManager;
 
 import java.text.ParseException;
-import java.util.Set;
+import java.util.Map;
 
 public class Runner {
 
     private final static String DATA_PATH = "C:\\Users\\limorsh\\Desktop\\Java\\SuperDuperMarket\\engine\\src\\course\\java\\sdm\\engine\\resources\\ex1-small.xml";
 
-    //    public enum MenuOptions {
-//        SHOW_STORES("show stores"),
+        public enum MenuOptions {
+        SHOW_STORES(1, "show stores"),
 //        SHOW_ITEMS,
-//        ;
-//
-//        MenuOptions(String s) {
-//        }
-//    }
+        ;
 
-    public void run() throws ParseException {
-        SystemManager systemManager = new SystemManager();
-        systemManager.loadSystemData(DATA_PATH);
+        MenuOptions(int optionNumber, String option) {
+        }
+    }
 
+    public void showStores() {
+        System.out.println("The stores in the super market are:");
+        Map<Integer, Store> stores = SystemManager.getStores();
+        stores.values().forEach(System.out::println);
+    }
+
+
+    public void run() {
+        SystemManager.loadSystemData(DATA_PATH);
+        showStores();
 
 
 

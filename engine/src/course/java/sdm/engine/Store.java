@@ -7,36 +7,37 @@ import java.util.*;
 
 public class Store {
 
-    private static class ItemAttributes {
-        private float price;
-        private int totalNumberSold;
-
-        public ItemAttributes(float price) {
-            this.price = price;
-        }
-
-        public void setPrice(float price) {
-            this.price = price;
-        }
-
-        public void updateTotalNumberSold(int quantity) {
-            this.totalNumberSold += quantity;
-        }
-
-        @Override
-        public String toString() {
-            return ", price: " + price +
-                   ", quantity: " + totalNumberSold + '}'
-                   ;
-        }
-    }
+//    private static class ItemAttributes {
+//        private float price;
+//        private int totalNumberSold;
+//
+//        public ItemAttributes(float price) {
+//            this.price = price;
+//        }
+//
+//        public void setPrice(float price) {
+//            this.price = price;
+//        }
+//
+//        public void updateTotalNumberSold(int quantity) {
+//            this.totalNumberSold += quantity;
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return ", price: " + price +
+//                   ", quantity: " + totalNumberSold + '}'
+//                   ;
+//        }
+//    }
 
     private final int id;
     private final String name;
     private final float ppk;
     private final Location location;
-    private final Map<Item, ItemAttributes> items;
-//    private final Set<StoreItem> items;
+//    private final Map<Item, ItemAttributes> items;
+
+    private final Map<Integer, StoreItem> storeItems;
     private int numSoldItems;
     private final Map<Integer, Order> orders;
     private float totalDeliveriesRevenue;
@@ -46,8 +47,7 @@ public class Store {
         this.name = name;
         this.ppk = ppk;
         this.location = location;
-        items = new HashMap<>();
-//        items = new HashSet<>();
+        storeItems = new HashMap<>();
         orders = new HashMap<>();
     }
 
@@ -56,8 +56,7 @@ public class Store {
         this.name = sdmStore.getName();
         this.ppk = sdmStore.getDeliveryPpk();
         this.location = new Location(sdmStore.getLocation());
-        items = new HashMap<>();
-//        items = new HashSet<>();
+        storeItems = new HashMap<>();
         orders = new HashMap<>();
     }
 
@@ -81,8 +80,8 @@ public class Store {
         return orders;
     }
 
-    public Map<Item, ItemAttributes> getItems() {
-        return items;
+    public Map<Integer, StoreItem> getStoreItems() {
+        return storeItems;
     }
 
 //    public Set<StoreItem> getItems() {
@@ -98,7 +97,7 @@ public class Store {
     }
 
     public void addItem(Item item, float price) {
-        items.put(item, new ItemAttributes(price));
+        storeItems.put(item.getId(), new StoreItem(item, price));
     }
 
 //    public void addItem(Item item, float price) {
@@ -136,11 +135,13 @@ public class Store {
     }
 
     public float getItemPrice(Item item) {
-        return items.get(item).price;
+        int id = item.getId();
+        return storeItems.get(id).getPrice();
     }
 
     public float getTotalNumberSold(Item item) {
-        return items.get(item).totalNumberSold;
+        int id = item.getId();
+        return storeItems.get(id).getTotalNumberSold();
     }
 
 //    public float getItemPrice(StoreItem storeItem) {
@@ -156,11 +157,13 @@ public class Store {
         if (item.getPurchaseType().equals(Item.PurchaseType.PER_UNIT)) {
             quantityInt = (int) quantity;
         }
-        items.get(item).updateTotalNumberSold(quantityInt);
+        int id = item.getId();
+        storeItems.get(id).updateTotalNumberSold(quantityInt);
     }
 
     public boolean isItemInTheStore(Item item) {
-        return items.containsKey(item);
+        int id = item.getId();
+        return storeItems.containsKey(id);
     }
 
     @Override
@@ -172,7 +175,7 @@ public class Store {
                 ", Name:'" + name + '\'' +
                 ", PPK: " + ppk +
                 ", Total Deliveries Revenue: " + df.format(totalDeliveriesRevenue) +
-                "\nStore items: " + items +
+                "\nStore items: " + storeItems +
                 "\nStore Orders: " + orders +
                 "\n" + "__________________"
                 ;
