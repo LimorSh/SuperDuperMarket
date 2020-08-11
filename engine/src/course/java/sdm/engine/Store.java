@@ -141,7 +141,7 @@ public class Store {
 
     public float getTotalNumberSold(Item item) {
         int id = item.getId();
-        return storeItems.get(id).getTotalNumberSold();
+        return storeItems.get(id).getTotalSold();
     }
 
 //    public float getItemPrice(StoreItem storeItem) {
@@ -176,8 +176,7 @@ public class Store {
                 ", PPK: " + ppk +
                 ", Total Deliveries Revenue: " + df.format(totalDeliveriesRevenue) +
                 "\nStore items: " + storeItems +
-                "\nStore Orders: " + orders +
-                "\n" + "__________________"
+                "\nStore Orders: " + orders
                 ;
     }
 

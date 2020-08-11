@@ -13,7 +13,7 @@ public class StoreDto {
     private final float ppk;
     private final float totalDeliveriesRevenue;
     private final Collection<StoreItemDto> storeItemsDto;
-    private Collection<OrderDto> ordersDto;
+    private final Collection<OrderDto> ordersDto;
 
     public StoreDto(Store store) {
         this.id = store.getId();
@@ -21,6 +21,7 @@ public class StoreDto {
         this.ppk = store.getPpk();
         this.totalDeliveriesRevenue = store.getTotalDeliveriesRevenue();
         storeItemsDto = new ArrayList<>();
+        ordersDto = new ArrayList<>();
         copyStoreItemsDto(store);
         copyOrdersDto(store);
     }

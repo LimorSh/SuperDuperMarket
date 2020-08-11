@@ -115,38 +115,64 @@ public class UI {
         }
     }
 
-    private void showStores() {
-        System.out.println("The stores in the super market are:");
+    private void printSeparatorLine() {
         System.out.println(SEPARATOR_LINE);
-        Collection<StoreDto> storesDto = SystemManager.getStoresDto();
+    }
 
-        for (StoreDto storeDto : storesDto) {
-            System.out.print("ID: " + storeDto.getId() + COMA_SEPARATOR);
-            System.out.print("Name: " + storeDto.getName() + COMA_SEPARATOR);
-            System.out.print("PPK: " + storeDto.getPpk() + COMA_SEPARATOR);
-            System.out.print("Total deliveries revenue: " + storeDto.getTotalDeliveriesRevenue());
+    private void showStore(StoreDto store) {
+
+        System.out.print("ID: " + store.getId() + COMA_SEPARATOR);
+        System.out.print("Name: " + store.getName() + COMA_SEPARATOR);
+        System.out.print("PPK: " + store.getPpk() + COMA_SEPARATOR);
+        System.out.print("Total deliveries revenue: " + store.getTotalDeliveriesRevenue());
+
+        Collection<StoreItemDto> storeItems = store.getStoreItemsDto();
+        if (!storeItems.isEmpty()) {
             System.out.println();
             System.out.println();
-
             System.out.println("The items in the store are:");
-            for (StoreItemDto storeItemDto : storeDto.getStoreItemsDto()) {
-                System.out.print("ID: " + storeItemDto.getId() + COMA_SEPARATOR);
-                System.out.print("Name: " + storeItemDto.getName() + COMA_SEPARATOR);
-                System.out.print("Purchase Category: " + storeItemDto.getPurchaseType() + COMA_SEPARATOR);
-                System.out.print("Price in the store: " + storeItemDto.getPrice() + COMA_SEPARATOR); //#change later
-                System.out.println("Total sold items: " + storeItemDto.getTotalNumberSold());
+            for (StoreItemDto storeItem : storeItems) {
+                System.out.print("ID: " + storeItem.getId() + COMA_SEPARATOR);
+                System.out.print("Name: " + storeItem.getName() + COMA_SEPARATOR);
+                System.out.print("Purchase Category: " + storeItem.getPurchaseType() + COMA_SEPARATOR);
+                System.out.print("Price: " + storeItem.getPrice() + COMA_SEPARATOR); //#change later
+                System.out.print("Total sold in the store: " + storeItem.getTotalSold());
+                System.out.println();
             }
-            System.out.println(SEPARATOR_LINE);
+        }
 
-//            System.out.println("The orders in the store are:");
-//
-//            Collection<OrderDto> o = storeDto.getOrdersDto();
-//
-//            for (OrderDto orderDto : o) {
-//                System.out.print("Date: " + orderDto.getDate() + SPACE_SEPARATOR);
-//                System.out.print("Items cost: " + orderDto.getItemsCost() + SPACE_SEPARATOR);
-//                System.out.print("Delivery cost: " + orderDto.getDeliveryCost() + SPACE_SEPARATOR);
-//            }
+        Collection<OrderDto> orders = store.getOrdersDto();
+        if (!orders.isEmpty()) {
+            System.out.println();
+            System.out.println();
+            System.out.println("The orders in the store are:");
+            for (OrderDto orderDto : orders) {
+                System.out.print("Date: " + orderDto.getDate() + SPACE_SEPARATOR);
+                System.out.print("Items cost: " + orderDto.getItemsCost() + SPACE_SEPARATOR);
+                System.out.print("Delivery cost: " + orderDto.getDeliveryCost() + SPACE_SEPARATOR);
+                System.out.println();
+            }
+        }
+
+        printSeparatorLine();
+    }
+
+
+    private void showStores() {
+        System.out.println(SEPARATOR_LINE);
+
+        Collection<StoreDto> stores = SystemManager.getStoresDto();
+        if (!stores.isEmpty()) {
+            System.out.println("The stores in the super market are:");
+            for (StoreDto store : stores) {
+                showStore(store);
+            }
         }
     }
+
+
+
+
+
+
 }

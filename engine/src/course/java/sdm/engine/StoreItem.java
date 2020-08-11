@@ -5,7 +5,7 @@ import course.java.sdm.engine.jaxb.schema.generated.SDMItem;
 public class StoreItem extends Item{
 
     private float price;
-    private int totalNumberSold;
+    private int totalSold;
 
     public StoreItem(int id, String name, PurchaseType purchaseType, float price) {
         super(id, name, purchaseType);
@@ -30,18 +30,18 @@ public class StoreItem extends Item{
         this.price = price;
     }
 
-    public int getTotalNumberSold() {
-        return totalNumberSold;
+    public int getTotalSold() {
+        return totalSold;
     }
 
     public void updateTotalNumberSold(int quantity) {
-        this.totalNumberSold += quantity;
+        this.totalSold += quantity;
     }
 
     @Override
     public String toString() {
         return ", Price: " + price +
-                ", Quantity: " + totalNumberSold +
+                ", Quantity: " + totalSold +
                 '}';
     }
 
@@ -54,14 +54,14 @@ public class StoreItem extends Item{
         StoreItem storeItem = (StoreItem) o;
 
         if (Float.compare(storeItem.price, price) != 0) return false;
-        return totalNumberSold == storeItem.totalNumberSold;
+        return totalSold == storeItem.totalSold;
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (price != +0.0f ? Float.floatToIntBits(price) : 0);
-        result = 31 * result + totalNumberSold;
+        result = 31 * result + totalSold;
         return result;
     }
 }
