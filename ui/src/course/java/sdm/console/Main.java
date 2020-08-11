@@ -1,12 +1,10 @@
 package course.java.sdm.console;
 
-import java.text.ParseException;
-
 public class Main {
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
 
-        Runner runner = new Runner();
-        runner.run();
+        UI ui = new UI();
+        ui.run();
     }
 }

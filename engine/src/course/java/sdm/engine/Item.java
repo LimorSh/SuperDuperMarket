@@ -4,18 +4,19 @@ import course.java.sdm.engine.jaxb.schema.generated.SDMItem;
 
 public class Item {
 
-    private final static String PURCHASE_TYPE_PER_UNIT_STR = "quantity";
-    private final static String PURCHASE_TYPE_PER_WEIGHT_STR = "weight";
-
     public enum PurchaseType {
-        PER_UNIT(PURCHASE_TYPE_PER_UNIT_STR),
-        PER_WEIGHT(PURCHASE_TYPE_PER_WEIGHT_STR),
+        PER_UNIT(Configurations.ITEM_PURCHASE_TYPE_PER_UNIT_STR),
+        PER_WEIGHT(Configurations.ITEM_PURCHASE_TYPE_PER_WEIGHT_STR),
         ;
 
         private final String purchaseTypeStr;
 
         PurchaseType(String purchaseType) {
             this.purchaseTypeStr = purchaseType;
+        }
+
+        public String getPurchaseTypeStr() {
+            return purchaseTypeStr;
         }
     }
 
@@ -42,7 +43,7 @@ public class Item {
     }
 
     private PurchaseType convertStringToPurchaseType(String purchaseCategory) {
-        if (purchaseCategory.toLowerCase().contains(PURCHASE_TYPE_PER_UNIT_STR)) {
+        if (purchaseCategory.toLowerCase().contains(Configurations.ITEM_PURCHASE_TYPE_PER_UNIT_STR)) {
             return PurchaseType.PER_UNIT;
         }
         return PurchaseType.PER_WEIGHT;

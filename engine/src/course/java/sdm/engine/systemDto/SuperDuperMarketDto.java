@@ -1,12 +1,10 @@
 package course.java.sdm.engine.systemDto;
 
+import course.java.sdm.engine.Configurations;
 import course.java.sdm.engine.Store;
-import course.java.sdm.engine.systemDto.StoreDto;
-
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class SuperDuperMarketDto {
 
@@ -19,5 +17,11 @@ public class SuperDuperMarketDto {
     }
 
 
+    public static String getItemPurchaseTypePerUnitStr() {
+        return Configurations.ITEM_PURCHASE_TYPE_PER_UNIT_STR;
+    }
 
+    public static String getItemPurchaseTypePerWeightStr() {
+        return Configurations.ITEM_PURCHASE_TYPE_PER_WEIGHT_STR;
+    }
 }

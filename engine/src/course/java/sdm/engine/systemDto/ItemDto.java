@@ -5,12 +5,12 @@ import course.java.sdm.engine.Item;
 public class ItemDto {
     private final int id;
     private final String name;
-    private final Item.PurchaseType purchaseType;
+    private final String purchaseType;
 
     public ItemDto(Item item) {
         this.id = item.getId();
         this.name = item.getName();
-        this.purchaseType = item.getPurchaseType();
+        this.purchaseType = item.getPurchaseType().getPurchaseTypeStr();
     }
 
     public int getId() {
@@ -21,7 +21,7 @@ public class ItemDto {
         return name;
     }
 
-    public Item.PurchaseType getPurchaseType() {
+    public String getPurchaseType() {
         return purchaseType;
     }
 }
