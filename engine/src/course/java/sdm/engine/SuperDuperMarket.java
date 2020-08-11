@@ -1,7 +1,6 @@
 package course.java.sdm.engine;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SuperDuperMarket {
@@ -20,12 +19,12 @@ public class SuperDuperMarket {
         return stores.values();
     }
 
-    public Map<Integer, Item> getItems() {
-        return items;
+    public Collection<Item> getItems() {
+        return items.values();
     }
 
-    public Map<Integer, Order> getOrders() {
-        return orders;
+    public Collection<Order> getOrders() {
+        return orders.values();
     }
 
     public void addStore(Store store) {
@@ -61,30 +60,46 @@ public class SuperDuperMarket {
         return orders.get(id);
     }
 
-    public int numberOfStoresSellingTheItem(Item item) {
-       return ((int) stores.values().stream().filter(store -> store.isItemInTheStore(item)).count());
+//    public int numberOfStoresSellingTheItem(Item item) {
+//       return ((int) stores.values().stream().filter(store -> store.isItemInTheStore(item)).count());
+//    }
+
+    public int getNumberOfStoresSellingTheItem(int id) {
+        return ((int) stores.values().stream().filter(store -> store.isItemInTheStore(items.get(id))).count());
     }
 
-    public float averageItemPrice(Item item) {
-//        Stream stream = stores.stream().filter(store -> store.isItemInTheStore(item));
+    public float getAverageItemPrice(int id) {
+//        Stream<Store> s = stores.values().stream().filter(store -> store.isItemInTheStore(item));
+//        s.forEach();
 
         float sum = 0f;
+        Item item = items.get(id);
         for (Store store : stores.values()) {
             if (store.isItemInTheStore(item)) {
                 sum += store.getItemPrice(item);
             }
         }
-        return (sum / numberOfStoresSellingTheItem(item));
+        return (sum / getNumberOfStoresSellingTheItem(id));
     }
 
-    public int totalNumberItemSold(Item item) {
-        int cnt = 0;
+//    public int totalNumberItemSold(Item item) {
+//        int cnt = 0;
+//        for (Order order : orders.values()) {
+//            Store store = order.getStore();
+//            if (store.isItemInTheStore(item)) {
+//                cnt += store.getTotalNumberSold(item);
+//            }
+//        }
+//        return cnt;
+//    }
+
+    public float getTotalAmountOfItemSells(int id) {
+        float amount = 0f;
+        Item item = items.get(id);
+
         for (Order order : orders.values()) {
-            Store store = order.getStore();
-            if (store.isItemInTheStore(item)) {
-                cnt += store.getTotalNumberSold(item);
-            }
+            amount += order.getItems().get(item);
         }
-        return cnt;
+        return amount;
     }
 }

@@ -13,12 +13,16 @@ public class OrderDto {
     private final Map<ItemDto, Float> itemsDto;
     private final float itemsCost;
     private final float deliveryCost;
+    private final int totalItems;
+    private final float totalCost;
 
     public OrderDto(Order order) {
         this.id = order.getId();
         this.date = order.getDate();
         this.itemsCost = order.getItemsCost();
         this.deliveryCost = order.getDeliveryCost();
+        this.totalItems = order.getTotalItems();
+        this.totalCost = order.getTotalCost();
         this.itemsDto = new HashMap<>();
         copyOrderItems(order);
     }
@@ -49,5 +53,13 @@ public class OrderDto {
 
     public float getDeliveryCost() {
         return deliveryCost;
+    }
+
+    public int getTotalItems() {
+        return totalItems;
+    }
+
+    public float getTotalCost() {
+        return totalCost;
     }
 }

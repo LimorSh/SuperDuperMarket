@@ -21,9 +21,9 @@ public class UI {
     private enum MenuOptions {
         LOAD_SYSTEM_DATA(1, "Load system data"),
         SHOW_STORES(2, "Show the super stores"),
-        SHOW_ITEMS(3, "Shoe the super items"),
+        SHOW_ITEMS(3, "Show the super items"),
         NEW_ORDER(4, "Make new order"),
-        ORDER_SUMMERY(5, "Shoe order summery"),
+        ORDER_SUMMERY(5, "Show order summery"),
         SHOW_ORDERS_HISTORY(6, "Show order history"),
         EXIT(7, "Exit")
         ;
@@ -101,8 +101,9 @@ public class UI {
             case SHOW_STORES:
                 showStores();
                 break;
-//            case SHOW_ITEMS:
-//                break;
+            case SHOW_ITEMS:
+                showItems();
+                break;
 //            case NEW_ORDER:
 //                break;
 //            case ORDER_SUMMERY:
@@ -127,18 +128,20 @@ public class UI {
         System.out.print("Total deliveries revenue: " + store.getTotalDeliveriesRevenue());
 
         Collection<StoreItemDto> storeItems = store.getStoreItemsDto();
+
         if (!storeItems.isEmpty()) {
             System.out.println();
             System.out.println();
             System.out.println("The items in the store are:");
             for (StoreItemDto storeItem : storeItems) {
-                System.out.print("ID: " + storeItem.getId() + COMA_SEPARATOR);
-                System.out.print("Name: " + storeItem.getName() + COMA_SEPARATOR);
-                System.out.print("Purchase Category: " + storeItem.getPurchaseType() + COMA_SEPARATOR);
+                showItemBasicDetails(storeItem);
                 System.out.print("Price: " + storeItem.getPrice() + COMA_SEPARATOR); //#change later
                 System.out.print("Total sold in the store: " + storeItem.getTotalSold());
                 System.out.println();
             }
+        }
+        else {
+            System.out.println("There are no items in the store.");
         }
 
         Collection<OrderDto> orders = store.getOrdersDto();
@@ -147,29 +150,69 @@ public class UI {
             System.out.println();
             System.out.println("The orders in the store are:");
             for (OrderDto orderDto : orders) {
-                System.out.print("Date: " + orderDto.getDate() + SPACE_SEPARATOR);
-                System.out.print("Items cost: " + orderDto.getItemsCost() + SPACE_SEPARATOR);
-                System.out.print("Delivery cost: " + orderDto.getDeliveryCost() + SPACE_SEPARATOR);
+                System.out.print("Date: " + orderDto.getDate() + COMA_SEPARATOR);
+                System.out.print("Total items: " + orderDto.getTotalItems() + COMA_SEPARATOR);
+                System.out.print("Items cost: " + orderDto.getItemsCost() + COMA_SEPARATOR);
+                System.out.print("Delivery cost: " + orderDto.getDeliveryCost() + COMA_SEPARATOR);
+                System.out.print("Total cost: " + orderDto.getTotalCost());
                 System.out.println();
             }
+        }
+        else {
+            System.out.println("There are no orders in the store.");
         }
 
         printSeparatorLine();
     }
 
-
     private void showStores() {
         System.out.println(SEPARATOR_LINE);
 
         Collection<StoreDto> stores = SystemManager.getStoresDto();
+
         if (!stores.isEmpty()) {
             System.out.println("The stores in the super market are:");
             for (StoreDto store : stores) {
                 showStore(store);
             }
         }
+        else {
+            System.out.println("There are no stores in the super market.");
+        }
     }
 
+    private void showItemBasicDetails(ItemDto item) {
+        System.out.print("ID: " + item.getId() + COMA_SEPARATOR);
+        System.out.print("Name: " + item.getName() + COMA_SEPARATOR);
+        System.out.print("Purchase Category: " + item.getPurchaseType() + COMA_SEPARATOR);
+    }
+
+    private void showItem(ItemDto item) {
+        showItemBasicDetails(item);
+        int numberOfStoresSellingTheItem = SystemManager.getNumberOfStoresSellingTheItem(item);
+        float averageItemPrice = SystemManager.getAverageItemPrice(item);
+        float totalAmountOfItemSells = SystemManager.getTotalAmountOfItemSells(item);
+        System.out.print("The number of stores selling the item: " + numberOfStoresSellingTheItem + COMA_SEPARATOR);
+        System.out.print("The average price of the item: " + averageItemPrice + COMA_SEPARATOR);
+        System.out.print("The total amount of item sells: " + totalAmountOfItemSells);
+        System.out.println();
+    }
+
+    private void showItems() {
+        System.out.println(SEPARATOR_LINE);
+
+        Collection<ItemDto> items = SystemManager.getItemsDto();
+
+        if (!items.isEmpty()) {
+            System.out.println("The items in the super market are:");
+            for (ItemDto item : items) {
+                showItem(item);
+            }
+        }
+        else {
+            System.out.println("There are no items in the super market.");
+        }
+    }
 
 
 

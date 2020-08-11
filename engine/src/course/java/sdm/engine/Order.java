@@ -17,6 +17,7 @@ public class Order {
     private final Map<Item, Float> items;
     private float itemsCost;
     private float deliveryCost;
+    private int totalItems;
 //    private float totalCost;
 
     public Order(int id, Date date, Customer customer, Location customerLocation, Store store) throws ParseException {
@@ -76,14 +77,26 @@ public class Order {
         return (itemsCost + deliveryCost);
     }
 
+    public int getTotalItems() {
+        return totalItems;
+    }
+
     public void addItem(Item item, float quantity) {
         float totalQuantity = quantity;
         if (items.containsKey(item)) {
             totalQuantity += items.get(item);
         }
         items.put(item, totalQuantity);
+        updateTotalItems(item.getPurchaseType(), quantity);
         updateItemsCost(item);
         updateTotalNumberSoldItemInStore(item, totalQuantity);
+    }
+
+    public void updateTotalItems(Item.PurchaseType purchaseType, float quantity) {
+        if (purchaseType.equals(Item.PurchaseType.PER_UNIT))
+            totalItems += (int) quantity;
+        else
+            totalItems++;
     }
 
     public void updateItemsCost(Item item) {
