@@ -46,6 +46,14 @@ public class SuperDuperMarket {
         return store.getItemPrice(itemId);
     }
 
+    public String getItemName(int itemId) {
+        return items.get(itemId).getName();
+    }
+
+    public String getItemPurchaseCategory(int itemId) {
+        return items.get(itemId).getPurchaseType().getPurchaseTypeStr();
+    }
+
     public void addStore(Store store) {
         int id = store.getId();
         if (!stores.containsKey(id)) {

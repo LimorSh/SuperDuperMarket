@@ -24,13 +24,4 @@ public class SuperDuperMarketDto {
         }
         return itemsDto;
     }
-
-    public static String getItemPurchaseTypePerUnitStr() {
-        return Configurations.ITEM_PURCHASE_TYPE_PER_UNIT_STR;
-    }
-
-    public static String getItemPurchaseTypePerWeightStr() {
-        return Configurations.ITEM_PURCHASE_TYPE_PER_WEIGHT_STR;
-    }
-
 }

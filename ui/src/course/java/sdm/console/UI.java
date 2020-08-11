@@ -1,9 +1,8 @@
 package course.java.sdm.console;
 import course.java.sdm.engine.systemDto.*;
 import course.java.sdm.engine.SystemManager;
-import java.util.Collection;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+
+import java.util.*;
 import java.lang.*;
 
 public class UI {
@@ -15,6 +14,7 @@ public class UI {
     private static final String WELCOME_MESSAGE_STR = "Welcome to Super Duper Market!";
     private static final String EXIT_MESSAGE_STR = "Thank you for buying in super duper market :)\nGoodbye!";
     private static final String PLEASE_CHOOSE_ACTION_STR = "Please choose an option from the menu:";
+    private static final String USER_FINISHED_CHOOSE_ITEMS_KEY = "q";
 
     private final static String DATA_PATH = "C:\\Users\\limorsh\\Desktop\\Java\\SuperDuperMarket\\engine\\src\\course\\java\\sdm\\engine\\resources\\ex1-small.xml";
 //    private final static String DATA_PATH_SHIRA = "C:\\Users\\victo\\Documents\\Study\\Java\\EX\\EX1\\ex1-small.xml";
@@ -84,6 +84,16 @@ public class UI {
     private String getStringInputFromUser() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
+    }
+
+    private float getFloatInputFromUser() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextFloat();
+    }
+
+    private String getTokenInputFromUser() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.next();
     }
 
     private void printWelcome() {
@@ -267,6 +277,62 @@ public class UI {
         }
     }
 
+    private Map<Integer, Float> getItemsIdsAndQuantitiesFromUser() {
+        Map<Integer, Float> itemsIdsAndQuantities = new HashMap<>();
+        boolean toContinue = true;
+
+        while(toContinue) {
+            System.out.print("Please enter item id: ");
+            int itemId = getIntInputFromUser();
+            System.out.print("Please enter item quantity: ");
+            float quantity = getFloatInputFromUser();
+            if (SystemManager.getItemPurchaseCategory(itemId).equals(SystemManager.getItemPurchaseTypePerUnitStr())) {
+                if ((quantity % 1) != 0) {
+                    //throw exception
+                }
+            }
+
+            float totalQuantity = quantity;
+            if (itemsIdsAndQuantities.containsKey(itemId)) {
+                totalQuantity += itemsIdsAndQuantities.get(itemId);
+            }
+            itemsIdsAndQuantities.put(itemId, totalQuantity);
+
+            System.out.print("Please continue buying items or press 'q' to finish: "); //#need to change
+            String userChoice = getTokenInputFromUser();
+            if (userChoice.equalsIgnoreCase(USER_FINISHED_CHOOSE_ITEMS_KEY))
+                toContinue = false;
+        }
+
+        return itemsIdsAndQuantities;
+    }
+
+    private void showOrderSummery(Map<Integer, Float> itemsIdsAndQuantities, StoreDto store) {
+        System.out.println("Order summery:");
+        int itemId;
+        float itemQuantity;
+        String itemName;
+        String itemPurchaseCategory;
+        float itemPrice;
+        float itemTotalCost;
+
+        System.out.println("Purchased Items:");
+        for (Map.Entry<Integer, Float> entry : itemsIdsAndQuantities.entrySet()) {
+            itemId = entry.getKey();
+            itemQuantity = entry.getValue();
+            System.out.print("ID: " + itemId + COMA_SEPARATOR);
+            itemName = SystemManager.getItemName(itemId);
+            System.out.print("Name: " + itemName + COMA_SEPARATOR);
+            itemPurchaseCategory = SystemManager.getItemPurchaseCategory(itemId);
+            System.out.print("Purchase category: " + itemPurchaseCategory + COMA_SEPARATOR);
+            itemPrice = SystemManager.getItemPriceInStoreByIds(itemId, store.getId());
+            System.out.print("Item price: " + itemPrice + COMA_SEPARATOR);
+            System.out.print("Quantity: " + itemQuantity + COMA_SEPARATOR);
+            itemTotalCost = itemQuantity * itemPrice;
+            System.out.print("Total item cost: " + itemTotalCost);
+        }
+    }
+
     private void createOrder() {
         if (showActiveStores()) {
             try {
@@ -282,6 +348,8 @@ public class UI {
                 int y = getIntInputFromUser();
                 StoreDto store = SystemManager.getStoreDto(storeId);
                 showItemsPerStore(store);
+                Map<Integer, Float> itemsIdsAndQuantities = getItemsIdsAndQuantitiesFromUser();
+                showOrderSummery(itemsIdsAndQuantities, store);
 
             }
             catch (InputMismatchException e) {
