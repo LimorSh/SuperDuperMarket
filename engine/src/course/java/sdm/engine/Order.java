@@ -1,5 +1,6 @@
 package course.java.sdm.engine;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,32 +17,31 @@ public class Order {
     private final Map<Item, Float> items;
     private float itemsCost;
     private float deliveryCost;
+    private int totalItems;
 //    private float totalCost;
 
     public Order(int id, Date date, Customer customer, Location customerLocation, Store store) throws ParseException {
         this.id = id;
-//        this.date = date;
-//        String dateStr = date.toString();
-//        this.date = new SimpleDateFormat(dateFormat).parse(dateStr);
         setDate(date.toString());
         this.customer = customer;
         this.customerLocation = customerLocation;
         this.store = store;
         items = new HashMap<>();
+        store.addOrder(this);
     }
 
     public Order(int id, String dateStr, Customer customer, Location customerLocation, Store store) throws ParseException {
         this.id = id;
         setDate(dateStr);
-//        this.date = new SimpleDateFormat(dateFormat).parse(dateStr);
         this.customer = customer;
         this.customerLocation = customerLocation;
         this.store = store;
         items = new HashMap<>();
+        store.addOrder(this);
     }
 
     private void setDate(String dateStr) throws ParseException {
-        String dateFormat = Configurations.orderDateFormat;
+        String dateFormat = Configurations.ORDER_DATE_FORMAT;
         this.date = new SimpleDateFormat(dateFormat).parse(dateStr);
     }
 
@@ -77,16 +77,36 @@ public class Order {
         return (itemsCost + deliveryCost);
     }
 
+    public int getTotalItems() {
+        return totalItems;
+    }
+
     public void addItem(Item item, float quantity) {
-        items.put(item, quantity);
+        float totalQuantity = quantity;
+        if (items.containsKey(item)) {
+            totalQuantity += items.get(item);
+        }
+        items.put(item, totalQuantity);
+        updateTotalItems(item.getPurchaseType(), quantity);
         updateItemsCost(item);
-        updateDeliveryCost();
-        updateTotalNumberSoldItemInStore(item, quantity);
+        updateTotalNumberSoldItemInStore(item, totalQuantity);
+    }
+
+    public void updateTotalItems(Item.PurchaseType purchaseType, float quantity) {
+        if (purchaseType.equals(Item.PurchaseType.PER_UNIT))
+            totalItems += (int) quantity;
+        else
+            totalItems++;
     }
 
     public void updateItemsCost(Item item) {
         float itemCost = (store.getItemPrice(item));
         itemsCost += itemCost;
+    }
+
+    public void finish() {
+        updateDeliveryCost();
+        store.updateTotalDeliveriesRevenue(customerLocation);
     }
 
     public void updateDeliveryCost() {
@@ -100,14 +120,32 @@ public class Order {
 
     @Override
     public String toString() {
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+
         float totalCost = getTotalCost();
         int totalItem = items.size();
         return "Order{" +
                 "Date: " + date +
-                ", Total items: " + totalItem +
-                ", Items Cost: " + itemsCost +
-                ", Delivery Cost: " + deliveryCost +
-                ", Total Cost: " + totalCost +
+                ", Total items: " +  df.format(totalItem) +
+                ", Items Cost: " +  df.format(itemsCost) +
+                ", Delivery Cost: " + df.format(deliveryCost) +
+                ", Total Cost: " +  df.format(totalCost) +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Order order = (Order) o;
+
+        return id == order.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }
