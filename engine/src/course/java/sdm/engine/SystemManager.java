@@ -62,7 +62,28 @@ public class SystemManager {
         return superDuperMarket.getItemPriceInStore(storeId, itemId);
     }
 
+    public static float getItemPriceInStoreByIds(int itemId, int storeId) {
+        return superDuperMarket.getItemPriceInStore(storeId, itemId);
+    }
+
     public static StoreDto getStoreDto(int storeId) {
         return (new StoreDto(superDuperMarket.getStore(storeId)));
     }
+
+    public static String getItemPurchaseCategory(int itemId) {
+        return superDuperMarket.getItemPurchaseCategory(itemId);
+    }
+
+    public static String getItemPurchaseTypePerUnitStr() {
+        return Configurations.ITEM_PURCHASE_TYPE_PER_UNIT_STR;
+    }
+
+    public static String getItemPurchaseTypePerWeightStr() {
+        return Configurations.ITEM_PURCHASE_TYPE_PER_WEIGHT_STR;
+    }
+
+    public static String getItemName(int itemId) {
+        return superDuperMarket.getItemName(itemId);
+    }
+
 }
