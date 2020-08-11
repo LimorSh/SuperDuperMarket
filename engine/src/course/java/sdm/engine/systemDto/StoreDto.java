@@ -65,6 +65,11 @@ public class StoreDto {
     public Collection<OrderDto> getOrdersDto() {
         return ordersDto;
     }
+//
+//    public boolean isStoreActive() {
+//        return (!storeItemsDto.isEmpty());
+//    }
+
 }
 
 

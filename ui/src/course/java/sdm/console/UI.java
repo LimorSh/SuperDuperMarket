@@ -17,12 +17,14 @@ public class UI {
     private static final String PLEASE_CHOOSE_ACTION_STR = "Please choose an option from the menu:";
 
     private final static String DATA_PATH = "C:\\Users\\limorsh\\Desktop\\Java\\SuperDuperMarket\\engine\\src\\course\\java\\sdm\\engine\\resources\\ex1-small.xml";
+//    private final static String DATA_PATH_SHIRA = "C:\\Users\\victo\\Documents\\Study\\Java\\EX\\EX1\\ex1-small.xml";
+
 
     private enum MenuOptions {
         LOAD_SYSTEM_DATA(1, "Load system data"),
         SHOW_STORES(2, "Show the super stores"),
         SHOW_ITEMS(3, "Show the super items"),
-        NEW_ORDER(4, "Make new order"),
+        CREATE_ORDER(4, "Create new order"),
         ORDER_SUMMERY(5, "Show order summery"),
         SHOW_ORDERS_HISTORY(6, "Show order history"),
         EXIT(7, "Exit")
@@ -59,7 +61,7 @@ public class UI {
         showMenu();
 
         try {
-            int option = getOptionFromUser();
+            int option = getIntInputFromUser();
             MenuOptions menuOptions = MenuOptions.getMenuOptions(option);
             handleUserAction(menuOptions);
         }
@@ -74,9 +76,14 @@ public class UI {
         }
     }
 
-    private int getOptionFromUser() {
+    private int getIntInputFromUser() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextInt();
+    }
+
+    private String getStringInputFromUser() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
     }
 
     private void printWelcome() {
@@ -96,16 +103,17 @@ public class UI {
         switch (menuOptions) {
             case LOAD_SYSTEM_DATA:
                 SystemManager.loadSystemData(DATA_PATH);
-                showStores();
+                showAllStores();
                 break;
             case SHOW_STORES:
-                showStores();
+                showAllStores();
                 break;
             case SHOW_ITEMS:
-                showItems();
+                showAllItems();
                 break;
-//            case NEW_ORDER:
-//                break;
+            case CREATE_ORDER:
+                createOrder();
+                break;
 //            case ORDER_SUMMERY:
 //                break;
 //            case SHOW_ORDERS_HISTORY:
@@ -122,9 +130,8 @@ public class UI {
 
     private void showStore(StoreDto store) {
 
-        System.out.print("ID: " + store.getId() + COMA_SEPARATOR);
-        System.out.print("Name: " + store.getName() + COMA_SEPARATOR);
-        System.out.print("PPK: " + store.getPpk() + COMA_SEPARATOR);
+        showStoreBasicDetails(store);
+        System.out.print(COMA_SEPARATOR);
         System.out.print("Total deliveries revenue: " + store.getTotalDeliveriesRevenue());
 
         Collection<StoreItemDto> storeItems = store.getStoreItemsDto();
@@ -135,6 +142,7 @@ public class UI {
             System.out.println("The items in the store are:");
             for (StoreItemDto storeItem : storeItems) {
                 showItemBasicDetails(storeItem);
+                System.out.print(COMA_SEPARATOR);
                 System.out.print("Price: " + storeItem.getPrice() + COMA_SEPARATOR); //#change later
                 System.out.print("Total sold in the store: " + storeItem.getTotalSold());
                 System.out.println();
@@ -165,7 +173,7 @@ public class UI {
         printSeparatorLine();
     }
 
-    private void showStores() {
+    private void showAllStores() {
         System.out.println(SEPARATOR_LINE);
 
         Collection<StoreDto> stores = SystemManager.getStoresDto();
@@ -184,7 +192,13 @@ public class UI {
     private void showItemBasicDetails(ItemDto item) {
         System.out.print("ID: " + item.getId() + COMA_SEPARATOR);
         System.out.print("Name: " + item.getName() + COMA_SEPARATOR);
-        System.out.print("Purchase Category: " + item.getPurchaseType() + COMA_SEPARATOR);
+        System.out.print("Purchase Category: " + item.getPurchaseType());
+    }
+
+    private void showStoreBasicDetails(StoreDto store) {
+        System.out.print("ID: " + store.getId() + COMA_SEPARATOR);
+        System.out.print("Name: " + store.getName() + COMA_SEPARATOR);
+        System.out.print("PPK: " + store.getPpk());
     }
 
     private void showItem(ItemDto item) {
@@ -198,7 +212,7 @@ public class UI {
         System.out.println();
     }
 
-    private void showItems() {
+    private void showAllItems() {
         System.out.println(SEPARATOR_LINE);
 
         Collection<ItemDto> items = SystemManager.getItemsDto();
@@ -211,6 +225,72 @@ public class UI {
         }
         else {
             System.out.println("There are no items in the super market.");
+        }
+    }
+
+    private boolean showActiveStores() {
+        Collection<StoreDto> activeStores = SystemManager.getActiveStoresDto();
+
+        if (!activeStores.isEmpty()) {
+            System.out.println("The current active stores are:");
+            for (StoreDto store : activeStores) {
+                showStoreBasicDetails(store);
+                System.out.println();
+            }
+            return true;
+        }
+        else {
+            System.out.println("There are no active stores in the super market.");
+            return false;
+        }
+    }
+
+    private void showItemsPerStore(StoreDto store) {
+        Collection<StoreItemDto> storeItems = SystemManager.getStoreItems(store);
+        Collection<ItemDto> items = SystemManager.getItemsDto();
+
+        if (!items.isEmpty()) {
+            System.out.println("The items in the super market are:");
+            for (ItemDto itemDto : items) {
+                showItemBasicDetails(itemDto);
+                System.out.print(COMA_SEPARATOR);
+                if(SystemManager.isItemInTheStoreDto(itemDto, store)) {
+                    float price = SystemManager.getItemPriceInStore(itemDto, store);
+                    System.out.println("Price: " + price);
+                }
+                else
+                    System.out.println("Item is not available.");
+            }
+        }
+        else {
+            System.out.println("There are no items in the super market.");
+        }
+    }
+
+    private void createOrder() {
+        if (showActiveStores()) {
+            try {
+                System.out.print("Please enter store ID: ");
+                int storeId = getIntInputFromUser();
+                System.out.print("Please enter order's date: ");
+                String dateStr = getStringInputFromUser();
+                System.out.println("Please enter your location:");
+                System.out.print("X: ");
+                int x = getIntInputFromUser();
+                System.out.println();
+                System.out.print("Y: ");
+                int y = getIntInputFromUser();
+                StoreDto store = SystemManager.getStoreDto(storeId);
+                showItemsPerStore(store);
+
+            }
+            catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        else {
+            System.out.println();
+            //throw an exception for loop program.
         }
     }
 

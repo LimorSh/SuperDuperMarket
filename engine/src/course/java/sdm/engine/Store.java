@@ -139,6 +139,10 @@ public class Store {
         return storeItems.get(id).getPrice();
     }
 
+    public float getItemPrice(int itemId) {
+        return storeItems.get(itemId).getPrice();
+    }
+
     public float getTotalNumberSold(Item item) {
         int id = item.getId();
         return storeItems.get(id).getTotalSold();
@@ -164,6 +168,14 @@ public class Store {
     public boolean isItemInTheStore(Item item) {
         int id = item.getId();
         return storeItems.containsKey(id);
+    }
+
+    public boolean isItemInTheStore(int itemId) {
+        return storeItems.containsKey(itemId);
+    }
+
+    public boolean isStoreActive() {
+        return (!storeItems.isEmpty());
     }
 
     @Override
