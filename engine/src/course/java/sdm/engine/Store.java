@@ -7,36 +7,10 @@ import java.util.*;
 
 public class Store {
 
-//    private static class ItemAttributes {
-//        private float price;
-//        private int totalNumberSold;
-//
-//        public ItemAttributes(float price) {
-//            this.price = price;
-//        }
-//
-//        public void setPrice(float price) {
-//            this.price = price;
-//        }
-//
-//        public void updateTotalNumberSold(int quantity) {
-//            this.totalNumberSold += quantity;
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return ", price: " + price +
-//                   ", quantity: " + totalNumberSold + '}'
-//                   ;
-//        }
-//    }
-
     private final int id;
     private final String name;
     private final float ppk;
     private final Location location;
-//    private final Map<Item, ItemAttributes> items;
-
     private final Map<Integer, StoreItem> storeItems;
     private int numSoldItems;
     private final Map<Integer, Order> orders;
@@ -84,10 +58,6 @@ public class Store {
         return storeItems.values();
     }
 
-//    public Set<StoreItem> getItems() {
-//        return items;
-//    }
-
     public float getTotalDeliveriesRevenue() {
         return totalDeliveriesRevenue;
     }
@@ -99,20 +69,6 @@ public class Store {
     public void addItem(Item item, float price) {
         storeItems.put(item.getId(), new StoreItem(item, price));
     }
-
-//    public void addItem(Item item, float price) {
-//        StoreItem storeItem = new StoreItem(item, price);
-//        items.add(storeItem);
-//    }
-//
-//    public void addItem(StoreItem storeItem) {
-//        items.add(storeItem);
-//    }
-//
-//    public void addItem(int id, String name, Item.PurchaseType purchaseType, float price) {
-//        StoreItem storeItem = new StoreItem(id, name, purchaseType, price);
-//        items.add(storeItem);
-//    }
 
     public void increaseNumItemsSoldByOne() {
         numSoldItems++;
@@ -147,14 +103,6 @@ public class Store {
         int id = item.getId();
         return storeItems.get(id).getTotalSold();
     }
-
-//    public float getItemPrice(StoreItem storeItem) {
-//        return items.;
-//    }
-
-//    public float getTotalNumberSold(Item item) {
-//        return items.get(item).totalNumberSold;
-//    }
 
     public void updateTotalNumberSoldItem(Item item, float quantity) {
         int quantityInt = 1;    // item per weight
