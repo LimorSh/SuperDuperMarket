@@ -212,7 +212,7 @@ public class UI {
     private void showItemBasicDetails(ItemDto item) {
         System.out.print("ID: " + item.getId() + COMA_SEPARATOR);
         System.out.print("Name: " + item.getName() + COMA_SEPARATOR);
-        System.out.print("Purchase Category: " + item.getPurchaseType());
+        System.out.print("Purchase Category: " + item.getPurchaseCategory());
     }
 
     private void showStoreBasicDetails(StoreDto store) {
@@ -297,7 +297,7 @@ public class UI {
             int itemId = getIntInputFromUser();
             System.out.print("Please enter item quantity: ");
             float quantity = getFloatInputFromUser();
-            if (SystemManager.getItemPurchaseCategory(itemId).equals(SystemManager.getItemPurchaseTypePerUnitStr())) {
+            if (SystemManager.getItemPurchaseCategory(itemId).equals(SystemManager.getItemPurchaseCategoryPerUnitStr())) {
                 if ((quantity % 1) != 0) {
                     //throw exception
                 }

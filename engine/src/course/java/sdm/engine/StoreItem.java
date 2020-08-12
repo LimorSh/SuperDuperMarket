@@ -7,8 +7,8 @@ public class StoreItem extends Item{
     private float price;
     private int totalSold;
 
-    public StoreItem(int id, String name, PurchaseType purchaseType, float price) {
-        super(id, name, purchaseType);
+    public StoreItem(int id, String name, PurchaseCategory purchaseCategory, float price) {
+        super(id, name, purchaseCategory);
         this.price = price;
     }
 

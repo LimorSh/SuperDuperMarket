@@ -158,7 +158,7 @@ public class Store {
 
     public void updateTotalNumberSoldItem(Item item, float quantity) {
         int quantityInt = 1;    // item per weight
-        if (item.getPurchaseType().equals(Item.PurchaseType.PER_UNIT)) {
+        if (item.getPurchaseCategory().equals(Item.PurchaseCategory.PER_UNIT)) {
             quantityInt = (int) quantity;
         }
         int id = item.getId();

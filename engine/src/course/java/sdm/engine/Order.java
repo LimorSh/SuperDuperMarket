@@ -1,8 +1,6 @@
 package course.java.sdm.engine;
 
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -69,7 +67,7 @@ public class Order {
             if (!orderLines.containsKey(itemId)) {
                 OrderLine orderLine = new OrderLine(item, itemQuantity);
                 orderLines.put(itemId, orderLine);
-                updateTotalItems(item.getPurchaseType(), itemQuantity);
+                updateTotalItems(item.getPurchaseCategory(), itemQuantity);
                 updateItemsCost(item, itemQuantity);
                 updateTotalNumberSoldItemInStore(item, itemQuantity);
             }
@@ -87,8 +85,8 @@ public class Order {
         });
     }
 
-    public void updateTotalItems(Item.PurchaseType purchaseType, float quantity) {
-        if (purchaseType.equals(Item.PurchaseType.PER_UNIT))
+    public void updateTotalItems(Item.PurchaseCategory purchaseCategory, float quantity) {
+        if (purchaseCategory.equals(Item.PurchaseCategory.PER_UNIT))
             totalItems += (int) quantity;
         else
             totalItems++;

@@ -5,11 +5,9 @@ import course.java.sdm.engine.systemDto.StoreDto;
 import course.java.sdm.engine.systemDto.StoreItemDto;
 import course.java.sdm.engine.systemDto.SuperDuperMarketDto;
 
-import java.text.ParseException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class SystemManager {
 
@@ -77,12 +75,12 @@ public class SystemManager {
         return superDuperMarket.getItemPurchaseCategory(itemId);
     }
 
-    public static String getItemPurchaseTypePerUnitStr() {
-        return Configurations.ITEM_PURCHASE_TYPE_PER_UNIT_STR;
+    public static String getItemPurchaseCategoryPerUnitStr() {
+        return Configurations.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR;
     }
 
-    public static String getItemPurchaseTypePerWeightStr() {
-        return Configurations.ITEM_PURCHASE_TYPE_PER_WEIGHT_STR;
+    public static String getItemPurchaseCategoryPerWeightStr() {
+        return Configurations.ITEM_PURCHASE_CATEGORY_PER_WEIGHT_STR;
     }
 
     public static String getItemName(int itemId) {

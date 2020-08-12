@@ -1,6 +1,5 @@
 package course.java.sdm.engine;
 
-import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,7 +46,7 @@ public class SuperDuperMarket {
     }
 
     public String getItemPurchaseCategory(int itemId) {
-        return items.get(itemId).getPurchaseType().getPurchaseTypeStr();
+        return items.get(itemId).getPurchaseCategory().getPurchaseCategoryStr();
     }
 
     public void addStore(Store store) {
