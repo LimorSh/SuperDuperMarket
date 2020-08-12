@@ -10,7 +10,7 @@ public class OrderDto {
     private final int id;
     private final Date date;
 //    private final Store store;
-    private final Map<ItemDto, Float> itemsDto;
+    private final Map<Integer, OrderLineDto> orderLinesDto;
     private final float itemsCost;
     private final float deliveryCost;
     private final int totalItems;
@@ -23,16 +23,16 @@ public class OrderDto {
         this.deliveryCost = order.getDeliveryCost();
         this.totalItems = order.getTotalItems();
         this.totalCost = order.getTotalCost();
-        this.itemsDto = new HashMap<>();
+        this.orderLinesDto = new HashMap<>();
         copyOrderItems(order);
     }
 
     private void copyOrderItems(Order order) {
-        Map<Item, Float> items = order.getItems();
-
-        for (Item item : items.keySet()) {
-            itemsDto.put(new ItemDto(item), items.get(item));
-        }
+        Map<Integer, OrderLine> orderLines = order.getOrderLines();
+        orderLines.forEach((itemId,orderLine) ->  {
+            OrderLineDto orderLineDto = new OrderLineDto(itemId, orderLine.getQuantity());
+            orderLinesDto.put(itemId, orderLineDto);
+        });
     }
 
     public int getId() {
@@ -43,8 +43,8 @@ public class OrderDto {
         return date;
     }
 
-    public Map<ItemDto, Float> getItemsDto() {
-        return itemsDto;
+    public Map<Integer, OrderLineDto> getOrderLinesDto() {
+        return orderLinesDto;
     }
 
     public float getItemsCost() {

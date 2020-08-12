@@ -2,6 +2,10 @@ package course.java.sdm.console;
 import course.java.sdm.engine.systemDto.*;
 import course.java.sdm.engine.SystemManager;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.lang.*;
 
@@ -15,6 +19,8 @@ public class UI {
     private static final String EXIT_MESSAGE_STR = "Thank you for buying in super duper market :)\nGoodbye!";
     private static final String PLEASE_CHOOSE_ACTION_STR = "Please choose an option from the menu:";
     private static final String USER_FINISHED_CHOOSE_ITEMS_KEY = "q";
+    public final static String ORDER_DATE_FORMAT = "dd/MM-hh:mm";
+
 
     private final static String DATA_PATH = "C:\\Users\\limorsh\\Desktop\\Java\\SuperDuperMarket\\engine\\src\\course\\java\\sdm\\engine\\resources\\ex1-small.xml";
 //    private final static String DATA_PATH_SHIRA = "C:\\Users\\victo\\Documents\\Study\\Java\\EX\\EX1\\ex1-small.xml";
@@ -25,9 +31,8 @@ public class UI {
         SHOW_STORES(2, "Show the super stores"),
         SHOW_ITEMS(3, "Show the super items"),
         CREATE_ORDER(4, "Create new order"),
-        ORDER_SUMMERY(5, "Show order summery"),
-        SHOW_ORDERS_HISTORY(6, "Show order history"),
-        EXIT(7, "Exit")
+        SHOW_ORDERS_HISTORY(5, "Show order history"),
+        EXIT(6, "Exit")
         ;
 
         private final int optionNumber;
@@ -110,27 +115,30 @@ public class UI {
     }
 
     private void handleUserAction(MenuOptions menuOptions) {
-        switch (menuOptions) {
-            case LOAD_SYSTEM_DATA:
-                SystemManager.loadSystemData(DATA_PATH);
-                showAllStores();
-                break;
-            case SHOW_STORES:
-                showAllStores();
-                break;
-            case SHOW_ITEMS:
-                showAllItems();
-                break;
-            case CREATE_ORDER:
-                createOrder();
-                break;
-//            case ORDER_SUMMERY:
-//                break;
+        try {
+            switch (menuOptions) {
+                case LOAD_SYSTEM_DATA:
+                    SystemManager.loadSystemData(DATA_PATH);
+                    showAllStores();
+                    break;
+                case SHOW_STORES:
+                    showAllStores();
+                    break;
+                case SHOW_ITEMS:
+                    showAllItems();
+                    break;
+                case CREATE_ORDER:
+                    createOrder();
+                    break;
 //            case SHOW_ORDERS_HISTORY:
 //                break;
-            case EXIT:
-                exit();
-                break;
+                case EXIT:
+                    exit();
+                    break;
+            }
+        }
+        catch (ParseException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -162,17 +170,19 @@ public class UI {
             System.out.println("There are no items in the store.");
         }
 
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+
         Collection<OrderDto> orders = store.getOrdersDto();
         if (!orders.isEmpty()) {
             System.out.println();
-            System.out.println();
             System.out.println("The orders in the store are:");
             for (OrderDto orderDto : orders) {
-                System.out.print("Date: " + orderDto.getDate() + COMA_SEPARATOR);
+                System.out.print("Date: " + covertDateToDateStr(orderDto.getDate()) + COMA_SEPARATOR);
                 System.out.print("Total items: " + orderDto.getTotalItems() + COMA_SEPARATOR);
-                System.out.print("Items cost: " + orderDto.getItemsCost() + COMA_SEPARATOR);
-                System.out.print("Delivery cost: " + orderDto.getDeliveryCost() + COMA_SEPARATOR);
-                System.out.print("Total cost: " + orderDto.getTotalCost());
+                System.out.print("Items cost: " + df.format(orderDto.getItemsCost()) + COMA_SEPARATOR);
+                System.out.print("Delivery cost: " + df.format(orderDto.getDeliveryCost()) + COMA_SEPARATOR);
+                System.out.print("Total cost: " + df.format(orderDto.getTotalCost()));
                 System.out.println();
             }
         }
@@ -213,9 +223,11 @@ public class UI {
 
     private void showItem(ItemDto item) {
         showItemBasicDetails(item);
+        System.out.println();
         int numberOfStoresSellingTheItem = SystemManager.getNumberOfStoresSellingTheItem(item);
         float averageItemPrice = SystemManager.getAverageItemPrice(item);
         float totalAmountOfItemSells = SystemManager.getTotalAmountOfItemSells(item);
+        System.out.print("       ");
         System.out.print("The number of stores selling the item: " + numberOfStoresSellingTheItem + COMA_SEPARATOR);
         System.out.print("The average price of the item: " + averageItemPrice + COMA_SEPARATOR);
         System.out.print("The total amount of item sells: " + totalAmountOfItemSells);
@@ -256,7 +268,6 @@ public class UI {
     }
 
     private void showItemsPerStore(StoreDto store) {
-        Collection<StoreItemDto> storeItems = SystemManager.getStoreItems(store);
         Collection<ItemDto> items = SystemManager.getItemsDto();
 
         if (!items.isEmpty()) {
@@ -264,8 +275,8 @@ public class UI {
             for (ItemDto itemDto : items) {
                 showItemBasicDetails(itemDto);
                 System.out.print(COMA_SEPARATOR);
-                if(SystemManager.isItemInTheStoreDto(itemDto, store)) {
-                    float price = SystemManager.getItemPriceInStore(itemDto, store);
+                if(SystemManager.isItemInTheStoreDto(store, itemDto)) {
+                    float price = SystemManager.getItemPriceInStore(store, itemDto);
                     System.out.println("Price: " + price);
                 }
                 else
@@ -325,31 +336,71 @@ public class UI {
             System.out.print("Name: " + itemName + COMA_SEPARATOR);
             itemPurchaseCategory = SystemManager.getItemPurchaseCategory(itemId);
             System.out.print("Purchase category: " + itemPurchaseCategory + COMA_SEPARATOR);
-            itemPrice = SystemManager.getItemPriceInStoreByIds(itemId, store.getId());
+            itemPrice = SystemManager.getItemPriceInStoreByIds(store.getId(), itemId);
             System.out.print("Item price: " + itemPrice + COMA_SEPARATOR);
             System.out.print("Quantity: " + itemQuantity + COMA_SEPARATOR);
             itemTotalCost = itemQuantity * itemPrice;
             System.out.print("Total item cost: " + itemTotalCost);
+            System.out.println();
         }
     }
 
-    private void createOrder() {
+    private Date covertDateStrToDate(String dateStr) throws ParseException {
+        return new SimpleDateFormat(ORDER_DATE_FORMAT).parse(dateStr);
+    }
+
+    private String covertDateToDateStr(Date date) {
+        DateFormat df = new SimpleDateFormat(ORDER_DATE_FORMAT);
+        return df.format(date);
+    }
+
+    private void createOrder() throws ParseException {
         if (showActiveStores()) {
             try {
                 System.out.print("Please enter store ID: ");
                 int storeId = getIntInputFromUser();
                 System.out.print("Please enter order's date: ");
                 String dateStr = getStringInputFromUser();
+
+                Date date = null;
+                try {
+                    date = covertDateStrToDate(dateStr);
+                }
+                catch (ParseException e) {
+                    System.out.println(e.getMessage());
+                }
+
                 System.out.println("Please enter your location:");
                 System.out.print("X: ");
-                int x = getIntInputFromUser();
+                int customerLocationX = getIntInputFromUser();
                 System.out.println();
                 System.out.print("Y: ");
-                int y = getIntInputFromUser();
+                int customerLocationY = getIntInputFromUser();
                 StoreDto store = SystemManager.getStoreDto(storeId);
                 showItemsPerStore(store);
                 Map<Integer, Float> itemsIdsAndQuantities = getItemsIdsAndQuantitiesFromUser();
+                System.out.println();
                 showOrderSummery(itemsIdsAndQuantities, store);
+
+                DecimalFormat df = new DecimalFormat();
+                df.setMaximumFractionDigits(2);
+                float storePpk = store.getPpk();
+                double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(store, customerLocationX, customerLocationY);
+                float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
+                System.out.println("The delivery cost is: " + df.format(deliveryCost));
+                System.out.println("The store ppk is: " + storePpk);
+                System.out.println("Your distance from the store is: " + df.format(distanceBetweenCustomerAndStore));
+                System.out.println();
+                System.out.println("Please press 'y' to confirm your order or 'n' to cancel");
+                String userConfirmation = getStringInputFromUser();
+                if (userConfirmation.equalsIgnoreCase("y")) {
+                    SystemManager.createOrder(date, customerLocationX, customerLocationY, store, itemsIdsAndQuantities);
+                }
+                else {
+                    System.out.println("Your order was not confirmed.");
+                }
+
+
 
             }
             catch (InputMismatchException e) {

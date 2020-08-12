@@ -5,7 +5,10 @@ import course.java.sdm.engine.systemDto.StoreDto;
 import course.java.sdm.engine.systemDto.StoreItemDto;
 import course.java.sdm.engine.systemDto.SuperDuperMarketDto;
 
+import java.text.ParseException;
 import java.util.Collection;
+import java.util.Date;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SystemManager {
@@ -50,19 +53,19 @@ public class SystemManager {
         return storeDto.getStoreItemsDto();
     }
 
-    public static boolean isItemInTheStoreDto(ItemDto itemDto, StoreDto storeDto) {
+    public static boolean isItemInTheStoreDto(StoreDto storeDto, ItemDto itemDto) {
         int storeId = storeDto.getId();
         int itemId = itemDto.getId();
         return superDuperMarket.isItemInTheStore(storeId, itemId);
     }
 
-    public static float getItemPriceInStore(ItemDto itemDto, StoreDto storeDto) {
+    public static float getItemPriceInStore(StoreDto storeDto, ItemDto itemDto) {
         int storeId = storeDto.getId();
         int itemId = itemDto.getId();
-        return superDuperMarket.getItemPriceInStore(storeId, itemId);
+        return getItemPriceInStoreByIds(storeId, itemId);
     }
 
-    public static float getItemPriceInStoreByIds(int itemId, int storeId) {
+    public static float getItemPriceInStoreByIds(int storeId, int itemId) {
         return superDuperMarket.getItemPriceInStore(storeId, itemId);
     }
 
@@ -84,6 +87,15 @@ public class SystemManager {
 
     public static String getItemName(int itemId) {
         return superDuperMarket.getItemName(itemId);
+    }
+
+    public static double getDistanceBetweenCustomerAndStore(StoreDto storeDto, int customerLocationX, int customerLocationY) {
+        return Distance.getDistanceBetweenTwoLocations(storeDto.getXLocation(), storeDto.getYLocation(),
+                                                                    customerLocationX, customerLocationY);
+    }
+
+    public static void createOrder(Date date, int customerLocationX, int customerLocationY, StoreDto store, Map<Integer, Float> itemsIdsAndQuantities) {
+        superDuperMarket.createOrder(date, customerLocationX, customerLocationY, store.getId(), itemsIdsAndQuantities);
     }
 
 }

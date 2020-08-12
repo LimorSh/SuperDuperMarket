@@ -1,12 +1,8 @@
 package course.java.sdm.engine;
 
-import course.java.sdm.engine.systemDto.ItemDto;
-import course.java.sdm.engine.systemDto.StoreDto;
-import course.java.sdm.engine.systemDto.SuperDuperMarketDto;
-
+import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SuperDuperMarket {
 
@@ -125,8 +121,27 @@ public class SuperDuperMarket {
         Item item = items.get(id);
 
         for (Order order : orders.values()) {
-            amount += order.getItems().get(item);
+            amount += order.getOrderLines().get(id).getQuantity();
         }
         return amount;
     }
+
+    public void createOrder(Date date, int customerLocationX, int customerLocationY, int storeId, Map<Integer, Float> itemsIdsAndQuantities) {
+        Location customerLocation = new Location(customerLocationX, customerLocationY);
+        Store store = getStore(storeId);
+        Order order = new Order(date, customerLocation, store);
+        addOrder(order);
+
+        Map<Item, Float> itemsAndQuantities = new HashMap<>();
+        itemsIdsAndQuantities.forEach((itemId,itemQuantity) -> {
+            Item item = getItem(itemId);
+            itemsAndQuantities.put(item, itemQuantity);
+        });
+        order.addOrderLines(itemsAndQuantities);
+        order.finish();
+    }
+
+
+
+
 }

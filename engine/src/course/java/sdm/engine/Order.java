@@ -9,40 +9,26 @@ import java.util.Map;
 
 public class Order {
 
+    private static int numOrders = 1;
     private final int id;
-    private Date date;
-    private final Customer customer;   //maybe don't need
+    private final Date date;
+//    private final Customer customer;   //maybe don't need
     private final Location customerLocation;
     private final Store store;
-    private final Map<Item, Float> items;
+    private final Map<Integer, OrderLine> orderLines; //the key is itemId
     private float itemsCost;
     private float deliveryCost;
     private int totalItems;
 //    private float totalCost;
 
-    public Order(int id, Date date, Customer customer, Location customerLocation, Store store) throws ParseException {
-        this.id = id;
-        setDate(date.toString());
-        this.customer = customer;
+    public Order(Date date, Location customerLocation, Store store) {
+        this.id = numOrders;
+        this.date = date;
         this.customerLocation = customerLocation;
         this.store = store;
-        items = new HashMap<>();
+        orderLines = new HashMap<>();
         store.addOrder(this);
-    }
-
-    public Order(int id, String dateStr, Customer customer, Location customerLocation, Store store) throws ParseException {
-        this.id = id;
-        setDate(dateStr);
-        this.customer = customer;
-        this.customerLocation = customerLocation;
-        this.store = store;
-        items = new HashMap<>();
-        store.addOrder(this);
-    }
-
-    private void setDate(String dateStr) throws ParseException {
-        String dateFormat = Configurations.ORDER_DATE_FORMAT;
-        this.date = new SimpleDateFormat(dateFormat).parse(dateStr);
+        numOrders++;
     }
 
     public int getId() {
@@ -53,16 +39,12 @@ public class Order {
         return date;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
     public Store getStore() {
         return store;
     }
 
-    public Map<Item, Float> getItems() {
-        return items;
+    public Map<Integer, OrderLine> getOrderLines() {
+        return orderLines;
     }
 
     public float getItemsCost() {
@@ -81,15 +63,28 @@ public class Order {
         return totalItems;
     }
 
-    public void addItem(Item item, float quantity) {
-        float totalQuantity = quantity;
-        if (items.containsKey(item)) {
-            totalQuantity += items.get(item);
-        }
-        items.put(item, totalQuantity);
-        updateTotalItems(item.getPurchaseType(), quantity);
-        updateItemsCost(item);
-        updateTotalNumberSoldItemInStore(item, totalQuantity);
+    public void addOrderLines(Map<Item, Float> itemsAndQuantities) {
+        itemsAndQuantities.forEach((item,itemQuantity) -> {
+            int itemId = item.getId();
+            if (!orderLines.containsKey(itemId)) {
+                OrderLine orderLine = new OrderLine(item, itemQuantity);
+                orderLines.put(itemId, orderLine);
+                updateTotalItems(item.getPurchaseType(), itemQuantity);
+                updateItemsCost(item, itemQuantity);
+                updateTotalNumberSoldItemInStore(item, itemQuantity);
+            }
+            // need to finish this - not ok!
+//            else {
+//                float totalQuantity = itemQuantity;
+//                totalQuantity += orderLines.get(itemId).getQuantity();
+//                orderLine = new OrderLine(item, totalQuantity);
+//
+//                orderLines.put(itemId, orderLine);
+//                updateTotalItems(item.getPurchaseType(), totalQuantity);
+//
+//
+//            }
+        });
     }
 
     public void updateTotalItems(Item.PurchaseType purchaseType, float quantity) {
@@ -99,9 +94,9 @@ public class Order {
             totalItems++;
     }
 
-    public void updateItemsCost(Item item) {
+    public void updateItemsCost(Item item, float quantity) {
         float itemCost = (store.getItemPrice(item));
-        itemsCost += itemCost;
+        itemsCost += (itemCost * quantity);
     }
 
     public void finish() {
@@ -124,7 +119,7 @@ public class Order {
         df.setMaximumFractionDigits(2);
 
         float totalCost = getTotalCost();
-        int totalItem = items.size();
+        int totalItem = orderLines.size();
         return "Order{" +
                 "Date: " + date +
                 ", Total items: " +  df.format(totalItem) +

@@ -15,8 +15,8 @@ public class Customer {
     public Customer(int id, String name) {
         this.id = numCustomers;
         this.name = name;
-        numCustomers++;
         orders = new HashMap<>();
+        numCustomers++;
     }
 
     public static int getNumCustomers() {
