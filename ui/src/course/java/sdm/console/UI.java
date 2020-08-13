@@ -114,32 +114,27 @@ public class UI {
     }
 
     private void handleUserAction(MenuOptions menuOptions) {
-        try {
-            switch (menuOptions) {
-                case LOAD_SYSTEM_DATA:
-                    loadSystemData();
-                    break;
-                case SHOW_STORES:
-                    showAllStores();
-                    break;
-                case SHOW_ITEMS:
-                    showAllItems();
-                    break;
-                case CREATE_ORDER:
-                    createOrder();
-                    break;
-                case SHOW_ORDERS_HISTORY:
-                    showOrdersHistory();
-                    break;
-                case EXIT:
-                    exit();
-                    break;
-            }
+        switch (menuOptions) {
+            case LOAD_SYSTEM_DATA:
+                loadSystemData();
+                break;
+            case SHOW_STORES:
+                showAllStores();
+                break;
+            case SHOW_ITEMS:
+                showAllItems();
+                break;
+            case CREATE_ORDER:
+                createOrder();
+                break;
+            case SHOW_ORDERS_HISTORY:
+                showOrdersHistory();
+                break;
+            case EXIT:
+                exit();
+                break;
         }
-        catch (ParseException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+     }
 
     private void printSeparatorLine() {
         System.out.println(SEPARATOR_LINE);
@@ -194,17 +189,10 @@ public class UI {
 
     private void showAllStores() {
         System.out.println(SEPARATOR_LINE);
-
         Collection<StoreDto> stores = SystemManager.getStoresDto();
-
-        if (!stores.isEmpty()) {
-            System.out.println("The stores in the super market are:");
-            for (StoreDto store : stores) {
-                showStore(store);
-            }
-        }
-        else {
-            System.out.println("There are no stores in the super market.");
+        System.out.println("The stores in the super market are:");
+        for (StoreDto store : stores) {
+            showStore(store);
         }
     }
 
@@ -252,44 +240,22 @@ public class UI {
         }
     }
 
-    private boolean showActiveStores() {
-        Collection<StoreDto> storesDto = SystemManager.getStoresDto();
-
-        if (!storesDto.isEmpty()) {
-            System.out.println("The current active stores are:");
-            for (StoreDto storeDto : storesDto) {
-                showStoreBasicDetails(storeDto);
-                System.out.println();
-            }
-            return true;
-        }
-        else {
-            System.out.println("There are no active stores in the super market.");
-            return false;
-        }
-    }
-
     private void showItemsPerStore(StoreDto store) {
         Collection<ItemDto> items = SystemManager.getItemsDto();
 
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
 
-        if (!items.isEmpty()) {
-            System.out.println("The items in the super market are:");
-            for (ItemDto itemDto : items) {
-                showItemBasicDetails(itemDto);
-                System.out.print(COMA_SEPARATOR);
-                if(SystemManager.isItemInTheStoreDto(store, itemDto)) {
-                    float price = SystemManager.getItemPriceInStore(store, itemDto);
-                    System.out.println("Price: " + df.format(price));
-                }
-                else
-                    System.out.println("Item is not available.");
+        System.out.println("The items in the super market are:");
+        for (ItemDto itemDto : items) {
+            showItemBasicDetails(itemDto);
+            System.out.print(COMA_SEPARATOR);
+            if(SystemManager.isItemInTheStoreDto(store, itemDto)) {
+                float price = SystemManager.getItemPriceInStore(store, itemDto);
+                System.out.println("Price: " + df.format(price));
             }
-        }
-        else {
-            System.out.println("There are no items in the super market.");
+            else
+                System.out.println("Item is not available.");
         }
     }
 
@@ -372,62 +338,57 @@ public class UI {
         return df.format(date);
     }
 
-    private void createOrder() throws ParseException {
-        if (showActiveStores()) {
+    private void createOrder() {
+        showAllStores();
+        try {
+            System.out.print("Please enter store ID: ");
+            int storeId = getIntInputFromUser();
+            System.out.print("Please enter order's date: ");
+            String dateStr = getStringInputFromUser();
+
+            Date date = null;
             try {
-                System.out.print("Please enter store ID: ");
-                int storeId = getIntInputFromUser();
-                System.out.print("Please enter order's date: ");
-                String dateStr = getStringInputFromUser();
-
-                Date date = null;
-                try {
-                    date = covertDateStrToDate(dateStr);
-                }
-                catch (ParseException e) {
-                    System.out.println(e.getMessage());
-                }
-
-                System.out.println("Please enter your location:");
-                System.out.print("X: ");
-                int customerLocationX = getIntInputFromUser();
-                System.out.print("Y: ");
-                int customerLocationY = getIntInputFromUser();
-                StoreDto store = SystemManager.getStoreDto(storeId);
-                showItemsPerStore(store);
-                System.out.println();
-
-                Map<Integer, Float> itemsIdsAndQuantities = getItemsIdsAndQuantitiesFromUser();
-                if (!itemsIdsAndQuantities.isEmpty()) {
-                    System.out.println();
-                    showOrderSummery(itemsIdsAndQuantities, store);
-
-                    DecimalFormat df = new DecimalFormat();
-                    df.setMaximumFractionDigits(2);
-                    float storePpk = store.getPpk();
-                    double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(store, customerLocationX, customerLocationY);
-                    float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
-                    System.out.println("The delivery cost is: " + df.format(deliveryCost));
-                    System.out.println("The store ppk is: " + storePpk);
-                    System.out.println("Your distance from the store is: " + df.format(distanceBetweenCustomerAndStore));
-                    System.out.println();
-                    System.out.println("Please press 'y' to confirm your order or 'n' to cancel");
-                    String userConfirmation = getStringInputFromUser();
-                    if (userConfirmation.equalsIgnoreCase("y")) {
-                        SystemManager.createOrder(date, customerLocationX, customerLocationY, store, itemsIdsAndQuantities);
-                    }
-                    else {
-                        System.out.println("Your order was not confirmed.");
-                    }
-                }
+                date = covertDateStrToDate(dateStr);
             }
-            catch (InputMismatchException e) {
+            catch (ParseException e) {
                 System.out.println(e.getMessage());
             }
-        }
-        else {
+
+            System.out.println("Please enter your location:");
+            System.out.print("X: ");
+            int customerLocationX = getIntInputFromUser();
+            System.out.print("Y: ");
+            int customerLocationY = getIntInputFromUser();
+            StoreDto store = SystemManager.getStoreDto(storeId);
+            showItemsPerStore(store);
             System.out.println();
-            //throw an exception for loop program.
+
+            Map<Integer, Float> itemsIdsAndQuantities = getItemsIdsAndQuantitiesFromUser();
+            if (!itemsIdsAndQuantities.isEmpty()) {
+                System.out.println();
+                showOrderSummery(itemsIdsAndQuantities, store);
+
+                DecimalFormat df = new DecimalFormat();
+                df.setMaximumFractionDigits(2);
+                float storePpk = store.getPpk();
+                double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(store, customerLocationX, customerLocationY);
+                float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
+                System.out.println("The delivery cost is: " + df.format(deliveryCost));
+                System.out.println("The store ppk is: " + storePpk);
+                System.out.println("Your distance from the store is: " + df.format(distanceBetweenCustomerAndStore));
+                System.out.println();
+                System.out.println("Please press 'y' to confirm your order or 'n' to cancel");
+                String userConfirmation = getStringInputFromUser();
+                if (userConfirmation.equalsIgnoreCase("y")) {
+                    SystemManager.createOrder(date, customerLocationX, customerLocationY, store, itemsIdsAndQuantities);
+                }
+                else {
+                    System.out.println("Your order was not confirmed.");
+                }
+            }
+        }
+        catch (InputMismatchException e) {
+            System.out.println(e.getMessage());
         }
     }
 
