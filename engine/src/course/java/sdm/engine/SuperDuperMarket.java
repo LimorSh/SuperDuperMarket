@@ -116,7 +116,8 @@ public class SuperDuperMarket {
         Item item = items.get(id);
 
         for (Order order : orders.values()) {
-            amount += order.getOrderLines().get(id).getQuantity();
+            if (order.isItemInTheOrder(id))
+                amount += order.getOrderLines().get(id).getQuantity();
         }
         return amount;
     }
@@ -135,7 +136,4 @@ public class SuperDuperMarket {
         order.addOrderLines(itemsAndQuantities);
         order.finish();
     }
-
-
-
 }

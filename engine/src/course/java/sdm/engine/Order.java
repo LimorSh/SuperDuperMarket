@@ -65,6 +65,10 @@ public class Order {
         return orderLines.keySet().size();
     }
 
+    public boolean isItemInTheOrder(int id) {
+        return orderLines.containsKey(id);
+    }
+
     public void addOrderLines(Map<Item, Float> itemsAndQuantities) {
         itemsAndQuantities.forEach((item,itemQuantity) -> {
             int itemId = item.getId();

@@ -12,7 +12,7 @@ import java.lang.*;
 public class UI {
 
     private static final String SEPARATOR_LINE = "\n----------------------------------------------------------" +
-                                                    "---------------------------------------------------------";
+            "---------------------------------------------------------";
     private static final String COMA_SEPARATOR = ", ";
     private static final String SPACE_SEPARATOR = " ";
     private static final String WELCOME_MESSAGE_STR = "Welcome to Super Duper Market!";
@@ -134,7 +134,7 @@ public class UI {
                 exit();
                 break;
         }
-     }
+    }
 
     private void printSeparatorLine() {
         System.out.println(SEPARATOR_LINE);
