@@ -23,9 +23,6 @@ public class UI {
     public final static String ORDER_DATE_FORMAT = "dd/MM-hh:mm";
 
 
-    private final static String DATA_PATH = "C:\\Users\\limorsh\\Desktop\\Java\\SuperDuperMarket\\engine\\src\\course\\java\\sdm\\engine\\resources\\ex1-small.xml";
-//    private final static String DATA_PATH_SHIRA = "C:\\Users\\victo\\Documents\\Study\\Java\\EX\\EX1\\ex1-small.xml";
-
 
     private enum MenuOptions {
         LOAD_SYSTEM_DATA(1, "Load system data"),
@@ -151,9 +148,12 @@ public class UI {
 
     private void showStore(StoreDto store) {
 
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+
         showStoreBasicDetails(store);
         System.out.print(COMA_SEPARATOR);
-        System.out.print("Total deliveries revenue: " + store.getTotalDeliveriesRevenue());
+        System.out.print("Total deliveries revenue: " + df.format(store.getTotalDeliveriesRevenue()));
 
         Collection<StoreItemDto> storeItems = store.getStoreItemsDto();
 
@@ -172,9 +172,6 @@ public class UI {
         else {
             System.out.println("There are no items in the store.");
         }
-
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
 
         Collection<OrderDto> orders = store.getOrdersDto();
         if (!orders.isEmpty()) {
@@ -225,6 +222,9 @@ public class UI {
     }
 
     private void showItem(ItemDto item) {
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+
         showItemBasicDetails(item);
         System.out.println();
         int numberOfStoresSellingTheItem = SystemManager.getNumberOfStoresSellingTheItem(item);
@@ -232,7 +232,7 @@ public class UI {
         float totalAmountOfItemSells = SystemManager.getTotalAmountOfItemSells(item);
         System.out.print("       ");
         System.out.print("The number of stores selling the item: " + numberOfStoresSellingTheItem + COMA_SEPARATOR);
-        System.out.print("The average price of the item: " + averageItemPrice + COMA_SEPARATOR);
+        System.out.print("The average price of the item: " + df.format(averageItemPrice) + COMA_SEPARATOR);
         System.out.print("The total amount of item sells: " + totalAmountOfItemSells);
         System.out.println();
     }
@@ -273,6 +273,9 @@ public class UI {
     private void showItemsPerStore(StoreDto store) {
         Collection<ItemDto> items = SystemManager.getItemsDto();
 
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+
         if (!items.isEmpty()) {
             System.out.println("The items in the super market are:");
             for (ItemDto itemDto : items) {
@@ -280,7 +283,7 @@ public class UI {
                 System.out.print(COMA_SEPARATOR);
                 if(SystemManager.isItemInTheStoreDto(store, itemDto)) {
                     float price = SystemManager.getItemPriceInStore(store, itemDto);
-                    System.out.println("Price: " + price);
+                    System.out.println("Price: " + df.format(price));
                 }
                 else
                     System.out.println("Item is not available.");
@@ -322,7 +325,10 @@ public class UI {
     }
 
     private void showOrderSummery(Map<Integer, Float> itemsIdsAndQuantities, StoreDto store) {
-        System.out.println("Order summery:");
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+
+        System.out.println("Order Summery:");
         int itemId;
         float itemQuantity;
         String itemName;
@@ -340,10 +346,10 @@ public class UI {
             itemPurchaseCategory = SystemManager.getItemPurchaseCategory(itemId);
             System.out.print("Purchase category: " + itemPurchaseCategory + COMA_SEPARATOR);
             itemPrice = SystemManager.getItemPriceInStoreByIds(store.getId(), itemId);
-            System.out.print("Item price: " + itemPrice + COMA_SEPARATOR);
-            System.out.print("Quantity: " + itemQuantity + COMA_SEPARATOR);
+            System.out.print("Item price: " + df.format(itemPrice) + COMA_SEPARATOR);
+            System.out.print("Quantity: " + df.format(itemQuantity) + COMA_SEPARATOR);
             itemTotalCost = itemQuantity * itemPrice;
-            System.out.print("Total item cost: " + itemTotalCost);
+            System.out.print("Total item cost: " + df.format(itemTotalCost));
             System.out.println();
         }
     }
