@@ -53,6 +53,27 @@ public class UI {
         }
     }
 
+
+    private int getIntInputFromUser() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextInt();
+    }
+
+    private String getStringInputFromUser() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+    }
+
+    private float getFloatInputFromUser() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextFloat();
+    }
+
+    private String getTokenInputFromUser() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.next();
+    }
+
     private void exit() {
         System.out.println(EXIT_MESSAGE_STR);
         System.exit(1);
@@ -60,6 +81,7 @@ public class UI {
 
     public void run() {
         printWelcome();
+        loadSystemDataFirstTime();
         loopProgram();
     }
 
@@ -82,26 +104,6 @@ public class UI {
         }
     }
 
-    private int getIntInputFromUser() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
-    }
-
-    private String getStringInputFromUser() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
-    }
-
-    private float getFloatInputFromUser() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextFloat();
-    }
-
-    private String getTokenInputFromUser() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.next();
-    }
-
     private void printWelcome() {
         System.out.println(WELCOME_MESSAGE_STR);
     }
@@ -119,8 +121,7 @@ public class UI {
         try {
             switch (menuOptions) {
                 case LOAD_SYSTEM_DATA:
-                    SystemManager.loadSystemData(DATA_PATH);
-                    showAllStores();
+                    loadSystemData();
                     break;
                 case SHOW_STORES:
                     showAllStores();
@@ -444,7 +445,15 @@ public class UI {
         }
     }
 
+    private void loadSystemDataFirstTime() {
+        loadSystemData();
+    }
 
+    private void loadSystemData() {
+        System.out.println("Please enter the xml file path you would like to load: ");
+        String filePath = getStringInputFromUser();
+        SystemManager.loadSystemData(filePath);
+    }
 
 
 
