@@ -14,10 +14,6 @@ public class SystemManager {
         superDuperMarket = DataLoader.loadFromXmlFile(dataPath);
     }
 
-//    public static Map<Integer, Store> getStores() {
-//        return superDuperMarket.getStores();
-//    }
-
     public static Collection<StoreDto> getStoresDto() {
         return SuperDuperMarketDto.getStoresDto(superDuperMarket.getStores());
     }
@@ -40,12 +36,6 @@ public class SystemManager {
 
     public static float getTotalAmountOfItemSells(ItemDto itemDto) {
         return superDuperMarket.getTotalAmountOfItemSells(itemDto.getId());
-    }
-
-    public static Collection<StoreDto> getActiveStoresDto() {
-        return SuperDuperMarketDto.getStoresDto(superDuperMarket.getActiveStores());
-
-//        return getStoresDto().stream().filter(StoreDto::isStoreActive).collect(Collectors.toList());
     }
 
     public static Collection<StoreItemDto> getStoreItems(StoreDto storeDto) {

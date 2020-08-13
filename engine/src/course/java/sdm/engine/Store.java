@@ -122,10 +122,6 @@ public class Store {
         return storeItems.containsKey(itemId);
     }
 
-    public boolean isStoreActive() {
-        return (!storeItems.isEmpty());
-    }
-
     @Override
     public String toString() {
         DecimalFormat df = new DecimalFormat();

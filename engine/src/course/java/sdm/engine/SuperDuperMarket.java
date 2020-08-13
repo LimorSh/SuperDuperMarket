@@ -27,10 +27,6 @@ public class SuperDuperMarket {
         return orders.values();
     }
 
-    public Collection<Store> getActiveStores() {
-        return stores.values().stream().filter(Store::isStoreActive).collect(Collectors.toList());
-    }
-
     public boolean isItemInTheStore(int storeId, int itemId) {
         Store store = stores.get(storeId);
         return store.isItemInTheStore(itemId);
@@ -139,6 +135,7 @@ public class SuperDuperMarket {
         order.addOrderLines(itemsAndQuantities);
         order.finish();
     }
+
 
 
 }

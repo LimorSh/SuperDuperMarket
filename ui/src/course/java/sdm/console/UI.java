@@ -1,5 +1,4 @@
 package course.java.sdm.console;
-import course.java.sdm.engine.Order;
 import course.java.sdm.engine.systemDto.*;
 import course.java.sdm.engine.SystemManager;
 
@@ -254,12 +253,12 @@ public class UI {
     }
 
     private boolean showActiveStores() {
-        Collection<StoreDto> activeStores = SystemManager.getActiveStoresDto();
+        Collection<StoreDto> storesDto = SystemManager.getStoresDto();
 
-        if (!activeStores.isEmpty()) {
+        if (!storesDto.isEmpty()) {
             System.out.println("The current active stores are:");
-            for (StoreDto store : activeStores) {
-                showStoreBasicDetails(store);
+            for (StoreDto storeDto : storesDto) {
+                showStoreBasicDetails(storeDto);
                 System.out.println();
             }
             return true;
@@ -294,31 +293,41 @@ public class UI {
         }
     }
 
+    private boolean continueOrder(String userInput) {
+        return !(userInput.equalsIgnoreCase(USER_FINISHED_CHOOSE_ITEMS_KEY));
+    }
+
     private Map<Integer, Float> getItemsIdsAndQuantitiesFromUser() {
         Map<Integer, Float> itemsIdsAndQuantities = new HashMap<>();
-        boolean toContinue = true;
+
+        System.out.print("Please start buying by enter item ID, or press 'q' to exit: ");
+        String userIdOrQ = getStringInputFromUser();
+        boolean toContinue = continueOrder(userIdOrQ);
 
         while(toContinue) {
-            System.out.print("Please enter item id: ");
-            int itemId = getIntInputFromUser();
-            System.out.print("Please enter item quantity: ");
-            float quantity = getFloatInputFromUser();
-            if (SystemManager.getItemPurchaseCategory(itemId).equals(SystemManager.getItemPurchaseCategoryPerUnitStr())) {
-                if ((quantity % 1) != 0) {
-                    //throw exception
+            try {
+                int itemId =  Integer.parseInt(userIdOrQ);
+                System.out.print("Please enter item quantity: ");
+                float quantity = getFloatInputFromUser();
+                if (SystemManager.getItemPurchaseCategory(itemId).equals(SystemManager.getItemPurchaseCategoryPerUnitStr())) {
+                    if ((quantity % 1) != 0) {
+                        //throw exception
+                    }
                 }
-            }
 
-            float totalQuantity = quantity;
-            if (itemsIdsAndQuantities.containsKey(itemId)) {
-                totalQuantity += itemsIdsAndQuantities.get(itemId);
-            }
-            itemsIdsAndQuantities.put(itemId, totalQuantity);
+                float totalQuantity = quantity;
+                if (itemsIdsAndQuantities.containsKey(itemId)) {
+                    totalQuantity += itemsIdsAndQuantities.get(itemId);
+                }
+                itemsIdsAndQuantities.put(itemId, totalQuantity);
 
-            System.out.print("Please continue buying items or press 'q' to finish: "); //#need to change
-            String userChoice = getTokenInputFromUser();
-            if (userChoice.equalsIgnoreCase(USER_FINISHED_CHOOSE_ITEMS_KEY))
-                toContinue = false;
+                System.out.print("Please continue buying and enter item ID, or press 'q' to finish: ");
+                userIdOrQ = getStringInputFromUser();
+                toContinue = continueOrder(userIdOrQ);
+            }
+            catch (NumberFormatException e) {
+                System.out.println(e.getMessage());
+            }
         }
 
         return itemsIdsAndQuantities;
@@ -382,35 +391,35 @@ public class UI {
                 System.out.println("Please enter your location:");
                 System.out.print("X: ");
                 int customerLocationX = getIntInputFromUser();
-                System.out.println();
                 System.out.print("Y: ");
                 int customerLocationY = getIntInputFromUser();
                 StoreDto store = SystemManager.getStoreDto(storeId);
                 showItemsPerStore(store);
+                System.out.println();
+
                 Map<Integer, Float> itemsIdsAndQuantities = getItemsIdsAndQuantitiesFromUser();
-                System.out.println();
-                showOrderSummery(itemsIdsAndQuantities, store);
+                if (!itemsIdsAndQuantities.isEmpty()) {
+                    System.out.println();
+                    showOrderSummery(itemsIdsAndQuantities, store);
 
-                DecimalFormat df = new DecimalFormat();
-                df.setMaximumFractionDigits(2);
-                float storePpk = store.getPpk();
-                double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(store, customerLocationX, customerLocationY);
-                float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
-                System.out.println("The delivery cost is: " + df.format(deliveryCost));
-                System.out.println("The store ppk is: " + storePpk);
-                System.out.println("Your distance from the store is: " + df.format(distanceBetweenCustomerAndStore));
-                System.out.println();
-                System.out.println("Please press 'y' to confirm your order or 'n' to cancel");
-                String userConfirmation = getStringInputFromUser();
-                if (userConfirmation.equalsIgnoreCase("y")) {
-                    SystemManager.createOrder(date, customerLocationX, customerLocationY, store, itemsIdsAndQuantities);
+                    DecimalFormat df = new DecimalFormat();
+                    df.setMaximumFractionDigits(2);
+                    float storePpk = store.getPpk();
+                    double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(store, customerLocationX, customerLocationY);
+                    float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
+                    System.out.println("The delivery cost is: " + df.format(deliveryCost));
+                    System.out.println("The store ppk is: " + storePpk);
+                    System.out.println("Your distance from the store is: " + df.format(distanceBetweenCustomerAndStore));
+                    System.out.println();
+                    System.out.println("Please press 'y' to confirm your order or 'n' to cancel");
+                    String userConfirmation = getStringInputFromUser();
+                    if (userConfirmation.equalsIgnoreCase("y")) {
+                        SystemManager.createOrder(date, customerLocationX, customerLocationY, store, itemsIdsAndQuantities);
+                    }
+                    else {
+                        System.out.println("Your order was not confirmed.");
+                    }
                 }
-                else {
-                    System.out.println("Your order was not confirmed.");
-                }
-
-
-
             }
             catch (InputMismatchException e) {
                 System.out.println(e.getMessage());
