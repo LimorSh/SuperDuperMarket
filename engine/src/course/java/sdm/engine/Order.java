@@ -68,8 +68,9 @@ public class Order {
     public void addOrderLines(Map<Item, Float> itemsAndQuantities) {
         itemsAndQuantities.forEach((item,itemQuantity) -> {
             int itemId = item.getId();
+            float itemPrice = store.getItemPrice(itemId);
             if (!orderLines.containsKey(itemId)) {
-                OrderLine orderLine = new OrderLine(item, itemQuantity);
+                OrderLine orderLine = new OrderLine(item, itemQuantity, itemPrice);
                 orderLines.put(itemId, orderLine);
                 updateTotalItems(item.getPurchaseCategory(), itemQuantity);
                 updateItemsCost(item, itemQuantity);
