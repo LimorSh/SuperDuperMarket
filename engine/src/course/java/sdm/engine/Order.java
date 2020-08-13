@@ -61,6 +61,10 @@ public class Order {
         return totalItems;
     }
 
+    public int getTotalItemsTypes() {
+        return orderLines.keySet().size();
+    }
+
     public void addOrderLines(Map<Item, Float> itemsAndQuantities) {
         itemsAndQuantities.forEach((item,itemQuantity) -> {
             int itemId = item.getId();

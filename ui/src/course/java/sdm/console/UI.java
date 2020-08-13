@@ -1,4 +1,5 @@
 package course.java.sdm.console;
+import course.java.sdm.engine.Order;
 import course.java.sdm.engine.systemDto.*;
 import course.java.sdm.engine.SystemManager;
 
@@ -130,8 +131,9 @@ public class UI {
                 case CREATE_ORDER:
                     createOrder();
                     break;
-//            case SHOW_ORDERS_HISTORY:
-//                break;
+                case SHOW_ORDERS_HISTORY:
+                    showOrdersHistory();
+                    break;
                 case EXIT:
                     exit();
                     break;
@@ -412,6 +414,37 @@ public class UI {
             //throw an exception for loop program.
         }
     }
+
+    private void showOrdersHistory() {
+        System.out.println("The orders in the super market are:");
+        Collection<OrderDto> ordersDto = SystemManager.getOrdersDto();
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+
+        if (!ordersDto.isEmpty()) {
+            System.out.println();
+            for (OrderDto orderDto : ordersDto) {
+                int orderId = orderDto.getId();
+                System.out.print("ID: " + orderId + COMA_SEPARATOR);
+                System.out.print("Date: " + covertDateToDateStr(orderDto.getDate()) + COMA_SEPARATOR);
+                System.out.print("Store ID: " + orderDto.getStoreId() + COMA_SEPARATOR);
+                System.out.print("Store name: " + orderDto.getStoreName() + COMA_SEPARATOR);
+                System.out.print("Total types of items: " + orderDto.getTotalItemsTypes() + COMA_SEPARATOR);
+                System.out.print("Total amount of items: " + orderDto.getTotalItems() + COMA_SEPARATOR);
+                System.out.println();
+                System.out.print("       ");
+                System.out.print("Items cost: " + df.format(orderDto.getItemsCost()) + COMA_SEPARATOR);
+                System.out.print("Delivery cost: " + df.format(orderDto.getDeliveryCost()) + COMA_SEPARATOR);
+                System.out.print("Total cost: " + df.format(orderDto.getTotalCost()));
+                System.out.println();
+            }
+        }
+        else {
+            System.out.println("There are no orders in the super market.");
+        }
+    }
+
+
 
 
 

@@ -1,7 +1,7 @@
 package course.java.sdm.engine.systemDto;
 
-import course.java.sdm.engine.Configurations;
 import course.java.sdm.engine.Item;
+import course.java.sdm.engine.Order;
 import course.java.sdm.engine.Store;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,5 +23,13 @@ public class SuperDuperMarketDto {
             itemsDto.add(new ItemDto(item));
         }
         return itemsDto;
+    }
+
+    public static Collection<OrderDto> getOrdersDto(Collection<Order> orders) {
+        Collection<OrderDto> ordersDto = new ArrayList<>();
+        for (Order order : orders) {
+            ordersDto.add(new OrderDto(order));
+        }
+        return ordersDto;
     }
 }

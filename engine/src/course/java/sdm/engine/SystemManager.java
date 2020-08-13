@@ -1,9 +1,6 @@
 package course.java.sdm.engine;
 
-import course.java.sdm.engine.systemDto.ItemDto;
-import course.java.sdm.engine.systemDto.StoreDto;
-import course.java.sdm.engine.systemDto.StoreItemDto;
-import course.java.sdm.engine.systemDto.SuperDuperMarketDto;
+import course.java.sdm.engine.systemDto.*;
 
 import java.util.Collection;
 import java.util.Date;
@@ -27,6 +24,10 @@ public class SystemManager {
 
     public static Collection<ItemDto> getItemsDto() {
         return SuperDuperMarketDto.getItemsDto(superDuperMarket.getItems());
+    }
+
+    public static Collection<OrderDto> getOrdersDto() {
+        return SuperDuperMarketDto.getOrdersDto(superDuperMarket.getOrders());
     }
 
     public static int getNumberOfStoresSellingTheItem(ItemDto itemDto) {
@@ -95,5 +96,8 @@ public class SystemManager {
     public static void createOrder(Date date, int customerLocationX, int customerLocationY, StoreDto store, Map<Integer, Float> itemsIdsAndQuantities) {
         superDuperMarket.createOrder(date, customerLocationX, customerLocationY, store.getId(), itemsIdsAndQuantities);
     }
+
+
+
 
 }
