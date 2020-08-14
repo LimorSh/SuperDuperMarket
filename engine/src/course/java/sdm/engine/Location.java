@@ -6,6 +6,9 @@ import java.util.Objects;
 public class Location {
 
     private final Point coordinate;
+//    private final int MIN_LOCATION_VALUE = 1;
+//    private int MAX_LOCATION_VALUE = 50;
+
 
     // it's nice to have - but we need to validate the coordinates that they are int
 //    public Location(Point point) {

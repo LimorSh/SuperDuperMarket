@@ -87,7 +87,10 @@ public class SystemManager {
         superDuperMarket.createOrder(date, customerLocationX, customerLocationY, store.getId(), itemsIdsAndQuantities);
     }
 
-
+//    public static void validateLocation(int x, int y) {
+//
+//
+//    }
 
 
 }
