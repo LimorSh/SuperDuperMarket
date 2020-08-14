@@ -10,7 +10,7 @@ import java.util.Collection;
 public class StoreDto {
     private final int id;
     private final String name;
-    private final float ppk;
+    private final int ppk;
     private final float totalDeliveriesRevenue;
     private final int xLocation;
     private final int yLocation;
@@ -54,7 +54,7 @@ public class StoreDto {
         return name;
     }
 
-    public float getPpk() {
+    public int getPpk() {
         return ppk;
     }
 

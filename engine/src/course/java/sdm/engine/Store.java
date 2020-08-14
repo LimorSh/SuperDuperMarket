@@ -9,14 +9,14 @@ public class Store {
 
     private final int id;
     private final String name;
-    private final float ppk;
+    private final int ppk;
     private final Location location;
     private final Map<Integer, StoreItem> storeItems;
     private int numSoldItems;
     private final Map<Integer, Order> orders;
     private float totalDeliveriesRevenue;
 
-    public Store(int id, String name, float ppk, Location location) {
+    public Store(int id, String name, int ppk, Location location) {
         this.id = id;
         this.name = name;
         this.ppk = ppk;
@@ -46,7 +46,7 @@ public class Store {
         return numSoldItems;
     }
 
-    public float getPpk() {
+    public int getPpk() {
         return ppk;
     }
 
@@ -105,12 +105,8 @@ public class Store {
     }
 
     public void updateTotalNumberSoldItem(Item item, float quantity) {
-        int quantityInt = 1;    // item per weight
-        if (item.getPurchaseCategory().equals(Item.PurchaseCategory.PER_UNIT)) {
-            quantityInt = (int) quantity;
-        }
         int id = item.getId();
-        storeItems.get(id).updateTotalNumberSold(quantityInt);
+        storeItems.get(id).updateTotalNumberSold(quantity);
     }
 
     public boolean isItemInTheStore(Item item) {

@@ -18,10 +18,10 @@ public class UI {
     private static final String EXIT_MESSAGE_STR = "Thank you for buying in super duper market :)\nGoodbye!";
     private static final String PLEASE_CHOOSE_ACTION_STR = "Please choose an option from the menu:";
     private static final String USER_FINISHED_CHOOSE_ITEMS_KEY = "q";
-    private final static String ORDER_DATE_FORMAT = "dd/MM-hh:mm";
-    private final static int MAXIMUM_FRACTION_DIGITS = 2;
-    private final static DecimalFormat DECIMAL_FORMAT;
-    private final static DateFormat DATE_FORMAT;
+    private static final String ORDER_DATE_FORMAT = "dd/MM-hh:mm";
+    private static final int MAXIMUM_FRACTION_DIGITS = 2;
+    private static final DecimalFormat DECIMAL_FORMAT;
+    private static final DateFormat DATE_FORMAT;
 
     static {
         DECIMAL_FORMAT = new DecimalFormat();
@@ -181,8 +181,8 @@ public class UI {
             for (StoreItemDto storeItem : storeItems) {
                 showItemBasicDetails(storeItem);
                 System.out.print(COMA_SEPARATOR);
-                System.out.print("Price: " + storeItem.getPrice() + COMA_SEPARATOR); //#change later
-                System.out.print("Total sold in the store: " + storeItem.getTotalSold());
+                System.out.print("Price: " + storeItem.getPrice() + COMA_SEPARATOR);
+                System.out.print("Total sold in the store: " + DECIMAL_FORMAT.format(storeItem.getTotalSold()));
                 System.out.println();
             }
         }
@@ -240,7 +240,7 @@ public class UI {
         System.out.print("       ");
         System.out.print("The number of stores selling the item: " + numberOfStoresSellingTheItem + COMA_SEPARATOR);
         System.out.print("The average price of the item: " + DECIMAL_FORMAT.format(averageItemPrice) + COMA_SEPARATOR);
-        System.out.print("The total amount of item sells: " + totalAmountOfItemSells);
+        System.out.print("The total amount of item sells: " + DECIMAL_FORMAT.format(totalAmountOfItemSells));
         System.out.println();
     }
 
@@ -397,7 +397,7 @@ public class UI {
                 System.out.println();
                 showOrderSummery(itemsIdsAndQuantities, store);
 
-                float storePpk = store.getPpk();
+                int storePpk = store.getPpk();
                 double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(store, customerLocationX, customerLocationY);
                 float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
                 System.out.println("The delivery cost is: " + DECIMAL_FORMAT.format(deliveryCost));
@@ -410,6 +410,7 @@ public class UI {
                     boolean orderConfirmed = orderConfirmed();
                     if (orderConfirmed) {
                         SystemManager.createOrder(date, customerLocationX, customerLocationY, store, itemsIdsAndQuantities);
+                        System.out.println("Your order was confirmed and added successfully!");
                     }
                     else {
                         System.out.println("Your order was canceled.");
