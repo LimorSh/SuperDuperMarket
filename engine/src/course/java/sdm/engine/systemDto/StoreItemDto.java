@@ -5,7 +5,7 @@ import course.java.sdm.engine.StoreItem;
 public class StoreItemDto extends ItemDto {
 
     private final float price;
-    private final int totalSold;
+    private final float totalSold;
 
     public StoreItemDto(StoreItem storeItem) {
         super(storeItem);
@@ -17,7 +17,7 @@ public class StoreItemDto extends ItemDto {
         return price;
     }
 
-    public int getTotalSold() {
+    public float getTotalSold() {
         return totalSold;
     }
 }

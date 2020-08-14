@@ -1,12 +1,7 @@
 package course.java.sdm.engine;
 
-import course.java.sdm.engine.systemDto.ItemDto;
-import course.java.sdm.engine.systemDto.StoreDto;
-import course.java.sdm.engine.systemDto.SuperDuperMarketDto;
-
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SuperDuperMarket {
 
@@ -32,10 +27,6 @@ public class SuperDuperMarket {
         return orders.values();
     }
 
-    public Collection<Store> getActiveStores() {
-        return stores.values().stream().filter(Store::isStoreActive).collect(Collectors.toList());
-    }
-
     public boolean isItemInTheStore(int storeId, int itemId) {
         Store store = stores.get(storeId);
         return store.isItemInTheStore(itemId);
@@ -51,7 +42,7 @@ public class SuperDuperMarket {
     }
 
     public String getItemPurchaseCategory(int itemId) {
-        return items.get(itemId).getPurchaseType().getPurchaseTypeStr();
+        return items.get(itemId).getPurchaseCategory().getPurchaseCategoryStr();
     }
 
     public void addStore(Store store) {
@@ -125,8 +116,24 @@ public class SuperDuperMarket {
         Item item = items.get(id);
 
         for (Order order : orders.values()) {
-            amount += order.getItems().get(item);
+            if (order.isItemInTheOrder(id))
+                amount += order.getOrderLines().get(id).getQuantity();
         }
         return amount;
+    }
+
+    public void createOrder(Date date, int customerLocationX, int customerLocationY, int storeId, Map<Integer, Float> itemsIdsAndQuantities) {
+        Location customerLocation = new Location(customerLocationX, customerLocationY);
+        Store store = getStore(storeId);
+        Order order = new Order(date, customerLocation, store);
+        addOrder(order);
+
+        Map<Item, Float> itemsAndQuantities = new HashMap<>();
+        itemsIdsAndQuantities.forEach((itemId,itemQuantity) -> {
+            Item item = getItem(itemId);
+            itemsAndQuantities.put(item, itemQuantity);
+        });
+        order.addOrderLines(itemsAndQuantities);
+        order.finish();
     }
 }

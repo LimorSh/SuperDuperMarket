@@ -4,49 +4,49 @@ import course.java.sdm.engine.jaxb.schema.generated.SDMItem;
 
 public class Item {
 
-    public enum PurchaseType {
-        PER_UNIT(Configurations.ITEM_PURCHASE_TYPE_PER_UNIT_STR),
-        PER_WEIGHT(Configurations.ITEM_PURCHASE_TYPE_PER_WEIGHT_STR),
+    public enum PurchaseCategory {
+        PER_UNIT(Configurations.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR),
+        PER_WEIGHT(Configurations.ITEM_PURCHASE_CATEGORY_PER_WEIGHT_STR),
         ;
 
-        private final String purchaseTypeStr;
+        private final String purchaseCategoryStr;
 
-        PurchaseType(String purchaseType) {
-            this.purchaseTypeStr = purchaseType;
+        PurchaseCategory(String purchaseCategory) {
+            this.purchaseCategoryStr = purchaseCategory;
         }
 
-        public String getPurchaseTypeStr() {
-            return purchaseTypeStr;
+        public String getPurchaseCategoryStr() {
+            return purchaseCategoryStr;
         }
     }
 
     private final int id;
     private final String name;
-    private final PurchaseType purchaseType;
+    private final PurchaseCategory purchaseCategory;
 
-    public Item(int id, String name, PurchaseType purchaseType) {
+    public Item(int id, String name, PurchaseCategory purchaseCategory) {
         this.id = id;
         this.name = name;
-        this.purchaseType = purchaseType;
+        this.purchaseCategory = purchaseCategory;
     }
 
     public Item(Item item) {
         this.id = item.id;
         this.name = item.name;
-        this.purchaseType = item.purchaseType;
+        this.purchaseCategory = item.purchaseCategory;
     }
 
     public Item(SDMItem sdmItem) {
         this.id = sdmItem.getId();
         this.name = sdmItem.getName().toLowerCase();
-        this.purchaseType = convertStringToPurchaseType(sdmItem.getPurchaseCategory());
+        this.purchaseCategory = convertStringToPurchaseCategory(sdmItem.getPurchaseCategory());
     }
 
-    private PurchaseType convertStringToPurchaseType(String purchaseCategory) {
-        if (purchaseCategory.toLowerCase().contains(Configurations.ITEM_PURCHASE_TYPE_PER_UNIT_STR)) {
-            return PurchaseType.PER_UNIT;
+    private PurchaseCategory convertStringToPurchaseCategory(String purchaseCategory) {
+        if (purchaseCategory.toLowerCase().contains(Configurations.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR)) {
+            return PurchaseCategory.PER_UNIT;
         }
-        return PurchaseType.PER_WEIGHT;
+        return PurchaseCategory.PER_WEIGHT;
     }
 
     public int getId() {
@@ -57,15 +57,15 @@ public class Item {
         return name;
     }
 
-    public PurchaseType getPurchaseType() {
-        return purchaseType;
+    public PurchaseCategory getPurchaseCategory() {
+        return purchaseCategory;
     }
 
     @Override
     public String toString() {
         return "{ID: " + id +
                 ", Name: '" + name + '\'' +
-                ", Purchase Type: " + purchaseType.purchaseTypeStr
+                ", Purchase Category: " + purchaseCategory.purchaseCategoryStr
                 ;
     }
 

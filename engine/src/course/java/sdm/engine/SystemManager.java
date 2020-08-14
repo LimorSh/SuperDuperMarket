@@ -1,12 +1,10 @@
 package course.java.sdm.engine;
 
-import course.java.sdm.engine.systemDto.ItemDto;
-import course.java.sdm.engine.systemDto.StoreDto;
-import course.java.sdm.engine.systemDto.StoreItemDto;
-import course.java.sdm.engine.systemDto.SuperDuperMarketDto;
+import course.java.sdm.engine.systemDto.*;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.Date;
+import java.util.Map;
 
 public class SystemManager {
 
@@ -16,16 +14,16 @@ public class SystemManager {
         superDuperMarket = DataLoader.loadFromXmlFile(dataPath);
     }
 
-//    public static Map<Integer, Store> getStores() {
-//        return superDuperMarket.getStores();
-//    }
-
     public static Collection<StoreDto> getStoresDto() {
         return SuperDuperMarketDto.getStoresDto(superDuperMarket.getStores());
     }
 
     public static Collection<ItemDto> getItemsDto() {
         return SuperDuperMarketDto.getItemsDto(superDuperMarket.getItems());
+    }
+
+    public static Collection<OrderDto> getOrdersDto() {
+        return SuperDuperMarketDto.getOrdersDto(superDuperMarket.getOrders());
     }
 
     public static int getNumberOfStoresSellingTheItem(ItemDto itemDto) {
@@ -40,29 +38,23 @@ public class SystemManager {
         return superDuperMarket.getTotalAmountOfItemSells(itemDto.getId());
     }
 
-    public static Collection<StoreDto> getActiveStoresDto() {
-        return SuperDuperMarketDto.getStoresDto(superDuperMarket.getActiveStores());
-
-//        return getStoresDto().stream().filter(StoreDto::isStoreActive).collect(Collectors.toList());
-    }
-
     public static Collection<StoreItemDto> getStoreItems(StoreDto storeDto) {
         return storeDto.getStoreItemsDto();
     }
 
-    public static boolean isItemInTheStoreDto(ItemDto itemDto, StoreDto storeDto) {
+    public static boolean isItemInTheStoreDto(StoreDto storeDto, ItemDto itemDto) {
         int storeId = storeDto.getId();
         int itemId = itemDto.getId();
         return superDuperMarket.isItemInTheStore(storeId, itemId);
     }
 
-    public static float getItemPriceInStore(ItemDto itemDto, StoreDto storeDto) {
+    public static float getItemPriceInStore(StoreDto storeDto, ItemDto itemDto) {
         int storeId = storeDto.getId();
         int itemId = itemDto.getId();
-        return superDuperMarket.getItemPriceInStore(storeId, itemId);
+        return getItemPriceInStoreByIds(storeId, itemId);
     }
 
-    public static float getItemPriceInStoreByIds(int itemId, int storeId) {
+    public static float getItemPriceInStoreByIds(int storeId, int itemId) {
         return superDuperMarket.getItemPriceInStore(storeId, itemId);
     }
 
@@ -74,16 +66,31 @@ public class SystemManager {
         return superDuperMarket.getItemPurchaseCategory(itemId);
     }
 
-    public static String getItemPurchaseTypePerUnitStr() {
-        return Configurations.ITEM_PURCHASE_TYPE_PER_UNIT_STR;
+    public static String getItemPurchaseCategoryPerUnitStr() {
+        return Configurations.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR;
     }
 
-    public static String getItemPurchaseTypePerWeightStr() {
-        return Configurations.ITEM_PURCHASE_TYPE_PER_WEIGHT_STR;
+    public static String getItemPurchaseCategoryPerWeightStr() {
+        return Configurations.ITEM_PURCHASE_CATEGORY_PER_WEIGHT_STR;
     }
 
     public static String getItemName(int itemId) {
         return superDuperMarket.getItemName(itemId);
     }
+
+    public static double getDistanceBetweenCustomerAndStore(StoreDto storeDto, int customerLocationX, int customerLocationY) {
+        return Distance.getDistanceBetweenTwoLocations(storeDto.getXLocation(), storeDto.getYLocation(),
+                                                                    customerLocationX, customerLocationY);
+    }
+
+    public static void createOrder(Date date, int customerLocationX, int customerLocationY, StoreDto store, Map<Integer, Float> itemsIdsAndQuantities) {
+        superDuperMarket.createOrder(date, customerLocationX, customerLocationY, store.getId(), itemsIdsAndQuantities);
+    }
+
+//    public static void validateLocation(int x, int y) {
+//
+//
+//    }
+
 
 }

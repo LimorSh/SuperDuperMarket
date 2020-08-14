@@ -1,33 +1,61 @@
 package course.java.sdm.console;
 import course.java.sdm.engine.systemDto.*;
 import course.java.sdm.engine.SystemManager;
-
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.lang.*;
 
 public class UI {
 
     private static final String SEPARATOR_LINE = "\n----------------------------------------------------------" +
-                                                    "---------------------------------------------------------";
+            "---------------------------------------------------------";
     private static final String COMA_SEPARATOR = ", ";
     private static final String SPACE_SEPARATOR = " ";
     private static final String WELCOME_MESSAGE_STR = "Welcome to Super Duper Market!";
     private static final String EXIT_MESSAGE_STR = "Thank you for buying in super duper market :)\nGoodbye!";
     private static final String PLEASE_CHOOSE_ACTION_STR = "Please choose an option from the menu:";
     private static final String USER_FINISHED_CHOOSE_ITEMS_KEY = "q";
+    private static final String ORDER_DATE_FORMAT = "dd/MM-hh:mm";
+    private static final int MAXIMUM_FRACTION_DIGITS = 2;
+    private static final DecimalFormat DECIMAL_FORMAT;
+    private static final DateFormat DATE_FORMAT;
 
-    private final static String DATA_PATH = "C:\\Users\\limorsh\\Desktop\\Java\\SuperDuperMarket\\engine\\src\\course\\java\\sdm\\engine\\resources\\ex1-small.xml";
-//    private final static String DATA_PATH_SHIRA = "C:\\Users\\victo\\Documents\\Study\\Java\\EX\\EX1\\ex1-small.xml";
+    static {
+        DECIMAL_FORMAT = new DecimalFormat();
+        DECIMAL_FORMAT.setMaximumFractionDigits(MAXIMUM_FRACTION_DIGITS);
+        DATE_FORMAT = new SimpleDateFormat(ORDER_DATE_FORMAT);
+    }
 
+    private enum APPROVAL{
+        YES("y");
+
+        private final String key;
+
+        APPROVAL(String yes_key) {
+            this.key = yes_key;
+        }
+    }
+
+    private enum CANCEL{
+        NO("n");
+
+        private final String key;
+
+        CANCEL(String yes_key) {
+            this.key = yes_key;
+        }
+    }
 
     private enum MenuOptions {
         LOAD_SYSTEM_DATA(1, "Load system data"),
         SHOW_STORES(2, "Show the super stores"),
         SHOW_ITEMS(3, "Show the super items"),
         CREATE_ORDER(4, "Create new order"),
-        ORDER_SUMMERY(5, "Show order summery"),
-        SHOW_ORDERS_HISTORY(6, "Show order history"),
-        EXIT(7, "Exit")
+        SHOW_ORDERS_HISTORY(5, "Show order history"),
+        EXIT(6, "Exit")
         ;
 
         private final int optionNumber;
@@ -43,8 +71,30 @@ public class UI {
                 if (menuOptions.optionNumber == optionNumber)
                     return menuOptions;
             }
-            throw new IllegalArgumentException(optionNumber + " is not an option in the menu.");
+            String errorMsg = optionNumber + " is not an option in the menu.";
+            throw new IllegalArgumentException(errorMsg);
         }
+    }
+
+
+    private int getIntInputFromUser() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextInt();
+    }
+
+    private String getStringInputFromUser() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+    }
+
+    private float getFloatInputFromUser() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextFloat();
+    }
+
+    private String getTokenInputFromUser() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.next();
     }
 
     private void exit() {
@@ -54,6 +104,7 @@ public class UI {
 
     public void run() {
         printWelcome();
+        loadSystemDataFirstTime();
         loopProgram();
     }
 
@@ -76,26 +127,6 @@ public class UI {
         }
     }
 
-    private int getIntInputFromUser() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
-    }
-
-    private String getStringInputFromUser() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
-    }
-
-    private float getFloatInputFromUser() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextFloat();
-    }
-
-    private String getTokenInputFromUser() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.next();
-    }
-
     private void printWelcome() {
         System.out.println(WELCOME_MESSAGE_STR);
     }
@@ -112,8 +143,7 @@ public class UI {
     private void handleUserAction(MenuOptions menuOptions) {
         switch (menuOptions) {
             case LOAD_SYSTEM_DATA:
-                SystemManager.loadSystemData(DATA_PATH);
-                showAllStores();
+                loadSystemData();
                 break;
             case SHOW_STORES:
                 showAllStores();
@@ -124,10 +154,9 @@ public class UI {
             case CREATE_ORDER:
                 createOrder();
                 break;
-//            case ORDER_SUMMERY:
-//                break;
-//            case SHOW_ORDERS_HISTORY:
-//                break;
+            case SHOW_ORDERS_HISTORY:
+                showOrdersHistory();
+                break;
             case EXIT:
                 exit();
                 break;
@@ -139,10 +168,9 @@ public class UI {
     }
 
     private void showStore(StoreDto store) {
-
         showStoreBasicDetails(store);
         System.out.print(COMA_SEPARATOR);
-        System.out.print("Total deliveries revenue: " + store.getTotalDeliveriesRevenue());
+        System.out.print("Total deliveries revenue: " + DECIMAL_FORMAT.format(store.getTotalDeliveriesRevenue()));
 
         Collection<StoreItemDto> storeItems = store.getStoreItemsDto();
 
@@ -153,8 +181,8 @@ public class UI {
             for (StoreItemDto storeItem : storeItems) {
                 showItemBasicDetails(storeItem);
                 System.out.print(COMA_SEPARATOR);
-                System.out.print("Price: " + storeItem.getPrice() + COMA_SEPARATOR); //#change later
-                System.out.print("Total sold in the store: " + storeItem.getTotalSold());
+                System.out.print("Price: " + storeItem.getPrice() + COMA_SEPARATOR);
+                System.out.print("Total sold in the store: " + DECIMAL_FORMAT.format(storeItem.getTotalSold()));
                 System.out.println();
             }
         }
@@ -165,14 +193,13 @@ public class UI {
         Collection<OrderDto> orders = store.getOrdersDto();
         if (!orders.isEmpty()) {
             System.out.println();
-            System.out.println();
             System.out.println("The orders in the store are:");
             for (OrderDto orderDto : orders) {
-                System.out.print("Date: " + orderDto.getDate() + COMA_SEPARATOR);
+                System.out.print("Date: " + covertDateToDateStr(orderDto.getDate()) + COMA_SEPARATOR);
                 System.out.print("Total items: " + orderDto.getTotalItems() + COMA_SEPARATOR);
-                System.out.print("Items cost: " + orderDto.getItemsCost() + COMA_SEPARATOR);
-                System.out.print("Delivery cost: " + orderDto.getDeliveryCost() + COMA_SEPARATOR);
-                System.out.print("Total cost: " + orderDto.getTotalCost());
+                System.out.print("Items cost: " + DECIMAL_FORMAT.format(orderDto.getItemsCost()) + COMA_SEPARATOR);
+                System.out.print("Delivery cost: " + DECIMAL_FORMAT.format(orderDto.getDeliveryCost()) + COMA_SEPARATOR);
+                System.out.print("Total cost: " + DECIMAL_FORMAT.format(orderDto.getTotalCost()));
                 System.out.println();
             }
         }
@@ -185,24 +212,17 @@ public class UI {
 
     private void showAllStores() {
         System.out.println(SEPARATOR_LINE);
-
         Collection<StoreDto> stores = SystemManager.getStoresDto();
-
-        if (!stores.isEmpty()) {
-            System.out.println("The stores in the super market are:");
-            for (StoreDto store : stores) {
-                showStore(store);
-            }
-        }
-        else {
-            System.out.println("There are no stores in the super market.");
+        System.out.println("The stores in the super market are:");
+        for (StoreDto store : stores) {
+            showStore(store);
         }
     }
 
     private void showItemBasicDetails(ItemDto item) {
         System.out.print("ID: " + item.getId() + COMA_SEPARATOR);
         System.out.print("Name: " + item.getName() + COMA_SEPARATOR);
-        System.out.print("Purchase Category: " + item.getPurchaseType());
+        System.out.print("Purchase Category: " + item.getPurchaseCategory());
     }
 
     private void showStoreBasicDetails(StoreDto store) {
@@ -213,12 +233,14 @@ public class UI {
 
     private void showItem(ItemDto item) {
         showItemBasicDetails(item);
+        System.out.println();
         int numberOfStoresSellingTheItem = SystemManager.getNumberOfStoresSellingTheItem(item);
         float averageItemPrice = SystemManager.getAverageItemPrice(item);
         float totalAmountOfItemSells = SystemManager.getTotalAmountOfItemSells(item);
+        System.out.print("       ");
         System.out.print("The number of stores selling the item: " + numberOfStoresSellingTheItem + COMA_SEPARATOR);
-        System.out.print("The average price of the item: " + averageItemPrice + COMA_SEPARATOR);
-        System.out.print("The total amount of item sells: " + totalAmountOfItemSells);
+        System.out.print("The average price of the item: " + DECIMAL_FORMAT.format(averageItemPrice) + COMA_SEPARATOR);
+        System.out.print("The total amount of item sells: " + DECIMAL_FORMAT.format(totalAmountOfItemSells));
         System.out.println();
     }
 
@@ -238,77 +260,64 @@ public class UI {
         }
     }
 
-    private boolean showActiveStores() {
-        Collection<StoreDto> activeStores = SystemManager.getActiveStoresDto();
-
-        if (!activeStores.isEmpty()) {
-            System.out.println("The current active stores are:");
-            for (StoreDto store : activeStores) {
-                showStoreBasicDetails(store);
-                System.out.println();
+    private void showItemsPerStore(StoreDto store) {
+        Collection<ItemDto> items = SystemManager.getItemsDto();
+        System.out.println("The items in the super market are:");
+        for (ItemDto itemDto : items) {
+            showItemBasicDetails(itemDto);
+            System.out.print(COMA_SEPARATOR);
+            if(SystemManager.isItemInTheStoreDto(store, itemDto)) {
+                float price = SystemManager.getItemPriceInStore(store, itemDto);
+                System.out.println("Price: " + DECIMAL_FORMAT.format(price));
             }
-            return true;
-        }
-        else {
-            System.out.println("There are no active stores in the super market.");
-            return false;
+            else
+                System.out.println("Item is not available.");
         }
     }
 
-    private void showItemsPerStore(StoreDto store) {
-        Collection<StoreItemDto> storeItems = SystemManager.getStoreItems(store);
-        Collection<ItemDto> items = SystemManager.getItemsDto();
-
-        if (!items.isEmpty()) {
-            System.out.println("The items in the super market are:");
-            for (ItemDto itemDto : items) {
-                showItemBasicDetails(itemDto);
-                System.out.print(COMA_SEPARATOR);
-                if(SystemManager.isItemInTheStoreDto(itemDto, store)) {
-                    float price = SystemManager.getItemPriceInStore(itemDto, store);
-                    System.out.println("Price: " + price);
-                }
-                else
-                    System.out.println("Item is not available.");
-            }
-        }
-        else {
-            System.out.println("There are no items in the super market.");
-        }
+    private boolean continueOrder(String userInput) {
+        return !(userInput.equalsIgnoreCase(USER_FINISHED_CHOOSE_ITEMS_KEY));
     }
 
     private Map<Integer, Float> getItemsIdsAndQuantitiesFromUser() {
         Map<Integer, Float> itemsIdsAndQuantities = new HashMap<>();
-        boolean toContinue = true;
+
+        System.out.print("Please start buying by enter item ID, or press 'q' to exit: ");
+        String userIdOrQ = getStringInputFromUser();
+        boolean toContinue = continueOrder(userIdOrQ);
 
         while(toContinue) {
-            System.out.print("Please enter item id: ");
-            int itemId = getIntInputFromUser();
-            System.out.print("Please enter item quantity: ");
-            float quantity = getFloatInputFromUser();
-            if (SystemManager.getItemPurchaseCategory(itemId).equals(SystemManager.getItemPurchaseTypePerUnitStr())) {
-                if ((quantity % 1) != 0) {
-                    //throw exception
+            try {
+                int itemId =  Integer.parseInt(userIdOrQ);
+                System.out.print("Please enter item quantity: ");
+                float quantity = getFloatInputFromUser();
+                if (SystemManager.getItemPurchaseCategory(itemId).equals(SystemManager.getItemPurchaseCategoryPerUnitStr())) {
+                    if ((quantity % 1) != 0) {
+                        //throw exception
+                        //move this check to another function that returns build-in exception
+                    }
                 }
-            }
 
-            float totalQuantity = quantity;
-            if (itemsIdsAndQuantities.containsKey(itemId)) {
-                totalQuantity += itemsIdsAndQuantities.get(itemId);
-            }
-            itemsIdsAndQuantities.put(itemId, totalQuantity);
+                float totalQuantity = quantity;
+                if (itemsIdsAndQuantities.containsKey(itemId)) {
+                    totalQuantity += itemsIdsAndQuantities.get(itemId);
+                }
+                itemsIdsAndQuantities.put(itemId, totalQuantity);
 
-            System.out.print("Please continue buying items or press 'q' to finish: "); //#need to change
-            String userChoice = getTokenInputFromUser();
-            if (userChoice.equalsIgnoreCase(USER_FINISHED_CHOOSE_ITEMS_KEY))
-                toContinue = false;
+                System.out.print("Please continue buying and enter item ID, or press 'q' to finish: ");
+                userIdOrQ = getStringInputFromUser();
+                toContinue = continueOrder(userIdOrQ);
+            }
+            catch (NumberFormatException e) {
+                System.out.println(e.getMessage());
+            }
         }
 
         return itemsIdsAndQuantities;
     }
 
     private void showOrderSummery(Map<Integer, Float> itemsIdsAndQuantities, StoreDto store) {
-        System.out.println("Order summery:");
+        System.out.println("Order Summery:");
         int itemId;
         float itemQuantity;
         String itemName;
@@ -325,42 +334,145 @@ public class UI {
             System.out.print("Name: " + itemName + COMA_SEPARATOR);
             itemPurchaseCategory = SystemManager.getItemPurchaseCategory(itemId);
             System.out.print("Purchase category: " + itemPurchaseCategory + COMA_SEPARATOR);
-            itemPrice = SystemManager.getItemPriceInStoreByIds(itemId, store.getId());
-            System.out.print("Item price: " + itemPrice + COMA_SEPARATOR);
-            System.out.print("Quantity: " + itemQuantity + COMA_SEPARATOR);
+            itemPrice = SystemManager.getItemPriceInStoreByIds(store.getId(), itemId);
+            System.out.print("Item price: " + DECIMAL_FORMAT.format(itemPrice) + COMA_SEPARATOR);
+            System.out.print("Quantity: " + DECIMAL_FORMAT.format(itemQuantity) + COMA_SEPARATOR);
             itemTotalCost = itemQuantity * itemPrice;
-            System.out.print("Total item cost: " + itemTotalCost);
+            System.out.print("Total item cost: " + DECIMAL_FORMAT.format(itemTotalCost));
+            System.out.println();
         }
+    }
+
+    private Date covertDateStrToDate(String dateStr) throws ParseException {
+        return DATE_FORMAT.parse(dateStr);
+    }
+
+    private String covertDateToDateStr(Date date) {
+        return DATE_FORMAT.format(date);
+    }
+
+    private boolean orderConfirmed() {
+        System.out.println("Please press " + APPROVAL.YES.key + " to confirm your order or " + CANCEL.NO.key + " to cancel");
+        String userConfirmation = getStringInputFromUser();
+
+        if (userConfirmation.equalsIgnoreCase(APPROVAL.YES.key)) {
+            return true;
+        }
+        else if (userConfirmation.equalsIgnoreCase(CANCEL.NO.key)) {
+            return false;
+        }
+
+        String errorMsg = userConfirmation + "is not " + APPROVAL.YES.key + " or " + CANCEL.NO.key + ".";
+        throw new IllegalArgumentException(errorMsg);
     }
 
     private void createOrder() {
-        if (showActiveStores()) {
+        showAllStores();
+        try {
+            System.out.print("Please enter store ID: ");
+            int storeId = getIntInputFromUser();
+            System.out.print("Please enter order's date: ");
+            String dateStr = getStringInputFromUser();
+
+            // enter this to loop somehow
+            Date date = null;
             try {
-                System.out.print("Please enter store ID: ");
-                int storeId = getIntInputFromUser();
-                System.out.print("Please enter order's date: ");
-                String dateStr = getStringInputFromUser();
-                System.out.println("Please enter your location:");
-                System.out.print("X: ");
-                int x = getIntInputFromUser();
+                date = covertDateStrToDate(dateStr);
+            }
+            catch (ParseException e) {
+                System.out.println(e.getMessage());
+            }
+
+            System.out.println("Please enter your location:");
+            System.out.print("X: ");
+            int customerLocationX = getIntInputFromUser();
+            System.out.print("Y: ");
+            int customerLocationY = getIntInputFromUser();
+            StoreDto store = SystemManager.getStoreDto(storeId);
+            showItemsPerStore(store);
+            System.out.println();
+
+            Map<Integer, Float> itemsIdsAndQuantities = getItemsIdsAndQuantitiesFromUser();
+            if (!itemsIdsAndQuantities.isEmpty()) {
                 System.out.println();
-                System.out.print("Y: ");
-                int y = getIntInputFromUser();
-                StoreDto store = SystemManager.getStoreDto(storeId);
-                showItemsPerStore(store);
-                Map<Integer, Float> itemsIdsAndQuantities = getItemsIdsAndQuantitiesFromUser();
                 showOrderSummery(itemsIdsAndQuantities, store);
 
+                int storePpk = store.getPpk();
+                double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(store, customerLocationX, customerLocationY);
+                float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
+                System.out.println("The delivery cost is: " + DECIMAL_FORMAT.format(deliveryCost));
+                System.out.println("The store ppk is: " + storePpk);
+                System.out.println("Your distance from the store is: " + DECIMAL_FORMAT.format(distanceBetweenCustomerAndStore));
+                System.out.println();
+
+                // enter this to loop somehow
+                try {
+                    boolean orderConfirmed = orderConfirmed();
+                    if (orderConfirmed) {
+                        SystemManager.createOrder(date, customerLocationX, customerLocationY, store, itemsIdsAndQuantities);
+                        System.out.println("Your order was confirmed and added successfully!");
+                    }
+                    else {
+                        System.out.println("Your order was canceled.");
+                    }
+                }
+                catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                }
+
+//                System.out.println("Please press " + APPROVAL.YES.key + " to confirm your order or " + CANCEL.NO.key + " to cancel");
+//                String userConfirmation = getStringInputFromUser();
+//                if (userConfirmation.equalsIgnoreCase(APPROVAL.YES.key)) {
+//                    // move this check to another function that returns build-in exception.
+//                    SystemManager.createOrder(date, customerLocationX, customerLocationY, store, itemsIdsAndQuantities);
+//                }
+//                else {
+//                    System.out.println("Your order was not confirmed.");
+//                }
             }
-            catch (InputMismatchException e) {
-                System.out.println(e.getMessage());
+        }
+        catch (InputMismatchException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void showOrdersHistory() {
+        System.out.println("The orders in the super market are:");
+        Collection<OrderDto> ordersDto = SystemManager.getOrdersDto();
+
+        if (!ordersDto.isEmpty()) {
+            System.out.println();
+            for (OrderDto orderDto : ordersDto) {
+                int orderId = orderDto.getId();
+                System.out.print("ID: " + orderId + COMA_SEPARATOR);
+                System.out.print("Date: " + covertDateToDateStr(orderDto.getDate()) + COMA_SEPARATOR);
+                System.out.print("Store ID: " + orderDto.getStoreId() + COMA_SEPARATOR);
+                System.out.print("Store name: " + orderDto.getStoreName() + COMA_SEPARATOR);
+                System.out.print("Total types of items: " + orderDto.getTotalItemsTypes() + COMA_SEPARATOR);
+                System.out.print("Total amount of items: " + orderDto.getTotalItems() + COMA_SEPARATOR);
+                System.out.println();
+                System.out.print("       ");
+                System.out.print("Items cost: " + DECIMAL_FORMAT.format(orderDto.getItemsCost()) + COMA_SEPARATOR);
+                System.out.print("Delivery cost: " + DECIMAL_FORMAT.format(orderDto.getDeliveryCost()) + COMA_SEPARATOR);
+                System.out.print("Total cost: " + DECIMAL_FORMAT.format(orderDto.getTotalCost()));
+                System.out.println();
             }
         }
         else {
-            System.out.println();
-            //throw an exception for loop program.
+            System.out.println("There are no orders in the super market.");
         }
     }
+
+    private void loadSystemDataFirstTime() {
+        loadSystemData();
+    }
+
+    private void loadSystemData() {
+        System.out.println("Please enter the xml file path you would like to load: ");
+        String filePath = getStringInputFromUser();
+        SystemManager.loadSystemData(filePath);
+    }
+
 
 
 

@@ -7,42 +7,16 @@ import java.util.*;
 
 public class Store {
 
-//    private static class ItemAttributes {
-//        private float price;
-//        private int totalNumberSold;
-//
-//        public ItemAttributes(float price) {
-//            this.price = price;
-//        }
-//
-//        public void setPrice(float price) {
-//            this.price = price;
-//        }
-//
-//        public void updateTotalNumberSold(int quantity) {
-//            this.totalNumberSold += quantity;
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return ", price: " + price +
-//                   ", quantity: " + totalNumberSold + '}'
-//                   ;
-//        }
-//    }
-
     private final int id;
     private final String name;
-    private final float ppk;
+    private final int ppk;
     private final Location location;
-//    private final Map<Item, ItemAttributes> items;
-
     private final Map<Integer, StoreItem> storeItems;
     private int numSoldItems;
     private final Map<Integer, Order> orders;
     private float totalDeliveriesRevenue;
 
-    public Store(int id, String name, float ppk, Location location) {
+    public Store(int id, String name, int ppk, Location location) {
         this.id = id;
         this.name = name;
         this.ppk = ppk;
@@ -72,7 +46,7 @@ public class Store {
         return numSoldItems;
     }
 
-    public float getPpk() {
+    public int getPpk() {
         return ppk;
     }
 
@@ -83,10 +57,6 @@ public class Store {
     public Collection<StoreItem> getStoreItems() {
         return storeItems.values();
     }
-
-//    public Set<StoreItem> getItems() {
-//        return items;
-//    }
 
     public float getTotalDeliveriesRevenue() {
         return totalDeliveriesRevenue;
@@ -99,20 +69,6 @@ public class Store {
     public void addItem(Item item, float price) {
         storeItems.put(item.getId(), new StoreItem(item, price));
     }
-
-//    public void addItem(Item item, float price) {
-//        StoreItem storeItem = new StoreItem(item, price);
-//        items.add(storeItem);
-//    }
-//
-//    public void addItem(StoreItem storeItem) {
-//        items.add(storeItem);
-//    }
-//
-//    public void addItem(int id, String name, Item.PurchaseType purchaseType, float price) {
-//        StoreItem storeItem = new StoreItem(id, name, purchaseType, price);
-//        items.add(storeItem);
-//    }
 
     public void increaseNumItemsSoldByOne() {
         numSoldItems++;
@@ -148,21 +104,9 @@ public class Store {
         return storeItems.get(id).getTotalSold();
     }
 
-//    public float getItemPrice(StoreItem storeItem) {
-//        return items.;
-//    }
-
-//    public float getTotalNumberSold(Item item) {
-//        return items.get(item).totalNumberSold;
-//    }
-
     public void updateTotalNumberSoldItem(Item item, float quantity) {
-        int quantityInt = 1;    // item per weight
-        if (item.getPurchaseType().equals(Item.PurchaseType.PER_UNIT)) {
-            quantityInt = (int) quantity;
-        }
         int id = item.getId();
-        storeItems.get(id).updateTotalNumberSold(quantityInt);
+        storeItems.get(id).updateTotalNumberSold(quantity);
     }
 
     public boolean isItemInTheStore(Item item) {
@@ -172,10 +116,6 @@ public class Store {
 
     public boolean isItemInTheStore(int itemId) {
         return storeItems.containsKey(itemId);
-    }
-
-    public boolean isStoreActive() {
-        return (!storeItems.isEmpty());
     }
 
     @Override

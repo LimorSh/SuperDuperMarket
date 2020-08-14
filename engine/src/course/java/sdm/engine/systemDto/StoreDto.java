@@ -10,8 +10,10 @@ import java.util.Collection;
 public class StoreDto {
     private final int id;
     private final String name;
-    private final float ppk;
+    private final int ppk;
     private final float totalDeliveriesRevenue;
+    private final int xLocation;
+    private final int yLocation;
     private final Collection<StoreItemDto> storeItemsDto;
     private final Collection<OrderDto> ordersDto;
 
@@ -20,6 +22,8 @@ public class StoreDto {
         this.name = store.getName();
         this.ppk = store.getPpk();
         this.totalDeliveriesRevenue = store.getTotalDeliveriesRevenue();
+        this.xLocation = store.getLocation().getCoordinate().x;
+        this.yLocation = store.getLocation().getCoordinate().y;
         storeItemsDto = new ArrayList<>();
         ordersDto = new ArrayList<>();
         copyStoreItemsDto(store);
@@ -50,7 +54,7 @@ public class StoreDto {
         return name;
     }
 
-    public float getPpk() {
+    public int getPpk() {
         return ppk;
     }
 
@@ -65,11 +69,14 @@ public class StoreDto {
     public Collection<OrderDto> getOrdersDto() {
         return ordersDto;
     }
-//
-//    public boolean isStoreActive() {
-//        return (!storeItemsDto.isEmpty());
-//    }
 
+    public int getXLocation() {
+        return xLocation;
+    }
+
+    public int getYLocation() {
+        return yLocation;
+    }
 }
 
 
