@@ -1,7 +1,6 @@
 package course.java.sdm.console;
 import course.java.sdm.engine.systemDto.*;
 import course.java.sdm.engine.SystemManager;
-
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -19,9 +18,36 @@ public class UI {
     private static final String EXIT_MESSAGE_STR = "Thank you for buying in super duper market :)\nGoodbye!";
     private static final String PLEASE_CHOOSE_ACTION_STR = "Please choose an option from the menu:";
     private static final String USER_FINISHED_CHOOSE_ITEMS_KEY = "q";
-    public final static String ORDER_DATE_FORMAT = "dd/MM-hh:mm";
+    private final static String ORDER_DATE_FORMAT = "dd/MM-hh:mm";
+    private final static int MAXIMUM_FRACTION_DIGITS = 2;
+    private final static DecimalFormat DECIMAL_FORMAT;
+    private final static DateFormat DATE_FORMAT;
 
+    static {
+        DECIMAL_FORMAT = new DecimalFormat();
+        DECIMAL_FORMAT.setMaximumFractionDigits(MAXIMUM_FRACTION_DIGITS);
+        DATE_FORMAT = new SimpleDateFormat(ORDER_DATE_FORMAT);
+    }
 
+    private enum APPROVAL{
+        YES("y");
+
+        private final String key;
+
+        APPROVAL(String yes_key) {
+            this.key = yes_key;
+        }
+    }
+
+    private enum CANCEL{
+        NO("n");
+
+        private final String key;
+
+        CANCEL(String yes_key) {
+            this.key = yes_key;
+        }
+    }
 
     private enum MenuOptions {
         LOAD_SYSTEM_DATA(1, "Load system data"),
@@ -45,7 +71,8 @@ public class UI {
                 if (menuOptions.optionNumber == optionNumber)
                     return menuOptions;
             }
-            throw new IllegalArgumentException(optionNumber + " is not an option in the menu.");
+            String errorMsg = optionNumber + " is not an option in the menu.";
+            throw new IllegalArgumentException(errorMsg);
         }
     }
 
@@ -141,13 +168,9 @@ public class UI {
     }
 
     private void showStore(StoreDto store) {
-
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-
         showStoreBasicDetails(store);
         System.out.print(COMA_SEPARATOR);
-        System.out.print("Total deliveries revenue: " + df.format(store.getTotalDeliveriesRevenue()));
+        System.out.print("Total deliveries revenue: " + DECIMAL_FORMAT.format(store.getTotalDeliveriesRevenue()));
 
         Collection<StoreItemDto> storeItems = store.getStoreItemsDto();
 
@@ -174,9 +197,9 @@ public class UI {
             for (OrderDto orderDto : orders) {
                 System.out.print("Date: " + covertDateToDateStr(orderDto.getDate()) + COMA_SEPARATOR);
                 System.out.print("Total items: " + orderDto.getTotalItems() + COMA_SEPARATOR);
-                System.out.print("Items cost: " + df.format(orderDto.getItemsCost()) + COMA_SEPARATOR);
-                System.out.print("Delivery cost: " + df.format(orderDto.getDeliveryCost()) + COMA_SEPARATOR);
-                System.out.print("Total cost: " + df.format(orderDto.getTotalCost()));
+                System.out.print("Items cost: " + DECIMAL_FORMAT.format(orderDto.getItemsCost()) + COMA_SEPARATOR);
+                System.out.print("Delivery cost: " + DECIMAL_FORMAT.format(orderDto.getDeliveryCost()) + COMA_SEPARATOR);
+                System.out.print("Total cost: " + DECIMAL_FORMAT.format(orderDto.getTotalCost()));
                 System.out.println();
             }
         }
@@ -209,9 +232,6 @@ public class UI {
     }
 
     private void showItem(ItemDto item) {
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-
         showItemBasicDetails(item);
         System.out.println();
         int numberOfStoresSellingTheItem = SystemManager.getNumberOfStoresSellingTheItem(item);
@@ -219,7 +239,7 @@ public class UI {
         float totalAmountOfItemSells = SystemManager.getTotalAmountOfItemSells(item);
         System.out.print("       ");
         System.out.print("The number of stores selling the item: " + numberOfStoresSellingTheItem + COMA_SEPARATOR);
-        System.out.print("The average price of the item: " + df.format(averageItemPrice) + COMA_SEPARATOR);
+        System.out.print("The average price of the item: " + DECIMAL_FORMAT.format(averageItemPrice) + COMA_SEPARATOR);
         System.out.print("The total amount of item sells: " + totalAmountOfItemSells);
         System.out.println();
     }
@@ -242,17 +262,13 @@ public class UI {
 
     private void showItemsPerStore(StoreDto store) {
         Collection<ItemDto> items = SystemManager.getItemsDto();
-
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-
         System.out.println("The items in the super market are:");
         for (ItemDto itemDto : items) {
             showItemBasicDetails(itemDto);
             System.out.print(COMA_SEPARATOR);
             if(SystemManager.isItemInTheStoreDto(store, itemDto)) {
                 float price = SystemManager.getItemPriceInStore(store, itemDto);
-                System.out.println("Price: " + df.format(price));
+                System.out.println("Price: " + DECIMAL_FORMAT.format(price));
             }
             else
                 System.out.println("Item is not available.");
@@ -278,6 +294,7 @@ public class UI {
                 if (SystemManager.getItemPurchaseCategory(itemId).equals(SystemManager.getItemPurchaseCategoryPerUnitStr())) {
                     if ((quantity % 1) != 0) {
                         //throw exception
+                        //move this check to another function that returns build-in exception
                     }
                 }
 
@@ -300,9 +317,6 @@ public class UI {
     }
 
     private void showOrderSummery(Map<Integer, Float> itemsIdsAndQuantities, StoreDto store) {
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-
         System.out.println("Order Summery:");
         int itemId;
         float itemQuantity;
@@ -321,21 +335,35 @@ public class UI {
             itemPurchaseCategory = SystemManager.getItemPurchaseCategory(itemId);
             System.out.print("Purchase category: " + itemPurchaseCategory + COMA_SEPARATOR);
             itemPrice = SystemManager.getItemPriceInStoreByIds(store.getId(), itemId);
-            System.out.print("Item price: " + df.format(itemPrice) + COMA_SEPARATOR);
-            System.out.print("Quantity: " + df.format(itemQuantity) + COMA_SEPARATOR);
+            System.out.print("Item price: " + DECIMAL_FORMAT.format(itemPrice) + COMA_SEPARATOR);
+            System.out.print("Quantity: " + DECIMAL_FORMAT.format(itemQuantity) + COMA_SEPARATOR);
             itemTotalCost = itemQuantity * itemPrice;
-            System.out.print("Total item cost: " + df.format(itemTotalCost));
+            System.out.print("Total item cost: " + DECIMAL_FORMAT.format(itemTotalCost));
             System.out.println();
         }
     }
 
     private Date covertDateStrToDate(String dateStr) throws ParseException {
-        return new SimpleDateFormat(ORDER_DATE_FORMAT).parse(dateStr);
+        return DATE_FORMAT.parse(dateStr);
     }
 
     private String covertDateToDateStr(Date date) {
-        DateFormat df = new SimpleDateFormat(ORDER_DATE_FORMAT);
-        return df.format(date);
+        return DATE_FORMAT.format(date);
+    }
+
+    private boolean orderConfirmed() {
+        System.out.println("Please press " + APPROVAL.YES.key + " to confirm your order or " + CANCEL.NO.key + " to cancel");
+        String userConfirmation = getStringInputFromUser();
+
+        if (userConfirmation.equalsIgnoreCase(APPROVAL.YES.key)) {
+            return true;
+        }
+        else if (userConfirmation.equalsIgnoreCase(CANCEL.NO.key)) {
+            return false;
+        }
+
+        String errorMsg = userConfirmation + "is not " + APPROVAL.YES.key + " or " + CANCEL.NO.key + ".";
+        throw new IllegalArgumentException(errorMsg);
     }
 
     private void createOrder() {
@@ -346,6 +374,7 @@ public class UI {
             System.out.print("Please enter order's date: ");
             String dateStr = getStringInputFromUser();
 
+            // enter this to loop somehow
             Date date = null;
             try {
                 date = covertDateStrToDate(dateStr);
@@ -368,23 +397,37 @@ public class UI {
                 System.out.println();
                 showOrderSummery(itemsIdsAndQuantities, store);
 
-                DecimalFormat df = new DecimalFormat();
-                df.setMaximumFractionDigits(2);
                 float storePpk = store.getPpk();
                 double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(store, customerLocationX, customerLocationY);
                 float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
-                System.out.println("The delivery cost is: " + df.format(deliveryCost));
+                System.out.println("The delivery cost is: " + DECIMAL_FORMAT.format(deliveryCost));
                 System.out.println("The store ppk is: " + storePpk);
-                System.out.println("Your distance from the store is: " + df.format(distanceBetweenCustomerAndStore));
+                System.out.println("Your distance from the store is: " + DECIMAL_FORMAT.format(distanceBetweenCustomerAndStore));
                 System.out.println();
-                System.out.println("Please press 'y' to confirm your order or 'n' to cancel");
-                String userConfirmation = getStringInputFromUser();
-                if (userConfirmation.equalsIgnoreCase("y")) {
-                    SystemManager.createOrder(date, customerLocationX, customerLocationY, store, itemsIdsAndQuantities);
+
+                // enter this to loop somehow
+                try {
+                    boolean orderConfirmed = orderConfirmed();
+                    if (orderConfirmed) {
+                        SystemManager.createOrder(date, customerLocationX, customerLocationY, store, itemsIdsAndQuantities);
+                    }
+                    else {
+                        System.out.println("Your order was canceled.");
+                    }
                 }
-                else {
-                    System.out.println("Your order was not confirmed.");
+                catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
                 }
+
+//                System.out.println("Please press " + APPROVAL.YES.key + " to confirm your order or " + CANCEL.NO.key + " to cancel");
+//                String userConfirmation = getStringInputFromUser();
+//                if (userConfirmation.equalsIgnoreCase(APPROVAL.YES.key)) {
+//                    // move this check to another function that returns build-in exception.
+//                    SystemManager.createOrder(date, customerLocationX, customerLocationY, store, itemsIdsAndQuantities);
+//                }
+//                else {
+//                    System.out.println("Your order was not confirmed.");
+//                }
             }
         }
         catch (InputMismatchException e) {
@@ -395,8 +438,6 @@ public class UI {
     private void showOrdersHistory() {
         System.out.println("The orders in the super market are:");
         Collection<OrderDto> ordersDto = SystemManager.getOrdersDto();
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
 
         if (!ordersDto.isEmpty()) {
             System.out.println();
@@ -410,9 +451,9 @@ public class UI {
                 System.out.print("Total amount of items: " + orderDto.getTotalItems() + COMA_SEPARATOR);
                 System.out.println();
                 System.out.print("       ");
-                System.out.print("Items cost: " + df.format(orderDto.getItemsCost()) + COMA_SEPARATOR);
-                System.out.print("Delivery cost: " + df.format(orderDto.getDeliveryCost()) + COMA_SEPARATOR);
-                System.out.print("Total cost: " + df.format(orderDto.getTotalCost()));
+                System.out.print("Items cost: " + DECIMAL_FORMAT.format(orderDto.getItemsCost()) + COMA_SEPARATOR);
+                System.out.print("Delivery cost: " + DECIMAL_FORMAT.format(orderDto.getDeliveryCost()) + COMA_SEPARATOR);
+                System.out.print("Total cost: " + DECIMAL_FORMAT.format(orderDto.getTotalCost()));
                 System.out.println();
             }
         }
@@ -430,6 +471,7 @@ public class UI {
         String filePath = getStringInputFromUser();
         SystemManager.loadSystemData(filePath);
     }
+
 
 
 
