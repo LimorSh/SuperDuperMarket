@@ -5,7 +5,7 @@ public class ItemDoesNotExistException extends RuntimeException {
 
     public ItemDoesNotExistException(int id)
     {
-        EXCEPTION_MESSAGE = "The id " + id + " does not exist";
+        EXCEPTION_MESSAGE = "The item id " + id + " does not exist.";
     }
 
     @Override

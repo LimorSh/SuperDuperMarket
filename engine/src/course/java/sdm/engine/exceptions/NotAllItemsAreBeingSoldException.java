@@ -4,10 +4,10 @@ import course.java.sdm.engine.Item;
 
 import java.util.Set;
 
-public class NotAllItemsAreBeingSold extends RuntimeException{
+public class NotAllItemsAreBeingSoldException extends RuntimeException{
     private final String EXCEPTION_MESSAGE;
 
-    public NotAllItemsAreBeingSold(Set<Item> items)
+    public NotAllItemsAreBeingSoldException(Set<Item> items)
     {
         StringBuilder sb = new StringBuilder();
         sb.append("The following items are not being sold by any store:\n");

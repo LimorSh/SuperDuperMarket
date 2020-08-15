@@ -1,17 +1,15 @@
 package course.java.sdm.engine;
-
-import course.java.sdm.engine.exceptions.LocationAlreadyExistsException;
-
+import course.java.sdm.engine.exceptions.ItemDoesNotExistException;
+import course.java.sdm.engine.exceptions.DuplicateStoreLocationException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class SuperDuperMarket {
 
     private final Map<Integer, Store> stores;
     private final Map<Integer, Item> items;
     private final Map<Integer, Order> orders;
-    private Set<Item> itemsSold;
-    private boolean[][] storesLocations;
+    private final Set<Item> itemsSold;
+    private Store[][] storesLocations;
 
     public SuperDuperMarket() {
         stores = new HashMap<>();
@@ -23,12 +21,7 @@ public class SuperDuperMarket {
 
     private void initializeStoresLocations() {
         int maxLocation = Location.getMaxLocationValue();
-        storesLocations = new boolean[maxLocation][maxLocation];
-        for (int x = 0; x < maxLocation; x++) {
-            for (int y = 0; y < maxLocation; y++) {
-                storesLocations[x][y] = false;
-            }
-        }
+        storesLocations = new Store[maxLocation][maxLocation];
     }
 
     public Collection<Store> getStores() {
@@ -70,13 +63,19 @@ public class SuperDuperMarket {
         if (!isStoreExists(id)) {
             int x = store.getLocation().getCoordinate().x;
             int y = store.getLocation().getCoordinate().y;
-            if (storesLocations[x - 1][y - 1])
-                throw new LocationAlreadyExistsException(x, y);
-            storesLocations[x - 1][y - 1] = true;
+            Store s = storesLocations[x - 1][y - 1];
+            if (s != null) {
+                throw new DuplicateStoreLocationException(store.getName(), s.getName(), x, y);
+            }
+            storesLocations[x - 1][y - 1] = store;
             stores.put(id, store);
         }
         else {
-            throw new IllegalArgumentException("The store id " + id + " is already exists.");
+            Store existentStore = getStore(id);
+            String sb = "Duplicate store id:\n" +
+                    store.getName() + " store id " + id + " already exists for " +
+                    existentStore.getName() + " store";
+            throw new IllegalArgumentException(sb);
         }
     }
 
@@ -86,7 +85,11 @@ public class SuperDuperMarket {
             items.put(id, item);
         }
         else {
-            throw new IllegalArgumentException("The item id " + id + " is already exists.");
+            Item existentItem = getItem(id);
+            String sb = "Duplicate item id:\n" +
+                    item.getName() + " item id " + id + " already exists for " +
+                    existentItem.getName() + " item";
+            throw new IllegalArgumentException(sb);
         }
     }
 
@@ -118,9 +121,14 @@ public class SuperDuperMarket {
     }
 
     public void addItemToStore(int itemId, float itemPrice, Store store) {
-        Item item = getItem(itemId);
-        store.addItem(item, itemPrice);
-        addItemIdToItemsSoldIds(item);
+        if (isItemExists(itemId)) {
+            Item item = getItem(itemId);
+            store.addItem(item, itemPrice);
+            addItemIdToItemsSoldIds(item);
+        }
+        else {
+            throw new ItemDoesNotExistException(itemId);
+        }
     }
 
     public Set<Item> getItemsThatAreNotBeingSoldByAtLeastOneStore() {
@@ -128,19 +136,11 @@ public class SuperDuperMarket {
         itemsCopy.removeAll(itemsSold);
         return itemsCopy;
     }
-
-//    public int numberOfStoresSellingTheItem(Item item) {
-//       return ((int) stores.values().stream().filter(store -> store.isItemInTheStore(item)).count());
-//    }
-
     public int getNumberOfStoresSellingTheItem(int id) {
         return ((int) stores.values().stream().filter(store -> store.isItemInTheStore(items.get(id))).count());
     }
 
     public float getAverageItemPrice(int id) {
-//        Stream<Store> s = stores.values().stream().filter(store -> store.isItemInTheStore(item));
-//        s.forEach();
-
         float sum = 0f;
         Item item = items.get(id);
         for (Store store : stores.values()) {
@@ -151,20 +151,8 @@ public class SuperDuperMarket {
         return (sum / getNumberOfStoresSellingTheItem(id));
     }
 
-//    public int totalNumberItemSold(Item item) {
-//        int cnt = 0;
-//        for (Order order : orders.values()) {
-//            Store store = order.getStore();
-//            if (store.isItemInTheStore(item)) {
-//                cnt += store.getTotalNumberSold(item);
-//            }
-//        }
-//        return cnt;
-//    }
-
     public float getTotalAmountOfItemSells(int id) {
         float amount = 0f;
-        Item item = items.get(id);
 
         for (Order order : orders.values()) {
             if (order.isItemInTheOrder(id))

@@ -1,7 +1,7 @@
 package course.java.sdm.engine;
-
 import course.java.sdm.engine.systemDto.*;
-
+import javax.xml.bind.JAXBException;
+import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
@@ -10,9 +10,10 @@ public class SystemManager {
 
     static SuperDuperMarket superDuperMarket;
 
-    public static void loadSystemData(String dataPath) {
+    public static void loadSystemData(String dataPath) throws JAXBException, FileNotFoundException {
         superDuperMarket = DataLoader.loadFromXmlFile(dataPath);
     }
+
 
     public static Collection<StoreDto> getStoresDto() {
         return SuperDuperMarketDto.getStoresDto(superDuperMarket.getStores());

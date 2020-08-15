@@ -379,7 +379,7 @@ public class UI {
         }
         catch (ParseException e) {
             System.out.println(e.getMessage());
-            System.out.println("The order date should be in the following format: " + DATE_FORMAT + ".");
+            System.out.println("The order date should be in the following format: " + ORDER_DATE_FORMAT + ".");
             getDateFromUser(msg);
         }
         return date;
@@ -446,6 +446,7 @@ public class UI {
             int userLocationX = userLocation.x;
             int userLocationY = userLocation.y;
 
+            System.out.println();
             showItemsPerStore(store);
             System.out.println();
 
@@ -535,7 +536,7 @@ public class UI {
 //            System.out.println(e.getMessage());
 //        }
         catch (Exception e) {
-            System.out.println("The xml file you tried to load is not valid:");
+            System.out.println("The xml file you tried to load is not valid for the following reason:");
             System.out.println(e.getMessage());
             loadSystemData();
         }

@@ -4,9 +4,7 @@ public class Utils {
 
     public static boolean isStringAnEnglishWord(String str) {
         for (char c : str.toCharArray()) {
-            if(Character.isLetter(c) || Character.isSpaceChar(c)) {
-            }
-            else {
+            if(!(Character.isLetter(c) || Character.isSpaceChar(c))) {
                 return false;
             }
         }
