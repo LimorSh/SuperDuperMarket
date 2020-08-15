@@ -79,6 +79,9 @@ public class Store {
         if (!orders.containsKey(id)) {
             orders.put(id, order);
         }
+        else {
+            // throw exception
+        }
     }
 
     public void updateTotalDeliveriesRevenue(Location location) {

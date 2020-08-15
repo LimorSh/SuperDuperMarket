@@ -1,5 +1,7 @@
 package course.java.sdm.engine;
 
+import course.java.sdm.engine.exceptions.ItemDoesNotExistException;
+import course.java.sdm.engine.exceptions.NotAllItemsAreBeingSold;
 import course.java.sdm.engine.jaxb.schema.generated.*;
 
 import javax.xml.bind.JAXBContext;
@@ -9,26 +11,40 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public class DataLoader {
 
     private static final String JAXB_XML_PACKAGE_NAME = Configurations.JAXB_XML_PACKAGE_NAME;
+    private static final String FILE_EXTENSION = "xml";
 
-    public static SuperDuperMarket loadFromXmlFile(String xmlFilePath) {
+    public static SuperDuperMarket loadFromXmlFile(String xmlFilePath) throws JAXBException, FileNotFoundException {
+//        if (!getExtensionByStringHandling(xmlFilePath).equals(FILE_EXTENSION)) {
+//        if (!FILE_EXTENSION.equals(getExtensionByStringHandling(xmlFilePath))) {
+
+//            throw new Illegal...
+//        }
         SuperDuperMarket superDuperMarket = null;
-        try {
-            superDuperMarket = new SuperDuperMarket();
-            InputStream inputStream = new FileInputStream(new File(xmlFilePath));
-            SuperDuperMarketDescriptor superDuperMarketDescriptor = deserializeFrom(inputStream);
-            loadItems(superDuperMarketDescriptor, superDuperMarket);
-            loadStores(superDuperMarketDescriptor, superDuperMarket);
-            return superDuperMarket;
-        } catch (JAXBException | FileNotFoundException e) {
-            e.printStackTrace();
+        superDuperMarket = new SuperDuperMarket();
+        InputStream inputStream = new FileInputStream(new File(xmlFilePath));
+        SuperDuperMarketDescriptor superDuperMarketDescriptor = deserializeFrom(inputStream);
+        loadItems(superDuperMarketDescriptor, superDuperMarket);
+        loadStores(superDuperMarketDescriptor, superDuperMarket);
+        if (!superDuperMarket.isAllItemsAreBeingSoldByAtLeastOneStore()) {
+            Set<Item> missingItems = superDuperMarket.getItemsThatAreNotBeingSoldByAtLeastOneStore();
+            throw new NotAllItemsAreBeingSold(missingItems);
         }
         return superDuperMarket;
     }
+
+//    private static Optional<String> getExtensionByStringHandling(String filename) {
+//        return Optional.ofNullable(filename)
+//                .filter(f -> f.contains("."))
+//                .map(f -> f.substring(filename.lastIndexOf(".") + 1));
+//    }
 
     private static void loadItems(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
         List<SDMItem> sdmItems = superDuperMarketDescriptor.getSDMItems().getSDMItem();
@@ -53,9 +69,11 @@ public class DataLoader {
 
         for (SDMSell sdmSell : sdmSells) {
             int itemId = sdmSell.getItemId();
-            float itemPrice = sdmSell.getPrice();
-            Item item = superDuperMarket.getItem(itemId);
-            store.addItem(item, itemPrice);
+            if (superDuperMarket.isItemExists(itemId)) {
+                float itemPrice = sdmSell.getPrice();
+                superDuperMarket.addItemToStore(itemId, itemPrice, store);
+            }
+            throw new ItemDoesNotExistException(itemId);
         }
     }
 

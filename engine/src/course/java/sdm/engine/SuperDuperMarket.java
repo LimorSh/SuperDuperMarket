@@ -10,12 +10,14 @@ public class SuperDuperMarket {
     private final Map<Integer, Store> stores;
     private final Map<Integer, Item> items;
     private final Map<Integer, Order> orders;
+    private Set<Item> itemsSold;
     private boolean[][] storesLocations;
 
     public SuperDuperMarket() {
         stores = new HashMap<>();
         items = new HashMap<>();
         orders = new HashMap<>();
+        itemsSold = new HashSet<>();
         initializeStoresLocations();
     }
 
@@ -59,6 +61,10 @@ public class SuperDuperMarket {
         return items.get(itemId).getPurchaseCategory().getPurchaseCategoryStr();
     }
 
+    public void addItemIdToItemsSoldIds(Item item) {
+        itemsSold.add(item);
+    }
+
     public void addStore(Store store) {
         int id = store.getId();
         if (!isStoreExists(id)) {
@@ -84,15 +90,15 @@ public class SuperDuperMarket {
         }
     }
 
-    public boolean isItemExists(int id) {
-        return items.containsKey(id);
-    }
-
     public void addOrder(Order order) {
         int id = order.getId();
         if (!orders.containsKey(id)) {
             orders.put(id, order);
         }
+    }
+
+    public boolean isItemExists(int id) {
+        return items.containsKey(id);
     }
 
     public Item getItem(int id) {
@@ -105,6 +111,22 @@ public class SuperDuperMarket {
 
     public Order getOrder(int id) {
         return orders.get(id);
+    }
+
+    public boolean isAllItemsAreBeingSoldByAtLeastOneStore() {
+        return items.values().containsAll(itemsSold);
+    }
+
+    public void addItemToStore(int itemId, float itemPrice, Store store) {
+        Item item = getItem(itemId);
+        store.addItem(item, itemPrice);
+        addItemIdToItemsSoldIds(item);
+    }
+
+    public Set<Item> getItemsThatAreNotBeingSoldByAtLeastOneStore() {
+        Set<Item> itemsCopy = new HashSet<>(items.values());
+        itemsCopy.removeAll(itemsSold);
+        return itemsCopy;
     }
 
 //    public int numberOfStoresSellingTheItem(Item item) {
