@@ -523,9 +523,17 @@ public class UI {
     }
 
     private void loadSystemData() {
-        System.out.println("Please enter the xml file path you would like to load: ");
-        String filePath = getStringInputFromUser();
-        SystemManager.loadSystemData(filePath);
+        try {
+            System.out.println("Please enter the xml file path you would like to load: ");
+            String filePath = getStringInputFromUser();
+            SystemManager.loadSystemData(filePath);
+        }
+        catch (Exception e) {
+            System.out.println("The xml file you tried to load is not valid:");
+            System.out.println(e.getMessage());
+            loadSystemData();
+        }
+
     }
 
 

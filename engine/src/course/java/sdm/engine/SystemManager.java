@@ -96,4 +96,10 @@ public class SystemManager {
             throw new IllegalArgumentException("The store id " + id + " does not exists.");
     }
 
+    public static void validateItemIdExists(int id) {
+        if (superDuperMarket.isItemExists(id))
+            throw new IllegalArgumentException("The item id " + id + " is already exists.");
+    }
+
+
 }

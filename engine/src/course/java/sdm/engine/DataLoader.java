@@ -34,7 +34,6 @@ public class DataLoader {
         List<SDMItem> sdmItems = superDuperMarketDescriptor.getSDMItems().getSDMItem();
         for (SDMItem sdmItem : sdmItems) {
             Item item = new Item(sdmItem);
-//            System.out.println(item);
             superDuperMarket.addItem(item);
         }
     }
@@ -45,7 +44,6 @@ public class DataLoader {
             Store store = new Store(sdmStore);
             superDuperMarket.addStore(store);
             loadItemsToStore(store, sdmStore, superDuperMarket);
-//            System.out.println(store);
         }
     }
 

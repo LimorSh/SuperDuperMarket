@@ -1,5 +1,7 @@
 package course.java.sdm.engine;
 
+import course.java.sdm.engine.exceptions.LocationAlreadyExistsException;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -8,11 +10,23 @@ public class SuperDuperMarket {
     private final Map<Integer, Store> stores;
     private final Map<Integer, Item> items;
     private final Map<Integer, Order> orders;
+    private boolean[][] storesLocations;
 
     public SuperDuperMarket() {
         stores = new HashMap<>();
         items = new HashMap<>();
         orders = new HashMap<>();
+        initializeStoresLocations();
+    }
+
+    private void initializeStoresLocations() {
+        int maxLocation = Location.getMaxLocationValue();
+        storesLocations = new boolean[maxLocation][maxLocation];
+        for (int x = 0; x < maxLocation; x++) {
+            for (int y = 0; y < maxLocation; y++) {
+                storesLocations[x][y] = false;
+            }
+        }
     }
 
     public Collection<Store> getStores() {
@@ -48,15 +62,30 @@ public class SuperDuperMarket {
     public void addStore(Store store) {
         int id = store.getId();
         if (!isStoreExists(id)) {
+            int x = store.getLocation().getCoordinate().x;
+            int y = store.getLocation().getCoordinate().y;
+            if (storesLocations[x - 1][y - 1])
+                throw new LocationAlreadyExistsException(x, y);
+            storesLocations[x - 1][y - 1] = true;
             stores.put(id, store);
+        }
+        else {
+            throw new IllegalArgumentException("The store id " + id + " is already exists.");
         }
     }
 
     public void addItem(Item item) {
         int id = item.getId();
-        if (!items.containsKey(id)) {
+        if (!isItemExists(id)) {
             items.put(id, item);
         }
+        else {
+            throw new IllegalArgumentException("The item id " + id + " is already exists.");
+        }
+    }
+
+    public boolean isItemExists(int id) {
+        return items.containsKey(id);
     }
 
     public void addOrder(Order order) {

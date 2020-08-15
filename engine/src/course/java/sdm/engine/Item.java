@@ -2,6 +2,8 @@ package course.java.sdm.engine;
 
 import course.java.sdm.engine.jaxb.schema.generated.SDMItem;
 
+import java.util.InputMismatchException;
+
 public class Item {
 
     public enum PurchaseCategory {
@@ -21,28 +23,31 @@ public class Item {
     }
 
     private final int id;
-    private final String name;
+    private String name;
     private final PurchaseCategory purchaseCategory;
 
     public Item(int id, String name, PurchaseCategory purchaseCategory) {
         this.id = id;
-        this.name = name;
+        setName(name);
         this.purchaseCategory = purchaseCategory;
     }
 
     public Item(Item item) {
-        this.id = item.id;
-        this.name = item.name;
-        this.purchaseCategory = item.purchaseCategory;
+        this(item.id, item.name, item.purchaseCategory);
     }
 
     public Item(SDMItem sdmItem) {
-        this.id = sdmItem.getId();
-        this.name = sdmItem.getName().toLowerCase();
-        this.purchaseCategory = convertStringToPurchaseCategory(sdmItem.getPurchaseCategory());
+        this(sdmItem.getId(), sdmItem.getName(), convertStringToPurchaseCategory(sdmItem.getPurchaseCategory()));
     }
 
-    private PurchaseCategory convertStringToPurchaseCategory(String purchaseCategory) {
+    private void setName(String name) {
+        if (!Utils.isStringAnEnglishWord(name)) {
+            throw new IllegalArgumentException("The item name " + name + " is not valid: should contain English letters or spaces only.");
+        }
+        this.name = name.toLowerCase();
+    }
+
+    private static PurchaseCategory convertStringToPurchaseCategory(String purchaseCategory) {
         if (purchaseCategory.toLowerCase().contains(Configurations.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR)) {
             return PurchaseCategory.PER_UNIT;
         }
