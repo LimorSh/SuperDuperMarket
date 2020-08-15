@@ -531,10 +531,6 @@ public class UI {
             String filePath = getStringInputFromUser();
             SystemManager.loadSystemData(filePath);
         }
-//        catch (FileNotFoundException e) {
-//            System.out.println("The xml file you tried to load is not valid:");
-//            System.out.println(e.getMessage());
-//        }
         catch (Exception e) {
             System.out.println("The xml file you tried to load is not valid for the following reason:");
             System.out.println(e.getMessage());
