@@ -58,12 +58,12 @@ public class SystemManager {
         return superDuperMarket.getItemPriceInStore(storeId, itemId);
     }
 
-    public static StoreDto getStoreDto(int storeId) {
-        return (new StoreDto(superDuperMarket.getStore(storeId)));
+    public static StoreDto getStoreDto(int id) {
+        return (new StoreDto(superDuperMarket.getStore(id)));
     }
 
-    public static String getItemPurchaseCategory(int itemId) {
-        return superDuperMarket.getItemPurchaseCategory(itemId);
+    public static String getItemPurchaseCategory(int id) {
+        return superDuperMarket.getItemPurchaseCategory(id);
     }
 
     public static String getItemPurchaseCategoryPerUnitStr() {
@@ -74,8 +74,8 @@ public class SystemManager {
         return Configurations.ITEM_PURCHASE_CATEGORY_PER_WEIGHT_STR;
     }
 
-    public static String getItemName(int itemId) {
-        return superDuperMarket.getItemName(itemId);
+    public static String getItemName(int id) {
+        return superDuperMarket.getItemName(id);
     }
 
     public static double getDistanceBetweenCustomerAndStore(StoreDto storeDto, int customerLocationX, int customerLocationY) {
@@ -87,10 +87,13 @@ public class SystemManager {
         superDuperMarket.createOrder(date, customerLocationX, customerLocationY, store.getId(), itemsIdsAndQuantities);
     }
 
-//    public static void validateLocation(int x, int y) {
-//
-//
-//    }
+    public static void validateLocation(int x, int y) {
+        Location.isValidLocation(x, y);
+    }
 
+    public static void validateStoreIdExists(int id) {
+        if (!superDuperMarket.isStoreExists(id))
+            throw new IllegalArgumentException("The store id " + id + " does not exists.");
+    }
 
 }

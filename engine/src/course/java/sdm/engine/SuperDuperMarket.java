@@ -47,7 +47,7 @@ public class SuperDuperMarket {
 
     public void addStore(Store store) {
         int id = store.getId();
-        if (!stores.containsKey(id)) {
+        if (!isStoreExists(id)) {
             stores.put(id, store);
         }
     }
@@ -135,5 +135,9 @@ public class SuperDuperMarket {
         });
         order.addOrderLines(itemsAndQuantities);
         order.finish();
+    }
+
+    public boolean isStoreExists(int id) {
+        return stores.containsKey(id);
     }
 }

@@ -1,6 +1,8 @@
 package course.java.sdm.console;
 import course.java.sdm.engine.systemDto.*;
 import course.java.sdm.engine.SystemManager;
+
+import java.awt.*;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -366,29 +368,82 @@ public class UI {
         throw new IllegalArgumentException(errorMsg);
     }
 
+    private Date getDateFromUser(String msg) {
+        System.out.print(msg);
+        Date date = null;
+        try {
+            String dateStr = getStringInputFromUser();
+            date = covertDateStrToDate(dateStr);
+        }
+        catch (ParseException e) {
+            System.out.println(e.getMessage());
+            System.out.println("The order date should be in the following format: " + DATE_FORMAT + ".");
+            getDateFromUser(msg);
+        }
+        return date;
+    }
+
+    private Point getLocationFromUser(String msg) {
+        System.out.println(msg);
+        int x = 0;
+        int y = 0;
+
+        try {
+            System.out.print("X: ");
+            x = getIntInputFromUser();
+            System.out.print("Y: ");
+            y = getIntInputFromUser();
+            SystemManager.validateLocation(x, y);
+        }
+        catch (InputMismatchException e) {
+            System.out.println(e.getMessage());
+            System.out.println("The coordinate should be an integer number!");
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            getLocationFromUser(msg);
+        }
+
+        return new Point(x, y);
+    }
+
+    private int getStoreIdFromUser(String msg) {
+        System.out.print(msg);
+
+        int storeId = 0;
+
+        try {
+            storeId = getIntInputFromUser();
+            SystemManager.validateStoreIdExists(storeId);
+        }
+        catch (InputMismatchException e) {
+            System.out.println(e.getMessage());
+            System.out.println("The store id should be an integer number!");
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            getStoreIdFromUser(msg);
+        }
+
+        return storeId;
+    }
+
     private void createOrder() {
         showAllStores();
         try {
-            System.out.print("Please enter store ID: ");
-            int storeId = getIntInputFromUser();
-            System.out.print("Please enter order's date: ");
-            String dateStr = getStringInputFromUser();
-
-            // enter this to loop somehow
-            Date date = null;
-            try {
-                date = covertDateStrToDate(dateStr);
-            }
-            catch (ParseException e) {
-                System.out.println(e.getMessage());
-            }
-
-            System.out.println("Please enter your location:");
-            System.out.print("X: ");
-            int customerLocationX = getIntInputFromUser();
-            System.out.print("Y: ");
-            int customerLocationY = getIntInputFromUser();
+            String msg = "Please enter store ID: ";
+            int storeId = getStoreIdFromUser(msg);
             StoreDto store = SystemManager.getStoreDto(storeId);
+
+
+            msg = "Please enter order's date: ";
+            Date date = getDateFromUser(msg);
+
+            msg = "Please enter your location:";
+            Point userLocation = getLocationFromUser(msg);
+            int userLocationX = userLocation.x;
+            int userLocationY = userLocation.y;
+
             showItemsPerStore(store);
             System.out.println();
 
@@ -398,7 +453,7 @@ public class UI {
                 showOrderSummery(itemsIdsAndQuantities, store);
 
                 int storePpk = store.getPpk();
-                double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(store, customerLocationX, customerLocationY);
+                double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(store, userLocationX, userLocationY);
                 float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
                 System.out.println("The delivery cost is: " + DECIMAL_FORMAT.format(deliveryCost));
                 System.out.println("The store ppk is: " + storePpk);
@@ -409,7 +464,7 @@ public class UI {
                 try {
                     boolean orderConfirmed = orderConfirmed();
                     if (orderConfirmed) {
-                        SystemManager.createOrder(date, customerLocationX, customerLocationY, store, itemsIdsAndQuantities);
+                        SystemManager.createOrder(date, userLocationX, userLocationY, store, itemsIdsAndQuantities);
                         System.out.println("Your order was confirmed and added successfully!");
                     }
                     else {
