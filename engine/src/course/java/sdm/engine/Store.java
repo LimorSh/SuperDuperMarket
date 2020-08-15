@@ -1,5 +1,6 @@
 package course.java.sdm.engine;
 
+import course.java.sdm.engine.exceptions.DuplicateStoreItemIdException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
 
 import java.text.DecimalFormat;
@@ -12,7 +13,6 @@ public class Store {
     private final int ppk;
     private final Location location;
     private final Map<Integer, StoreItem> storeItems;
-    private int numSoldItems;
     private final Map<Integer, Order> orders;
     private float totalDeliveriesRevenue;
 
@@ -26,12 +26,8 @@ public class Store {
     }
 
     public Store(SDMStore sdmStore) {
-        this.id = sdmStore.getId();
-        this.name = sdmStore.getName().toLowerCase();
-        this.ppk = sdmStore.getDeliveryPpk();
-        this.location = new Location(sdmStore.getLocation());
-        storeItems = new HashMap<>();
-        orders = new HashMap<>();
+        this(sdmStore.getId(), sdmStore.getName().toLowerCase(),
+                sdmStore.getDeliveryPpk(), new Location(sdmStore.getLocation()));
     }
 
     public int getId() {
@@ -40,10 +36,6 @@ public class Store {
 
     public String getName() {
         return name;
-    }
-
-    public int getNumSoldItems() {
-        return numSoldItems;
     }
 
     public int getPpk() {
@@ -67,17 +59,23 @@ public class Store {
     }
 
     public void addItem(Item item, float price) {
-        storeItems.put(item.getId(), new StoreItem(item, price));
-    }
-
-    public void increaseNumItemsSoldByOne() {
-        numSoldItems++;
+        int id = item.getId();
+        if (!storeItems.containsKey(id)) {
+            storeItems.put(id, new StoreItem(item, price));
+        }
+        else {
+            Item existedItem = storeItems.get(id);
+            throw new DuplicateStoreItemIdException(name, existedItem.getName(), id, item.getName());
+        }
     }
 
     public void addOrder(Order order) {
         int id = order.getId();
         if (!orders.containsKey(id)) {
             orders.put(id, order);
+        }
+        else {
+            // throw exception
         }
     }
 

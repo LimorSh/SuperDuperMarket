@@ -1,5 +1,6 @@
 package course.java.sdm.engine;
 
+import course.java.sdm.engine.exceptions.NotAllItemsAreBeingSoldException;
 import course.java.sdm.engine.jaxb.schema.generated.*;
 
 import javax.xml.bind.JAXBContext;
@@ -10,22 +11,26 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Set;
 
 public class DataLoader {
 
     private static final String JAXB_XML_PACKAGE_NAME = Configurations.JAXB_XML_PACKAGE_NAME;
+    private static final String FILE_EXTENSION = ".xml";
 
-    public static SuperDuperMarket loadFromXmlFile(String xmlFilePath) {
+    public static SuperDuperMarket loadFromXmlFile(String xmlFilePath) throws JAXBException, FileNotFoundException {
+        if (!xmlFilePath.toLowerCase().endsWith(FILE_EXTENSION)) {
+            throw new IllegalArgumentException("The file type is not xml!");
+        }
         SuperDuperMarket superDuperMarket = null;
-        try {
-            superDuperMarket = new SuperDuperMarket();
-            InputStream inputStream = new FileInputStream(new File(xmlFilePath));
-            SuperDuperMarketDescriptor superDuperMarketDescriptor = deserializeFrom(inputStream);
-            loadItems(superDuperMarketDescriptor, superDuperMarket);
-            loadStores(superDuperMarketDescriptor, superDuperMarket);
-            return superDuperMarket;
-        } catch (JAXBException | FileNotFoundException e) {
-            e.printStackTrace();
+        superDuperMarket = new SuperDuperMarket();
+        InputStream inputStream = new FileInputStream(new File(xmlFilePath));
+        SuperDuperMarketDescriptor superDuperMarketDescriptor = deserializeFrom(inputStream);
+        loadItems(superDuperMarketDescriptor, superDuperMarket);
+        loadStores(superDuperMarketDescriptor, superDuperMarket);
+        if (!superDuperMarket.isAllItemsAreBeingSoldByAtLeastOneStore()) {
+            Set<Item> missingItems = superDuperMarket.getItemsThatAreNotBeingSoldByAtLeastOneStore();
+            throw new NotAllItemsAreBeingSoldException(missingItems);
         }
         return superDuperMarket;
     }
@@ -34,7 +39,6 @@ public class DataLoader {
         List<SDMItem> sdmItems = superDuperMarketDescriptor.getSDMItems().getSDMItem();
         for (SDMItem sdmItem : sdmItems) {
             Item item = new Item(sdmItem);
-//            System.out.println(item);
             superDuperMarket.addItem(item);
         }
     }
@@ -45,7 +49,6 @@ public class DataLoader {
             Store store = new Store(sdmStore);
             superDuperMarket.addStore(store);
             loadItemsToStore(store, sdmStore, superDuperMarket);
-//            System.out.println(store);
         }
     }
 
@@ -56,8 +59,7 @@ public class DataLoader {
         for (SDMSell sdmSell : sdmSells) {
             int itemId = sdmSell.getItemId();
             float itemPrice = sdmSell.getPrice();
-            Item item = superDuperMarket.getItem(itemId);
-            store.addItem(item, itemPrice);
+            superDuperMarket.addItemToStore(itemId, itemPrice, store);
         }
     }
 
