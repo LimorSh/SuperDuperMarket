@@ -54,7 +54,7 @@ public class UI {
     }
 
     private enum MenuOptions {
-        LOAD_SYSTEM_DATA(1, "Load system data"),
+        LOAD_SYSTEM_DATA(1, "Load xml file - system data"),
         SHOW_STORES(2, "Show the super stores"),
         SHOW_ITEMS(3, "Show the super items"),
         CREATE_ORDER(4, "Create new order"),
@@ -147,7 +147,13 @@ public class UI {
     private void handleUserAction(MenuOptions menuOptions) {
         switch (menuOptions) {
             case LOAD_SYSTEM_DATA:
-                loadSystemData();
+                try {
+                    loadSystemData();
+                }
+                catch (Exception e) {
+                System.out.println("The xml file you tried to load is not valid for the following reason:");
+                System.out.println(e.getMessage());
+                }
                 break;
             case SHOW_STORES:
                 showAllStores();
@@ -522,21 +528,20 @@ public class UI {
     }
 
     private void loadSystemDataFirstTime() {
-        loadSystemData();
-    }
-
-    private void loadSystemData() {
         try {
-            System.out.println("Please enter the xml file path you would like to load: ");
-            String filePath = getStringInputFromUser();
-            SystemManager.loadSystemData(filePath);
+            loadSystemData();
         }
         catch (Exception e) {
             System.out.println("The xml file you tried to load is not valid for the following reason:");
             System.out.println(e.getMessage());
-            loadSystemData();
+            loadSystemDataFirstTime();
         }
+    }
 
+    private void loadSystemData() throws JAXBException, FileNotFoundException {
+        System.out.println("Please enter the xml file path you would like to load: ");
+        String filePath = getStringInputFromUser();
+        SystemManager.loadSystemData(filePath);
     }
 
 
