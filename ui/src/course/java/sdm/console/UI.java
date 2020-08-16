@@ -113,11 +113,6 @@ public class UI {
         }
     }
 
-    private String getTokenInputFromUser() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.next();
-    }
-
     private void exit() {
         System.out.println(EXIT_MESSAGE_STR);
         System.exit(1);
@@ -139,9 +134,6 @@ public class UI {
         }
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-        }
-        catch (InputMismatchException e1) {
-            System.out.println("The input you entered is not a number.");
         }
         finally {
             loopProgram();
@@ -527,7 +519,7 @@ public class UI {
 
     private void createOrder() {
         showAllStores();
-//        try {
+
         String msg = "Please enter store ID: ";
         int storeId = getStoreIdFromUser(msg);
         StoreDto store = SystemManager.getStoreDto(storeId);
@@ -567,11 +559,6 @@ public class UI {
             }
         }
     }
-
-//        catch (InputMismatchException e) {
-//            System.out.println(e.getMessage());
-//        }
-
 
     private void showOrdersHistory() {
         System.out.println("The orders in the super market are:");
