@@ -1,6 +1,7 @@
 package course.java.sdm.engine;
 
 import course.java.sdm.engine.exceptions.DuplicateStoreItemIdException;
+import course.java.sdm.engine.exceptions.StoreLocationOutOfRangeException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
 
 import java.text.DecimalFormat;
@@ -17,17 +18,26 @@ public class Store {
     private float totalDeliveriesRevenue;
 
     public Store(int id, String name, int ppk, Location location) {
-        this.id = id;
-        this.name = name;
-        this.ppk = ppk;
-        this.location = location;
-        storeItems = new HashMap<>();
-        orders = new HashMap<>();
+        this(id, name, ppk, location.getCoordinate().x, location.getCoordinate().y);
+    }
+
+    public Store(int id, String name, int ppk, int xLocation, int yLocation) {
+        try {
+            this.id = id;
+            this.name = name;
+            this.ppk = ppk;
+            this.location = new Location(xLocation, yLocation);
+            storeItems = new HashMap<>();
+            orders = new HashMap<>();
+        }
+        catch (Exception e) {
+            throw new StoreLocationOutOfRangeException(name, xLocation, yLocation);
+        }
     }
 
     public Store(SDMStore sdmStore) {
         this(sdmStore.getId(), sdmStore.getName().toLowerCase(),
-                sdmStore.getDeliveryPpk(), new Location(sdmStore.getLocation()));
+                sdmStore.getDeliveryPpk(), sdmStore.getLocation().getX(), sdmStore.getLocation().getY());
     }
 
     public int getId() {
