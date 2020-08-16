@@ -90,7 +90,7 @@ public class UI {
             }
             catch (Exception e) {
                 System.out.println("The input you entered is not an integer number!");
-                System.out.println("Please enter an integer number and try again.");
+                System.out.print("Please enter an integer number and try again: ");
             }
         }
     }
@@ -108,7 +108,7 @@ public class UI {
             }
             catch (Exception e) {
                 System.out.println("The input you entered is not a float number!");
-                System.out.println("Please enter a float number and try again.");
+                System.out.print("Please enter a float number and try again: ");
             }
         }
     }
@@ -341,8 +341,8 @@ public class UI {
                 isValidInput = true;
             }
             catch (Exception e) {
-                System.out.println("The input you entered was neither 'q' nor an integer number.");
-                System.out.println("Please try again:");
+                System.out.println("The input you entered was: " + userIdOrQ + ". It should be an integer number or 'q' only.");
+                System.out.print("Please try again: ");
             }
         }
         return userIdOrQ;
@@ -353,18 +353,24 @@ public class UI {
         float quantity = itemId;
         while (!isValidInput) {
             quantity = getFloatInputFromUser();
-            String purchaseCategory = SystemManager.getItemPurchaseCategory(itemId);
-            if (purchaseCategory.equals(SystemManager.getItemPurchaseCategoryPerUnitStr())) {
-                if ((quantity % 1) != 0) {
-                    System.out.println("The purchase category of the item you chose is " + purchaseCategory + ".");
-                    System.out.print("Please enter item quantity in units: ");
+            if (quantity <= 0) {
+                System.out.println("Item quantity should be greater than zero.");
+                System.out.print("Please try again: ");
+            }
+            else {
+                String purchaseCategory = SystemManager.getItemPurchaseCategory(itemId);
+                if (purchaseCategory.equals(SystemManager.getItemPurchaseCategoryPerUnitStr())) {
+                    if ((quantity % 1) != 0) {
+                        System.out.println("The purchase category of the item you chose is " + purchaseCategory + ".");
+                        System.out.print("Please enter item quantity in units: ");
+                    }
+                    else {
+                        isValidInput = true;
+                    }
                 }
                 else {
                     isValidInput = true;
                 }
-            }
-            else {
-                isValidInput = true;
             }
         }
         return quantity;
@@ -382,11 +388,11 @@ public class UI {
             int itemId = getValidItemIdFromUser(store.getId(), intInput);
 
             System.out.print("Please enter item quantity: ");
-            float totalQuantity = getValidItemQuantityFromUser(itemId);
+            float quantity = getValidItemQuantityFromUser(itemId);
             if (itemsIdsAndQuantities.containsKey(itemId)) {
-                totalQuantity += itemsIdsAndQuantities.get(itemId);
+                quantity += itemsIdsAndQuantities.get(itemId);
             }
-            itemsIdsAndQuantities.put(itemId, totalQuantity);
+            itemsIdsAndQuantities.put(itemId, quantity);
 
             System.out.print("Please continue buying and enter item ID, or press 'q' to finish: ");
             userIdOrQ = getIdOrQFromUser();
@@ -433,17 +439,20 @@ public class UI {
 
     private boolean orderConfirmed() {
         System.out.print("Please press '" + APPROVAL.YES.key + "' to confirm your order or '" + CANCEL.NO.key + "' to cancel: ");
-        String userConfirmation = getStringInputFromUser();
-
-        if (userConfirmation.equalsIgnoreCase(APPROVAL.YES.key)) {
-            return true;
+        String userInput;
+        while (true) {
+            userInput = getStringInputFromUser();
+            if (userInput.equalsIgnoreCase(APPROVAL.YES.key)) {
+                return true;
+            }
+            else if (userInput.equalsIgnoreCase(CANCEL.NO.key)) {
+                return false;
+            }
+            else{
+                System.out.println(userInput + " is not '" + APPROVAL.YES.key + "' or '" + CANCEL.NO.key + "'.");
+                System.out.print("Please try again: ");
+            }
         }
-        else if (userConfirmation.equalsIgnoreCase(CANCEL.NO.key)) {
-            return false;
-        }
-
-        String errorMsg = userConfirmation + "is not " + APPROVAL.YES.key + " or " + CANCEL.NO.key + ".";
-        throw new IllegalArgumentException(errorMsg);
     }
 
     private Date getDateFromUser(String msg) {
@@ -518,66 +527,51 @@ public class UI {
 
     private void createOrder() {
         showAllStores();
-        try {
-            String msg = "Please enter store ID: ";
-            int storeId = getStoreIdFromUser(msg);
-            StoreDto store = SystemManager.getStoreDto(storeId);
+//        try {
+        String msg = "Please enter store ID: ";
+        int storeId = getStoreIdFromUser(msg);
+        StoreDto store = SystemManager.getStoreDto(storeId);
 
-            msg = "Please enter order's date: ";
-            Date date = getDateFromUser(msg);
+        msg = "Please enter order's date: ";
+        Date date = getDateFromUser(msg);
 
-            msg = "Please enter your location:";
-            Point userLocation = getLocationFromUser(msg);
-            int userLocationX = userLocation.x;
-            int userLocationY = userLocation.y;
+        msg = "Please enter your location:";
+        Point userLocation = getLocationFromUser(msg);
+        int userLocationX = userLocation.x;
+        int userLocationY = userLocation.y;
 
+        System.out.println();
+        showItemsPerStore(store);
+        System.out.println();
+
+        Map<Integer, Float> itemsIdsAndQuantities = getItemsIdsAndQuantitiesFromUser(store);
+        if (!itemsIdsAndQuantities.isEmpty()) {
             System.out.println();
-            showItemsPerStore(store);
+            showOrderSummery(itemsIdsAndQuantities, store);
+
+            int storePpk = store.getPpk();
+            double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(store, userLocationX, userLocationY);
+            float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
+            System.out.println("The delivery cost is: " + DECIMAL_FORMAT.format(deliveryCost));
+            System.out.println("The store ppk is: " + storePpk);
+            System.out.println("Your distance from the store is: " + DECIMAL_FORMAT.format(distanceBetweenCustomerAndStore));
             System.out.println();
 
-            Map<Integer, Float> itemsIdsAndQuantities = getItemsIdsAndQuantitiesFromUser(store);
-            if (!itemsIdsAndQuantities.isEmpty()) {
-                System.out.println();
-                showOrderSummery(itemsIdsAndQuantities, store);
-
-                int storePpk = store.getPpk();
-                double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(store, userLocationX, userLocationY);
-                float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
-                System.out.println("The delivery cost is: " + DECIMAL_FORMAT.format(deliveryCost));
-                System.out.println("The store ppk is: " + storePpk);
-                System.out.println("Your distance from the store is: " + DECIMAL_FORMAT.format(distanceBetweenCustomerAndStore));
-                System.out.println();
-
-                // enter this to loop somehow
-                try {
-                    boolean orderConfirmed = orderConfirmed();
-                    if (orderConfirmed) {
-                        SystemManager.createOrder(date, userLocationX, userLocationY, store, itemsIdsAndQuantities);
-                        System.out.println("Your order was confirmed and added successfully!");
-                    }
-                    else {
-                        System.out.println("Your order was canceled.");
-                    }
-                }
-                catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage());
-                }
-
-//                System.out.println("Please press " + APPROVAL.YES.key + " to confirm your order or " + CANCEL.NO.key + " to cancel");
-//                String userConfirmation = getStringInputFromUser();
-//                if (userConfirmation.equalsIgnoreCase(APPROVAL.YES.key)) {
-//                    // move this check to another function that returns build-in exception.
-//                    SystemManager.createOrder(date, customerLocationX, customerLocationY, store, itemsIdsAndQuantities);
-//                }
-//                else {
-//                    System.out.println("Your order was not confirmed.");
-//                }
+            boolean orderConfirmed = orderConfirmed();
+            if (orderConfirmed) {
+                SystemManager.createOrder(date, userLocationX, userLocationY, store, itemsIdsAndQuantities);
+                System.out.println("Your order was confirmed and added successfully!");
+            }
+            else {
+                System.out.println("Your order was canceled.");
             }
         }
-        catch (InputMismatchException e) {
-            System.out.println(e.getMessage());
-        }
     }
+
+//        catch (InputMismatchException e) {
+//            System.out.println(e.getMessage());
+//        }
+
 
     private void showOrdersHistory() {
         System.out.println("The orders in the super market are:");
@@ -607,13 +601,16 @@ public class UI {
     }
 
     private void loadSystemDataFirstTime() {
-        try {
-            loadSystemData();
-        }
-        catch (Exception e) {
-            System.out.println("The xml file you tried to load is not valid for the following reason:");
-            System.out.println(e.getMessage());
-            loadSystemDataFirstTime();
+        boolean isValidInput = false;
+        while (!isValidInput) {
+            try {
+                loadSystemData();
+                isValidInput = true;
+            }
+            catch (Exception e) {
+                System.out.println("The xml file you tried to load is not valid for the following reason:");
+                System.out.println(e.getMessage());
+            }
         }
     }
 
