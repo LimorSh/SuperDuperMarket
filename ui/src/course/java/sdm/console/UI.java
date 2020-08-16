@@ -432,7 +432,7 @@ public class UI {
     }
 
     private boolean orderConfirmed() {
-        System.out.println("Please press " + APPROVAL.YES.key + " to confirm your order or " + CANCEL.NO.key + " to cancel");
+        System.out.print("Please press '" + APPROVAL.YES.key + "' to confirm your order or '" + CANCEL.NO.key + "' to cancel: ");
         String userConfirmation = getStringInputFromUser();
 
         if (userConfirmation.equalsIgnoreCase(APPROVAL.YES.key)) {
