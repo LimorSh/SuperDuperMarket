@@ -170,7 +170,7 @@ public class UI {
                 catch (Exception e) {
                     System.out.println("The xml file you tried to load is not valid for the following reason:");
                     System.out.println(e.getMessage());
-                    System.out.println("The system contains previous valid data.");
+                    System.out.println("The system contains the last valid data.");
                 }
                 break;
             case SHOW_STORES:
