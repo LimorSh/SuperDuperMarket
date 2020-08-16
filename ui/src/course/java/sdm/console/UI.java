@@ -1,4 +1,5 @@
 package course.java.sdm.console;
+import course.java.sdm.engine.exceptions.StoreLocationExistsException;
 import course.java.sdm.engine.systemDto.*;
 import course.java.sdm.engine.SystemManager;
 
@@ -82,8 +83,16 @@ public class UI {
 
 
     private int getIntInputFromUser() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        while (true) {
+            try {
+                Scanner scanner = new Scanner(System.in);
+                return scanner.nextInt();
+            }
+            catch (Exception e) {
+                System.out.println("The input you entered is not an integer number!");
+                System.out.println("Please enter an integer number and try again.");
+            }
+        }
     }
 
     private String getStringInputFromUser() {
@@ -92,8 +101,16 @@ public class UI {
     }
 
     private float getFloatInputFromUser() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextFloat();
+        while (true) {
+            try {
+                Scanner scanner = new Scanner(System.in);
+                return scanner.nextFloat();
+            }
+            catch (Exception e) {
+                System.out.println("The input you entered is not a float number!");
+                System.out.println("Please enter a float number and try again.");
+            }
+        }
     }
 
     private String getTokenInputFromUser() {
@@ -290,38 +307,90 @@ public class UI {
         return !(userInput.equalsIgnoreCase(USER_FINISHED_CHOOSE_ITEMS_KEY));
     }
 
-    private Map<Integer, Float> getItemsIdsAndQuantitiesFromUser() {
+    private int getValidItemIdFromUser(int storeId, int itemId) {
+        boolean isValidInput = false;
+        int intInput = itemId;
+        while (!isValidInput) {
+            try {
+                SystemManager.validateItemIdExistsInStore(storeId, intInput);
+                isValidInput = true;
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.print("Please enter another item ID and try again: ");
+                intInput = getIntInputFromUser();
+            }
+        }
+        return intInput;
+    }
+
+    private void validateInputIdOrQ(String input) {
+        if (input.equalsIgnoreCase(USER_FINISHED_CHOOSE_ITEMS_KEY)) {
+            return;
+        }
+        Integer.parseInt(input);
+    }
+
+    private String getIdOrQFromUser() {
+        String userIdOrQ = null;
+        boolean isValidInput = false;
+        while (!isValidInput) {
+            try {
+                userIdOrQ = getStringInputFromUser();
+                validateInputIdOrQ(userIdOrQ);
+                isValidInput = true;
+            }
+            catch (Exception e) {
+                System.out.println("The input you entered was neither 'q' nor an integer number.");
+                System.out.println("Please try again:");
+            }
+        }
+        return userIdOrQ;
+    }
+
+    private float getValidItemQuantityFromUser(int itemId) {
+        boolean isValidInput = false;
+        float quantity = itemId;
+        while (!isValidInput) {
+            quantity = getFloatInputFromUser();
+            String purchaseCategory = SystemManager.getItemPurchaseCategory(itemId);
+            if (purchaseCategory.equals(SystemManager.getItemPurchaseCategoryPerUnitStr())) {
+                if ((quantity % 1) != 0) {
+                    System.out.println("The purchase category of the item you chose is " + purchaseCategory + ".");
+                    System.out.print("Please enter item quantity in units: ");
+                }
+                else {
+                    isValidInput = true;
+                }
+            }
+            else {
+                isValidInput = true;
+            }
+        }
+        return quantity;
+    }
+
+    private Map<Integer, Float> getItemsIdsAndQuantitiesFromUser(StoreDto store) {
         Map<Integer, Float> itemsIdsAndQuantities = new HashMap<>();
 
         System.out.print("Please start buying by enter item ID, or press 'q' to exit: ");
-        String userIdOrQ = getStringInputFromUser();
+        String userIdOrQ = getIdOrQFromUser();
         boolean toContinue = continueOrder(userIdOrQ);
 
         while(toContinue) {
-            try {
-                int itemId =  Integer.parseInt(userIdOrQ);
-                System.out.print("Please enter item quantity: ");
-                float quantity = getFloatInputFromUser();
-                if (SystemManager.getItemPurchaseCategory(itemId).equals(SystemManager.getItemPurchaseCategoryPerUnitStr())) {
-                    if ((quantity % 1) != 0) {
-                        //throw exception
-                        //move this check to another function that returns build-in exception
-                    }
-                }
+            int intInput =  Integer.parseInt(userIdOrQ);
+            int itemId = getValidItemIdFromUser(store.getId(), intInput);
 
-                float totalQuantity = quantity;
-                if (itemsIdsAndQuantities.containsKey(itemId)) {
-                    totalQuantity += itemsIdsAndQuantities.get(itemId);
-                }
-                itemsIdsAndQuantities.put(itemId, totalQuantity);
+            System.out.print("Please enter item quantity: ");
+            float totalQuantity = getValidItemQuantityFromUser(itemId);
+            if (itemsIdsAndQuantities.containsKey(itemId)) {
+                totalQuantity += itemsIdsAndQuantities.get(itemId);
+            }
+            itemsIdsAndQuantities.put(itemId, totalQuantity);
 
-                System.out.print("Please continue buying and enter item ID, or press 'q' to finish: ");
-                userIdOrQ = getStringInputFromUser();
-                toContinue = continueOrder(userIdOrQ);
-            }
-            catch (NumberFormatException e) {
-                System.out.println(e.getMessage());
-            }
+            System.out.print("Please continue buying and enter item ID, or press 'q' to finish: ");
+            userIdOrQ = getIdOrQFromUser();
+            toContinue = continueOrder(userIdOrQ);
         }
 
         return itemsIdsAndQuantities;
@@ -407,6 +476,12 @@ public class UI {
         catch (InputMismatchException e) {
             System.out.println(e.getMessage());
             System.out.println("The coordinate should be an integer number!");
+            getLocationFromUser(msg);
+        }
+        catch (StoreLocationExistsException e) {
+            System.out.println(e.getMessage());
+            System.out.println("The location's order cannot be the same as one of the stores.");
+            getLocationFromUser(msg);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
@@ -428,6 +503,7 @@ public class UI {
         catch (InputMismatchException e) {
             System.out.println(e.getMessage());
             System.out.println("The store id should be an integer number!");
+            getStoreIdFromUser(msg);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
@@ -444,7 +520,6 @@ public class UI {
             int storeId = getStoreIdFromUser(msg);
             StoreDto store = SystemManager.getStoreDto(storeId);
 
-
             msg = "Please enter order's date: ";
             Date date = getDateFromUser(msg);
 
@@ -457,7 +532,7 @@ public class UI {
             showItemsPerStore(store);
             System.out.println();
 
-            Map<Integer, Float> itemsIdsAndQuantities = getItemsIdsAndQuantitiesFromUser();
+            Map<Integer, Float> itemsIdsAndQuantities = getItemsIdsAndQuantitiesFromUser(store);
             if (!itemsIdsAndQuantities.isEmpty()) {
                 System.out.println();
                 showOrderSummery(itemsIdsAndQuantities, store);

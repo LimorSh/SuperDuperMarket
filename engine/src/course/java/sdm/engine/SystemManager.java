@@ -1,4 +1,5 @@
 package course.java.sdm.engine;
+import course.java.sdm.engine.exceptions.StoreLocationExistsException;
 import course.java.sdm.engine.systemDto.*;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
@@ -90,6 +91,10 @@ public class SystemManager {
 
     public static void validateLocation(int x, int y) {
         Location.isValidLocation(x, y);
+        if (superDuperMarket.isLocationAlreadyExistsForStore(x, y)) {
+            Store store = superDuperMarket.getStoreByLocation(x, y);
+            throw new StoreLocationExistsException(store.getName(), x, y);
+        }
     }
 
     public static void validateStoreIdExists(int id) {
@@ -97,10 +102,11 @@ public class SystemManager {
             throw new IllegalArgumentException("The store id " + id + " does not exists.");
     }
 
-    public static void validateItemIdExists(int id) {
-        if (superDuperMarket.isItemExists(id))
-            throw new IllegalArgumentException("The item id " + id + " is already exists.");
+    public static void validateItemIdExistsInStore(int storeId, int storeItemId) {
+        if (!superDuperMarket.isItemExistsInStore(storeId, storeItemId))
+            throw new IllegalArgumentException("The item id " + storeItemId + " does not exist in the store.");
     }
+
 
 
 }
