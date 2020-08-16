@@ -7,8 +7,8 @@ public class LocationOutOfRangeException extends RuntimeException{
 
     public LocationOutOfRangeException(int x, int y)
     {
-        EXCEPTION_MESSAGE = "The location (" + x + "," + y + ") is not valid:\n" +
-                "coordinates are not in range, should be between " + Location.getMinLocationValue() +
+        EXCEPTION_MESSAGE = "The location (" + x + "," + y + ") is not valid: " +
+                "coordinates are not in range, each value should be between " + Location.getMinLocationValue() +
                 " and " + Location.getMaxLocationValue() + ".";
     }
 

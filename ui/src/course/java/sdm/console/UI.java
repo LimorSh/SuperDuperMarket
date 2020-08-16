@@ -151,8 +151,9 @@ public class UI {
                     loadSystemData();
                 }
                 catch (Exception e) {
-                System.out.println("The xml file you tried to load is not valid for the following reason:");
-                System.out.println(e.getMessage());
+                    System.out.println("The xml file you tried to load is not valid for the following reason:");
+                    System.out.println(e.getMessage());
+                    System.out.println("The system contains previous valid data.");
                 }
                 break;
             case SHOW_STORES:
