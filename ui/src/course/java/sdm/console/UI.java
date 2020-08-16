@@ -317,7 +317,7 @@ public class UI {
             }
             catch (Exception e) {
                 System.out.println(e.getMessage());
-                System.out.print("Please enter another item ID and try again: ");
+                System.out.print("Please enter valid item ID: ");
                 intInput = getIntInputFromUser();
             }
         }
@@ -465,51 +465,54 @@ public class UI {
         System.out.println(msg);
         int x = 0;
         int y = 0;
-
-        try {
-            System.out.print("X: ");
-            x = getIntInputFromUser();
-            System.out.print("Y: ");
-            y = getIntInputFromUser();
-            SystemManager.validateLocation(x, y);
+        boolean isValidInput = false;
+        while (!isValidInput) {
+            try {
+                System.out.print("X: ");
+                x = getIntInputFromUser();
+                System.out.print("Y: ");
+                y = getIntInputFromUser();
+                SystemManager.validateLocation(x, y);
+                isValidInput = true;
+            }
+            catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+                System.out.println("The coordinate should be an integer number!");
+                System.out.println(msg);
+            }
+            catch (StoreLocationExistsException e) {
+                System.out.println(e.getMessage());
+                System.out.println("The location's order cannot be the same as one of the stores.");
+                System.out.println(msg);
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println(msg);
+            }
         }
-        catch (InputMismatchException e) {
-            System.out.println(e.getMessage());
-            System.out.println("The coordinate should be an integer number!");
-            getLocationFromUser(msg);
-        }
-        catch (StoreLocationExistsException e) {
-            System.out.println(e.getMessage());
-            System.out.println("The location's order cannot be the same as one of the stores.");
-            getLocationFromUser(msg);
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-            getLocationFromUser(msg);
-        }
-
         return new Point(x, y);
     }
 
     private int getStoreIdFromUser(String msg) {
         System.out.print(msg);
-
         int storeId = 0;
-
-        try {
-            storeId = getIntInputFromUser();
-            SystemManager.validateStoreIdExists(storeId);
+        boolean isValidInput = false;
+        while (!isValidInput) {
+            try {
+                storeId = getIntInputFromUser();
+                SystemManager.validateStoreIdExists(storeId);
+                isValidInput = true;
+            }
+            catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+                System.out.println("The store id should be an integer number!");
+                System.out.print(msg);
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.print(msg);
+            }
         }
-        catch (InputMismatchException e) {
-            System.out.println(e.getMessage());
-            System.out.println("The store id should be an integer number!");
-            getStoreIdFromUser(msg);
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-            getStoreIdFromUser(msg);
-        }
-
         return storeId;
     }
 

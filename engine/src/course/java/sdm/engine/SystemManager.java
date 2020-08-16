@@ -98,13 +98,24 @@ public class SystemManager {
     }
 
     public static void validateStoreIdExists(int id) {
-        if (!superDuperMarket.isStoreExists(id))
-            throw new IllegalArgumentException("The store id " + id + " does not exists.");
+        if (id <= 0) {
+            throw new IllegalArgumentException("The store ID " + id + " is not an positive integer number.");
+        }
+        if (!superDuperMarket.isStoreExists(id)) {
+            throw new IllegalArgumentException("The store ID " + id + " does not exists.");
+        }
     }
 
     public static void validateItemIdExistsInStore(int storeId, int storeItemId) {
-        if (!superDuperMarket.isItemExistsInStore(storeId, storeItemId))
-            throw new IllegalArgumentException("The item id " + storeItemId + " does not exist in the store.");
+        if (storeItemId <= 0) {
+            throw new IllegalArgumentException("The item ID " + storeItemId + " is not an positive integer number.");
+        }
+        if (!superDuperMarket.isItemExists(storeItemId)) {
+            throw new IllegalArgumentException("The item ID " + storeItemId + " does not exist in the super market.");
+        }
+        if (!superDuperMarket.isItemExistsInStore(storeId, storeItemId)) {
+            throw new IllegalArgumentException("The item ID " + storeItemId + " does not exist in the store.");
+        }
     }
 
 
