@@ -1,4 +1,5 @@
 package course.java.sdm.engine;
+import course.java.sdm.engine.exceptions.StoreLocationExistsException;
 import course.java.sdm.engine.systemDto.*;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
@@ -90,17 +91,33 @@ public class SystemManager {
 
     public static void validateLocation(int x, int y) {
         Location.isValidLocation(x, y);
+        if (superDuperMarket.isLocationAlreadyExistsForStore(x, y)) {
+            Store store = superDuperMarket.getStoreByLocation(x, y);
+            throw new StoreLocationExistsException(store.getName(), x, y);
+        }
     }
 
     public static void validateStoreIdExists(int id) {
-        if (!superDuperMarket.isStoreExists(id))
-            throw new IllegalArgumentException("The store id " + id + " does not exists.");
+        if (id <= 0) {
+            throw new IllegalArgumentException("The store ID " + id + " is not an positive integer number.");
+        }
+        if (!superDuperMarket.isStoreExists(id)) {
+            throw new IllegalArgumentException("The store ID " + id + " does not exists.");
+        }
     }
 
-    public static void validateItemIdExists(int id) {
-        if (superDuperMarket.isItemExists(id))
-            throw new IllegalArgumentException("The item id " + id + " is already exists.");
+    public static void validateItemIdExistsInStore(int storeId, int storeItemId) {
+        if (storeItemId <= 0) {
+            throw new IllegalArgumentException("The item ID " + storeItemId + " is not an positive integer number.");
+        }
+        if (!superDuperMarket.isItemExists(storeItemId)) {
+            throw new IllegalArgumentException("The item ID " + storeItemId + " does not exist in the super market.");
+        }
+        if (!superDuperMarket.isItemExistsInStore(storeId, storeItemId)) {
+            throw new IllegalArgumentException("The item ID " + storeItemId + " does not exist in the store.");
+        }
     }
+
 
 
 }

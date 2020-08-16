@@ -80,7 +80,7 @@ public class Order {
                 updateItemsCost(item, itemQuantity);
                 updateTotalNumberSoldItemInStore(item, itemQuantity);
             }
-            // need to finish this - not ok!
+            // this is only for backup, already being applied in the UI. need to finish this - not ok!
 //            else {
 //                float totalQuantity = itemQuantity;
 //                totalQuantity += orderLines.get(itemId).getQuantity();

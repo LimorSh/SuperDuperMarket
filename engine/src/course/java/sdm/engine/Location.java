@@ -17,6 +17,7 @@ public class Location {
     }
 
     public Location(int x, int y) {
+        isValidLocation(x, y);
         this.coordinate = new Point(x, y);
     }
 

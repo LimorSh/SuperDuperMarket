@@ -1,6 +1,7 @@
 package course.java.sdm.engine;
 
 import course.java.sdm.engine.exceptions.DuplicateStoreItemIdException;
+import course.java.sdm.engine.exceptions.StoreLocationOutOfRangeException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
 
 import java.text.DecimalFormat;
@@ -9,7 +10,7 @@ import java.util.*;
 public class Store {
 
     private final int id;
-    private final String name;
+    private String name;
     private final int ppk;
     private final Location location;
     private final Map<Integer, StoreItem> storeItems;
@@ -17,17 +18,33 @@ public class Store {
     private float totalDeliveriesRevenue;
 
     public Store(int id, String name, int ppk, Location location) {
+        this(id, name, ppk, location.getCoordinate().x, location.getCoordinate().y);
+    }
+
+    public Store(int id, String name, int ppk, int xLocation, int yLocation) {
         this.id = id;
-        this.name = name;
+        setName(name);
         this.ppk = ppk;
-        this.location = location;
+        try {
+            this.location = new Location(xLocation, yLocation);
+        }
+        catch (Exception e) {
+            throw new StoreLocationOutOfRangeException(name, xLocation, yLocation);
+        }
         storeItems = new HashMap<>();
         orders = new HashMap<>();
     }
 
     public Store(SDMStore sdmStore) {
         this(sdmStore.getId(), sdmStore.getName().toLowerCase(),
-                sdmStore.getDeliveryPpk(), new Location(sdmStore.getLocation()));
+                sdmStore.getDeliveryPpk(), sdmStore.getLocation().getX(), sdmStore.getLocation().getY());
+    }
+
+    private void setName(String name) {
+        if (!Utils.isStringAnEnglishWord(name)) {
+            throw new IllegalArgumentException("The store name " + name + " is not valid: should contain English letters or spaces only.");
+        }
+        this.name = name.toLowerCase();
     }
 
     public int getId() {

@@ -22,7 +22,7 @@ public class DataLoader {
         if (!xmlFilePath.toLowerCase().endsWith(FILE_EXTENSION)) {
             throw new IllegalArgumentException("The file type is not xml!");
         }
-        SuperDuperMarket superDuperMarket = null;
+        SuperDuperMarket superDuperMarket;
         superDuperMarket = new SuperDuperMarket();
         InputStream inputStream = new FileInputStream(new File(xmlFilePath));
         SuperDuperMarketDescriptor superDuperMarketDescriptor = deserializeFrom(inputStream);

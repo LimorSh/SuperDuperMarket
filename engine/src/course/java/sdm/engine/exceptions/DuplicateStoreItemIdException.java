@@ -6,9 +6,9 @@ public class DuplicateStoreItemIdException extends RuntimeException {
     public DuplicateStoreItemIdException(String storeName, String existentItemName, int existentItemId, String addedItemName)
     {
         EXCEPTION_MESSAGE = "Could not add item to the store:\n" +
-                addedItemName + " id " + existentItemId + " is taken - " +
+                addedItemName + " ID " + existentItemId + " is taken - " +
                 storeName + " already sells " + existentItemName +
-                " with this id.";
+                " with this ID.";
     }
 
     @Override

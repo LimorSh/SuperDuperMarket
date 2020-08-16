@@ -63,20 +63,28 @@ public class SuperDuperMarket {
         if (!isStoreExists(id)) {
             int x = store.getLocation().getCoordinate().x;
             int y = store.getLocation().getCoordinate().y;
-            Store s = storesLocations[x - 1][y - 1];
-            if (s != null) {
-                throw new DuplicateStoreLocationException(store.getName(), s.getName(), x, y);
+            if (isLocationAlreadyExistsForStore(x, y)) {
+                throw new DuplicateStoreLocationException(store.getName(), getStoreByLocation(x, y).getName(), x, y);
             }
             storesLocations[x - 1][y - 1] = store;
             stores.put(id, store);
         }
         else {
             Store existentStore = getStore(id);
-            String sb = "Duplicate store id:\n" +
-                    store.getName() + " store id " + id + " already exists for " +
+            String sb = "Duplicate store ID:\n" +
+                    store.getName() + " store ID " + id + " already exists for " +
                     existentStore.getName() + " store";
             throw new IllegalArgumentException(sb);
         }
+    }
+
+    public boolean isLocationAlreadyExistsForStore(int x, int y) {
+        Store s = storesLocations[x - 1][y - 1];
+        return s != null;
+    }
+
+    public Store getStoreByLocation(int x, int y) {
+        return storesLocations[x - 1][y - 1];
     }
 
     public void addItem(Item item) {
@@ -86,8 +94,8 @@ public class SuperDuperMarket {
         }
         else {
             Item existentItem = getItem(id);
-            String sb = "Duplicate item id:\n" +
-                    item.getName() + " item id " + id + " already exists for " +
+            String sb = "Duplicate item ID:\n" +
+                    item.getName() + " item ID " + id + " already exists for " +
                     existentItem.getName() + " item";
             throw new IllegalArgumentException(sb);
         }
@@ -102,6 +110,11 @@ public class SuperDuperMarket {
 
     public boolean isItemExists(int id) {
         return items.containsKey(id);
+    }
+
+    public boolean isItemExistsInStore(int storeId, int storeItemId) {
+        Store store = getStore(storeId);
+        return store.isItemInTheStore(storeItemId);
     }
 
     public Item getItem(int id) {
@@ -127,7 +140,7 @@ public class SuperDuperMarket {
             addItemIdToItemsSoldIds(item);
         }
         else {
-            throw new ItemDoesNotExistException(itemId);
+            throw new ItemDoesNotExistException(store.getName(), itemId);
         }
     }
 
