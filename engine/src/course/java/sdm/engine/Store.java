@@ -95,6 +95,10 @@ public class Store {
         }
     }
 
+    public void updateItemPrice(int id, float newPrice) {
+        storeItems.get(id).setPrice(newPrice);
+    }
+
     public void updateTotalDeliveriesRevenue(Location location) {
         totalDeliveriesRevenue += getDeliveryCost(location);
     }

@@ -144,6 +144,11 @@ public class SuperDuperMarket {
         }
     }
 
+    public void updateItemPriceInStore(int storeId, int storeItemId, float newItemPrice) {
+        Store store = stores.get(storeId);
+        store.updateItemPrice(storeItemId, newItemPrice);
+    }
+
     public Set<Item> getItemsThatAreNotBeingSoldByAtLeastOneStore() {
         Set<Item> itemsCopy = new HashSet<>(items.values());
         itemsCopy.removeAll(itemsSold);

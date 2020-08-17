@@ -60,7 +60,8 @@ public class UI {
         SHOW_ITEMS(3, "Show the super items"),
         CREATE_ORDER(4, "Create new order"),
         SHOW_ORDERS_HISTORY(5, "Show order history"),
-        EXIT(6, "Exit")
+        UPDATE_STORE_ITEMS(6, "Update store items"),
+        EXIT(7, "Exit")
         ;
 
         private final int optionNumber;
@@ -75,6 +76,31 @@ public class UI {
             for (MenuOptions menuOptions : MenuOptions.values()) {
                 if (menuOptions.optionNumber == optionNumber)
                     return menuOptions;
+            }
+            String errorMsg = optionNumber + " is not an option in the menu.";
+            throw new IllegalArgumentException(errorMsg);
+        }
+    }
+
+    private enum SubMenuUpdateItemsStoreOptions {
+        DELETE_ITEM(1, "Delete item"),
+        ADD_ITEM(2, "Add item"),
+        UPDATE_ITEM_PRICE(3, "Update item price"),
+        BACK_TO_MAIN_MENU(4, "Back to main menu")
+        ;
+
+        private final int optionNumber;
+        private final String optionTitle;
+
+        SubMenuUpdateItemsStoreOptions(int optionNumber, String optionTitle) {
+            this.optionNumber = optionNumber;
+            this.optionTitle = optionTitle;
+        }
+
+        public static SubMenuUpdateItemsStoreOptions getSubMenuUpdateItemsStoreOptions(int optionNumber) {
+            for (SubMenuUpdateItemsStoreOptions subMenuUpdateItemsStoreOptions : SubMenuUpdateItemsStoreOptions.values()) {
+                if (subMenuUpdateItemsStoreOptions.optionNumber == optionNumber)
+                    return subMenuUpdateItemsStoreOptions;
             }
             String errorMsg = optionNumber + " is not an option in the menu.";
             throw new IllegalArgumentException(errorMsg);
@@ -179,6 +205,9 @@ public class UI {
                 break;
             case SHOW_ORDERS_HISTORY:
                 showOrdersHistory();
+                break;
+            case UPDATE_STORE_ITEMS:
+                updateStoreItems();
                 break;
             case EXIT:
                 exit();
@@ -589,6 +618,67 @@ public class UI {
         else {
             System.out.println("There are no orders in the super market.");
         }
+    }
+
+    private void updateStoreItems() {
+        showSubMenuUpdateItemsStoreOptions();
+
+        try {
+            int option = getIntInputFromUser();
+            SubMenuUpdateItemsStoreOptions subMenuUpdateItemsStoreOptions = SubMenuUpdateItemsStoreOptions.getSubMenuUpdateItemsStoreOptions(option);
+            handleUserAction(subMenuUpdateItemsStoreOptions);
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+//        finally {
+//            loopProgram();
+//        }
+    }
+
+    private void showSubMenuUpdateItemsStoreOptions() {
+        System.out.println();
+        System.out.println(PLEASE_CHOOSE_ACTION_STR);
+        for (SubMenuUpdateItemsStoreOptions subMenuUpdateItemsStoreOptions : SubMenuUpdateItemsStoreOptions.values()) {
+            System.out.println(subMenuUpdateItemsStoreOptions.optionNumber + ". " + subMenuUpdateItemsStoreOptions.optionTitle);
+        }
+        System.out.println();
+    }
+
+    private void handleUserAction(SubMenuUpdateItemsStoreOptions subMenuUpdateItemsStoreOptions) {
+        switch (subMenuUpdateItemsStoreOptions) {
+            case DELETE_ITEM:
+//                deleteItem();
+                break;
+            case ADD_ITEM:
+//                addItem();
+                break;
+            case UPDATE_ITEM_PRICE:
+                updateItemPrice();
+                break;
+            case BACK_TO_MAIN_MENU:
+                break;
+        }
+    }
+
+    private void updateItemPrice() {
+        showAllStores();
+
+        String msg = "Please enter store ID: ";
+        int storeId = getStoreIdFromUser(msg);
+        StoreDto storeDto = SystemManager.getStoreDto(storeId);
+
+        System.out.print("Please enter item ID: ");
+        int intInput =  getIntInputFromUser();
+        int itemId = getValidItemIdFromUser(storeDto.getId(), intInput);
+
+        //make validation
+        System.out.print("Please enter item price: ");
+        float newItemPrice = getFloatInputFromUser();
+
+        SystemManager.updateItemPriceInStore(storeDto.getId(), itemId, newItemPrice);
+
+        System.out.println("The item price was updated successfully!");
     }
 
     private void loadSystemDataFirstTime() {
