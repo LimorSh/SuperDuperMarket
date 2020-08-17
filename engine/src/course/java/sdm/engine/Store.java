@@ -96,6 +96,10 @@ public class Store {
     }
 
     public void updateItemPrice(int id, float newPrice) {
+        StoreItem storeItem = storeItems.get(id);
+        if (storeItem.getPrice() == newPrice) {
+            throw new IllegalArgumentException("The new item price is the same as it's current price.");
+        }
         storeItems.get(id).setPrice(newPrice);
     }
 

@@ -1,5 +1,6 @@
 package course.java.sdm.engine;
-import course.java.sdm.engine.exceptions.ItemDoesNotExistException;
+import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheStoreException;
+import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheSuperException;
 import course.java.sdm.engine.exceptions.DuplicateStoreLocationException;
 import java.util.*;
 
@@ -140,12 +141,16 @@ public class SuperDuperMarket {
             addItemIdToItemsSoldIds(item);
         }
         else {
-            throw new ItemDoesNotExistException(itemId);
+            throw new ItemDoesNotExistInTheSuperException(itemId);
         }
     }
 
     public void updateItemPriceInStore(int storeId, int storeItemId, float newItemPrice) {
         Store store = stores.get(storeId);
+        if (!store.isItemInTheStore(storeItemId)) {
+            Item item = items.get(storeItemId);
+            throw new ItemDoesNotExistInTheStoreException(store.getName(), item.getName(), storeItemId);
+        }
         store.updateItemPrice(storeItemId, newItemPrice);
     }
 

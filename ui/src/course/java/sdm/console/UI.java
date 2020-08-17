@@ -136,7 +136,7 @@ public class UI {
                 return scanner.nextFloat();
             }
             catch (Exception e) {
-                System.out.println("The input you entered is not a float number!");
+                System.out.println("The input you entered is not a decimal number!");
                 System.out.print("Please enter a float number and try again: ");
             }
         }
@@ -157,6 +157,7 @@ public class UI {
         showMenu();
 
         try {
+            System.out.print("Your option: ");
             int option = getIntInputFromUser();
             MenuOptions menuOptions = MenuOptions.getMenuOptions(option);
             handleUserAction(menuOptions);
@@ -527,7 +528,7 @@ public class UI {
         return new Point(x, y);
     }
 
-    private int getStoreIdFromUser(String msg) {
+    private int getValidStoreIdFromUser(String msg) {
         System.out.print(msg);
         int storeId = 0;
         boolean isValidInput = false;
@@ -554,7 +555,7 @@ public class UI {
         showAllStores();
 
         String msg = "Please enter store ID: ";
-        int storeId = getStoreIdFromUser(msg);
+        int storeId = getValidStoreIdFromUser(msg);
         StoreDto storeDto = SystemManager.getStoreDto(storeId);
 
         msg = "Please enter order's date: ";
@@ -624,6 +625,7 @@ public class UI {
         showSubMenuUpdateItemsStoreOptions();
 
         try {
+            System.out.print("Your option: ");
             int option = getIntInputFromUser();
             SubMenuUpdateItemsStoreOptions subMenuUpdateItemsStoreOptions = SubMenuUpdateItemsStoreOptions.getSubMenuUpdateItemsStoreOptions(option);
             handleUserAction(subMenuUpdateItemsStoreOptions);
@@ -631,9 +633,6 @@ public class UI {
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
-//        finally {
-//            loopProgram();
-//        }
     }
 
     private void showSubMenuUpdateItemsStoreOptions() {
@@ -661,24 +660,43 @@ public class UI {
         }
     }
 
+    private float getValidItemPrice() {
+        float itemPrice = 0f;
+        boolean isValidInput = false;
+        while (!isValidInput) {
+            itemPrice = getFloatInputFromUser();
+            if (itemPrice <= 0) {
+                System.out.println("The item price should be greater than zero.");
+                System.out.print("Please try again: ");
+            }
+            else {
+                isValidInput = true;
+            }
+        }
+        return itemPrice;
+    }
+
     private void updateItemPrice() {
         showAllStores();
 
         String msg = "Please enter store ID: ";
-        int storeId = getStoreIdFromUser(msg);
+        int storeId = getValidStoreIdFromUser(msg);
         StoreDto storeDto = SystemManager.getStoreDto(storeId);
 
         System.out.print("Please enter item ID: ");
         int intInput =  getIntInputFromUser();
         int itemId = getValidItemIdFromUser(storeDto.getId(), intInput);
 
-        //make validation
         System.out.print("Please enter item price: ");
-        float newItemPrice = getFloatInputFromUser();
+        float newItemPrice = getValidItemPrice();
 
-        SystemManager.updateItemPriceInStore(storeDto.getId(), itemId, newItemPrice);
-
-        System.out.println("The item price was updated successfully!");
+        try {
+            SystemManager.updateItemPriceInStore(storeDto.getId(), itemId, newItemPrice);
+            System.out.println("\nThe item price was updated successfully!");
+        }
+        catch (Exception e) {
+            System.out.println("Could not change the item price: " + e.getMessage());
+        }
     }
 
     private void loadSystemDataFirstTime() {

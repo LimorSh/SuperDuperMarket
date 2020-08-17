@@ -120,7 +120,6 @@ public class SystemManager {
 
     public static void updateItemPriceInStore(int storeId, int storeItemId, float newItemPrice) {
         superDuperMarket.updateItemPriceInStore(storeId, storeItemId, newItemPrice);
-
     }
 
 

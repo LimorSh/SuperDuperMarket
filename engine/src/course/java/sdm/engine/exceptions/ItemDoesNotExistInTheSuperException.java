@@ -1,9 +1,9 @@
 package course.java.sdm.engine.exceptions;
 
-public class ItemDoesNotExistException extends RuntimeException {
+public class ItemDoesNotExistInTheSuperException extends RuntimeException {
     private final String EXCEPTION_MESSAGE;
 
-    public ItemDoesNotExistException(int id)
+    public ItemDoesNotExistInTheSuperException(int id)
     {
         EXCEPTION_MESSAGE = "item ID " + id + " does not exist in the super market.";
     }

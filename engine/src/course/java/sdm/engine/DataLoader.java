@@ -1,7 +1,7 @@
 package course.java.sdm.engine;
 
 import course.java.sdm.engine.exceptions.DuplicateStoreLocationException;
-import course.java.sdm.engine.exceptions.ItemDoesNotExistException;
+import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheSuperException;
 import course.java.sdm.engine.exceptions.NotAllItemsAreBeingSoldException;
 import course.java.sdm.engine.jaxb.schema.generated.*;
 
@@ -69,7 +69,7 @@ public class DataLoader {
             try {
                 superDuperMarket.addItemToStore(itemId, itemPrice, store);
             }
-            catch (ItemDoesNotExistException e) {
+            catch (ItemDoesNotExistInTheSuperException e) {
                 throw new IllegalArgumentException("Could not add item to the store " + store.getName() + ": " + e.getMessage());
             }
         }
