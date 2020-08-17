@@ -1,7 +1,8 @@
 package course.java.sdm.engine;
 import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheStoreException;
 import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheSuperException;
-import course.java.sdm.engine.exceptions.DuplicateStoreLocationException;
+import course.java.sdm.engine.exceptions.StoreLocationExistsException;
+
 import java.util.*;
 
 public class SuperDuperMarket {
@@ -65,7 +66,7 @@ public class SuperDuperMarket {
             int x = store.getLocation().getCoordinate().x;
             int y = store.getLocation().getCoordinate().y;
             if (isLocationAlreadyExistsForStore(x, y)) {
-                throw new DuplicateStoreLocationException(getStoreByLocation(x, y).getName(), x, y);
+                throw new StoreLocationExistsException(getStoreByLocation(x, y).getName(), x, y);
             }
             storesLocations[x - 1][y - 1] = store;
             stores.put(id, store);
