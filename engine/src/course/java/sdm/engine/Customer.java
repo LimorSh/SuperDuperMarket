@@ -9,14 +9,21 @@ public class Customer {
 
     private static int numCustomers = 1;
     private final int id;
-    private final String name;
+    private String name;
     private final Map<Integer, Order> orders;
 
     public Customer(int id, String name) {
         this.id = numCustomers;
-        this.name = name.toLowerCase();
+        setName(name);
         orders = new HashMap<>();
         numCustomers++;
+    }
+
+    private void setName(String name) {
+        if (!Utils.isStringAnEnglishWord(name)) {
+            throw new IllegalArgumentException("The store name " + name + " is not valid: should contain English letters or spaces only.");
+        }
+        this.name = name.toLowerCase();
     }
 
     public static int getNumCustomers() {
