@@ -14,7 +14,7 @@ public class Customer {
 
     public Customer(int id, String name) {
         this.id = numCustomers;
-        this.name = name;
+        this.name = name.toLowerCase();
         orders = new HashMap<>();
         numCustomers++;
     }

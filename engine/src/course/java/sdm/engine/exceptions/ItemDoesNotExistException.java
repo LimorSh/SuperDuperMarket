@@ -3,10 +3,9 @@ package course.java.sdm.engine.exceptions;
 public class ItemDoesNotExistException extends RuntimeException {
     private final String EXCEPTION_MESSAGE;
 
-    public ItemDoesNotExistException(String storeName, int id)
+    public ItemDoesNotExistException(int id)
     {
-        EXCEPTION_MESSAGE = "Could not add to the store " + storeName + " item ID " + id + ":\n"
-                + "item ID does not exist.";
+        EXCEPTION_MESSAGE = "item ID " + id + " does not exist in the super market.";
     }
 
     @Override

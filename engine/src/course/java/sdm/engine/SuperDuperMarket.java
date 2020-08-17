@@ -64,7 +64,7 @@ public class SuperDuperMarket {
             int x = store.getLocation().getCoordinate().x;
             int y = store.getLocation().getCoordinate().y;
             if (isLocationAlreadyExistsForStore(x, y)) {
-                throw new DuplicateStoreLocationException(store.getName(), getStoreByLocation(x, y).getName(), x, y);
+                throw new DuplicateStoreLocationException(getStoreByLocation(x, y).getName(), x, y);
             }
             storesLocations[x - 1][y - 1] = store;
             stores.put(id, store);
@@ -140,7 +140,7 @@ public class SuperDuperMarket {
             addItemIdToItemsSoldIds(item);
         }
         else {
-            throw new ItemDoesNotExistException(store.getName(), itemId);
+            throw new ItemDoesNotExistException(itemId);
         }
     }
 

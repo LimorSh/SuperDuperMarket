@@ -2,7 +2,6 @@ package course.java.sdm.console;
 import course.java.sdm.engine.exceptions.StoreLocationExistsException;
 import course.java.sdm.engine.systemDto.*;
 import course.java.sdm.engine.SystemManager;
-
 import javax.xml.bind.JAXBException;
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -32,6 +31,7 @@ public class UI {
         DECIMAL_FORMAT = new DecimalFormat();
         DECIMAL_FORMAT.setMaximumFractionDigits(MAXIMUM_FRACTION_DIGITS);
         DATE_FORMAT = new SimpleDateFormat(ORDER_DATE_FORMAT);
+        DATE_FORMAT.setLenient(false);
     }
 
     private enum APPROVAL{
@@ -323,23 +323,6 @@ public class UI {
         Integer.parseInt(input);
     }
 
-    private String getIdOrQFromUser() {
-        String userIdOrQ = null;
-        boolean isValidInput = false;
-        while (!isValidInput) {
-            try {
-                userIdOrQ = getStringInputFromUser();
-                validateInputIdOrQ(userIdOrQ);
-                isValidInput = true;
-            }
-            catch (Exception e) {
-                System.out.println("The input you entered was: " + userIdOrQ + ". It should be an integer number or 'q' only.");
-                System.out.print("Please try again: ");
-            }
-        }
-        return userIdOrQ;
-    }
-
     private float getValidItemQuantityFromUser(int itemId) {
         boolean isValidInput = false;
         float quantity = itemId;
@@ -366,6 +349,23 @@ public class UI {
             }
         }
         return quantity;
+    }
+
+    private String getIdOrQFromUser() {
+        String userIdOrQ = null;
+        boolean isValidInput = false;
+        while (!isValidInput) {
+            try {
+                userIdOrQ = getStringInputFromUser();
+                validateInputIdOrQ(userIdOrQ);
+                isValidInput = true;
+            }
+            catch (Exception e) {
+                System.out.println("The input you entered was: " + userIdOrQ + ". It should be an integer number or 'q' only.");
+                System.out.print("Please try again: ");
+            }
+        }
+        return userIdOrQ;
     }
 
     private Map<Integer, Float> getItemsIdsAndQuantitiesFromUser(StoreDto store) {
@@ -429,6 +429,22 @@ public class UI {
         return DATE_FORMAT.format(date);
     }
 
+    private Date getDateFromUser(String msg) {
+        System.out.print(msg);
+        Date date = null;
+        try {
+            String dateStr = getStringInputFromUser();
+            date = covertDateStrToDate(dateStr);
+        }
+        catch (ParseException e) {
+            System.out.println(e.getMessage());
+            System.out.println("The order date should be in the following format: " + ORDER_DATE_FORMAT + ".");
+            System.out.println("Please notice the day, month, hour and minutes are valid.");
+            getDateFromUser(msg);
+        }
+        return date;
+    }
+
     private boolean orderConfirmed() {
         System.out.print("Please press '" + APPROVAL.YES.key + "' to confirm your order or '" + CANCEL.NO.key + "' to cancel: ");
         String userInput;
@@ -445,21 +461,6 @@ public class UI {
                 System.out.print("Please try again: ");
             }
         }
-    }
-
-    private Date getDateFromUser(String msg) {
-        System.out.print(msg);
-        Date date = null;
-        try {
-            String dateStr = getStringInputFromUser();
-            date = covertDateStrToDate(dateStr);
-        }
-        catch (ParseException e) {
-            System.out.println(e.getMessage());
-            System.out.println("The order date should be in the following format: " + ORDER_DATE_FORMAT + ".");
-            getDateFromUser(msg);
-        }
-        return date;
     }
 
     private Point getLocationFromUser(String msg) {

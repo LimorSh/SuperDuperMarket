@@ -81,8 +81,7 @@ public class Store {
             storeItems.put(id, new StoreItem(item, price));
         }
         else {
-            Item existedItem = storeItems.get(id);
-            throw new DuplicateStoreItemIdException(name, existedItem.getName(), id, item.getName());
+            throw new DuplicateStoreItemIdException(name, item.getName(), id);
         }
     }
 
