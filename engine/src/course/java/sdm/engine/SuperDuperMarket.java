@@ -1,4 +1,5 @@
 package course.java.sdm.engine;
+import course.java.sdm.engine.exceptions.DuplicateElementIdException;
 import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheStoreException;
 import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheSuperException;
 import course.java.sdm.engine.exceptions.StoreLocationExistsException;
@@ -73,10 +74,13 @@ public class SuperDuperMarket {
         }
         else {
             Store existentStore = getStore(id);
-            String sb = "Duplicate store ID:\n" +
-                    store.getName() + " store ID " + id + " already exists for " +
-                    existentStore.getName() + " store";
-            throw new IllegalArgumentException(sb);
+//            String s = "Duplicate store ID:\n" +
+//                    store.getName() + " store ID " + id + " already exists for " +
+//                    existentStore.getName() + " store";
+//            throw new IllegalArgumentException(s);
+
+            throw new DuplicateElementIdException(Store.class.getSimpleName(), store.getName(), existentStore.getName(), id);
+
         }
     }
 
@@ -96,10 +100,12 @@ public class SuperDuperMarket {
         }
         else {
             Item existentItem = getItem(id);
-            String sb = "Duplicate item ID:\n" +
-                    item.getName() + " item ID " + id + " already exists for " +
-                    existentItem.getName() + " item";
-            throw new IllegalArgumentException(sb);
+//            String s = "Duplicate item ID:\n" +
+//                    item.getName() + " item ID " + id + " already exists for " +
+//                    existentItem.getName() + " item";
+//            throw new IllegalArgumentException(s);
+
+            throw new DuplicateElementIdException(Item.class.getSimpleName(), item.getName(), existentItem.getName(), id);
         }
     }
 

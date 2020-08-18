@@ -633,6 +633,7 @@ public class UI {
     private void updateStoreItems() {
         System.out.println("\n" + MenuOptions.UPDATE_STORE_ITEMS.optionTitle + ":");
         System.out.println("------------------");
+        showAllStores();
         showSubMenuUpdateItemsStoreOptions();
 
         try {
