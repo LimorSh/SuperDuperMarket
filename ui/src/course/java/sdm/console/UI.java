@@ -15,7 +15,7 @@ import java.lang.*;
 public class UI {
 
     private static final String SEPARATOR_LINE = "\n----------------------------------------------------------" +
-            "---------------------------------------------------------";
+            "-----------------------------------------------------------------";
     private static final String COMA_SEPARATOR = ", ";
     private static final String SPACE_SEPARATOR = " ";
     private static final String WELCOME_MESSAGE_STR = "Welcome to Super Duper Market!";
@@ -55,11 +55,11 @@ public class UI {
     }
 
     private enum MenuOptions {
-        LOAD_SYSTEM_DATA(1, "Load xml file - system data"),
+        LOAD_SYSTEM_DATA(1, "Load system data file"),
         SHOW_STORES(2, "Show the super stores"),
         SHOW_ITEMS(3, "Show the super items"),
         CREATE_ORDER(4, "Create new order"),
-        SHOW_ORDERS_HISTORY(5, "Show order history"),
+        SHOW_ORDERS_HISTORY(5, "Show orders history"),
         UPDATE_STORE_ITEMS(6, "Update store items"),
         EXIT(7, "Exit")
         ;
@@ -257,16 +257,16 @@ public class UI {
             }
         }
         else {
-            System.out.println("There are no orders in the store.");
+            System.out.print("There are no orders in the store.");
         }
 
         printSeparatorLine();
     }
 
     private void showAllStores() {
-        System.out.println(SEPARATOR_LINE);
         Collection<StoreDto> storesDto = SystemManager.getStoresDto();
-        System.out.println("The stores in the super market are:");
+        System.out.println("\nSuper market stores:");
+        System.out.println("-------------------");
         for (StoreDto storeDto : storesDto) {
             showStore(storeDto);
         }
@@ -275,7 +275,7 @@ public class UI {
     private void showItemBasicDetails(ItemDto itemDto) {
         System.out.print("ID: " + itemDto.getId() + COMA_SEPARATOR);
         System.out.print("Name: " + itemDto.getName() + COMA_SEPARATOR);
-        System.out.print("Purchase Category: " + itemDto.getPurchaseCategory());
+        System.out.print("Purchase category: " + itemDto.getPurchaseCategory());
     }
 
     private void showStoreBasicDetails(StoreDto storeDto) {
@@ -294,16 +294,15 @@ public class UI {
         System.out.print("The number of stores selling the item: " + numberOfStoresSellingTheItem + COMA_SEPARATOR);
         System.out.print("The average price of the item: " + getFormatNumberWithTwoDigitsAfterPoint(averageItemPrice) + COMA_SEPARATOR);
         System.out.print("The total amount of item sells: " + DECIMAL_FORMAT.format(totalAmountOfItemSells));
-        System.out.println();
+        printSeparatorLine();
     }
 
     private void showAllItems() {
-        System.out.println(SEPARATOR_LINE);
-
         Collection<ItemDto> itemsDto = SystemManager.getItemsDto();
 
         if (!itemsDto.isEmpty()) {
-            System.out.println("The items in the super market are:");
+            System.out.println("\nSuper market items:");
+            System.out.println("------------------");
             for (ItemDto itemDto : itemsDto) {
                 showItem(itemDto);
             }
@@ -429,6 +428,7 @@ public class UI {
 
     private void showOrderSummery(Map<Integer, Float> itemsIdsAndQuantities, StoreDto storeDto) {
         System.out.println("Order Summery:");
+        System.out.println("-------------");
         int itemId;
         float itemQuantity;
         String itemName;
@@ -560,6 +560,8 @@ public class UI {
     }
 
     private void createOrder() {
+        System.out.println("\nShop now:");
+        System.out.println("--------");
         StoreDto storeDto = getStoreFromUser();
 
         String msg = "Please enter order's date: ";
@@ -574,6 +576,10 @@ public class UI {
         showItemsPerStore(storeDto);
         System.out.println();
 
+        orderContinuation(storeDto, date, userLocationX, userLocationY);
+    }
+
+    private void orderContinuation(StoreDto storeDto, Date date, int userLocationX, int userLocationY) {
         Map<Integer, Float> itemsIdsAndQuantities = getItemsIdsAndQuantitiesFromUser(storeDto);
         if (!itemsIdsAndQuantities.isEmpty()) {
             System.out.println();
@@ -599,7 +605,8 @@ public class UI {
     }
 
     private void showOrdersHistory() {
-        System.out.println("The orders in the super market are:");
+        System.out.println("\nOrders history:");
+        System.out.println("--------------");
         Collection<OrderDto> ordersDto = SystemManager.getOrdersDto();
 
         if (!ordersDto.isEmpty()) {
@@ -617,7 +624,7 @@ public class UI {
                 System.out.print("Items cost: " + getFormatNumberWithTwoDigitsAfterPoint(orderDto.getItemsCost()) + COMA_SEPARATOR);
                 System.out.print("Delivery cost: " + getFormatNumberWithTwoDigitsAfterPoint(orderDto.getDeliveryCost()) + COMA_SEPARATOR);
                 System.out.print("Total cost: " + getFormatNumberWithTwoDigitsAfterPoint(orderDto.getTotalCost()));
-                System.out.println();
+                printSeparatorLine();
             }
         }
         else {
@@ -626,12 +633,21 @@ public class UI {
     }
 
     private void updateStoreItems() {
+        System.out.println("\n" + MenuOptions.UPDATE_STORE_ITEMS.optionTitle + ":");
+        System.out.println("------------------");
         showSubMenuUpdateItemsStoreOptions();
 
         try {
             System.out.print("Your option: ");
             int option = getIntInputFromUser();
             SubMenuUpdateItemsStoreOptions subMenuUpdateItemsStoreOptions = SubMenuUpdateItemsStoreOptions.getSubMenuUpdateItemsStoreOptions(option);
+            String title = subMenuUpdateItemsStoreOptions.optionTitle;
+            System.out.println("\n" + title + ":");
+            int len = title.length();
+            for (int i = 0; i < len; i++) {
+                System.out.print("-");
+            }
+            System.out.println();
             handleUserAction(subMenuUpdateItemsStoreOptions);
         }
         catch (IllegalArgumentException e) {
@@ -640,7 +656,6 @@ public class UI {
     }
 
     private void showSubMenuUpdateItemsStoreOptions() {
-        System.out.println();
         System.out.println(PLEASE_CHOOSE_ACTION_STR);
         for (SubMenuUpdateItemsStoreOptions subMenuUpdateItemsStoreOptions : SubMenuUpdateItemsStoreOptions.values()) {
             System.out.println(subMenuUpdateItemsStoreOptions.optionNumber + ". " + subMenuUpdateItemsStoreOptions.optionTitle);
@@ -756,14 +771,17 @@ public class UI {
                 isValidInput = true;
             }
             catch (Exception e) {
-                System.out.println("The xml file you tried to load is not valid for the following reason:");
+                System.out.println("\nThe xml file you tried to load is not valid for the following reason:");
                 System.out.println(e.getMessage());
+                System.out.println();
             }
         }
     }
 
     private void loadSystemData() throws JAXBException, FileNotFoundException {
-        System.out.println("Please enter the xml file path you would like to load: ");
+        System.out.println("\n" + MenuOptions.LOAD_SYSTEM_DATA.optionTitle + ":");
+        System.out.println("---------------------");
+        System.out.println("Please enter a xml file path you would like to load:");
         String filePath = getStringInputFromUser();
         SystemManager.loadSystemData(filePath);
     }
