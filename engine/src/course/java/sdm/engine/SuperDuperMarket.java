@@ -74,11 +74,6 @@ public class SuperDuperMarket {
         }
         else {
             Store existentStore = getStore(id);
-//            String s = "Duplicate store ID:\n" +
-//                    store.getName() + " store ID " + id + " already exists for " +
-//                    existentStore.getName() + " store";
-//            throw new IllegalArgumentException(s);
-
             throw new DuplicateElementIdException(Store.class.getSimpleName(), store.getName(), existentStore.getName(), id);
 
         }
@@ -100,11 +95,6 @@ public class SuperDuperMarket {
         }
         else {
             Item existentItem = getItem(id);
-//            String s = "Duplicate item ID:\n" +
-//                    item.getName() + " item ID " + id + " already exists for " +
-//                    existentItem.getName() + " item";
-//            throw new IllegalArgumentException(s);
-
             throw new DuplicateElementIdException(Item.class.getSimpleName(), item.getName(), existentItem.getName(), id);
         }
     }
