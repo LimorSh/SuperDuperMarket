@@ -99,7 +99,7 @@ public class SystemManager {
 
     public static void validateStoreIdExists(int id) {
         if (id <= 0) {
-            throw new IllegalArgumentException("The store ID " + id + " is not an positive integer number.");
+            throw new IllegalArgumentException("The store ID " + id + " is not a positive integer number.");
         }
         if (!superDuperMarket.isStoreExists(id)) {
             throw new IllegalArgumentException("The store ID " + id + " does not exists.");
@@ -107,12 +107,7 @@ public class SystemManager {
     }
 
     public static void validateItemIdExistsInStore(int storeId, int storeItemId) {
-        if (storeItemId <= 0) {
-            throw new IllegalArgumentException("The item ID " + storeItemId + " is not an positive integer number.");
-        }
-        if (!superDuperMarket.isItemExists(storeItemId)) {
-            throw new IllegalArgumentException("The item ID " + storeItemId + " does not exist in the super market.");
-        }
+        validateItemExistInTheSuper(storeItemId);
         if (!superDuperMarket.isItemExistsInStore(storeId, storeItemId)) {
             throw new IllegalArgumentException("The item ID " + storeItemId + " does not exist in the store.");
         }
@@ -122,6 +117,25 @@ public class SystemManager {
         superDuperMarket.updateItemPriceInStore(storeId, storeItemId, newItemPrice);
     }
 
+    public static void validateAddItemToStore(int storeId, int storeItemId) {
+        validateItemExistInTheSuper(storeItemId);
+        if (superDuperMarket.isItemExistsInStore(storeId, storeItemId)) {
+            throw new IllegalArgumentException("The item ID " + storeItemId + " already exist in the store.");
+        }
+    }
+
+    public static void validateItemExistInTheSuper(int id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("The item ID " + id + " is not an positive integer number.");
+        }
+        if (!superDuperMarket.isItemExists(id)) {
+            throw new IllegalArgumentException("The item ID " + id + " does not exist in the super market.");
+        }
+    }
+
+    public static void addItemToStore(int itemId, float itemPrice, int storeId) {
+        superDuperMarket.addItemToStore(itemId, itemPrice, storeId);
+    }
 
 
 }

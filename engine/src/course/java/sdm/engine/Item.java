@@ -2,8 +2,6 @@ package course.java.sdm.engine;
 
 import course.java.sdm.engine.jaxb.schema.generated.SDMItem;
 
-import java.util.InputMismatchException;
-
 public class Item {
 
     public enum PurchaseCategory {

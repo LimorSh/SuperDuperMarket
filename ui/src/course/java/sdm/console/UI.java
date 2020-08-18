@@ -332,7 +332,7 @@ public class UI {
         return !(userInput.equalsIgnoreCase(USER_FINISHED_CHOOSE_ITEMS_KEY));
     }
 
-    private int getValidItemIdFromUser(int storeId, int itemId) {
+    private int getValidStoreItemIdFromUser(int storeId, int itemId) {
         boolean isValidInput = false;
         int intInput = itemId;
         while (!isValidInput) {
@@ -410,7 +410,7 @@ public class UI {
 
         while(toContinue) {
             int intInput =  Integer.parseInt(userIdOrQ);
-            int itemId = getValidItemIdFromUser(storeDto.getId(), intInput);
+            int itemId = getValidStoreItemIdFromUser(storeDto.getId(), intInput);
 
             System.out.print("Please enter item quantity: ");
             float quantity = getValidItemQuantityFromUser(itemId);
@@ -551,14 +551,18 @@ public class UI {
         return storeId;
     }
 
-    private void createOrder() {
+    public StoreDto getStoreFromUser() {
         showAllStores();
 
         String msg = "Please enter store ID: ";
         int storeId = getValidStoreIdFromUser(msg);
-        StoreDto storeDto = SystemManager.getStoreDto(storeId);
+        return SystemManager.getStoreDto(storeId);
+    }
 
-        msg = "Please enter order's date: ";
+    private void createOrder() {
+        StoreDto storeDto = getStoreFromUser();
+
+        String msg = "Please enter order's date: ";
         Date date = getDateFromUser(msg);
 
         msg = "Please enter your location:";
@@ -650,13 +654,51 @@ public class UI {
 //                deleteItem();
                 break;
             case ADD_ITEM:
-//                addItem();
+                addItem();
                 break;
             case UPDATE_ITEM_PRICE:
                 updateItemPrice();
                 break;
             case BACK_TO_MAIN_MENU:
                 break;
+        }
+    }
+
+    private int getValidItemIdFromUser(int storeId, int itemId) {
+        boolean isValidInput = false;
+        int intInput = itemId;
+        while (!isValidInput) {
+            try {
+                SystemManager.validateAddItemToStore(storeId, intInput);
+                isValidInput = true;
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.print("Please enter valid item ID: ");
+                intInput = getIntInputFromUser();
+            }
+        }
+        return intInput;
+    }
+
+    private void addItem() {
+        StoreDto storeDto = getStoreFromUser();
+
+        showAllItems();
+
+        System.out.print("Please enter item ID: ");
+        int intInput =  getIntInputFromUser();
+        int itemId = getValidItemIdFromUser(storeDto.getId(), intInput);
+
+        System.out.print("Please enter item price: ");
+        float itemPrice = getValidItemPrice();
+
+        try {
+            SystemManager.addItemToStore(itemId, itemPrice, storeDto.getId());
+            System.out.println("\nThe item was added to the store successfully!");
+        }
+        catch (Exception e) {
+            System.out.println("Could not add the item to the store: " + e.getMessage());
         }
     }
 
@@ -677,15 +719,11 @@ public class UI {
     }
 
     private void updateItemPrice() {
-        showAllStores();
-
-        String msg = "Please enter store ID: ";
-        int storeId = getValidStoreIdFromUser(msg);
-        StoreDto storeDto = SystemManager.getStoreDto(storeId);
+        StoreDto storeDto = getStoreFromUser();
 
         System.out.print("Please enter item ID: ");
         int intInput =  getIntInputFromUser();
-        int itemId = getValidItemIdFromUser(storeDto.getId(), intInput);
+        int itemId = getValidStoreItemIdFromUser(storeDto.getId(), intInput);
 
         System.out.print("Please enter item price: ");
         float newItemPrice = getValidItemPrice();

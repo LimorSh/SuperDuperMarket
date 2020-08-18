@@ -146,6 +146,11 @@ public class SuperDuperMarket {
         }
     }
 
+    public void addItemToStore(int itemId, float itemPrice, int storeId) {
+        Store store = stores.get(storeId);
+        addItemToStore(itemId, itemPrice, store);
+    }
+
     public void updateItemPriceInStore(int storeId, int storeItemId, float newItemPrice) {
         Store store = stores.get(storeId);
         if (!store.isItemInTheStore(storeItemId)) {
