@@ -151,7 +151,7 @@ public class SuperDuperMarket {
         addItemToStore(itemId, itemPrice, store);
     }
 
-    public void updateItemPriceInStore(int storeId, int storeItemId, float newItemPrice) {
+    public void updateItemPriceInStore(int storeId, float newItemPrice, int storeItemId) {
         Store store = stores.get(storeId);
         if (!store.isItemInTheStore(storeItemId)) {
             Item item = items.get(storeItemId);
@@ -207,5 +207,17 @@ public class SuperDuperMarket {
 
     public boolean isStoreExists(int id) {
         return stores.containsKey(id);
+    }
+
+    public void deleteItemFromStore(int storeItemId, int storeId) {
+        if (getNumberOfStoresSellingTheItem(storeItemId) == 1) {
+            throw new IllegalArgumentException("The item is currently being sold by this store only." +
+                    "\nItem must be sell in at least one store in the super market.");
+        }
+        else {
+            Store store = stores.get(storeId);
+            store.deleteItem(storeItemId);
+        }
+
     }
 }

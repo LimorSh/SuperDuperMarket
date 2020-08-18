@@ -113,8 +113,8 @@ public class SystemManager {
         }
     }
 
-    public static void updateItemPriceInStore(int storeId, int storeItemId, float newItemPrice) {
-        superDuperMarket.updateItemPriceInStore(storeId, storeItemId, newItemPrice);
+    public static void updateItemPriceInStore(int storeItemId, float newItemPrice, int storeId) {
+        superDuperMarket.updateItemPriceInStore(storeId, newItemPrice, storeItemId);
     }
 
     public static void validateAddItemToStore(int storeId, int storeItemId) {
@@ -135,6 +135,10 @@ public class SystemManager {
 
     public static void addItemToStore(int itemId, float itemPrice, int storeId) {
         superDuperMarket.addItemToStore(itemId, itemPrice, storeId);
+    }
+
+    public static void deleteItemFromStore(int storeItemId, int storeId) {
+        superDuperMarket.deleteItemFromStore(storeItemId, storeId);
     }
 
 

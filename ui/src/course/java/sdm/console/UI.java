@@ -649,18 +649,33 @@ public class UI {
     }
 
     private void handleUserAction(SubMenuUpdateItemsStoreOptions subMenuUpdateItemsStoreOptions) {
-        switch (subMenuUpdateItemsStoreOptions) {
-            case DELETE_ITEM:
-//                deleteItem();
-                break;
-            case ADD_ITEM:
-                addItem();
-                break;
-            case UPDATE_ITEM_PRICE:
-                updateItemPrice();
-                break;
-            case BACK_TO_MAIN_MENU:
-                break;
+        if (!subMenuUpdateItemsStoreOptions.equals(SubMenuUpdateItemsStoreOptions.BACK_TO_MAIN_MENU)) {
+            StoreDto storeDto = getStoreFromUser();
+            switch (subMenuUpdateItemsStoreOptions) {
+                case DELETE_ITEM:
+                    deleteItem(storeDto);
+                    break;
+                case ADD_ITEM:
+                    addItem(storeDto);
+                    break;
+                case UPDATE_ITEM_PRICE:
+                    updateItemPrice(storeDto);
+                    break;
+            }
+        }
+    }
+
+    private void deleteItem(StoreDto storeDto) {
+        System.out.print("Please enter item ID: ");
+        int intInput =  getIntInputFromUser();
+        int itemId = getValidStoreItemIdFromUser(storeDto.getId(), intInput);
+
+        try {
+            SystemManager.deleteItemFromStore(itemId, storeDto.getId());
+            System.out.println("\nThe item was deleted from the store successfully!");
+        }
+        catch (Exception e) {
+            System.out.println("\nCould not delete the item from the store: " + e.getMessage());
         }
     }
 
@@ -681,9 +696,7 @@ public class UI {
         return intInput;
     }
 
-    private void addItem() {
-        StoreDto storeDto = getStoreFromUser();
-
+    private void addItem(StoreDto storeDto) {
         showAllItems();
 
         System.out.print("Please enter item ID: ");
@@ -698,7 +711,7 @@ public class UI {
             System.out.println("\nThe item was added to the store successfully!");
         }
         catch (Exception e) {
-            System.out.println("Could not add the item to the store: " + e.getMessage());
+            System.out.println("\nCould not add the item to the store: " + e.getMessage());
         }
     }
 
@@ -718,9 +731,7 @@ public class UI {
         return itemPrice;
     }
 
-    private void updateItemPrice() {
-        StoreDto storeDto = getStoreFromUser();
-
+    private void updateItemPrice(StoreDto storeDto) {
         System.out.print("Please enter item ID: ");
         int intInput =  getIntInputFromUser();
         int itemId = getValidStoreItemIdFromUser(storeDto.getId(), intInput);
@@ -729,11 +740,11 @@ public class UI {
         float newItemPrice = getValidItemPrice();
 
         try {
-            SystemManager.updateItemPriceInStore(storeDto.getId(), itemId, newItemPrice);
+            SystemManager.updateItemPriceInStore(itemId, newItemPrice, storeDto.getId());
             System.out.println("\nThe item price was updated successfully!");
         }
         catch (Exception e) {
-            System.out.println("Could not change the item price: " + e.getMessage());
+            System.out.println("\nCould not change the item price: " + e.getMessage());
         }
     }
 

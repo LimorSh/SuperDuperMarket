@@ -171,4 +171,8 @@ public class Store {
         result = 31 * result + (location != null ? location.hashCode() : 0);
         return result;
     }
+
+    public void deleteItem(int id) {
+        storeItems.remove(id);
+    }
 }
