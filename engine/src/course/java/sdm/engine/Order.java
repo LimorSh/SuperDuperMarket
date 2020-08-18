@@ -10,14 +10,13 @@ public class Order {
     private static int numOrders = 1;
     private final int id;
     private final Date date;
-//    private final Customer customer;   //maybe don't need
+//    private final Customer customer;   //need for later
     private final Location customerLocation;
     private final Store store;
     private final Map<Integer, OrderLine> orderLines; //the key is itemId
     private float itemsCost;
     private float deliveryCost;
     private int totalItems;
-//    private float totalCost;
 
     public Order(Date date, Location customerLocation, Store store) {
         this.id = numOrders;
@@ -76,22 +75,20 @@ public class Order {
             if (!orderLines.containsKey(itemId)) {
                 OrderLine orderLine = new OrderLine(item, itemQuantity, itemPrice);
                 orderLines.put(itemId, orderLine);
-                updateTotalItems(item.getPurchaseCategory(), itemQuantity);
-                updateItemsCost(item, itemQuantity);
-                updateTotalNumberSoldItemInStore(item, itemQuantity);
             }
-            // this is only for backup, already being applied in the UI. need to finish this - not ok!
-//            else {
-//                float totalQuantity = itemQuantity;
-//                totalQuantity += orderLines.get(itemId).getQuantity();
-//                orderLine = new OrderLine(item, totalQuantity);
-//
-//                orderLines.put(itemId, orderLine);
-//                updateTotalItems(item.getPurchaseType(), totalQuantity);
-//
-//
-//            }
+            else {
+                float totalQuantity = itemQuantity;
+                totalQuantity += orderLines.get(itemId).getQuantity();
+                orderLines.get(itemId).setQuantity(totalQuantity);
+            }
+            updateOrderData(item, itemQuantity);
         });
+    }
+
+    private void updateOrderData(Item item, float itemQuantity) {
+        updateTotalItems(item.getPurchaseCategory(), itemQuantity);
+        updateItemsCost(item, itemQuantity);
+        updateTotalNumberSoldItemInStore(item, itemQuantity);
     }
 
     public void updateTotalItems(Item.PurchaseCategory purchaseCategory, float quantity) {

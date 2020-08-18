@@ -223,7 +223,7 @@ public class UI {
     private void showStore(StoreDto storeDto) {
         showStoreBasicDetails(storeDto);
         System.out.print(COMA_SEPARATOR);
-        System.out.print("Total deliveries revenue: " + getFormatNumberWithTwoDigitsAfterPoint(storeDto.getTotalDeliveriesRevenue()));
+        System.out.print("Total deliveries revenue: " + DECIMAL_FORMAT.format(storeDto.getTotalDeliveriesRevenue()));
 
         Collection<StoreItemDto> storeItemsDto = storeDto.getStoreItemsDto();
 
@@ -235,7 +235,7 @@ public class UI {
                 showItemBasicDetails(storeItemDto);
                 System.out.print(COMA_SEPARATOR);
                 System.out.print("Price: " + getFormatNumberWithTwoDigitsAfterPoint(storeItemDto.getPrice()) + COMA_SEPARATOR);
-                System.out.print("Total sold in the store: " + DECIMAL_FORMAT.format(storeItemDto.getTotalSold()));
+                System.out.print("Total sells in the store: " + DECIMAL_FORMAT.format(storeItemDto.getTotalSold()));
                 System.out.println();
             }
         }
@@ -250,9 +250,9 @@ public class UI {
             for (OrderDto orderDto : ordersDto) {
                 System.out.print("Date: " + covertDateToDateStr(orderDto.getDate()) + COMA_SEPARATOR);
                 System.out.print("Total items: " + orderDto.getTotalItems() + COMA_SEPARATOR);
-                System.out.print("Items cost: " + getFormatNumberWithTwoDigitsAfterPoint(orderDto.getItemsCost()) + COMA_SEPARATOR);
-                System.out.print("Delivery cost: " + getFormatNumberWithTwoDigitsAfterPoint(orderDto.getDeliveryCost()) + COMA_SEPARATOR);
-                System.out.print("Total cost: " + getFormatNumberWithTwoDigitsAfterPoint(orderDto.getTotalCost()));
+                System.out.print("Items cost: " + DECIMAL_FORMAT.format(orderDto.getItemsCost()) + COMA_SEPARATOR);
+                System.out.print("Delivery cost: " + DECIMAL_FORMAT.format(orderDto.getDeliveryCost()) + COMA_SEPARATOR);
+                System.out.print("Total cost: " + DECIMAL_FORMAT.format(orderDto.getTotalCost()));
                 System.out.println();
             }
         }
@@ -291,9 +291,9 @@ public class UI {
         float averageItemPrice = SystemManager.getAverageItemPrice(itemDto);
         float totalAmountOfItemSells = SystemManager.getTotalAmountOfItemSells(itemDto);
         System.out.print("       ");
-        System.out.print("The number of stores selling the item: " + numberOfStoresSellingTheItem + COMA_SEPARATOR);
-        System.out.print("The average price of the item: " + getFormatNumberWithTwoDigitsAfterPoint(averageItemPrice) + COMA_SEPARATOR);
-        System.out.print("The total amount of item sells: " + DECIMAL_FORMAT.format(totalAmountOfItemSells));
+        System.out.print("Number of stores selling the item: " + numberOfStoresSellingTheItem + COMA_SEPARATOR);
+        System.out.print("Average price: " + getFormatNumberWithTwoDigitsAfterPoint(averageItemPrice) + COMA_SEPARATOR);
+        System.out.print("Total sells: " + DECIMAL_FORMAT.format(totalAmountOfItemSells));
         printSeparatorLine();
     }
 
@@ -440,7 +440,7 @@ public class UI {
         for (Map.Entry<Integer, Float> entry : itemsIdsAndQuantities.entrySet()) {
             itemId = entry.getKey();
             itemQuantity = entry.getValue();
-            System.out.print("ID: " + itemId + COMA_SEPARATOR);
+            System.out.print("\tID: " + itemId + COMA_SEPARATOR);
             itemName = SystemManager.getItemName(itemId);
             System.out.print("Name: " + itemName + COMA_SEPARATOR);
             itemPurchaseCategory = SystemManager.getItemPurchaseCategory(itemId);
@@ -449,7 +449,7 @@ public class UI {
             System.out.print("Item price: " + getFormatNumberWithTwoDigitsAfterPoint(itemPrice) + COMA_SEPARATOR);
             System.out.print("Quantity: " + DECIMAL_FORMAT.format(itemQuantity) + COMA_SEPARATOR);
             itemTotalCost = itemQuantity * itemPrice;
-            System.out.print("Total item cost: " + getFormatNumberWithTwoDigitsAfterPoint(itemTotalCost));
+            System.out.print("Total item cost: " + DECIMAL_FORMAT.format(itemTotalCost));
             System.out.println();
         }
     }
@@ -552,8 +552,6 @@ public class UI {
     }
 
     public StoreDto getStoreFromUser() {
-        showAllStores();
-
         String msg = "Please enter store ID: ";
         int storeId = getValidStoreIdFromUser(msg);
         return SystemManager.getStoreDto(storeId);
@@ -562,6 +560,7 @@ public class UI {
     private void createOrder() {
         System.out.println("\nShop now:");
         System.out.println("--------");
+        showAllStoresForCreateOrder();
         StoreDto storeDto = getStoreFromUser();
 
         String msg = "Please enter order's date: ";
@@ -588,7 +587,7 @@ public class UI {
             int storePpk = storeDto.getPpk();
             double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(storeDto, userLocationX, userLocationY);
             float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
-            System.out.println("The delivery cost is: " + getFormatNumberWithTwoDigitsAfterPoint(deliveryCost));
+            System.out.println("The delivery cost is: " + DECIMAL_FORMAT.format(deliveryCost));
             System.out.println("The store ppk is: " + storePpk);
             System.out.println("Your distance from the store is: " + DECIMAL_FORMAT.format(distanceBetweenCustomerAndStore));
             System.out.println();
@@ -610,7 +609,6 @@ public class UI {
         Collection<OrderDto> ordersDto = SystemManager.getOrdersDto();
 
         if (!ordersDto.isEmpty()) {
-            System.out.println();
             for (OrderDto orderDto : ordersDto) {
                 int orderId = orderDto.getId();
                 System.out.print("ID: " + orderId + COMA_SEPARATOR);
@@ -621,9 +619,9 @@ public class UI {
                 System.out.print("Total amount of items: " + orderDto.getTotalItems() + COMA_SEPARATOR);
                 System.out.println();
                 System.out.print("       ");
-                System.out.print("Items cost: " + getFormatNumberWithTwoDigitsAfterPoint(orderDto.getItemsCost()) + COMA_SEPARATOR);
-                System.out.print("Delivery cost: " + getFormatNumberWithTwoDigitsAfterPoint(orderDto.getDeliveryCost()) + COMA_SEPARATOR);
-                System.out.print("Total cost: " + getFormatNumberWithTwoDigitsAfterPoint(orderDto.getTotalCost()));
+                System.out.print("Items cost: " + DECIMAL_FORMAT.format(orderDto.getItemsCost()) + COMA_SEPARATOR);
+                System.out.print("Delivery cost: " + DECIMAL_FORMAT.format(orderDto.getDeliveryCost()) + COMA_SEPARATOR);
+                System.out.print("Total cost: " + DECIMAL_FORMAT.format(orderDto.getTotalCost()));
                 printSeparatorLine();
             }
         }
@@ -784,6 +782,15 @@ public class UI {
         System.out.println("Please enter a xml file path you would like to load:");
         String filePath = getStringInputFromUser();
         SystemManager.loadSystemData(filePath);
+    }
+
+    private void showAllStoresForCreateOrder() {
+        Collection<StoreDto> storesDto = SystemManager.getStoresDto();
+        System.out.println("The stores in the super market are:");
+        for (StoreDto storeDto : storesDto) {
+            showStoreBasicDetails(storeDto);
+            System.out.println();
+        }
     }
 
 
