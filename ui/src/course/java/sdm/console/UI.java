@@ -230,7 +230,7 @@ public class UI {
         if (!storeItemsDto.isEmpty()) {
             System.out.println();
             System.out.println();
-            System.out.println("The items in the store are:");
+            System.out.println("Items:");
             for (StoreItemDto storeItemDto : storeItemsDto) {
                 showItemBasicDetails(storeItemDto);
                 System.out.print(COMA_SEPARATOR);
@@ -243,10 +243,11 @@ public class UI {
             System.out.println("There are no items in the store.");
         }
 
+        System.out.println();
+
         Collection<OrderDto> ordersDto = storeDto.getOrdersDto();
         if (!ordersDto.isEmpty()) {
-            System.out.println();
-            System.out.println("The orders in the store are:");
+            System.out.println("Orders:");
             for (OrderDto orderDto : ordersDto) {
                 System.out.print("Date: " + covertDateToDateStr(orderDto.getDate()) + COMA_SEPARATOR);
                 System.out.print("Total items: " + orderDto.getTotalItems() + COMA_SEPARATOR);
@@ -750,7 +751,7 @@ public class UI {
         int intInput =  getIntInputFromUser();
         int itemId = getValidStoreItemIdFromUser(storeDto.getId(), intInput);
 
-        System.out.print("Please enter item price: ");
+        System.out.print("Please enter the item new price: ");
         float newItemPrice = getValidItemPrice();
 
         try {
