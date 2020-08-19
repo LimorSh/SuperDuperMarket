@@ -3,12 +3,10 @@ package course.java.sdm.engine.exceptions;
 public class DuplicateStoreItemIdException extends RuntimeException {
     private final String EXCEPTION_MESSAGE;
 
-    public DuplicateStoreItemIdException(String storeName, String existentItemName, int existentItemId, String addedItemName)
+    public DuplicateStoreItemIdException(String storeName, String itemName, int itemId)
     {
-        EXCEPTION_MESSAGE = "Could not add item to the store:\n" +
-                addedItemName + " ID " + existentItemId + " is taken - " +
-                storeName + " already sells " + existentItemName +
-                " with this ID.";
+        EXCEPTION_MESSAGE = storeName + " already sells " + itemName +
+                " (ID " + itemId + ").";
     }
 
     @Override

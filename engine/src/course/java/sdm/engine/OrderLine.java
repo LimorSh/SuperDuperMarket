@@ -2,7 +2,7 @@ package course.java.sdm.engine;
 
 public class OrderLine {
     private final Item item;
-    private final float quantity;
+    private float quantity;
     private final float cost;
 
     public OrderLine(Item item, float quantity, float cost) {
@@ -21,5 +21,9 @@ public class OrderLine {
 
     public float getCost() {
         return cost;
+    }
+
+    public void setQuantity(float quantity) {
+        this.quantity = quantity;
     }
 }

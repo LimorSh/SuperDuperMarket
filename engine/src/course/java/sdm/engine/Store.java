@@ -81,8 +81,7 @@ public class Store {
             storeItems.put(id, new StoreItem(item, price));
         }
         else {
-            Item existedItem = storeItems.get(id);
-            throw new DuplicateStoreItemIdException(name, existedItem.getName(), id, item.getName());
+            throw new DuplicateStoreItemIdException(name, item.getName(), id);
         }
     }
 
@@ -94,6 +93,14 @@ public class Store {
         else {
             // throw exception
         }
+    }
+
+    public void updateItemPrice(int id, float newPrice) {
+        StoreItem storeItem = storeItems.get(id);
+        if (storeItem.getPrice() == newPrice) {
+            throw new IllegalArgumentException("The new item price is the same as it's current price.");
+        }
+        storeItems.get(id).setPrice(newPrice);
     }
 
     public void updateTotalDeliveriesRevenue(Location location) {
@@ -163,5 +170,9 @@ public class Store {
         int result = id;
         result = 31 * result + (location != null ? location.hashCode() : 0);
         return result;
+    }
+
+    public void deleteItem(int id) {
+        storeItems.remove(id);
     }
 }

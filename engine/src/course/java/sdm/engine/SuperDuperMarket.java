@@ -1,6 +1,9 @@
 package course.java.sdm.engine;
-import course.java.sdm.engine.exceptions.ItemDoesNotExistException;
-import course.java.sdm.engine.exceptions.DuplicateStoreLocationException;
+import course.java.sdm.engine.exceptions.DuplicateElementIdException;
+import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheStoreException;
+import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheSuperException;
+import course.java.sdm.engine.exceptions.StoreLocationExistsException;
+
 import java.util.*;
 
 public class SuperDuperMarket {
@@ -64,17 +67,15 @@ public class SuperDuperMarket {
             int x = store.getLocation().getCoordinate().x;
             int y = store.getLocation().getCoordinate().y;
             if (isLocationAlreadyExistsForStore(x, y)) {
-                throw new DuplicateStoreLocationException(store.getName(), getStoreByLocation(x, y).getName(), x, y);
+                throw new StoreLocationExistsException(getStoreByLocation(x, y).getName(), x, y);
             }
             storesLocations[x - 1][y - 1] = store;
             stores.put(id, store);
         }
         else {
             Store existentStore = getStore(id);
-            String sb = "Duplicate store ID:\n" +
-                    store.getName() + " store ID " + id + " already exists for " +
-                    existentStore.getName() + " store";
-            throw new IllegalArgumentException(sb);
+            throw new DuplicateElementIdException(Store.class.getSimpleName(), store.getName(), existentStore.getName(), id);
+
         }
     }
 
@@ -94,10 +95,7 @@ public class SuperDuperMarket {
         }
         else {
             Item existentItem = getItem(id);
-            String sb = "Duplicate item ID:\n" +
-                    item.getName() + " item ID " + id + " already exists for " +
-                    existentItem.getName() + " item";
-            throw new IllegalArgumentException(sb);
+            throw new DuplicateElementIdException(Item.class.getSimpleName(), item.getName(), existentItem.getName(), id);
         }
     }
 
@@ -140,8 +138,22 @@ public class SuperDuperMarket {
             addItemIdToItemsSoldIds(item);
         }
         else {
-            throw new ItemDoesNotExistException(store.getName(), itemId);
+            throw new ItemDoesNotExistInTheSuperException(itemId);
         }
+    }
+
+    public void addItemToStore(int itemId, float itemPrice, int storeId) {
+        Store store = stores.get(storeId);
+        addItemToStore(itemId, itemPrice, store);
+    }
+
+    public void updateItemPriceInStore(int storeId, float newItemPrice, int storeItemId) {
+        Store store = stores.get(storeId);
+        if (!store.isItemInTheStore(storeItemId)) {
+            Item item = items.get(storeItemId);
+            throw new ItemDoesNotExistInTheStoreException(store.getName(), item.getName(), storeItemId);
+        }
+        store.updateItemPrice(storeItemId, newItemPrice);
     }
 
     public Set<Item> getItemsThatAreNotBeingSoldByAtLeastOneStore() {
@@ -191,5 +203,17 @@ public class SuperDuperMarket {
 
     public boolean isStoreExists(int id) {
         return stores.containsKey(id);
+    }
+
+    public void deleteItemFromStore(int storeItemId, int storeId) {
+        if (getNumberOfStoresSellingTheItem(storeItemId) == 1) {
+            throw new IllegalArgumentException("The item is currently being sold by this store only." +
+                    "\nItem must be sell in at least one store in the super market.");
+        }
+        else {
+            Store store = stores.get(storeId);
+            store.deleteItem(storeItemId);
+        }
+
     }
 }
