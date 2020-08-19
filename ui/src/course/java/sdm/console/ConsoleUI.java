@@ -188,9 +188,10 @@ public class ConsoleUI {
             case LOAD_SYSTEM_DATA:
                 try {
                     loadSystemData();
+                    System.out.println("The file was loaded successfully!");
                 }
                 catch (Exception e) {
-                    System.out.println("The xml file you tried to load is not valid for the following reason:");
+                    System.out.println("The file you tried to load is not valid for the following reason:");
                     System.out.println(e.getMessage());
                     System.out.println("The system contains the last valid data.");
                 }
@@ -234,7 +235,13 @@ public class ConsoleUI {
             for (StoreItemDto storeItemDto : storeItemsDto) {
                 showItemBasicDetails(storeItemDto);
                 System.out.print(COMA_SEPARATOR);
-                System.out.print("Price: " + getFormatNumberWithTwoDigitsAfterPoint(storeItemDto.getPrice()) + COMA_SEPARATOR);
+                if (storeItemDto.getPurchaseCategory().equalsIgnoreCase("quantity")) {
+                    System.out.print("Price per unit: ");
+                }
+                else{
+                    System.out.print("Price per kilogram: ");
+                }
+                System.out.print(getFormatNumberWithTwoDigitsAfterPoint(storeItemDto.getPrice()) + COMA_SEPARATOR);
                 System.out.print("Total sells in the store: " + DECIMAL_FORMAT.format(storeItemDto.getTotalSold()));
                 System.out.println();
             }
@@ -643,6 +650,7 @@ public class ConsoleUI {
     }
 
     private void showSubMenuUpdateItemsStoreOptions() {
+        System.out.println();
         System.out.println(PLEASE_CHOOSE_ACTION_STR);
         for (SubMenuUpdateItemsStoreOptions subMenuUpdateItemsStoreOptions : SubMenuUpdateItemsStoreOptions.values()) {
             System.out.println(subMenuUpdateItemsStoreOptions.optionNumber + ". " + subMenuUpdateItemsStoreOptions.optionTitle);
@@ -755,10 +763,11 @@ public class ConsoleUI {
         while (!isValidInput) {
             try {
                 loadSystemData();
+                System.out.println("The file was loaded successfully!");
                 isValidInput = true;
             }
             catch (Exception e) {
-                System.out.println("\nThe xml file you tried to load is not valid for the following reason:");
+                System.out.println("\nThe file you tried to load is not valid for the following reason:");
                 System.out.println(e.getMessage());
                 System.out.println();
             }

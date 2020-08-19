@@ -6,7 +6,7 @@ public class StoreLocationOutOfRangeException extends LocationOutOfRangeExceptio
     public StoreLocationOutOfRangeException(String name, int x, int y)
     {
         super(x, y);
-        EXCEPTION_MESSAGE = "the store " + name + " is not valid:\n";
+        EXCEPTION_MESSAGE = "The store " + name + " is not valid:\n";
     }
 
     @Override

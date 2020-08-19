@@ -127,7 +127,7 @@ public class SuperDuperMarket {
     }
 
     public boolean isAllItemsAreBeingSoldByAtLeastOneStore() {
-        return items.values().containsAll(itemsSold);
+        return itemsSold.containsAll(items.values());
     }
 
     public void addItemToStore(int itemId, float itemPrice, Store store) {

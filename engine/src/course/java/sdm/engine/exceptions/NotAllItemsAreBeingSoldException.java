@@ -10,11 +10,11 @@ public class NotAllItemsAreBeingSoldException extends RuntimeException{
     public NotAllItemsAreBeingSoldException(Set<Item> items)
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("The following items are not being sold by any store:\n");
+        sb.append("The following items are not being sell by any store:\n");
         for (Item item : items) {
             sb.append("ID: ").append(item.getId()).append(", name: ").append(item.getName()).append("\n");
         }
-        EXCEPTION_MESSAGE = sb.toString();
+        EXCEPTION_MESSAGE = sb.toString() + "Each item in the super must be sell in at least by one store.";
     }
 
     @Override
