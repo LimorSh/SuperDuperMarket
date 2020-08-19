@@ -1,5 +1,4 @@
-package course.java.sdm.engine;
-
+package course.java.sdm.engine.systemEngine;
 import java.awt.*;
 
 public class Distance {

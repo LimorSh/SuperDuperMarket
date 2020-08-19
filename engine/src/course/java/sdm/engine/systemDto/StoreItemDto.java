@@ -1,6 +1,5 @@
 package course.java.sdm.engine.systemDto;
-
-import course.java.sdm.engine.StoreItem;
+import course.java.sdm.engine.systemEngine.StoreItem;
 
 public class StoreItemDto extends ItemDto {
 

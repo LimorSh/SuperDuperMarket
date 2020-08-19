@@ -1,6 +1,4 @@
-package course.java.sdm.engine;
-
-import java.text.DecimalFormat;
+package course.java.sdm.engine.systemEngine;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -119,17 +117,15 @@ public class Order {
 
     @Override
     public String toString() {
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-
-        float totalCost = getTotalCost();
-        int totalItem = orderLines.size();
         return "Order{" +
-                "Date: " + date +
-                ", Total items: " +  df.format(totalItem) +
-                ", Items Cost: " +  df.format(itemsCost) +
-                ", Delivery Cost: " + df.format(deliveryCost) +
-                ", Total Cost: " +  df.format(totalCost) +
+                "id=" + id +
+                ", date=" + date +
+                ", customerLocation=" + customerLocation +
+                ", store=" + store +
+                ", orderLines=" + orderLines +
+                ", itemsCost=" + itemsCost +
+                ", deliveryCost=" + deliveryCost +
+                ", totalItems=" + totalItems +
                 '}';
     }
 

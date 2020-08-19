@@ -1,10 +1,9 @@
-package course.java.sdm.engine;
-
+package course.java.sdm.engine.systemEngine;
+import course.java.sdm.engine.Configurations;
 import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheSuperException;
 import course.java.sdm.engine.exceptions.NotAllItemsAreBeingSoldException;
 import course.java.sdm.engine.exceptions.StoreLocationExistsException;
 import course.java.sdm.engine.jaxb.schema.generated.*;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;

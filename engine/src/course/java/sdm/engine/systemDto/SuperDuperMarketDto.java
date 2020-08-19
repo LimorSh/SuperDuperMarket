@@ -1,11 +1,9 @@
 package course.java.sdm.engine.systemDto;
-
-import course.java.sdm.engine.Item;
-import course.java.sdm.engine.Order;
-import course.java.sdm.engine.Store;
+import course.java.sdm.engine.systemEngine.Item;
+import course.java.sdm.engine.systemEngine.Order;
+import course.java.sdm.engine.systemEngine.Store;
 import java.util.ArrayList;
 import java.util.Collection;
-
 
 public class SuperDuperMarketDto {
 

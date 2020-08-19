@@ -1,4 +1,5 @@
-package course.java.sdm.engine;
+package course.java.sdm.engine.systemEngine;
+import course.java.sdm.engine.Configurations;
 import course.java.sdm.engine.exceptions.StoreLocationExistsException;
 import course.java.sdm.engine.systemDto.*;
 import javax.xml.bind.JAXBException;
@@ -14,7 +15,6 @@ public class SystemManager {
     public static void loadSystemData(String dataPath) throws JAXBException, FileNotFoundException {
         superDuperMarket = DataLoader.loadFromXmlFile(dataPath);
     }
-
 
     public static Collection<StoreDto> getStoresDto() {
         return SuperDuperMarketDto.getStoresDto(superDuperMarket.getStores());
@@ -66,14 +66,6 @@ public class SystemManager {
 
     public static String getItemPurchaseCategory(int id) {
         return superDuperMarket.getItemPurchaseCategory(id);
-    }
-
-    public static String getItemPurchaseCategoryPerUnitStr() {
-        return Configurations.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR;
-    }
-
-    public static String getItemPurchaseCategoryPerWeightStr() {
-        return Configurations.ITEM_PURCHASE_CATEGORY_PER_WEIGHT_STR;
     }
 
     public static String getItemName(int id) {
@@ -152,6 +144,7 @@ public class SystemManager {
             }
         }
     }
+
 
 
 }

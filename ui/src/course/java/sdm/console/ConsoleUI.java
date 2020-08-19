@@ -1,7 +1,7 @@
 package course.java.sdm.console;
 import course.java.sdm.engine.exceptions.StoreLocationExistsException;
 import course.java.sdm.engine.systemDto.*;
-import course.java.sdm.engine.SystemManager;
+import course.java.sdm.engine.systemEngine.SystemManager;
 import javax.xml.bind.JAXBException;
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.lang.*;
 
-public class UI {
+public class ConsoleUI {
 
     private static final String SEPARATOR_LINE = "\n----------------------------------------------------------" +
             "-----------------------------------------------------------------";

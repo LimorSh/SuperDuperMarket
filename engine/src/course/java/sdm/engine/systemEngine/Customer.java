@@ -1,9 +1,9 @@
-package course.java.sdm.engine;
+package course.java.sdm.engine.systemEngine;
+
+import course.java.sdm.engine.Utils;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class Customer {
 
@@ -45,5 +45,20 @@ public class Customer {
     public void addOrder(Order order) {
         int id = order.getId();
         orders.put(id, order);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        return id == customer.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }
