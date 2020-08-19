@@ -17,7 +17,6 @@ public class ConsoleUI {
     private static final String SEPARATOR_LINE = "\n----------------------------------------------------------" +
             "-----------------------------------------------------------------";
     private static final String COMA_SEPARATOR = ", ";
-    private static final String SPACE_SEPARATOR = " ";
     private static final String WELCOME_MESSAGE_STR = "Welcome to Super Duper Market!";
     private static final String EXIT_MESSAGE_STR = "Thank you for buying in super duper market :)\nGoodbye!";
     private static final String PLEASE_CHOOSE_ACTION_STR = "Please choose an option from the menu:";
@@ -137,7 +136,7 @@ public class ConsoleUI {
             }
             catch (Exception e) {
                 System.out.println("The input you entered is not a decimal number!");
-                System.out.print("Please enter a float number and try again: ");
+                System.out.print("Please enter a decimal number and try again: ");
             }
         }
     }
@@ -467,7 +466,7 @@ public class ConsoleUI {
         catch (ParseException e) {
             System.out.println(e.getMessage());
             System.out.println("The order date should be in the following format: " + ORDER_DATE_FORMAT + ".");
-            System.out.println("Please notice the day, month, hour and minutes are valid.");
+            System.out.println("Please notice the day, month, hour and minutes you enter are valid.");
             getDateFromUser(msg);
         }
         return date;
@@ -561,7 +560,7 @@ public class ConsoleUI {
         String msg = "Please enter order's date: ";
         Date date = getDateFromUser(msg);
 
-        msg = "Please enter your location:";
+        msg = "Please enter your location (X,Y):";
         Point userLocation = getLocationFromUser(msg);
         int userLocationX = userLocation.x;
         int userLocationY = userLocation.y;
@@ -625,6 +624,21 @@ public class ConsoleUI {
         }
     }
 
+    private int getUserSubMenuUpdateItemsStoreOption() {
+        while (true)  {
+            try {
+                System.out.print("Your option: ");
+                int option = getIntInputFromUser();
+                SubMenuUpdateItemsStoreOptions.getSubMenuUpdateItemsStoreOptions(option);
+                return option;
+            }
+            catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                showSubMenuUpdateItemsStoreOptions();
+            }
+        }
+    }
+
     private void updateStoreItems() {
         System.out.println("\n" + MenuOptions.UPDATE_STORE_ITEMS.optionTitle + ":");
         System.out.println("------------------");
@@ -632,8 +646,7 @@ public class ConsoleUI {
         showSubMenuUpdateItemsStoreOptions();
 
         try {
-            System.out.print("Your option: ");
-            int option = getIntInputFromUser();
+            int option = getUserSubMenuUpdateItemsStoreOption();
             SubMenuUpdateItemsStoreOptions subMenuUpdateItemsStoreOptions = SubMenuUpdateItemsStoreOptions.getSubMenuUpdateItemsStoreOptions(option);
             String title = subMenuUpdateItemsStoreOptions.optionTitle;
             System.out.println("\n" + title + ":");

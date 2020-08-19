@@ -1,5 +1,7 @@
 package course.java.sdm.engine.systemEngine;
 
+import java.util.Objects;
+
 public class OrderLine {
     private final Item item;
     private float quantity;
@@ -43,7 +45,7 @@ public class OrderLine {
 
         OrderLine orderLine = (OrderLine) o;
 
-        return item != null ? item.equals(orderLine.item) : orderLine.item == null;
+        return Objects.equals(item, orderLine.item);
     }
 
     @Override

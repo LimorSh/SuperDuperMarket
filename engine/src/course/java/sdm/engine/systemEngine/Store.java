@@ -89,9 +89,9 @@ public class Store {
         if (!orders.containsKey(id)) {
             orders.put(id, order);
         }
-        else {
-            // throw exception
-        }
+//        else {
+//            // throw exception
+//        }
     }
 
     public void updateItemPrice(int id, float newPrice) {
@@ -118,11 +118,6 @@ public class Store {
 
     public float getItemPrice(int itemId) {
         return storeItems.get(itemId).getPrice();
-    }
-
-    public float getTotalNumberSold(Item item) {
-        int id = item.getId();
-        return storeItems.get(id).getTotalSold();
     }
 
     public void updateTotalNumberSoldItem(Item item, float quantity) {

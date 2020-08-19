@@ -118,7 +118,7 @@ public class SystemManager {
 
     public static void validateItemExistInTheSuper(int id) {
         if (id <= 0) {
-            throw new IllegalArgumentException("The item ID " + id + " is not an positive integer number.");
+            throw new IllegalArgumentException("The item ID " + id + " is not a positive integer number.");
         }
         if (!superDuperMarket.isItemExists(id)) {
             throw new IllegalArgumentException("The item ID " + id + " does not exist in the super market.");
