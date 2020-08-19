@@ -357,31 +357,18 @@ public class UI {
     }
 
     private float getValidItemQuantityFromUser(int itemId) {
-        boolean isValidInput = false;
-        float quantity = itemId;
-        while (!isValidInput) {
+        float quantity;
+        while (true) {
             quantity = getFloatInputFromUser();
-            if (quantity <= 0) {
-                System.out.println("Item quantity should be greater than zero.");
+            try {
+                SystemManager.validateItemQuantity(itemId, quantity);
+                return quantity;
+            }
+            catch (Exception e) {
+                System.out.println("Invalid item quantity: " + e.getMessage());
                 System.out.print("Please try again: ");
             }
-            else {
-                String purchaseCategory = SystemManager.getItemPurchaseCategory(itemId);
-                if (purchaseCategory.equals(SystemManager.getItemPurchaseCategoryPerUnitStr())) {
-                    if ((quantity % 1) != 0) {
-                        System.out.println("The purchase category of the item you chose is " + purchaseCategory + ".");
-                        System.out.print("Please enter item quantity in units: ");
-                    }
-                    else {
-                        isValidInput = true;
-                    }
-                }
-                else {
-                    isValidInput = true;
-                }
-            }
         }
-        return quantity;
     }
 
     private String getIdOrQFromUser() {
@@ -588,9 +575,9 @@ public class UI {
             int storePpk = storeDto.getPpk();
             double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(storeDto, userLocationX, userLocationY);
             float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
-            System.out.println("The delivery cost is: " + DECIMAL_FORMAT.format(deliveryCost));
-            System.out.println("The store ppk is: " + storePpk);
-            System.out.println("Your distance from the store is: " + DECIMAL_FORMAT.format(distanceBetweenCustomerAndStore));
+            System.out.println("Delivery cost: " + DECIMAL_FORMAT.format(deliveryCost));
+            System.out.println("Store PPK (Price Per Kilometer): " + storePpk);
+            System.out.println("Your distance from the store (in kilometers): " + DECIMAL_FORMAT.format(distanceBetweenCustomerAndStore));
             System.out.println();
 
             boolean orderConfirmed = orderConfirmed();

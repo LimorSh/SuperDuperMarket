@@ -141,5 +141,17 @@ public class SystemManager {
         superDuperMarket.deleteItemFromStore(storeItemId, storeId);
     }
 
+    public static void validateItemQuantity(int itemId, float quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("The quantity " + quantity + " is not a positive integer number. Item quantity should be greater than zero.");
+        }
+        String purchaseCategory = superDuperMarket.getItemPurchaseCategory(itemId);
+        if (purchaseCategory.equals(Configurations.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR)) {
+            if ((quantity % 1) != 0) {
+                throw new IllegalArgumentException("The item purchase category is '" + purchaseCategory + "', and the quantity should be in units - an integer.");
+            }
+        }
+    }
+
 
 }
