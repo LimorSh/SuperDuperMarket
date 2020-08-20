@@ -449,6 +449,9 @@ public class ConsoleUI {
     }
 
     private Date covertDateStrToDate(String dateStr) throws ParseException {
+        if (dateStr.length() < ORDER_DATE_FORMAT.length()) {
+            throw new IllegalArgumentException("You entered: " + dateStr + ".");
+        }
         return DATE_FORMAT.parse(dateStr);
     }
 
@@ -457,19 +460,18 @@ public class ConsoleUI {
     }
 
     private Date getDateFromUser(String msg) {
-        System.out.print(msg);
-        Date date = null;
-        try {
-            String dateStr = getStringInputFromUser();
-            date = covertDateStrToDate(dateStr);
+        while (true) {
+            try {
+                System.out.print(msg);
+                String dateStr = getStringInputFromUser();
+                return covertDateStrToDate(dateStr);
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("The order date should be in the following format: " + ORDER_DATE_FORMAT + ".");
+                System.out.println("Please notice the day, month, hour and minutes you enter are valid.");
+            }
         }
-        catch (ParseException e) {
-            System.out.println(e.getMessage());
-            System.out.println("The order date should be in the following format: " + ORDER_DATE_FORMAT + ".");
-            System.out.println("Please notice the day, month, hour and minutes you enter are valid.");
-            getDateFromUser(msg);
-        }
-        return date;
     }
 
     private boolean orderConfirmed() {
@@ -545,7 +547,7 @@ public class ConsoleUI {
         return storeId;
     }
 
-    public StoreDto getStoreFromUser() {
+    private StoreDto getStoreFromUser() {
         String msg = "Please enter store ID: ";
         int storeId = getValidStoreIdFromUser(msg);
         return SystemManager.getStoreDto(storeId);
@@ -759,7 +761,7 @@ public class ConsoleUI {
         int intInput =  getIntInputFromUser();
         int itemId = getValidStoreItemIdFromUser(storeDto.getId(), intInput);
 
-        System.out.print("Please enter the item new price: ");
+        System.out.print("Please enter the new item price: ");
         float newItemPrice = getValidItemPrice();
 
         try {
