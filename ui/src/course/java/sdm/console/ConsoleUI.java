@@ -253,7 +253,7 @@ public class ConsoleUI {
 
         Collection<OrderDto> ordersDto = storeDto.getOrdersDto();
         if (!ordersDto.isEmpty()) {
-            System.out.println("Orders:");
+            System.out.println("Store orders:");
             for (OrderDto orderDto : ordersDto) {
                 System.out.print("Date: " + covertDateToDateStr(orderDto.getDate()) + COMA_SEPARATOR);
                 System.out.print("Total items: " + orderDto.getTotalItems() + COMA_SEPARATOR);
