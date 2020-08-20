@@ -43,7 +43,7 @@ public class Item {
         if (!Utils.isStringAnEnglishWord(name)) {
             throw new IllegalArgumentException("The item name " + name + " is not valid: should contain English letters or spaces only.");
         }
-        this.name = name.toLowerCase();
+        this.name = name;
     }
 
     private static PurchaseCategory convertStringToPurchaseCategory(String purchaseCategory) {

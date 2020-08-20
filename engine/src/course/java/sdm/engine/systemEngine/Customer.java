@@ -21,9 +21,9 @@ public class Customer {
 
     private void setName(String name) {
         if (!Utils.isStringAnEnglishWord(name)) {
-            throw new IllegalArgumentException("The store name " + name + " is not valid: should contain English letters or spaces only.");
+            throw new IllegalArgumentException("The customer name " + name + " is not valid: should contain English letters or spaces only.");
         }
-        this.name = name.toLowerCase();
+        this.name = name;
     }
 
     public static int getNumCustomers() {

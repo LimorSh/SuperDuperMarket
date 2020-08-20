@@ -43,7 +43,7 @@ public class Store {
         if (!Utils.isStringAnEnglishWord(name)) {
             throw new IllegalArgumentException("The store name " + name + " is not valid: should contain English letters or spaces only.");
         }
-        this.name = name.toLowerCase();
+        this.name = name;
     }
 
     public int getId() {
