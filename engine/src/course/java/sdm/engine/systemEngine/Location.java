@@ -1,7 +1,5 @@
-package course.java.sdm.engine;
-
+package course.java.sdm.engine.systemEngine;
 import course.java.sdm.engine.exceptions.LocationOutOfRangeException;
-
 import java.awt.*;
 import java.util.Objects;
 
@@ -54,6 +52,6 @@ public class Location {
 
     @Override
     public int hashCode() {
-        return coordinate.hashCode();
+        return coordinate != null ? coordinate.hashCode() : 0;
     }
 }

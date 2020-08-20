@@ -1,9 +1,8 @@
-package course.java.sdm.engine;
+package course.java.sdm.engine.systemEngine;
 import course.java.sdm.engine.exceptions.DuplicateElementIdException;
 import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheStoreException;
 import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheSuperException;
 import course.java.sdm.engine.exceptions.StoreLocationExistsException;
-
 import java.util.*;
 
 public class SuperDuperMarket {
@@ -128,7 +127,7 @@ public class SuperDuperMarket {
     }
 
     public boolean isAllItemsAreBeingSoldByAtLeastOneStore() {
-        return items.values().containsAll(itemsSold);
+        return itemsSold.containsAll(items.values());
     }
 
     public void addItemToStore(int itemId, float itemPrice, Store store) {

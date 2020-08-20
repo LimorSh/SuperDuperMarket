@@ -1,6 +1,6 @@
 package course.java.sdm.engine.systemDto;
-
-import course.java.sdm.engine.*;
+import course.java.sdm.engine.systemEngine.Order;
+import course.java.sdm.engine.systemEngine.Store;
 
 import java.util.Date;
 
@@ -11,7 +11,6 @@ public class OrderDto {
     private final String storeName;
     private final int totalItemsTypes;
     private final int totalItems;
-//    private final Map<Integer, OrderLineDto> orderLinesDto;
     private final float itemsCost;
     private final float deliveryCost;
     private final float totalCost;
@@ -27,17 +26,7 @@ public class OrderDto {
         this.itemsCost = order.getItemsCost();
         this.deliveryCost = order.getDeliveryCost();
         this.totalItems = order.getTotalItems();
-//        this.orderLinesDto = new HashMap<>();
-//        copyOrderItems(order);
     }
-
-//    private void copyOrderItems(Order order) {
-//        Map<Integer, OrderLine> orderLines = order.getOrderLines();
-//        orderLines.forEach((itemId,orderLine) ->  {
-//            OrderLineDto orderLineDto = new OrderLineDto(itemId, orderLine.getQuantity());
-//            orderLinesDto.put(itemId, orderLineDto);
-//        });
-//    }
 
     public int getId() {
         return id;
@@ -46,10 +35,6 @@ public class OrderDto {
     public Date getDate() {
         return date;
     }
-
-//    public Map<Integer, OrderLineDto> getOrderLinesDto() {
-//        return orderLinesDto;
-//    }
 
     public float getItemsCost() {
         return itemsCost;

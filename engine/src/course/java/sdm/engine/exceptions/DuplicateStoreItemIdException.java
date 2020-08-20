@@ -5,8 +5,8 @@ public class DuplicateStoreItemIdException extends RuntimeException {
 
     public DuplicateStoreItemIdException(String storeName, String itemName, int itemId)
     {
-        EXCEPTION_MESSAGE = storeName + " already sells " + itemName +
-                " (ID " + itemId + ").";
+        EXCEPTION_MESSAGE = "The store " + storeName + " already sells " + itemName +
+                " (item ID " + itemId + ").";
     }
 
     @Override

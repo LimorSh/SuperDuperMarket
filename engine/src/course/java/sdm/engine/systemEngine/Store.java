@@ -1,10 +1,9 @@
-package course.java.sdm.engine;
-
+package course.java.sdm.engine.systemEngine;
+import course.java.sdm.engine.Utils;
 import course.java.sdm.engine.exceptions.DuplicateStoreItemIdException;
 import course.java.sdm.engine.exceptions.StoreLocationOutOfRangeException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
 
-import java.text.DecimalFormat;
 import java.util.*;
 
 public class Store {
@@ -44,7 +43,7 @@ public class Store {
         if (!Utils.isStringAnEnglishWord(name)) {
             throw new IllegalArgumentException("The store name " + name + " is not valid: should contain English letters or spaces only.");
         }
-        this.name = name.toLowerCase();
+        this.name = name;
     }
 
     public int getId() {
@@ -90,9 +89,9 @@ public class Store {
         if (!orders.containsKey(id)) {
             orders.put(id, order);
         }
-        else {
-            // throw exception
-        }
+//        else {
+//            // throw exception
+//        }
     }
 
     public void updateItemPrice(int id, float newPrice) {
@@ -121,11 +120,6 @@ public class Store {
         return storeItems.get(itemId).getPrice();
     }
 
-    public float getTotalNumberSold(Item item) {
-        int id = item.getId();
-        return storeItems.get(id).getTotalSold();
-    }
-
     public void updateTotalNumberSoldItem(Item item, float quantity) {
         int id = item.getId();
         storeItems.get(id).updateTotalNumberSold(quantity);
@@ -140,18 +134,21 @@ public class Store {
         return storeItems.containsKey(itemId);
     }
 
+    public void deleteItem(int id) {
+        storeItems.remove(id);
+    }
+
     @Override
     public String toString() {
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-
-        return "ID: " + id +
-                ", Name:'" + name + '\'' +
-                ", PPK: " + ppk +
-                ", Total Deliveries Revenue: " + df.format(totalDeliveriesRevenue) +
-                "\nStore items: " + storeItems +
-                "\nStore Orders: " + orders
-                ;
+        return "Store{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", ppk=" + ppk +
+                ", location=" + location +
+                ", storeItems=" + storeItems +
+                ", orders=" + orders +
+                ", totalDeliveriesRevenue=" + totalDeliveriesRevenue +
+                '}';
     }
 
     @Override
@@ -170,9 +167,5 @@ public class Store {
         int result = id;
         result = 31 * result + (location != null ? location.hashCode() : 0);
         return result;
-    }
-
-    public void deleteItem(int id) {
-        storeItems.remove(id);
     }
 }

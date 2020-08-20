@@ -1,9 +1,9 @@
-package course.java.sdm.engine;
+package course.java.sdm.engine.systemEngine;
+
+import course.java.sdm.engine.Utils;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class Customer {
 
@@ -21,9 +21,9 @@ public class Customer {
 
     private void setName(String name) {
         if (!Utils.isStringAnEnglishWord(name)) {
-            throw new IllegalArgumentException("The store name " + name + " is not valid: should contain English letters or spaces only.");
+            throw new IllegalArgumentException("The customer name " + name + " is not valid: should contain English letters or spaces only.");
         }
-        this.name = name.toLowerCase();
+        this.name = name;
     }
 
     public static int getNumCustomers() {
@@ -45,5 +45,20 @@ public class Customer {
     public void addOrder(Order order) {
         int id = order.getId();
         orders.put(id, order);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        return id == customer.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

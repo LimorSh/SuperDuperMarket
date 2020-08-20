@@ -1,7 +1,7 @@
 package course.java.sdm.console;
 import course.java.sdm.engine.exceptions.StoreLocationExistsException;
 import course.java.sdm.engine.systemDto.*;
-import course.java.sdm.engine.SystemManager;
+import course.java.sdm.engine.systemEngine.SystemManager;
 import javax.xml.bind.JAXBException;
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -12,12 +12,11 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.lang.*;
 
-public class UI {
+public class ConsoleUI {
 
     private static final String SEPARATOR_LINE = "\n----------------------------------------------------------" +
             "-----------------------------------------------------------------";
     private static final String COMA_SEPARATOR = ", ";
-    private static final String SPACE_SEPARATOR = " ";
     private static final String WELCOME_MESSAGE_STR = "Welcome to Super Duper Market!";
     private static final String EXIT_MESSAGE_STR = "Thank you for buying in super duper market :)\nGoodbye!";
     private static final String PLEASE_CHOOSE_ACTION_STR = "Please choose an option from the menu:";
@@ -137,7 +136,7 @@ public class UI {
             }
             catch (Exception e) {
                 System.out.println("The input you entered is not a decimal number!");
-                System.out.print("Please enter a float number and try again: ");
+                System.out.print("Please enter a decimal number and try again: ");
             }
         }
     }
@@ -188,9 +187,10 @@ public class UI {
             case LOAD_SYSTEM_DATA:
                 try {
                     loadSystemData();
+                    System.out.println("The file was loaded successfully!");
                 }
                 catch (Exception e) {
-                    System.out.println("The xml file you tried to load is not valid for the following reason:");
+                    System.out.println("The file you tried to load is not valid for the following reason:");
                     System.out.println(e.getMessage());
                     System.out.println("The system contains the last valid data.");
                 }
@@ -234,7 +234,13 @@ public class UI {
             for (StoreItemDto storeItemDto : storeItemsDto) {
                 showItemBasicDetails(storeItemDto);
                 System.out.print(COMA_SEPARATOR);
-                System.out.print("Price: " + getFormatNumberWithTwoDigitsAfterPoint(storeItemDto.getPrice()) + COMA_SEPARATOR);
+                if (storeItemDto.getPurchaseCategory().equalsIgnoreCase("quantity")) {
+                    System.out.print("Price per unit: ");
+                }
+                else{
+                    System.out.print("Price per kilogram: ");
+                }
+                System.out.print(getFormatNumberWithTwoDigitsAfterPoint(storeItemDto.getPrice()) + COMA_SEPARATOR);
                 System.out.print("Total sells in the store: " + DECIMAL_FORMAT.format(storeItemDto.getTotalSold()));
                 System.out.println();
             }
@@ -247,7 +253,7 @@ public class UI {
 
         Collection<OrderDto> ordersDto = storeDto.getOrdersDto();
         if (!ordersDto.isEmpty()) {
-            System.out.println("Orders:");
+            System.out.println("Store orders:");
             for (OrderDto orderDto : ordersDto) {
                 System.out.print("Date: " + covertDateToDateStr(orderDto.getDate()) + COMA_SEPARATOR);
                 System.out.print("Total items: " + orderDto.getTotalItems() + COMA_SEPARATOR);
@@ -357,31 +363,18 @@ public class UI {
     }
 
     private float getValidItemQuantityFromUser(int itemId) {
-        boolean isValidInput = false;
-        float quantity = itemId;
-        while (!isValidInput) {
+        float quantity;
+        while (true) {
             quantity = getFloatInputFromUser();
-            if (quantity <= 0) {
-                System.out.println("Item quantity should be greater than zero.");
+            try {
+                SystemManager.validateItemQuantity(itemId, quantity);
+                return quantity;
+            }
+            catch (Exception e) {
+                System.out.println("Invalid item quantity: " + e.getMessage());
                 System.out.print("Please try again: ");
             }
-            else {
-                String purchaseCategory = SystemManager.getItemPurchaseCategory(itemId);
-                if (purchaseCategory.equals(SystemManager.getItemPurchaseCategoryPerUnitStr())) {
-                    if ((quantity % 1) != 0) {
-                        System.out.println("The purchase category of the item you chose is " + purchaseCategory + ".");
-                        System.out.print("Please enter item quantity in units: ");
-                    }
-                    else {
-                        isValidInput = true;
-                    }
-                }
-                else {
-                    isValidInput = true;
-                }
-            }
         }
-        return quantity;
     }
 
     private String getIdOrQFromUser() {
@@ -456,6 +449,9 @@ public class UI {
     }
 
     private Date covertDateStrToDate(String dateStr) throws ParseException {
+        if (dateStr.length() < ORDER_DATE_FORMAT.length()) {
+            throw new IllegalArgumentException("You entered: " + dateStr + ".");
+        }
         return DATE_FORMAT.parse(dateStr);
     }
 
@@ -464,19 +460,18 @@ public class UI {
     }
 
     private Date getDateFromUser(String msg) {
-        System.out.print(msg);
-        Date date = null;
-        try {
-            String dateStr = getStringInputFromUser();
-            date = covertDateStrToDate(dateStr);
+        while (true) {
+            try {
+                System.out.print(msg);
+                String dateStr = getStringInputFromUser();
+                return covertDateStrToDate(dateStr);
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("The order date should be in the following format: " + ORDER_DATE_FORMAT + ".");
+                System.out.println("Please notice the day, month, hour and minutes you enter are valid.");
+            }
         }
-        catch (ParseException e) {
-            System.out.println(e.getMessage());
-            System.out.println("The order date should be in the following format: " + ORDER_DATE_FORMAT + ".");
-            System.out.println("Please notice the day, month, hour and minutes are valid.");
-            getDateFromUser(msg);
-        }
-        return date;
     }
 
     private boolean orderConfirmed() {
@@ -552,7 +547,7 @@ public class UI {
         return storeId;
     }
 
-    public StoreDto getStoreFromUser() {
+    private StoreDto getStoreFromUser() {
         String msg = "Please enter store ID: ";
         int storeId = getValidStoreIdFromUser(msg);
         return SystemManager.getStoreDto(storeId);
@@ -567,7 +562,7 @@ public class UI {
         String msg = "Please enter order's date: ";
         Date date = getDateFromUser(msg);
 
-        msg = "Please enter your location:";
+        msg = "Please enter your location (X,Y):";
         Point userLocation = getLocationFromUser(msg);
         int userLocationX = userLocation.x;
         int userLocationY = userLocation.y;
@@ -588,9 +583,9 @@ public class UI {
             int storePpk = storeDto.getPpk();
             double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(storeDto, userLocationX, userLocationY);
             float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
-            System.out.println("The delivery cost is: " + DECIMAL_FORMAT.format(deliveryCost));
-            System.out.println("The store ppk is: " + storePpk);
-            System.out.println("Your distance from the store is: " + DECIMAL_FORMAT.format(distanceBetweenCustomerAndStore));
+            System.out.println("Delivery cost: " + DECIMAL_FORMAT.format(deliveryCost));
+            System.out.println("Store PPK (Price Per Kilometer): " + storePpk);
+            System.out.println("Your distance from the store (in kilometers): " + DECIMAL_FORMAT.format(distanceBetweenCustomerAndStore));
             System.out.println();
 
             boolean orderConfirmed = orderConfirmed();
@@ -631,6 +626,21 @@ public class UI {
         }
     }
 
+    private int getUserSubMenuUpdateItemsStoreOption() {
+        while (true)  {
+            try {
+                System.out.print("Your option: ");
+                int option = getIntInputFromUser();
+                SubMenuUpdateItemsStoreOptions.getSubMenuUpdateItemsStoreOptions(option);
+                return option;
+            }
+            catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                showSubMenuUpdateItemsStoreOptions();
+            }
+        }
+    }
+
     private void updateStoreItems() {
         System.out.println("\n" + MenuOptions.UPDATE_STORE_ITEMS.optionTitle + ":");
         System.out.println("------------------");
@@ -638,8 +648,7 @@ public class UI {
         showSubMenuUpdateItemsStoreOptions();
 
         try {
-            System.out.print("Your option: ");
-            int option = getIntInputFromUser();
+            int option = getUserSubMenuUpdateItemsStoreOption();
             SubMenuUpdateItemsStoreOptions subMenuUpdateItemsStoreOptions = SubMenuUpdateItemsStoreOptions.getSubMenuUpdateItemsStoreOptions(option);
             String title = subMenuUpdateItemsStoreOptions.optionTitle;
             System.out.println("\n" + title + ":");
@@ -656,6 +665,7 @@ public class UI {
     }
 
     private void showSubMenuUpdateItemsStoreOptions() {
+        System.out.println();
         System.out.println(PLEASE_CHOOSE_ACTION_STR);
         for (SubMenuUpdateItemsStoreOptions subMenuUpdateItemsStoreOptions : SubMenuUpdateItemsStoreOptions.values()) {
             System.out.println(subMenuUpdateItemsStoreOptions.optionNumber + ". " + subMenuUpdateItemsStoreOptions.optionTitle);
@@ -751,7 +761,7 @@ public class UI {
         int intInput =  getIntInputFromUser();
         int itemId = getValidStoreItemIdFromUser(storeDto.getId(), intInput);
 
-        System.out.print("Please enter the item new price: ");
+        System.out.print("Please enter the new item price: ");
         float newItemPrice = getValidItemPrice();
 
         try {
@@ -768,10 +778,11 @@ public class UI {
         while (!isValidInput) {
             try {
                 loadSystemData();
+                System.out.println("The file was loaded successfully!");
                 isValidInput = true;
             }
             catch (Exception e) {
-                System.out.println("\nThe xml file you tried to load is not valid for the following reason:");
+                System.out.println("\nThe file you tried to load is not valid for the following reason:");
                 System.out.println(e.getMessage());
                 System.out.println();
             }

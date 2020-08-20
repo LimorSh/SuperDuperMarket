@@ -1,5 +1,4 @@
-package course.java.sdm.engine;
-
+package course.java.sdm.engine.systemEngine;
 import course.java.sdm.engine.jaxb.schema.generated.SDMItem;
 
 public class StoreItem extends Item{
@@ -40,8 +39,9 @@ public class StoreItem extends Item{
 
     @Override
     public String toString() {
-        return ", Price: " + price +
-                ", Quantity: " + totalSold +
+        return "StoreItem{" +
+                "price=" + price +
+                ", totalSold=" + totalSold +
                 '}';
     }
 

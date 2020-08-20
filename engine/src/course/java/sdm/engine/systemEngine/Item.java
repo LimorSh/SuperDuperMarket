@@ -1,5 +1,6 @@
-package course.java.sdm.engine;
-
+package course.java.sdm.engine.systemEngine;
+import course.java.sdm.engine.Configurations;
+import course.java.sdm.engine.Utils;
 import course.java.sdm.engine.jaxb.schema.generated.SDMItem;
 
 public class Item {
@@ -42,7 +43,7 @@ public class Item {
         if (!Utils.isStringAnEnglishWord(name)) {
             throw new IllegalArgumentException("The item name " + name + " is not valid: should contain English letters or spaces only.");
         }
-        this.name = name.toLowerCase();
+        this.name = name;
     }
 
     private static PurchaseCategory convertStringToPurchaseCategory(String purchaseCategory) {

@@ -1,4 +1,5 @@
-package course.java.sdm.engine;
+package course.java.sdm.engine.systemEngine;
+import course.java.sdm.engine.Configurations;
 import course.java.sdm.engine.exceptions.StoreLocationExistsException;
 import course.java.sdm.engine.systemDto.*;
 import javax.xml.bind.JAXBException;
@@ -14,7 +15,6 @@ public class SystemManager {
     public static void loadSystemData(String dataPath) throws JAXBException, FileNotFoundException {
         superDuperMarket = DataLoader.loadFromXmlFile(dataPath);
     }
-
 
     public static Collection<StoreDto> getStoresDto() {
         return SuperDuperMarketDto.getStoresDto(superDuperMarket.getStores());
@@ -68,14 +68,6 @@ public class SystemManager {
         return superDuperMarket.getItemPurchaseCategory(id);
     }
 
-    public static String getItemPurchaseCategoryPerUnitStr() {
-        return Configurations.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR;
-    }
-
-    public static String getItemPurchaseCategoryPerWeightStr() {
-        return Configurations.ITEM_PURCHASE_CATEGORY_PER_WEIGHT_STR;
-    }
-
     public static String getItemName(int id) {
         return superDuperMarket.getItemName(id);
     }
@@ -126,7 +118,7 @@ public class SystemManager {
 
     public static void validateItemExistInTheSuper(int id) {
         if (id <= 0) {
-            throw new IllegalArgumentException("The item ID " + id + " is not an positive integer number.");
+            throw new IllegalArgumentException("The item ID " + id + " is not a positive integer number.");
         }
         if (!superDuperMarket.isItemExists(id)) {
             throw new IllegalArgumentException("The item ID " + id + " does not exist in the super market.");
@@ -140,6 +132,19 @@ public class SystemManager {
     public static void deleteItemFromStore(int storeItemId, int storeId) {
         superDuperMarket.deleteItemFromStore(storeItemId, storeId);
     }
+
+    public static void validateItemQuantity(int itemId, float quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("The quantity " + quantity + " is not a positive integer number. Item quantity should be greater than zero.");
+        }
+        String purchaseCategory = superDuperMarket.getItemPurchaseCategory(itemId);
+        if (purchaseCategory.equals(Configurations.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR)) {
+            if ((quantity % 1) != 0) {
+                throw new IllegalArgumentException("The item purchase category is '" + purchaseCategory + "', and the quantity should be in units - an integer.");
+            }
+        }
+    }
+
 
 
 }
