@@ -35,7 +35,7 @@ public class Store {
     }
 
     public Store(SDMStore sdmStore) {
-        this(sdmStore.getId(), sdmStore.getName().toLowerCase(),
+        this(sdmStore.getId(), sdmStore.getName(),
                 sdmStore.getDeliveryPpk(), sdmStore.getLocation().getX(), sdmStore.getLocation().getY());
     }
 
