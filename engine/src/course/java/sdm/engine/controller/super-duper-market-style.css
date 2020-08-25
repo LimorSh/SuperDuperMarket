@@ -1,0 +1,11 @@
+#h-box {
+    -fx-background-image: url("pics/background2.jpg");
+
+}
+
+#data-label {
+    -fx-font-size: 20px;
+    -fx-font-family: Arial;
+    -fx-font-weight: bold;
+    -fx-font-fill: #001c80;
+}
