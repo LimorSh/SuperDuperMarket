@@ -1,5 +1,5 @@
 package course.java.sdm.console;
-import course.java.sdm.engine.exceptions.StoreLocationExistsException;
+import course.java.sdm.engine.exceptions.DuplicateLocationException;
 import course.java.sdm.engine.systemDto.*;
 import course.java.sdm.engine.systemEngine.SystemManager;
 import javax.xml.bind.JAXBException;
@@ -511,7 +511,7 @@ public class ConsoleUI {
                 System.out.println("The coordinate should be an integer number!");
                 System.out.println(msg);
             }
-            catch (StoreLocationExistsException e) {
+            catch (DuplicateLocationException e) {
                 System.out.println(e.getMessage());
                 System.out.println("The location's order cannot be the same as one of the stores.");
                 System.out.println(msg);

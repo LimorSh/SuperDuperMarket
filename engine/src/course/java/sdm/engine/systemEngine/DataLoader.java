@@ -2,7 +2,7 @@ package course.java.sdm.engine.systemEngine;
 import course.java.sdm.engine.Configurations;
 import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheSuperException;
 import course.java.sdm.engine.exceptions.NotAllItemsAreBeingSoldException;
-import course.java.sdm.engine.exceptions.StoreLocationExistsException;
+import course.java.sdm.engine.exceptions.DuplicateLocationException;
 import course.java.sdm.engine.jaxb.schema.generated.*;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -33,6 +33,8 @@ public class DataLoader {
             Set<Item> missingItems = superDuperMarket.getItemsThatAreNotBeingSoldByAtLeastOneStore();
             throw new NotAllItemsAreBeingSoldException(missingItems);
         }
+        loadCustomers(superDuperMarketDescriptor, superDuperMarket);
+
         return superDuperMarket;
     }
 
@@ -51,7 +53,7 @@ public class DataLoader {
             try {
                 superDuperMarket.addStore(store);
             }
-            catch (StoreLocationExistsException e) {
+            catch (DuplicateLocationException e) {
                 throw new IllegalArgumentException("Could not add the store " + store.getName() + ": " + e.getMessage());
             }
             loadItemsToStore(store, sdmStore, superDuperMarket);
@@ -72,6 +74,10 @@ public class DataLoader {
                 throw new IllegalArgumentException("Could not add item to the store " + store.getName() + ": " + e.getMessage());
             }
         }
+    }
+
+    private static void loadCustomers(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
+
     }
 
     private static SuperDuperMarketDescriptor deserializeFrom(InputStream in) throws JAXBException {

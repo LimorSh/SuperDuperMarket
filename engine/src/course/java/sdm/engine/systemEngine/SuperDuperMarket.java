@@ -2,28 +2,34 @@ package course.java.sdm.engine.systemEngine;
 import course.java.sdm.engine.exceptions.DuplicateElementIdException;
 import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheStoreException;
 import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheSuperException;
-import course.java.sdm.engine.exceptions.StoreLocationExistsException;
+import course.java.sdm.engine.exceptions.DuplicateLocationException;
 import java.util.*;
 
 public class SuperDuperMarket {
 
+    private final Map<Integer, Customer> customers;
     private final Map<Integer, Store> stores;
     private final Map<Integer, Item> items;
     private final Map<Integer, Order> orders;
     private final Set<Item> itemsSold;
-    private Store[][] storesLocations;
+    private Object[][] locationGrid;
 
     public SuperDuperMarket() {
+        customers = new HashMap<>();
         stores = new HashMap<>();
         items = new HashMap<>();
         orders = new HashMap<>();
         itemsSold = new HashSet<>();
-        initializeStoresLocations();
+        initializeLocationGrid();
     }
 
-    private void initializeStoresLocations() {
+    private void initializeLocationGrid() {
         int maxLocation = Location.getMaxLocationValue();
-        storesLocations = new Store[maxLocation][maxLocation];
+        locationGrid = new Object[maxLocation][maxLocation];
+    }
+
+    public Collection<Customer> getCustomers() {
+        return customers.values();
     }
 
     public Collection<Store> getStores() {
@@ -60,15 +66,33 @@ public class SuperDuperMarket {
         itemsSold.add(item);
     }
 
+//    public void addCustomer(Customer customer) {
+//        int id = customer.getId();
+//        if (!isStoreExists(id)) {
+//            int x = customer.getLocation().getCoordinate().x;
+//            int y = customer.getLocation().getCoordinate().y;
+//            if (isLocationAlreadyExists(x, y)) {
+//                throw new StoreLocationExistsException(getStoreByLocation(x, y).getName(), x, y);
+//            }
+//            locationGrid[x - 1][y - 1] = store;
+//            stores.put(id, store);
+//        }
+//        else {
+//            Store existentStore = getStore(id);
+//            throw new DuplicateElementIdException(Store.class.getSimpleName(), store.getName(), existentStore.getName(), id);
+//
+//        }
+//    }
+
     public void addStore(Store store) {
         int id = store.getId();
         if (!isStoreExists(id)) {
             int x = store.getLocation().getCoordinate().x;
             int y = store.getLocation().getCoordinate().y;
-            if (isLocationAlreadyExistsForStore(x, y)) {
-                throw new StoreLocationExistsException(getStoreByLocation(x, y).getName(), x, y);
+            if (isLocationAlreadyExists(x, y)) {
+                throw new DuplicateLocationException(getObjectByLocation(x, y), x, y);
             }
-            storesLocations[x - 1][y - 1] = store;
+            locationGrid[x - 1][y - 1] = store;
             stores.put(id, store);
         }
         else {
@@ -78,13 +102,13 @@ public class SuperDuperMarket {
         }
     }
 
-    public boolean isLocationAlreadyExistsForStore(int x, int y) {
-        Store s = storesLocations[x - 1][y - 1];
-        return s != null;
+    public boolean isLocationAlreadyExists(int x, int y) {
+        Object o = locationGrid[x - 1][y - 1];
+        return o != null;
     }
 
-    public Store getStoreByLocation(int x, int y) {
-        return storesLocations[x - 1][y - 1];
+    public Object getObjectByLocation(int x, int y) {
+        return locationGrid[x - 1][y - 1];
     }
 
     public void addItem(Item item) {

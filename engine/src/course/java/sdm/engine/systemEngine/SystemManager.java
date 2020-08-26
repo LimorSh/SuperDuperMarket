@@ -1,6 +1,6 @@
 package course.java.sdm.engine.systemEngine;
 import course.java.sdm.engine.Configurations;
-import course.java.sdm.engine.exceptions.StoreLocationExistsException;
+import course.java.sdm.engine.exceptions.DuplicateLocationException;
 import course.java.sdm.engine.systemDto.*;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
@@ -83,9 +83,9 @@ public class SystemManager {
 
     public static void validateLocation(int x, int y) {
         Location.isValidLocation(x, y);
-        if (superDuperMarket.isLocationAlreadyExistsForStore(x, y)) {
-            Store store = superDuperMarket.getStoreByLocation(x, y);
-            throw new StoreLocationExistsException(store.getName(), x, y);
+        if (superDuperMarket.isLocationAlreadyExists(x, y)) {
+            Object object = superDuperMarket.getObjectByLocation(x, y);
+            throw new DuplicateLocationException(object, x, y);
         }
     }
 

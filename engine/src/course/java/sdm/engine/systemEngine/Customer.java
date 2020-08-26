@@ -69,6 +69,10 @@ public class Customer {
 //        }
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
