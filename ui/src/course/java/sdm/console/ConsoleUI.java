@@ -60,7 +60,8 @@ public class ConsoleUI {
         CREATE_ORDER(4, "Create new order"),
         SHOW_ORDERS_HISTORY(5, "Show orders history"),
         UPDATE_STORE_ITEMS(6, "Update store items"),
-        EXIT(7, "Exit")
+        EXIT(7, "Exit"),
+        SHOW_CUSTOMERS(8, "Show the super customers"),
         ;
 
         private final int optionNumber;
@@ -213,8 +214,29 @@ public class ConsoleUI {
             case EXIT:
                 exit();
                 break;
+            case SHOW_CUSTOMERS:
+                showAllCustomers();
         }
     }
+
+    private void showAllCustomers() {
+        Collection<CustomerDto> customersDto = SystemManager.getCustomersDto();
+        System.out.println("\nSuper market customers:");
+        System.out.println("-------------------");
+        for (CustomerDto customerDto : customersDto) {
+            showCustomerBasicDetails(customerDto);
+        }
+    }
+
+    private void showCustomerBasicDetails(CustomerDto customerDto) {
+        System.out.print("ID: " + customerDto.getId() + COMA_SEPARATOR);
+        System.out.print("Name: " + customerDto.getName() + COMA_SEPARATOR);
+        System.out.print("Location: (" + customerDto.getXLocation() + "," + customerDto.getYLocation() + ")");
+        System.out.println();
+    }
+
+
+
 
     private void printSeparatorLine() {
         System.out.println(SEPARATOR_LINE);

@@ -16,6 +16,10 @@ public class SystemManager {
         superDuperMarket = DataLoader.loadFromXmlFile(dataPath);
     }
 
+    public static Collection<CustomerDto> getCustomersDto() {
+        return SuperDuperMarketDto.getCustomersDto(superDuperMarket.getCustomers());
+    }
+
     public static Collection<StoreDto> getStoresDto() {
         return SuperDuperMarketDto.getStoresDto(superDuperMarket.getStores());
     }
@@ -144,7 +148,5 @@ public class SystemManager {
             }
         }
     }
-
-
 
 }

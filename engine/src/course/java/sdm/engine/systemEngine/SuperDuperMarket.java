@@ -66,23 +66,22 @@ public class SuperDuperMarket {
         itemsSold.add(item);
     }
 
-//    public void addCustomer(Customer customer) {
-//        int id = customer.getId();
-//        if (!isStoreExists(id)) {
-//            int x = customer.getLocation().getCoordinate().x;
-//            int y = customer.getLocation().getCoordinate().y;
-//            if (isLocationAlreadyExists(x, y)) {
-//                throw new StoreLocationExistsException(getStoreByLocation(x, y).getName(), x, y);
-//            }
-//            locationGrid[x - 1][y - 1] = store;
-//            stores.put(id, store);
-//        }
-//        else {
-//            Store existentStore = getStore(id);
-//            throw new DuplicateElementIdException(Store.class.getSimpleName(), store.getName(), existentStore.getName(), id);
-//
-//        }
-//    }
+    public void addCustomer(Customer customer) {
+        int id = customer.getId();
+        if (!isCustomerExists(id)) {
+            int x = customer.getLocation().getCoordinate().x;
+            int y = customer.getLocation().getCoordinate().y;
+            if (isLocationAlreadyExists(x, y)) {
+                throw new DuplicateLocationException(getObjectByLocation(x, y), x, y);
+            }
+            locationGrid[x - 1][y - 1] = customer;
+            customers.put(id, customer);
+        }
+        else {
+            Customer existentCustomer = getCustomer(id);
+            throw new DuplicateElementIdException(customer, existentCustomer);
+        }
+    }
 
     public void addStore(Store store) {
         int id = store.getId();
@@ -97,8 +96,7 @@ public class SuperDuperMarket {
         }
         else {
             Store existentStore = getStore(id);
-            throw new DuplicateElementIdException(Store.class.getSimpleName(), store.getName(), existentStore.getName(), id);
-
+            throw new DuplicateElementIdException(store, existentStore);
         }
     }
 
@@ -118,7 +116,7 @@ public class SuperDuperMarket {
         }
         else {
             Item existentItem = getItem(id);
-            throw new DuplicateElementIdException(Item.class.getSimpleName(), item.getName(), existentItem.getName(), id);
+            throw new DuplicateElementIdException(item, existentItem);
         }
     }
 
@@ -136,6 +134,10 @@ public class SuperDuperMarket {
     public boolean isItemExistsInStore(int storeId, int storeItemId) {
         Store store = getStore(storeId);
         return store.isItemInTheStore(storeItemId);
+    }
+
+    private Customer getCustomer(int id) {
+        return customers.get(id);
     }
 
     public Item getItem(int id) {
@@ -226,6 +228,10 @@ public class SuperDuperMarket {
 
     public boolean isStoreExists(int id) {
         return stores.containsKey(id);
+    }
+
+    public boolean isCustomerExists(int id) {
+        return customers.containsKey(id);
     }
 
     public void deleteItemFromStore(int storeItemId, int storeId) {

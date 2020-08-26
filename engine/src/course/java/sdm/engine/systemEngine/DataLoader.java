@@ -77,7 +77,16 @@ public class DataLoader {
     }
 
     private static void loadCustomers(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
-
+        List<SDMCustomer> sdmCustomers = superDuperMarketDescriptor.getSDMCustomers().getSDMCustomer();
+        for (SDMCustomer sdmCustomer : sdmCustomers) {
+            Customer customer = new Customer(sdmCustomer);
+            try {
+                superDuperMarket.addCustomer(customer);
+            }
+            catch (DuplicateLocationException e) {
+                throw new IllegalArgumentException("Could not add the customer " + customer.getName() + ": " + e.getMessage());
+            }
+        }
     }
 
     private static SuperDuperMarketDescriptor deserializeFrom(InputStream in) throws JAXBException {

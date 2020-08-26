@@ -1,7 +1,9 @@
 package course.java.sdm.engine.systemEngine;
 
 import course.java.sdm.engine.Utils;
+import course.java.sdm.engine.jaxb.schema.generated.SDMCustomer;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,10 +33,10 @@ public class Customer {
         numCustomers++;
     }
 
-//    public Customer(SDMCustomer sdmCustomer) {
-//        this(sdmCustomer.getId(), sdmCustomer.getName(),
-//                sdmCustomer.getLocation().getX(), sdmCustomer.getLocation().getY());
-//    }
+    public Customer(SDMCustomer sdmCustomer) {
+        this(sdmCustomer.getId(), sdmCustomer.getName(),
+                sdmCustomer.getLocation().getX(), sdmCustomer.getLocation().getY());
+    }
 
     private void setName(String name) {
         if (!Utils.isStringAnEnglishWord(name)) {
@@ -55,8 +57,8 @@ public class Customer {
         return name;
     }
 
-    public Map<Integer, Order> getOrders() {
-        return orders;
+    public Collection<Order> getOrders() {
+        return orders.values();
     }
 
     public void addOrder(Order order) {
