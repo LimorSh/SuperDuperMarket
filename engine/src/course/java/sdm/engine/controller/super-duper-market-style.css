@@ -1,6 +1,13 @@
 #h-box {
-    -fx-background-image: url("pics/background2.jpg");
-
+    /*-fx-background-image: url("pics/background.jpg");*/
+    /*-fx-background-image: url("pics/b4.jpg");*/
+    /*-fx-background-image: url("pics/h-box.jpg");*/
+    /*-fx-background-image: url("pics/h-box.jpg");*/
+    /*-fx-background-size: cover;*/
+    /*-fx-background-size: contain;*/
+    /*-fx-background-size: stretch;*/
+    /*-fx-background-image: url("pics/background.jpg");*/
+    /*-fx-background-size: cover;*/
 }
 
 #data-label {
@@ -8,4 +15,11 @@
     -fx-font-family: Arial;
     -fx-font-weight: bold;
     -fx-font-fill: #001c80;
+}
+
+.data-button {
+    -fx-background-color: transparent;
+    -fx-font-size: 13px;
+    -fx-pref-width: 79px;
+    /*-fx-text-fill: #828282;*/
 }

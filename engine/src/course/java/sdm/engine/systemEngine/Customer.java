@@ -1,6 +1,8 @@
 package course.java.sdm.engine.systemEngine;
 
 import course.java.sdm.engine.Utils;
+import course.java.sdm.engine.exceptions.StoreLocationOutOfRangeException;
+import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,14 +12,31 @@ public class Customer {
     private static int numCustomers = 1;
     private final int id;
     private String name;
+    private Location location;
     private final Map<Integer, Order> orders;
 
-    public Customer(int id, String name) {
-        this.id = numCustomers;
+    public Customer(int id, String name, Location location) {
+        this(id, name, location.getCoordinate().x, location.getCoordinate().y);
+    }
+
+    public Customer(int id, String name, int xLocation, int yLocation) {
+        this.id = id;
         setName(name);
+        try {
+            this.location = new Location(xLocation, yLocation);
+        }
+        catch (Exception e) {
+            // make different exception here!!!!!!!!!!!!!!!!
+//            throw new StoreLocationOutOfRangeException(name, xLocation, yLocation);
+        }
         orders = new HashMap<>();
         numCustomers++;
     }
+
+//    public Customer(SDMCustomer sdmCustomer) {
+//        this(sdmCustomer.getId(), sdmCustomer.getName(),
+//                sdmCustomer.getLocation().getX(), sdmCustomer.getLocation().getY());
+//    }
 
     private void setName(String name) {
         if (!Utils.isStringAnEnglishWord(name)) {
@@ -44,7 +63,12 @@ public class Customer {
 
     public void addOrder(Order order) {
         int id = order.getId();
-        orders.put(id, order);
+        if (!orders.containsKey(id)) {
+            orders.put(id, order);
+        }
+//        else {
+//            // throw exception
+//        }
     }
 
     @Override
