@@ -1,4 +1,5 @@
 package course.java.sdm.engine.systemEngine;
+import course.java.sdm.engine.jaxb.schema.generated.SDMOffer;
 
 public class Offer {
 
@@ -10,6 +11,10 @@ public class Offer {
         this.storeItemId = storeItemId;
         this.quantity = quantity;
         this.additionalPrice = additionalPrice;
+    }
+
+    public Offer(SDMOffer sdmOffer) {
+        this(sdmOffer.getItemId(), sdmOffer.getQuantity(), sdmOffer.getForAdditional());
     }
 
     public int getStoreItemId() {

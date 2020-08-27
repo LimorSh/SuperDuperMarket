@@ -1,4 +1,4 @@
-package course.java.sdm.console;
+package course.java.sdm.javafx;
 
 public class Main {
 

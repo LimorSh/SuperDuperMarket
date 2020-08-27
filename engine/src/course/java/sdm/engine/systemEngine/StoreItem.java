@@ -1,26 +1,15 @@
 package course.java.sdm.engine.systemEngine;
 
-import course.java.sdm.engine.jaxb.schema.generated.SDMItem;
-
 public class StoreItem extends Item{
 
     private float price;
     private float totalSold;
-
-    public StoreItem(int id, String name, PurchaseCategory purchaseCategory, float price) {
-        super(id, name, purchaseCategory);
-        this.price = price;
-    }
+    private Discount discount;
 
     public StoreItem(Item item, float price) {
         super(item);
         this.price = price;
     }
-
-//    public StoreItem(SDMItem sdmItem, float price) {
-//        super(sdmItem);
-//        this.price = price;
-//    }
 
     public float getPrice() {
         return price;
@@ -34,9 +23,19 @@ public class StoreItem extends Item{
         return totalSold;
     }
 
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
+    }
+
     public void updateTotalNumberSold(float quantity) {
         this.totalSold += quantity;
     }
+
+
 
     @Override
     public String toString() {

@@ -195,6 +195,31 @@ public class SuperDuperMarket {
         addItemToStore(itemId, itemPrice, store);
     }
 
+    public void addDiscountToStore(Discount discount, Store store) {
+        validateDiscount(discount, store);
+        store.addDiscount(discount);
+    }
+
+    private void validateItemIsInSuperAndStore(int itemId, Store store) {
+        if (!isItemExists(itemId)) {
+            throw new ItemDoesNotExistInTheSuperException(itemId);
+        }
+        if (!isItemInTheStore(store.getId(), itemId)) {
+            String itemName = getItemName(itemId);
+            throw new ItemDoesNotExistInTheStoreException(store.getName(), itemName, itemId);
+        }
+    }
+
+    private void validateDiscount(Discount discount, Store store) {
+        int discountItemId = discount.getStoreItemId();
+        validateItemIsInSuperAndStore(discountItemId, store);
+
+        for (Offer offer : discount.getOffers()) {
+            int offerItemId = offer.getStoreItemId();
+            validateItemIsInSuperAndStore(offerItemId, store);
+        }
+    }
+
     public void updateItemPriceInStore(int storeId, float newItemPrice, int storeItemId) {
         Store store = stores.get(storeId);
         if (!store.isItemInTheStore(storeItemId)) {
@@ -268,4 +293,8 @@ public class SuperDuperMarket {
         }
 
     }
+
+
+
+
 }

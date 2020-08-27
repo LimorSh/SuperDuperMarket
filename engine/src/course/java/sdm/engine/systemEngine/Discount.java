@@ -1,7 +1,7 @@
 package course.java.sdm.engine.systemEngine;
-
 import course.java.sdm.engine.Configurations;
-
+import course.java.sdm.engine.jaxb.schema.generated.SDMDiscount;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +38,22 @@ public class Discount {
         this.offers = new HashMap<>();
     }
 
+    public Discount(SDMDiscount sdmDiscount) {
+        this(sdmDiscount.getName(), sdmDiscount.getIfYouBuy().getItemId()
+                ,sdmDiscount.getIfYouBuy().getQuantity(),
+                convertStringToCategory(sdmDiscount.getThenYouGet().getOperator().toLowerCase()));
+    }
+
+    private static Discount.Category convertStringToCategory(String category) {
+        if (category.contains(Configurations.DISCOUNT_CATEGORY_ONE_OF)) {
+            return Discount.Category.ONE_OF;
+        }
+        else if (category.contains(Configurations.DISCOUNT_CATEGORY_ALL_OR_NOTHING)) {
+            return Discount.Category.ALL_OR_NOTHING;
+        }
+        return Discount.Category.IRRELEVANT;
+    }
+
     public String getName() {
         return name;
     }
@@ -54,13 +70,24 @@ public class Discount {
         return category;
     }
 
-    public Map<Integer, Offer> getOffers() {
-        return offers;
+    public Collection<Offer> getOffers() {
+        return offers.values();
     }
 
+    public void addOffer(Offer offer) {
+        int storeItemId = offer.getStoreItemId();
+        if (!isItemInTheOffers(storeItemId)) {
+            offers.put(storeItemId, offer);
+        }
+        else {
+            // make new exception!!!!!!!!!!!!!!
+//            throw new DuplicateStoreItemIdException(name, item.getName(), id);
+        }
+    }
 
-
-
+    public boolean isItemInTheOffers(int itemId) {
+        return offers.containsKey(itemId);
+    }
 
 
     @Override

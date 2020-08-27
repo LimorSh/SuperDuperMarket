@@ -4,7 +4,6 @@ import course.java.sdm.engine.exceptions.DuplicateStoreItemIdException;
 import course.java.sdm.engine.exceptions.InvalidElementNameException;
 import course.java.sdm.engine.exceptions.LocationOutOfRangeException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
-
 import java.util.*;
 
 public class Store {
@@ -80,7 +79,7 @@ public class Store {
 
     public void addItem(Item item, float price) {
         int id = item.getId();
-        if (!storeItems.containsKey(id)) {
+        if (!isItemInTheStore(id)) {
             storeItems.put(id, new StoreItem(item, price));
         }
         else {
@@ -90,12 +89,20 @@ public class Store {
 
     public void addOrder(Order order) {
         int id = order.getId();
-        if (!orders.containsKey(id)) {
+        if (!isOrderInTheStore(id)) {
             orders.put(id, order);
         }
 //        else {
 //            // throw exception
 //        }
+    }
+
+    public void addDiscount(Discount discount) {
+        StoreItem storeItem = storeItems.get(discount.getStoreItemId());
+        if (storeItem.getDiscount() != null) {
+            // throw new store item already has discount exception
+        }
+        storeItem.setDiscount(discount);
     }
 
     public void updateItemPrice(int id, float newPrice) {
@@ -136,6 +143,10 @@ public class Store {
 
     public boolean isItemInTheStore(int itemId) {
         return storeItems.containsKey(itemId);
+    }
+
+    public boolean isOrderInTheStore(int orderId) {
+        return orders.containsKey(orderId);
     }
 
     public void deleteItem(int id) {

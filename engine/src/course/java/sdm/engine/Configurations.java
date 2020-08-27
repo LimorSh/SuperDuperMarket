@@ -5,6 +5,6 @@ public class Configurations {
     public final static String ITEM_PURCHASE_CATEGORY_PER_UNIT_STR = "quantity";
     public final static String ITEM_PURCHASE_CATEGORY_PER_WEIGHT_STR = "weight";
     public final static String DISCOUNT_CATEGORY_IRRELEVANT = "irrelevant";
-    public final static String DISCOUNT_CATEGORY_ONE_OF = "one of";
-    public final static String DISCOUNT_CATEGORY_ALL_OR_NOTHING = "all or nothing";
+    public final static String DISCOUNT_CATEGORY_ONE_OF = "one-of";
+    public final static String DISCOUNT_CATEGORY_ALL_OR_NOTHING = "all-or-nothing";
 }

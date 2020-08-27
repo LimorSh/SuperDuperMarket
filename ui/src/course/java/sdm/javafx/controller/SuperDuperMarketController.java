@@ -1,4 +1,4 @@
-package course.java.sdm.engine.controller;
+package course.java.sdm.javafx.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -1,9 +1,7 @@
-package course.java.sdm.console;
-import course.java.sdm.engine.exceptions.DuplicateLocationException;
+package course.java.sdm.javafx;
 import course.java.sdm.engine.systemDto.*;
 import course.java.sdm.engine.systemEngine.SystemManager;
 import javax.xml.bind.JAXBException;
-import java.awt.*;
 import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -62,6 +60,7 @@ public class ConsoleUI {
         UPDATE_STORE_ITEMS(6, "Update store items"),
         EXIT(7, "Exit"),
         SHOW_CUSTOMERS(8, "Show the super customers"),
+        SHOW_DISCOUNTS(9, "Show the super discounts"),
         ;
 
         private final int optionNumber;
@@ -216,9 +215,12 @@ public class ConsoleUI {
                 break;
             case SHOW_CUSTOMERS:
                 showAllCustomers();
+                break;
+            case SHOW_DISCOUNTS:
+                showAllDiscounts();
+                break;
         }
     }
-
 
     // new functions:
 
@@ -239,17 +241,46 @@ public class ConsoleUI {
         System.out.println();
     }
 
+    private void showAllDiscounts() {
+        Collection<StoreDto> storesDto = SystemManager.getStoresDto();
+        System.out.println("\nSuper market discounts:");
+        System.out.println("----------------------");
+        for (StoreDto storeDto : storesDto) {
+            showDiscount(storeDto);
+        }
+    }
 
+    private void showDiscount(StoreDto storeDto) {
+        Collection<StoreItemDto> storeItemsDto = storeDto.getStoreItemsDto();
 
+        if (!storeItemsDto.isEmpty()) {
+            for (StoreItemDto storeItemDto : storeItemsDto) {
+                DiscountDto discountDto = storeItemDto.getDiscountDto();
+                if (discountDto != null) {
+                    System.out.print("Discount name: " + discountDto.getName() + COMA_SEPARATOR);
+                    System.out.print("Item ID: " + discountDto.getStoreItemId() + COMA_SEPARATOR);
+                    System.out.print("Item Quantity: " + discountDto.getStoreItemQuantity() + COMA_SEPARATOR);
+                    System.out.println("Category: " + discountDto.getCategory());
+                    System.out.println();
 
+                    System.out.println("Discount offers:");
+                    Collection<OfferDto> offersDto = discountDto.getOffersDto();
+                    for (OfferDto offerDto : offersDto) {
+                        System.out.print("Item ID: " + offerDto.getStoreItemId() + COMA_SEPARATOR);
+                        System.out.print("Item Quantity: " + offerDto.getQuantity() + COMA_SEPARATOR);
+                        System.out.print("Additional Price: " + offerDto.getAdditionalPrice());
+                        System.out.println();
+                    }
+                    printSeparatorLine();
+                }
+            }
+        }
+        else {
+            System.out.println("There are no items in the store.");
+        }
 
-
-
-
-
-
-
-
+        System.out.println();
+    }
 
 
     private void printSeparatorLine() {
