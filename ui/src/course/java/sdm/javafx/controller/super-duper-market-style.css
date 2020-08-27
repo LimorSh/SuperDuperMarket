@@ -16,7 +16,7 @@
 }
 
 .data-button {
-    -fx-alignment: left;
+    -fx-alignment: top-left;
     -fx-background-color: transparent;
     -fx-font-size: 13px;
     -fx-pref-width: 79px;
