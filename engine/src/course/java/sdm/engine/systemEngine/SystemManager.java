@@ -1,6 +1,5 @@
 package course.java.sdm.engine.systemEngine;
 import course.java.sdm.engine.Configurations;
-import course.java.sdm.engine.exceptions.DuplicateLocationException;
 import course.java.sdm.engine.systemDto.*;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
@@ -81,17 +80,26 @@ public class SystemManager {
                                                                     customerLocationX, customerLocationY);
     }
 
-    public static void createOrder(Date date, int customerLocationX, int customerLocationY, StoreDto store, Map<Integer, Float> itemsIdsAndQuantities) {
-        superDuperMarket.createOrder(date, customerLocationX, customerLocationY, store.getId(), itemsIdsAndQuantities);
+    public static void createOrder(CustomerDto customerDto, Date date, StoreDto store, Map<Integer, Float> itemsIdsAndQuantities) {
+        int x = customerDto.getXLocation();
+        int y = customerDto.getYLocation();
+        superDuperMarket.createOrder(date, x, y, store.getId(), itemsIdsAndQuantities);
+
+        // don't need the above - should be like this:
+//        superDuperMarket.createOrder(customer, date, store.getId(), itemsIdsAndQuantities);
     }
 
-    public static void validateLocation(int x, int y) {
-        Location.isValidLocation(x, y);
-        if (superDuperMarket.isLocationAlreadyExists(x, y)) {
-            Object object = superDuperMarket.getObjectByLocation(x, y);
-            throw new DuplicateLocationException(object, x, y);
-        }
-    }
+//    public static void createOrder(Date date, int customerLocationX, int customerLocationY, StoreDto store, Map<Integer, Float> itemsIdsAndQuantities) {
+//        superDuperMarket.createOrder(date, customerLocationX, customerLocationY, store.getId(), itemsIdsAndQuantities);
+//    }
+
+//    public static void validateLocation(int x, int y) {
+//        Location.isValidLocation(x, y);
+//        if (superDuperMarket.isLocationAlreadyExists(x, y)) {
+//            Object object = superDuperMarket.getObjectByLocation(x, y);
+//            throw new DuplicateLocationException(object, x, y);
+//        }
+//    }
 
     public static void validateStoreIdExists(int id) {
         if (id <= 0) {

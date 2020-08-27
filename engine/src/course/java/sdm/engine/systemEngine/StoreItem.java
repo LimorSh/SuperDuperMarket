@@ -17,10 +17,10 @@ public class StoreItem extends Item{
         this.price = price;
     }
 
-    public StoreItem(SDMItem sdmItem, float price) {
-        super(sdmItem);
-        this.price = price;
-    }
+//    public StoreItem(SDMItem sdmItem, float price) {
+//        super(sdmItem);
+//        this.price = price;
+//    }
 
     public float getPrice() {
         return price;

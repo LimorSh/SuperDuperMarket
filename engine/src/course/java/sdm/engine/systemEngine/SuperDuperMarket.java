@@ -69,12 +69,9 @@ public class SuperDuperMarket {
     public void addCustomer(Customer customer) {
         int id = customer.getId();
         if (!isCustomerExists(id)) {
-            int x = customer.getLocation().getCoordinate().x;
-            int y = customer.getLocation().getCoordinate().y;
-            if (isLocationAlreadyExists(x, y)) {
-                throw new DuplicateLocationException(getObjectByLocation(x, y), x, y);
-            }
-            locationGrid[x - 1][y - 1] = customer;
+            Location location = customer.getLocation();
+            validateLocation(customer, location);
+            addObjectToLocationGrid(customer, location);
             customers.put(id, customer);
         }
         else {
@@ -86,12 +83,9 @@ public class SuperDuperMarket {
     public void addStore(Store store) {
         int id = store.getId();
         if (!isStoreExists(id)) {
-            int x = store.getLocation().getCoordinate().x;
-            int y = store.getLocation().getCoordinate().y;
-            if (isLocationAlreadyExists(x, y)) {
-                throw new DuplicateLocationException(getObjectByLocation(x, y), x, y);
-            }
-            locationGrid[x - 1][y - 1] = store;
+            Location location = store.getLocation();
+            validateLocation(store, location);
+            addObjectToLocationGrid(store, location);
             stores.put(id, store);
         }
         else {
@@ -100,13 +94,42 @@ public class SuperDuperMarket {
         }
     }
 
+    private void validateLocation(Object object, Location location) {
+        if (isLocationAlreadyExists(location)) {
+            Object existentObject = getObjectByLocation(location);
+            throw new DuplicateLocationException(object, existentObject, location);
+        }
+    }
+
+    private void addObjectToLocationGrid(Object object, int x, int y) {
+        locationGrid[x - 1][y - 1] = object;
+    }
+
+    private void addObjectToLocationGrid(Object object, Location location) {
+        int x = location.getCoordinate().x;
+        int y = location.getCoordinate().y;
+        addObjectToLocationGrid(object, x, y);
+    }
+
     public boolean isLocationAlreadyExists(int x, int y) {
-        Object o = locationGrid[x - 1][y - 1];
-        return o != null;
+        Object object = locationGrid[x - 1][y - 1];
+        return object != null;
+    }
+
+    public boolean isLocationAlreadyExists(Location location) {
+        int x = location.getCoordinate().x;
+        int y = location.getCoordinate().y;
+        return isLocationAlreadyExists(x, y);
     }
 
     public Object getObjectByLocation(int x, int y) {
         return locationGrid[x - 1][y - 1];
+    }
+
+    public Object getObjectByLocation(Location location) {
+        int x = location.getCoordinate().x;
+        int y = location.getCoordinate().y;
+        return getObjectByLocation(x, y);
     }
 
     public void addItem(Item item) {

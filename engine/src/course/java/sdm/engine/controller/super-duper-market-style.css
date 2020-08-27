@@ -1,13 +1,11 @@
 #h-box {
-    /*-fx-background-image: url("pics/background.jpg");*/
-    /*-fx-background-image: url("pics/b4.jpg");*/
-    /*-fx-background-image: url("pics/h-box.jpg");*/
-    /*-fx-background-image: url("pics/h-box.jpg");*/
-    /*-fx-background-size: cover;*/
+    -fx-background-image: url("pics/hbox_background.jpg");
+   /*-fx-background-image: url("pics/hbox_background2.jpg");*/
+    /*-fx-background-image: url("pics/hbox_background3.jpg");*/
+    /*-fx-background-image: url("pics/hbox_background4.jpg");*/
+    -fx-background-size: cover;
     /*-fx-background-size: contain;*/
     /*-fx-background-size: stretch;*/
-    /*-fx-background-image: url("pics/background.jpg");*/
-    /*-fx-background-size: cover;*/
 }
 
 #data-label {
@@ -18,6 +16,7 @@
 }
 
 .data-button {
+    -fx-alignment: left;
     -fx-background-color: transparent;
     -fx-font-size: 13px;
     -fx-pref-width: 79px;

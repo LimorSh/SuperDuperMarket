@@ -1,6 +1,7 @@
 package course.java.sdm.engine.systemEngine;
 import course.java.sdm.engine.Configurations;
 import course.java.sdm.engine.Utils;
+import course.java.sdm.engine.exceptions.InvalidElementNameException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMItem;
 
 public class Item {
@@ -41,7 +42,8 @@ public class Item {
 
     private void setName(String name) {
         if (!Utils.isStringAnEnglishWord(name)) {
-            throw new IllegalArgumentException("The item name " + name + " is not valid: should contain English letters or spaces only.");
+            throw new InvalidElementNameException(this.getClass().getSimpleName(), name);
+//            throw new IllegalArgumentException("The item name " + name + " is not valid: should contain English letters or spaces only.");
         }
         this.name = name;
     }

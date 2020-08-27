@@ -1,5 +1,4 @@
 package course.java.sdm.engine.systemEngine;
-import course.java.sdm.engine.exceptions.LocationOutOfRangeException;
 import java.awt.*;
 import java.util.Objects;
 
@@ -15,7 +14,6 @@ public class Location {
     }
 
     public Location(int x, int y) {
-        isValidLocation(x, y);
         this.coordinate = new Point(x, y);
     }
 
@@ -23,9 +21,8 @@ public class Location {
         this(sdmLocation.getX(),sdmLocation.getY());
     }
 
-    public static void isValidLocation(int x, int y) {
-        if ((x < MIN_LOCATION_VALUE || x > MAX_LOCATION_VALUE) || (y < MIN_LOCATION_VALUE || y > MAX_LOCATION_VALUE))
-            throw new LocationOutOfRangeException(x, y);
+    public static boolean isValidLocation(int x, int y) {
+        return (x >= MIN_LOCATION_VALUE && x <= MAX_LOCATION_VALUE) && (y >= MIN_LOCATION_VALUE && y <= MAX_LOCATION_VALUE);
     }
 
     public Point getCoordinate() {

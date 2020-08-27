@@ -1,7 +1,8 @@
 package course.java.sdm.engine.systemEngine;
 import course.java.sdm.engine.Utils;
 import course.java.sdm.engine.exceptions.DuplicateStoreItemIdException;
-import course.java.sdm.engine.exceptions.StoreLocationOutOfRangeException;
+import course.java.sdm.engine.exceptions.InvalidElementNameException;
+import course.java.sdm.engine.exceptions.LocationOutOfRangeException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
 
 import java.util.*;
@@ -11,7 +12,7 @@ public class Store {
     private final int id;
     private String name;
     private final int ppk;
-    private final Location location;
+    private Location location;
     private final Map<Integer, StoreItem> storeItems;
     private final Map<Integer, Order> orders;
     private float totalDeliveriesRevenue;
@@ -24,12 +25,7 @@ public class Store {
         this.id = id;
         setName(name);
         this.ppk = ppk;
-        try {
-            this.location = new Location(xLocation, yLocation);
-        }
-        catch (Exception e) {
-            throw new StoreLocationOutOfRangeException(name, xLocation, yLocation);
-        }
+        setLocation(xLocation, yLocation);
         storeItems = new HashMap<>();
         orders = new HashMap<>();
     }
@@ -41,9 +37,17 @@ public class Store {
 
     private void setName(String name) {
         if (!Utils.isStringAnEnglishWord(name)) {
-            throw new IllegalArgumentException("The store name " + name + " is not valid: should contain English letters or spaces only.");
+            throw new InvalidElementNameException(this.getClass().getSimpleName(), name);
+//            throw new IllegalArgumentException("The store name " + name + " is not valid: should contain English letters or spaces only.");
         }
         this.name = name;
+    }
+
+    private void setLocation(int x, int y) {
+        if (!Location.isValidLocation(x, y)) {
+            throw new LocationOutOfRangeException(this.getClass().getSimpleName(), name, x, y);
+        }
+        this.location = new Location(x, y);
     }
 
     public int getId() {

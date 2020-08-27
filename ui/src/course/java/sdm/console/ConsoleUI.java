@@ -219,6 +219,10 @@ public class ConsoleUI {
         }
     }
 
+
+    // new functions:
+
+
     private void showAllCustomers() {
         Collection<CustomerDto> customersDto = SystemManager.getCustomersDto();
         System.out.println("\nSuper market customers:");
@@ -234,6 +238,16 @@ public class ConsoleUI {
         System.out.print("Location: (" + customerDto.getXLocation() + "," + customerDto.getYLocation() + ")");
         System.out.println();
     }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -514,37 +528,37 @@ public class ConsoleUI {
         }
     }
 
-    private Point getLocationFromUser(String msg) {
-        System.out.println(msg);
-        int x = 0;
-        int y = 0;
-        boolean isValidInput = false;
-        while (!isValidInput) {
-            try {
-                System.out.print("X: ");
-                x = getIntInputFromUser();
-                System.out.print("Y: ");
-                y = getIntInputFromUser();
-                SystemManager.validateLocation(x, y);
-                isValidInput = true;
-            }
-            catch (InputMismatchException e) {
-                System.out.println(e.getMessage());
-                System.out.println("The coordinate should be an integer number!");
-                System.out.println(msg);
-            }
-            catch (DuplicateLocationException e) {
-                System.out.println(e.getMessage());
-                System.out.println("The location's order cannot be the same as one of the stores.");
-                System.out.println(msg);
-            }
-            catch (Exception e) {
-                System.out.println(e.getMessage());
-                System.out.println(msg);
-            }
-        }
-        return new Point(x, y);
-    }
+//    private Point getLocationFromUser(String msg) {
+//        System.out.println(msg);
+//        int x = 0;
+//        int y = 0;
+//        boolean isValidInput = false;
+//        while (!isValidInput) {
+//            try {
+//                System.out.print("X: ");
+//                x = getIntInputFromUser();
+//                System.out.print("Y: ");
+//                y = getIntInputFromUser();
+//                SystemManager.validateLocation(x, y);
+//                isValidInput = true;
+//            }
+//            catch (InputMismatchException e) {
+//                System.out.println(e.getMessage());
+//                System.out.println("The coordinate should be an integer number!");
+//                System.out.println(msg);
+//            }
+//            catch (DuplicateLocationException e) {
+//                System.out.println(e.getMessage());
+//                System.out.println("The location's order cannot be the same as one of the stores.");
+//                System.out.println(msg);
+//            }
+//            catch (Exception e) {
+//                System.out.println(e.getMessage());
+//                System.out.println(msg);
+//            }
+//        }
+//        return new Point(x, y);
+//    }
 
     private int getValidStoreIdFromUser(String msg) {
         System.out.print(msg);
@@ -584,16 +598,16 @@ public class ConsoleUI {
         String msg = "Please enter order's date: ";
         Date date = getDateFromUser(msg);
 
-        msg = "Please enter your location (X,Y):";
-        Point userLocation = getLocationFromUser(msg);
-        int userLocationX = userLocation.x;
-        int userLocationY = userLocation.y;
+//        msg = "Please enter your location (X,Y):";
+//        Point userLocation = getLocationFromUser(msg);
+//        int userLocationX = userLocation.x;
+//        int userLocationY = userLocation.y;
 
         System.out.println();
         showItemsPerStore(storeDto);
         System.out.println();
 
-        orderContinuation(storeDto, date, userLocationX, userLocationY);
+//        orderContinuation(storeDto, date, userLocationX, userLocationY);
     }
 
     private void orderContinuation(StoreDto storeDto, Date date, int userLocationX, int userLocationY) {
@@ -612,7 +626,7 @@ public class ConsoleUI {
 
             boolean orderConfirmed = orderConfirmed();
             if (orderConfirmed) {
-                SystemManager.createOrder(date, userLocationX, userLocationY, storeDto, itemsIdsAndQuantities);
+//                SystemManager.createOrder(date, userLocationX, userLocationY, storeDto, itemsIdsAndQuantities);
                 System.out.println("Your order was confirmed and added successfully!");
             }
             else {

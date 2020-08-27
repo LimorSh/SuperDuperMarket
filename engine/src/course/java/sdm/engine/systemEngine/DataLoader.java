@@ -54,7 +54,7 @@ public class DataLoader {
                 superDuperMarket.addStore(store);
             }
             catch (DuplicateLocationException e) {
-                throw new IllegalArgumentException("Could not add the store " + store.getName() + ": " + e.getMessage());
+                throw new IllegalArgumentException("Could not add the store " + store.getName() + ":\n" + e.getMessage());
             }
             loadItemsToStore(store, sdmStore, superDuperMarket);
         }
@@ -71,7 +71,7 @@ public class DataLoader {
                 superDuperMarket.addItemToStore(itemId, itemPrice, store);
             }
             catch (ItemDoesNotExistInTheSuperException e) {
-                throw new IllegalArgumentException("Could not add item to the store " + store.getName() + ": " + e.getMessage());
+                throw new IllegalArgumentException("Could not add item to the store " + store.getName() + ":\n" + e.getMessage());
             }
         }
     }
@@ -84,7 +84,7 @@ public class DataLoader {
                 superDuperMarket.addCustomer(customer);
             }
             catch (DuplicateLocationException e) {
-                throw new IllegalArgumentException("Could not add the customer " + customer.getName() + ": " + e.getMessage());
+                throw new IllegalArgumentException("Could not add the customer " + customer.getName() + ":\n" + e.getMessage());
             }
         }
     }

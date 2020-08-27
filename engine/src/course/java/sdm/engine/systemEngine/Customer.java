@@ -1,8 +1,8 @@
 package course.java.sdm.engine.systemEngine;
-
 import course.java.sdm.engine.Utils;
+import course.java.sdm.engine.exceptions.InvalidElementNameException;
+import course.java.sdm.engine.exceptions.LocationOutOfRangeException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMCustomer;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,13 +22,7 @@ public class Customer {
     public Customer(int id, String name, int xLocation, int yLocation) {
         this.id = id;
         setName(name);
-        try {
-            this.location = new Location(xLocation, yLocation);
-        }
-        catch (Exception e) {
-            // make different exception here!!!!!!!!!!!!!!!!
-//            throw new StoreLocationOutOfRangeException(name, xLocation, yLocation);
-        }
+        setLocation(xLocation, yLocation);
         orders = new HashMap<>();
         numCustomers++;
     }
@@ -40,9 +34,17 @@ public class Customer {
 
     private void setName(String name) {
         if (!Utils.isStringAnEnglishWord(name)) {
-            throw new IllegalArgumentException("The customer name " + name + " is not valid: should contain English letters or spaces only.");
+            throw new InvalidElementNameException(this.getClass().getSimpleName(), name);
+//            throw new IllegalArgumentException("The customer name " + name + " is not valid: should contain English letters or spaces only.");
         }
         this.name = name;
+    }
+
+    private void setLocation(int x, int y) {
+        if (!Location.isValidLocation(x, y)) {
+            throw new LocationOutOfRangeException(this.getClass().getSimpleName(), name, x, y);
+        }
+        this.location = new Location(x, y);
     }
 
     public static int getNumCustomers() {
