@@ -1,23 +1,30 @@
 package course.java.sdm.engine.systemDto;
 import course.java.sdm.engine.systemEngine.Discount;
+import course.java.sdm.engine.systemEngine.Store;
 import course.java.sdm.engine.systemEngine.StoreItem;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class StoreItemDto extends ItemDto {
 
     private final float price;
     private final float totalSold;
-    private final DiscountDto discountDto;
+    private final ArrayList<DiscountDto> discountsDto;
 
     public StoreItemDto(StoreItem storeItem) {
         super(storeItem);
         this.price = storeItem.getPrice();
         this.totalSold = storeItem.getTotalSold();
-        Discount discount = storeItem.getDiscount();
-        if (discount != null) {
-            this.discountDto = new DiscountDto(discount);
-        }
-        else {
-            discountDto = null;
+        discountsDto = new ArrayList<>();
+        copyDiscountsDto(storeItem);
+    }
+
+    private void copyDiscountsDto(StoreItem storeItem) {
+        Collection<Discount> discounts = storeItem.getDiscounts();
+        for (Discount discount : discounts) {
+            DiscountDto discountDto = new DiscountDto(discount);
+            discountsDto.add(discountDto);
         }
     }
 
@@ -29,7 +36,7 @@ public class StoreItemDto extends ItemDto {
         return totalSold;
     }
 
-    public DiscountDto getDiscountDto() {
-        return discountDto;
+    public Collection<DiscountDto> getDiscountsDto() {
+        return discountsDto;
     }
 }

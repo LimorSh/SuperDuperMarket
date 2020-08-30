@@ -255,23 +255,25 @@ public class ConsoleUI {
 
         if (!storeItemsDto.isEmpty()) {
             for (StoreItemDto storeItemDto : storeItemsDto) {
-                DiscountDto discountDto = storeItemDto.getDiscountDto();
-                if (discountDto != null) {
-                    System.out.print("Discount name: " + discountDto.getName() + COMA_SEPARATOR);
-                    System.out.print("Item ID: " + discountDto.getStoreItemId() + COMA_SEPARATOR);
-                    System.out.print("Item Quantity: " + discountDto.getStoreItemQuantity() + COMA_SEPARATOR);
-                    System.out.println("Category: " + discountDto.getCategory());
-                    System.out.println();
-
-                    System.out.println("Discount offers:");
-                    Collection<OfferDto> offersDto = discountDto.getOffersDto();
-                    for (OfferDto offerDto : offersDto) {
-                        System.out.print("Item ID: " + offerDto.getStoreItemId() + COMA_SEPARATOR);
-                        System.out.print("Item Quantity: " + offerDto.getQuantity() + COMA_SEPARATOR);
-                        System.out.print("Additional Price: " + offerDto.getAdditionalPrice());
+                Collection<DiscountDto> discountsDto = storeItemDto.getDiscountsDto();
+                if (!discountsDto.isEmpty()) {
+                    for (DiscountDto discountDto : discountsDto) {
+                        System.out.print("Discount name: " + discountDto.getName() + COMA_SEPARATOR);
+                        System.out.print("Item ID: " + discountDto.getStoreItemId() + COMA_SEPARATOR);
+                        System.out.print("Item Quantity: " + discountDto.getStoreItemQuantity() + COMA_SEPARATOR);
+                        System.out.println("Category: " + discountDto.getCategory());
                         System.out.println();
+
+                        System.out.println("Discount offers:");
+                        Collection<OfferDto> offersDto = discountDto.getOffersDto();
+                        for (OfferDto offerDto : offersDto) {
+                            System.out.print("Item ID: " + offerDto.getStoreItemId() + COMA_SEPARATOR);
+                            System.out.print("Item Quantity: " + offerDto.getQuantity() + COMA_SEPARATOR);
+                            System.out.print("Additional Price: " + offerDto.getAdditionalPrice());
+                            System.out.println();
+                        }
+                        printSeparatorLine();
                     }
-                    printSeparatorLine();
                 }
             }
         }

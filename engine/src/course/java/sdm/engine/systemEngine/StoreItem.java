@@ -1,14 +1,18 @@
 package course.java.sdm.engine.systemEngine;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class StoreItem extends Item{
 
     private float price;
     private float totalSold;
-    private Discount discount;
+    private ArrayList<Discount> discounts;
 
     public StoreItem(Item item, float price) {
         super(item);
         this.price = price;
+        this.discounts = new ArrayList<>();
     }
 
     public float getPrice() {
@@ -23,12 +27,12 @@ public class StoreItem extends Item{
         return totalSold;
     }
 
-    public Discount getDiscount() {
-        return discount;
+    public Collection<Discount> getDiscounts() {
+        return discounts;
     }
 
-    public void setDiscount(Discount discount) {
-        this.discount = discount;
+    public void addDiscount(Discount discount) {
+        this.discounts.add(discount);
     }
 
     public void updateTotalNumberSold(float quantity) {

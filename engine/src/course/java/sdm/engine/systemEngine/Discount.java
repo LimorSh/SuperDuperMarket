@@ -1,5 +1,6 @@
 package course.java.sdm.engine.systemEngine;
 import course.java.sdm.engine.Configurations;
+import course.java.sdm.engine.exceptions.DuplicateElementIdException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMDiscount;
 import java.util.Collection;
 import java.util.HashMap;
@@ -81,8 +82,7 @@ public class Discount {
             offers.put(storeItemId, offer);
         }
         else {
-            // make new exception!!!!!!!!!!!!!!
-//            throw new DuplicateStoreItemIdException(name, item.getName(), id);
+            throw new IllegalArgumentException("There is already an offer with ID " + storeItemId + ". Each offer should have an unique ID.");
         }
     }
 

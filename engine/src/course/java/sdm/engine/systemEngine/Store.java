@@ -100,10 +100,7 @@ public class Store {
 
     public void addDiscount(Discount discount) {
         StoreItem storeItem = storeItems.get(discount.getStoreItemId());
-        if (storeItem.getDiscount() != null) {
-            // throw new store item already has discount exception
-        }
-        storeItem.setDiscount(discount);
+        storeItem.addDiscount(discount);
     }
 
     public void updateItemPrice(int id, float newPrice) {

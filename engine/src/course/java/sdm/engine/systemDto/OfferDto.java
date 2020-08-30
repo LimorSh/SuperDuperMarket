@@ -4,7 +4,7 @@ import course.java.sdm.engine.systemEngine.Offer;
 public class OfferDto {
 
     private final int storeItemId;
-    private final float quantity;
+    private final double quantity;
     private final int additionalPrice;
 
     public OfferDto(Offer offer) {
@@ -17,7 +17,7 @@ public class OfferDto {
         return storeItemId;
     }
 
-    public float getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 

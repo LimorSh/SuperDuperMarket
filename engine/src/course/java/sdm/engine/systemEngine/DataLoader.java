@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -58,7 +57,7 @@ public class DataLoader {
                 throw new IllegalArgumentException("Could not add the store " + store.getName() + ":\n" + e.getMessage());
             }
             loadItemsToStore(store, sdmStore, superDuperMarket);
-            loadDiscountToStore(store, sdmStore, superDuperMarket);
+            loadDiscountsToStore(store, sdmStore, superDuperMarket);
         }
     }
 
@@ -78,7 +77,7 @@ public class DataLoader {
         }
     }
 
-    private static void loadDiscountToStore(Store store, SDMStore sdmStore, SuperDuperMarket superDuperMarket) {
+    private static void loadDiscountsToStore(Store store, SDMStore sdmStore, SuperDuperMarket superDuperMarket) {
         SDMDiscounts sdmDiscountsContainer = sdmStore.getSDMDiscounts();
         if (sdmDiscountsContainer != null) {
             List<SDMDiscount> sdmDiscounts = sdmDiscountsContainer.getSDMDiscount();
@@ -86,11 +85,11 @@ public class DataLoader {
             for (SDMDiscount sdmDiscount : sdmDiscounts) {
                 Discount discount = new Discount(sdmDiscount);
                 List<SDMOffer> sdmOffers = sdmDiscount.getThenYouGet().getSDMOffer();
-                for (SDMOffer sdmOffer : sdmOffers) {
-                    Offer offer = new Offer(sdmOffer);
-                    discount.addOffer(offer);
-                }
                 try {
+                    for (SDMOffer sdmOffer : sdmOffers) {
+                        Offer offer = new Offer(sdmOffer);
+                        discount.addOffer(offer);
+                    }
                     superDuperMarket.addDiscountToStore(discount, store);
                 }
                 catch (ItemDoesNotExistInTheSuperException e) {
