@@ -4,10 +4,10 @@ import course.java.sdm.engine.jaxb.schema.generated.SDMOffer;
 public class Offer {
 
     private final int storeItemId;
-    private final float quantity;
+    private final double quantity;
     private final int additionalPrice;
 
-    public Offer(int storeItemId, float quantity, int additionalPrice) {
+    public Offer(int storeItemId, double quantity, int additionalPrice) {
         this.storeItemId = storeItemId;
         this.quantity = quantity;
         this.additionalPrice = additionalPrice;
@@ -21,16 +21,13 @@ public class Offer {
         return storeItemId;
     }
 
-    public float getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
     public int getAdditionalPrice() {
         return additionalPrice;
     }
-
-
-
 
 
     @Override
@@ -40,16 +37,11 @@ public class Offer {
 
         Offer offer = (Offer) o;
 
-        if (storeItemId != offer.storeItemId) return false;
-        if (Float.compare(offer.quantity, quantity) != 0) return false;
-        return additionalPrice == offer.additionalPrice;
+        return storeItemId == offer.storeItemId;
     }
 
     @Override
     public int hashCode() {
-        int result = storeItemId;
-        result = 31 * result + (quantity != +0.0f ? Float.floatToIntBits(quantity) : 0);
-        result = 31 * result + additionalPrice;
-        return result;
+        return storeItemId;
     }
 }

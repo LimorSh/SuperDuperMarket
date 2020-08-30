@@ -4,6 +4,7 @@ import course.java.sdm.engine.jaxb.schema.generated.SDMDiscount;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Discount {
 
@@ -26,11 +27,11 @@ public class Discount {
 
     private final String name;
     private final int storeItemId;
-    private final int storeItemQuantity;
+    private final double storeItemQuantity;
     private final Category category;
     private final Map<Integer, Offer> offers;
 
-    public Discount(String name, int storeItemId, int storeItemQuantity, Category category) {
+    public Discount(String name, int storeItemId, double storeItemQuantity, Category category) {
         this.name = name;
         this.storeItemId = storeItemId;
         this.storeItemQuantity = storeItemQuantity;
@@ -62,7 +63,7 @@ public class Discount {
         return storeItemId;
     }
 
-    public int getStoreItemQuantity() {
+    public double getStoreItemQuantity() {
         return storeItemQuantity;
     }
 
@@ -90,6 +91,7 @@ public class Discount {
     }
 
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -97,18 +99,11 @@ public class Discount {
 
         Discount discount = (Discount) o;
 
-        if (storeItemId != discount.storeItemId) return false;
-        if (storeItemQuantity != discount.storeItemQuantity) return false;
-        if (name != null ? !name.equals(discount.name) : discount.name != null) return false;
-        return category == discount.category;
+        return Objects.equals(name, discount.name);
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + storeItemId;
-        result = 31 * result + storeItemQuantity;
-        result = 31 * result + (category != null ? category.hashCode() : 0);
-        return result;
+        return name != null ? name.hashCode() : 0;
     }
 }

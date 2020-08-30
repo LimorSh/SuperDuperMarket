@@ -7,7 +7,7 @@ import java.util.Collection;
 public class DiscountDto {
     private final String name;
     private final int storeItemId;
-    private final int storeItemQuantity;
+    private final double storeItemQuantity;
     private final String category;
     private final Collection<OfferDto> offersDto;
 
@@ -36,7 +36,7 @@ public class DiscountDto {
         return storeItemId;
     }
 
-    public int getStoreItemQuantity() {
+    public double getStoreItemQuantity() {
         return storeItemQuantity;
     }
 
