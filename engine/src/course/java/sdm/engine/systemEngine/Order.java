@@ -12,6 +12,7 @@ public class Order {
     private final Location customerLocation;
     private final Store store;
     private final Map<Integer, OrderLine> orderLines; //the key is itemId
+//    private final Map<Integer, Set<OrderLine>> orderLines; //the key is itemId
     private float itemsCost;
     private float deliveryCost;
     private int totalItems;

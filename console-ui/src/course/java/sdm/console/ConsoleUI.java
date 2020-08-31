@@ -1,4 +1,4 @@
-package course.java.sdm.javafx;
+package course.java.sdm.console;
 import course.java.sdm.engine.systemDto.*;
 import course.java.sdm.engine.systemEngine.SystemManager;
 import javax.xml.bind.JAXBException;

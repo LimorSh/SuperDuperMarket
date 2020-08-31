@@ -1,12 +1,10 @@
-package course.java.sdm.javafx;
+package course.java.sdm.console;
 
-public class Main {
+public class MainConsole {
 
     public static void main(String[] args) {
-//        JavaFxUI javaFxUI = new JavaFxUI();
-//        javaFxUI.run();
-
         ConsoleUI consoleUI = new ConsoleUI();
         consoleUI.run();
     }
 }
+

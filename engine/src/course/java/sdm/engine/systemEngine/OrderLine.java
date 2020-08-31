@@ -6,6 +6,7 @@ public class OrderLine {
     private final Item item;
     private float quantity;
     private final float cost;
+//    private final boolean discount = false;
 
     public OrderLine(Item item, float quantity, float cost) {
         this.item = item;
