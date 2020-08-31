@@ -1,9 +1,9 @@
 package course.java.sdm.javafx;
 
-import course.java.sdm.javafx.controller.SuperDuperMarketController;
+import course.java.sdm.engine.engine.BusinessLogic;
+import course.java.sdm.javafx.components.main.SuperDuperMarketController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -12,13 +12,20 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 
-import java.net.URL;
-
 public class JavaFxUI extends Application{
     private static final String PRIMARY_STAGE_NAME = "Super Duper Market";
-    private static final String FXML_FILE_NAME = "controller/super-duper-market.fxml";
+    private static final String FXML_FILE_NAME = "/course/java/sdm/javafx/components/main/super-duper-market.fxml";
     private static final int SCENE_WIDTH = 1050;
     private static final int SCENE_HEIGHT = 600;
+
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+//    public void run() {
+//        launch(JavaFxUI.class);
+//    }
 
 
     @Override
@@ -41,9 +48,9 @@ public class JavaFxUI extends Application{
 
         // wire up controller
         SuperDuperMarketController superDuperMarketController = loader.getController();
-//        BusinessLogic businessLogic = new BusinessLogic(histogramController);
+        BusinessLogic businessLogic = new BusinessLogic();
         superDuperMarketController.setPrimaryStage(primaryStage);
-//        SuperDuperMarketController.setBusinessLogic(businessLogic);
+        superDuperMarketController.setBusinessLogic(businessLogic);
 
         // set stage
         primaryStage.setTitle(PRIMARY_STAGE_NAME);
@@ -52,13 +59,6 @@ public class JavaFxUI extends Application{
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-//    public void run() {
-//        launch(JavaFxUI.class);
-//    }
 
 
 

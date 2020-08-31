@@ -1,6 +1,6 @@
-package course.java.sdm.engine.systemDto;
-import course.java.sdm.engine.systemEngine.Order;
-import course.java.sdm.engine.systemEngine.Store;
+package course.java.sdm.engine.dto;
+import course.java.sdm.engine.engine.Order;
+import course.java.sdm.engine.engine.Store;
 
 import java.util.Date;
 

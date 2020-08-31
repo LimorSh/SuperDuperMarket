@@ -1,5 +1,5 @@
-package course.java.sdm.engine.systemDto;
-import course.java.sdm.engine.systemEngine.Offer;
+package course.java.sdm.engine.dto;
+import course.java.sdm.engine.engine.Offer;
 
 public class OfferDto {
 

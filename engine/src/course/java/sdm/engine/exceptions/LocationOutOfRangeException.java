@@ -1,5 +1,5 @@
 package course.java.sdm.engine.exceptions;
-import course.java.sdm.engine.systemEngine.Location;
+import course.java.sdm.engine.engine.Location;
 
 public class LocationOutOfRangeException extends LocationException{
     private String EXCEPTION_MESSAGE;

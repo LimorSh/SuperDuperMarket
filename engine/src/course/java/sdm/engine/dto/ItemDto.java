@@ -1,5 +1,5 @@
-package course.java.sdm.engine.systemDto;
-import course.java.sdm.engine.systemEngine.Item;
+package course.java.sdm.engine.dto;
+import course.java.sdm.engine.engine.Item;
 
 public class ItemDto {
     private final int id;

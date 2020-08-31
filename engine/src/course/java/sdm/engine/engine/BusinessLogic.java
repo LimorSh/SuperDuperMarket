@@ -1,86 +1,86 @@
-package course.java.sdm.engine.systemEngine;
+package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Configurations;
-import course.java.sdm.engine.systemDto.*;
+import course.java.sdm.engine.dto.*;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
-public class SystemManager {
+public class BusinessLogic {
 
-    static SuperDuperMarket superDuperMarket;
+    private SuperDuperMarket superDuperMarket;
 
-    public static void loadSystemData(String dataPath) throws JAXBException, FileNotFoundException {
+    public void loadSystemData(String dataPath) throws JAXBException, FileNotFoundException {
         superDuperMarket = DataLoader.loadFromXmlFile(dataPath);
     }
 
-    public static Collection<CustomerDto> getCustomersDto() {
-        return SuperDuperMarketDto.getCustomersDto(superDuperMarket.getCustomers());
-    }
-
-    public static Collection<StoreDto> getStoresDto() {
+    public Collection<StoreDto> getStoresDto() {
         return SuperDuperMarketDto.getStoresDto(superDuperMarket.getStores());
     }
 
-    public static Collection<ItemDto> getItemsDto() {
+    public Collection<CustomerDto> getCustomersDto() {
+        return SuperDuperMarketDto.getCustomersDto(superDuperMarket.getCustomers());
+    }
+
+    public Collection<ItemDto> getItemsDto() {
         return SuperDuperMarketDto.getItemsDto(superDuperMarket.getItems());
     }
 
-    public static Collection<OrderDto> getOrdersDto() {
+    public Collection<OrderDto> getOrdersDto() {
         return SuperDuperMarketDto.getOrdersDto(superDuperMarket.getOrders());
     }
 
-    public static int getNumberOfStoresSellingTheItem(ItemDto itemDto) {
+    public int getNumberOfStoresSellingTheItem(ItemDto itemDto) {
         return superDuperMarket.getNumberOfStoresSellingTheItem(itemDto.getId());
     }
 
-    public static float getAverageItemPrice(ItemDto itemDto) {
+    public float getAverageItemPrice(ItemDto itemDto) {
         return superDuperMarket.getAverageItemPrice(itemDto.getId());
     }
 
-    public static float getTotalAmountOfItemSells(ItemDto itemDto) {
+    public float getTotalAmountOfItemSells(ItemDto itemDto) {
         return superDuperMarket.getTotalAmountOfItemSells(itemDto.getId());
     }
 
-    public static Collection<StoreItemDto> getStoreItems(StoreDto storeDto) {
+    public Collection<StoreItemDto> getStoreItems(StoreDto storeDto) {
         return storeDto.getStoreItemsDto();
     }
 
-    public static boolean isItemInTheStoreDto(StoreDto storeDto, ItemDto itemDto) {
+    public boolean isItemInTheStoreDto(StoreDto storeDto, ItemDto itemDto) {
         int storeId = storeDto.getId();
         int itemId = itemDto.getId();
         return superDuperMarket.isItemInTheStore(storeId, itemId);
     }
 
-    public static float getItemPriceInStore(StoreDto storeDto, ItemDto itemDto) {
+    public float getItemPriceInStore(StoreDto storeDto, ItemDto itemDto) {
         int storeId = storeDto.getId();
         int itemId = itemDto.getId();
-        return getItemPriceInStoreByIds(storeId, itemId);
+        return new BusinessLogic().getItemPriceInStoreByIds(storeId, itemId);
     }
 
-    public static float getItemPriceInStoreByIds(int storeId, int itemId) {
+    public float getItemPriceInStoreByIds(int storeId, int itemId) {
         return superDuperMarket.getItemPriceInStore(storeId, itemId);
     }
 
-    public static StoreDto getStoreDto(int id) {
+    public StoreDto getStoreDto(int id) {
         return (new StoreDto(superDuperMarket.getStore(id)));
     }
 
-    public static String getItemPurchaseCategory(int id) {
+    public String getItemPurchaseCategory(int id) {
         return superDuperMarket.getItemPurchaseCategory(id);
     }
 
-    public static String getItemName(int id) {
+    public String getItemName(int id) {
         return superDuperMarket.getItemName(id);
     }
 
-    public static double getDistanceBetweenCustomerAndStore(StoreDto storeDto, int customerLocationX, int customerLocationY) {
+    public double getDistanceBetweenCustomerAndStore(StoreDto storeDto, int customerLocationX, int customerLocationY) {
         return Distance.getDistanceBetweenTwoLocations(storeDto.getXLocation(), storeDto.getYLocation(),
                                                                     customerLocationX, customerLocationY);
     }
 
-    public static void createOrder(CustomerDto customerDto, Date date, StoreDto store, Map<Integer, Float> itemsIdsAndQuantities) {
+    public void createOrder(CustomerDto customerDto, Date date, StoreDto store, Map<Integer, Float> itemsIdsAndQuantities) {
         int x = customerDto.getXLocation();
         int y = customerDto.getYLocation();
         superDuperMarket.createOrder(date, x, y, store.getId(), itemsIdsAndQuantities);
@@ -101,7 +101,7 @@ public class SystemManager {
 //        }
 //    }
 
-    public static void validateStoreIdExists(int id) {
+    public void validateStoreIdExists(int id) {
         if (id <= 0) {
             throw new IllegalArgumentException("The store ID " + id + " is not a positive integer number.");
         }
@@ -110,25 +110,25 @@ public class SystemManager {
         }
     }
 
-    public static void validateItemIdExistsInStore(int storeId, int storeItemId) {
-        validateItemExistInTheSuper(storeItemId);
+    public void validateItemIdExistsInStore(int storeId, int storeItemId) {
+        new BusinessLogic().validateItemExistInTheSuper(storeItemId);
         if (!superDuperMarket.isItemExistsInStore(storeId, storeItemId)) {
             throw new IllegalArgumentException("The item ID " + storeItemId + " does not exist in the store.");
         }
     }
 
-    public static void updateItemPriceInStore(int storeItemId, float newItemPrice, int storeId) {
+    public void updateItemPriceInStore(int storeItemId, float newItemPrice, int storeId) {
         superDuperMarket.updateItemPriceInStore(storeId, newItemPrice, storeItemId);
     }
 
-    public static void validateAddItemToStore(int storeId, int storeItemId) {
-        validateItemExistInTheSuper(storeItemId);
+    public void validateAddItemToStore(int storeId, int storeItemId) {
+        new BusinessLogic().validateItemExistInTheSuper(storeItemId);
         if (superDuperMarket.isItemExistsInStore(storeId, storeItemId)) {
             throw new IllegalArgumentException("The item ID " + storeItemId + " already exist in the store.");
         }
     }
 
-    public static void validateItemExistInTheSuper(int id) {
+    public void validateItemExistInTheSuper(int id) {
         if (id <= 0) {
             throw new IllegalArgumentException("The item ID " + id + " is not a positive integer number.");
         }
@@ -137,15 +137,15 @@ public class SystemManager {
         }
     }
 
-    public static void addItemToStore(int itemId, float itemPrice, int storeId) {
+    public void addItemToStore(int itemId, float itemPrice, int storeId) {
         superDuperMarket.addItemToStore(itemId, itemPrice, storeId);
     }
 
-    public static void deleteItemFromStore(int storeItemId, int storeId) {
+    public void deleteItemFromStore(int storeItemId, int storeId) {
         superDuperMarket.deleteItemFromStore(storeItemId, storeId);
     }
 
-    public static void validateItemQuantity(int itemId, float quantity) {
+    public void validateItemQuantity(int itemId, float quantity) {
         if (quantity <= 0) {
             throw new IllegalArgumentException("The quantity " + quantity + " is not a positive integer number. Item quantity should be greater than zero.");
         }
@@ -156,5 +156,7 @@ public class SystemManager {
             }
         }
     }
+
+
 
 }

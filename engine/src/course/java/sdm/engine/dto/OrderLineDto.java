@@ -1,4 +1,4 @@
-package course.java.sdm.engine.systemDto;
+package course.java.sdm.engine.dto;
 
 public class OrderLineDto {
     private final int itemId;

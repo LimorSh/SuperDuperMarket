@@ -1,6 +1,6 @@
-package course.java.sdm.javafx.controller;
+package course.java.sdm.javafx.components.main;
 
-import javafx.beans.binding.Bindings;
+import course.java.sdm.engine.engine.BusinessLogic;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -9,11 +9,13 @@ import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.xml.bind.JAXBException;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class SuperDuperMarketController {
 
-//    private BusinessLogic businessLogic;
+    private BusinessLogic businessLogic;
     private Stage primaryStage;
 
     @FXML private Button customersButton;
@@ -24,16 +26,18 @@ public class SuperDuperMarketController {
     @FXML private Button updateItemButton;
     @FXML private Button addOrderButton;
 
-    private SimpleStringProperty selectedFileProperty;
     private SimpleBooleanProperty isFileSelected;
 
     public SuperDuperMarketController() {
-        selectedFileProperty = new SimpleStringProperty();
         isFileSelected = new SimpleBooleanProperty(false);
     }
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+
+    public void setBusinessLogic(BusinessLogic businessLogic) {
+        this.businessLogic = businessLogic;
     }
 
     @FXML
@@ -67,8 +71,15 @@ public class SuperDuperMarketController {
         }
 
         String absolutePath = selectedFile.getAbsolutePath();
-        selectedFileProperty.set(absolutePath);
-        isFileSelected.set(true);
+
+        try {
+            businessLogic.loadSystemData(absolutePath);
+            isFileSelected.set(true);
+        }
+        catch (Exception e) {
+            // activate file error component!!!
+            System.out.println(e.getMessage());
+        }
     }
 
     @FXML

@@ -1,6 +1,6 @@
 package course.java.sdm.console;
-import course.java.sdm.engine.systemDto.*;
-import course.java.sdm.engine.systemEngine.SystemManager;
+import course.java.sdm.engine.dto.*;
+import course.java.sdm.engine.engine.BusinessLogic;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
 import java.text.DateFormat;
@@ -23,6 +23,8 @@ public class ConsoleUI {
     private static final int MAXIMUM_FRACTION_DIGITS = 2;
     private static final DecimalFormat DECIMAL_FORMAT;
     private static final DateFormat DATE_FORMAT;
+
+    private final BusinessLogic businessLogic = new BusinessLogic();
 
     static {
         DECIMAL_FORMAT = new DecimalFormat();
@@ -226,7 +228,7 @@ public class ConsoleUI {
 
 
     private void showAllCustomers() {
-        Collection<CustomerDto> customersDto = SystemManager.getCustomersDto();
+        Collection<CustomerDto> customersDto = businessLogic.getCustomersDto();
         System.out.println("\nSuper market customers:");
         System.out.println("-------------------");
         for (CustomerDto customerDto : customersDto) {
@@ -242,7 +244,7 @@ public class ConsoleUI {
     }
 
     private void showAllDiscounts() {
-        Collection<StoreDto> storesDto = SystemManager.getStoresDto();
+        Collection<StoreDto> storesDto = businessLogic.getStoresDto();
         System.out.println("\nSuper market discounts:");
         System.out.println("----------------------");
         for (StoreDto storeDto : storesDto) {
@@ -340,7 +342,7 @@ public class ConsoleUI {
     }
 
     private void showAllStores() {
-        Collection<StoreDto> storesDto = SystemManager.getStoresDto();
+        Collection<StoreDto> storesDto = businessLogic.getStoresDto();
         System.out.println("\nSuper market stores:");
         System.out.println("-------------------");
         for (StoreDto storeDto : storesDto) {
@@ -363,9 +365,9 @@ public class ConsoleUI {
     private void showItem(ItemDto itemDto) {
         showItemBasicDetails(itemDto);
         System.out.println();
-        int numberOfStoresSellingTheItem = SystemManager.getNumberOfStoresSellingTheItem(itemDto);
-        float averageItemPrice = SystemManager.getAverageItemPrice(itemDto);
-        float totalAmountOfItemSells = SystemManager.getTotalAmountOfItemSells(itemDto);
+        int numberOfStoresSellingTheItem = businessLogic.getNumberOfStoresSellingTheItem(itemDto);
+        float averageItemPrice = businessLogic.getAverageItemPrice(itemDto);
+        float totalAmountOfItemSells = businessLogic.getTotalAmountOfItemSells(itemDto);
         System.out.print("       ");
         System.out.print("Number of stores selling the item: " + numberOfStoresSellingTheItem + COMA_SEPARATOR);
         System.out.print("Average price: " + getFormatNumberWithTwoDigitsAfterPoint(averageItemPrice) + COMA_SEPARATOR);
@@ -374,7 +376,7 @@ public class ConsoleUI {
     }
 
     private void showAllItems() {
-        Collection<ItemDto> itemsDto = SystemManager.getItemsDto();
+        Collection<ItemDto> itemsDto = businessLogic.getItemsDto();
 
         if (!itemsDto.isEmpty()) {
             System.out.println("\nSuper market items:");
@@ -389,13 +391,13 @@ public class ConsoleUI {
     }
 
     private void showItemsPerStore(StoreDto storeDto) {
-        Collection<ItemDto> itemsDto = SystemManager.getItemsDto();
+        Collection<ItemDto> itemsDto = businessLogic.getItemsDto();
         System.out.println("The items in the super market are:");
         for (ItemDto itemDto : itemsDto) {
             showItemBasicDetails(itemDto);
             System.out.print(COMA_SEPARATOR);
-            if(SystemManager.isItemInTheStoreDto(storeDto, itemDto)) {
-                float price = SystemManager.getItemPriceInStore(storeDto, itemDto);
+            if(businessLogic.isItemInTheStoreDto(storeDto, itemDto)) {
+                float price = businessLogic.getItemPriceInStore(storeDto, itemDto);
                 System.out.println("Price: " + getFormatNumberWithTwoDigitsAfterPoint(price));
             }
             else
@@ -412,7 +414,7 @@ public class ConsoleUI {
         int intInput = itemId;
         while (!isValidInput) {
             try {
-                SystemManager.validateItemIdExistsInStore(storeId, intInput);
+                businessLogic.validateItemIdExistsInStore(storeId, intInput);
                 isValidInput = true;
             }
             catch (Exception e) {
@@ -436,7 +438,7 @@ public class ConsoleUI {
         while (true) {
             quantity = getFloatInputFromUser();
             try {
-                SystemManager.validateItemQuantity(itemId, quantity);
+                businessLogic.validateItemQuantity(itemId, quantity);
                 return quantity;
             }
             catch (Exception e) {
@@ -504,11 +506,11 @@ public class ConsoleUI {
             itemId = entry.getKey();
             itemQuantity = entry.getValue();
             System.out.print("\tID: " + itemId + COMA_SEPARATOR);
-            itemName = SystemManager.getItemName(itemId);
+            itemName = businessLogic.getItemName(itemId);
             System.out.print("Name: " + itemName + COMA_SEPARATOR);
-            itemPurchaseCategory = SystemManager.getItemPurchaseCategory(itemId);
+            itemPurchaseCategory = businessLogic.getItemPurchaseCategory(itemId);
             System.out.print("Purchase category: " + itemPurchaseCategory + COMA_SEPARATOR);
-            itemPrice = SystemManager.getItemPriceInStoreByIds(storeDto.getId(), itemId);
+            itemPrice = businessLogic.getItemPriceInStoreByIds(storeDto.getId(), itemId);
             System.out.print("Item price: " + getFormatNumberWithTwoDigitsAfterPoint(itemPrice) + COMA_SEPARATOR);
             System.out.print("Quantity: " + DECIMAL_FORMAT.format(itemQuantity) + COMA_SEPARATOR);
             itemTotalCost = itemQuantity * itemPrice;
@@ -600,7 +602,7 @@ public class ConsoleUI {
         while (!isValidInput) {
             try {
                 storeId = getIntInputFromUser();
-                SystemManager.validateStoreIdExists(storeId);
+                businessLogic.validateStoreIdExists(storeId);
                 isValidInput = true;
             }
             catch (InputMismatchException e) {
@@ -619,7 +621,7 @@ public class ConsoleUI {
     private StoreDto getStoreFromUser() {
         String msg = "Please enter store ID: ";
         int storeId = getValidStoreIdFromUser(msg);
-        return SystemManager.getStoreDto(storeId);
+        return businessLogic.getStoreDto(storeId);
     }
 
     private void createOrder() {
@@ -650,7 +652,7 @@ public class ConsoleUI {
             showOrderSummery(itemsIdsAndQuantities, storeDto);
 
             int storePpk = storeDto.getPpk();
-            double distanceBetweenCustomerAndStore = SystemManager.getDistanceBetweenCustomerAndStore(storeDto, userLocationX, userLocationY);
+            double distanceBetweenCustomerAndStore = businessLogic.getDistanceBetweenCustomerAndStore(storeDto, userLocationX, userLocationY);
             float deliveryCost = storePpk * (float) distanceBetweenCustomerAndStore;
             System.out.println("Delivery cost: " + DECIMAL_FORMAT.format(deliveryCost));
             System.out.println("Store PPK (Price Per Kilometer): " + storePpk);
@@ -671,7 +673,7 @@ public class ConsoleUI {
     private void showOrdersHistory() {
         System.out.println("\nOrders history:");
         System.out.println("--------------");
-        Collection<OrderDto> ordersDto = SystemManager.getOrdersDto();
+        Collection<OrderDto> ordersDto = businessLogic.getOrdersDto();
 
         if (!ordersDto.isEmpty()) {
             for (OrderDto orderDto : ordersDto) {
@@ -765,7 +767,7 @@ public class ConsoleUI {
         int itemId = getValidStoreItemIdFromUser(storeDto.getId(), intInput);
 
         try {
-            SystemManager.deleteItemFromStore(itemId, storeDto.getId());
+            businessLogic.deleteItemFromStore(itemId, storeDto.getId());
             System.out.println("\nThe item was deleted from the store successfully!");
         }
         catch (Exception e) {
@@ -778,7 +780,7 @@ public class ConsoleUI {
         int intInput = itemId;
         while (!isValidInput) {
             try {
-                SystemManager.validateAddItemToStore(storeId, intInput);
+                businessLogic.validateAddItemToStore(storeId, intInput);
                 isValidInput = true;
             }
             catch (Exception e) {
@@ -801,7 +803,7 @@ public class ConsoleUI {
         float itemPrice = getValidItemPrice();
 
         try {
-            SystemManager.addItemToStore(itemId, itemPrice, storeDto.getId());
+            businessLogic.addItemToStore(itemId, itemPrice, storeDto.getId());
             System.out.println("\nThe item was added to the store successfully!");
         }
         catch (Exception e) {
@@ -834,7 +836,7 @@ public class ConsoleUI {
         float newItemPrice = getValidItemPrice();
 
         try {
-            SystemManager.updateItemPriceInStore(itemId, newItemPrice, storeDto.getId());
+            businessLogic.updateItemPriceInStore(itemId, newItemPrice, storeDto.getId());
             System.out.println("\nThe item price was updated successfully!");
         }
         catch (Exception e) {
@@ -863,11 +865,11 @@ public class ConsoleUI {
         System.out.println("---------------------");
         System.out.println("Please enter a xml file path you would like to load:");
         String filePath = getStringInputFromUser();
-        SystemManager.loadSystemData(filePath);
+        businessLogic.loadSystemData(filePath);
     }
 
     private void showAllStoresForCreateOrder() {
-        Collection<StoreDto> storesDto = SystemManager.getStoresDto();
+        Collection<StoreDto> storesDto = businessLogic.getStoresDto();
         System.out.println("The stores in the super market are:");
         for (StoreDto storeDto : storesDto) {
             showStoreBasicDetails(storeDto);

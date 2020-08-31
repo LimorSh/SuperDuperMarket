@@ -1,6 +1,6 @@
 package course.java.sdm.engine.exceptions;
 import course.java.sdm.engine.Utils;
-import course.java.sdm.engine.systemEngine.Location;
+import course.java.sdm.engine.engine.Location;
 
 public class DuplicateLocationException extends LocationException {
     private String EXCEPTION_MESSAGE;

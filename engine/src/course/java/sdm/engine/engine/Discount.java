@@ -1,4 +1,4 @@
-package course.java.sdm.engine.systemEngine;
+package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Configurations;
 import course.java.sdm.engine.jaxb.schema.generated.SDMDiscount;
 import java.util.Collection;

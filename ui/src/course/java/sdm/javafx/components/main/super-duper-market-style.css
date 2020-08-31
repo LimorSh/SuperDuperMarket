@@ -1,11 +1,12 @@
 #h-box {
-    -fx-background-image: url("pics/hbox_background.jpg");
+    /*-fx-background-image: url("/course/java/sdm/javafx/resources/images/hbox_background.jpg");*/
    /*-fx-background-image: url("pics/hbox_background2.jpg");*/
    /* -fx-background-image: url("pics/hbox_background3.jpg");*/
     /*-fx-background-image: url("pics/hbox_background4.jpg");*/
-    -fx-background-size: cover;
+    /*-fx-background-size: cover;*/
     /*-fx-background-size: contain;*/
     /*-fx-background-size: stretch;*/
+    -fx-background-color: lightblue;
 }
 
 #data-label {

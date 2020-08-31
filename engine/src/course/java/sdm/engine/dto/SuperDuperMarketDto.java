@@ -1,8 +1,8 @@
-package course.java.sdm.engine.systemDto;
-import course.java.sdm.engine.systemEngine.Customer;
-import course.java.sdm.engine.systemEngine.Item;
-import course.java.sdm.engine.systemEngine.Order;
-import course.java.sdm.engine.systemEngine.Store;
+package course.java.sdm.engine.dto;
+import course.java.sdm.engine.engine.Customer;
+import course.java.sdm.engine.engine.Item;
+import course.java.sdm.engine.engine.Order;
+import course.java.sdm.engine.engine.Store;
 import java.util.ArrayList;
 import java.util.Collection;
 

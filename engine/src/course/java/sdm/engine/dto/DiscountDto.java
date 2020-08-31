@@ -1,6 +1,6 @@
-package course.java.sdm.engine.systemDto;
-import course.java.sdm.engine.systemEngine.Discount;
-import course.java.sdm.engine.systemEngine.Offer;
+package course.java.sdm.engine.dto;
+import course.java.sdm.engine.engine.Discount;
+import course.java.sdm.engine.engine.Offer;
 import java.util.ArrayList;
 import java.util.Collection;
 
