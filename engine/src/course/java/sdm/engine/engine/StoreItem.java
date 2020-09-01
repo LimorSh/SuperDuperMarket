@@ -8,7 +8,7 @@ public class StoreItem extends Item{
 
     private float price;
     private float totalSold;
-    private ArrayList<Discount> discounts;
+    private final ArrayList<Discount> discounts;
 
     public StoreItem(Item item, float price) {
         super(item);

@@ -14,7 +14,6 @@ import java.net.URL;
 
 public class JavaFxUI extends Application{
     private static final String PRIMARY_STAGE_NAME = "Super Duper Market";
-    private static final String FXML_FILE_NAME = "/course/java/sdm/javafx/components/main/super-duper-market.fxml";
     private static final int SCENE_WIDTH = 1050;
     private static final int SCENE_HEIGHT = 600;
 
@@ -23,26 +22,14 @@ public class JavaFxUI extends Application{
         launch(args);
     }
 
-//    public void run() {
-//        launch(JavaFxUI.class);
-//    }
-
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        primaryStage.setTitle(PRIMARY_STAGE_NAME);
-//
-//        Parent load = FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));
-//        Scene scene = new Scene(load, SCENE_WIDTH, SCENE_HEIGHT);
-//        primaryStage.setScene(scene);
-//        primaryStage.show();
-
 //        CSSFX.start();
 
         FXMLLoader loader = new FXMLLoader();
 
         // load main fxml
-        URL mainFXML = getClass().getResource(FXML_FILE_NAME);
+        URL mainFXML = getClass().getResource(SuperDuperMarketResourcesConstants.MAIN_FXML_RESOURCE_IDENTIFIER);
         loader.setLocation(mainFXML);
         BorderPane root = loader.load();
 
@@ -58,10 +45,6 @@ public class JavaFxUI extends Application{
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
-
-
-
 }
 
 

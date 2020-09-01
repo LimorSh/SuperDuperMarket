@@ -1,23 +1,31 @@
 package course.java.sdm.javafx.components.main;
 
+import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.engine.engine.BusinessLogic;
+import course.java.sdm.javafx.SuperDuperMarketResourcesConstants;
+import course.java.sdm.javafx.components.singleItem.SingleItemController;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import javax.xml.bind.JAXBException;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Collection;
 
 public class SuperDuperMarketController {
 
     private BusinessLogic businessLogic;
     private Stage primaryStage;
 
+    @FXML private FlowPane superDuperMarketFlowPane;
     @FXML private Button customersButton;
     @FXML private Button storesButton;
     @FXML private Button productsButton;
@@ -51,16 +59,6 @@ public class SuperDuperMarketController {
     }
 
     @FXML
-    void addOrderButtonAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void customersButtonAction(ActionEvent event) {
-
-    }
-
-    @FXML
     void loadFileButtonAction() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select system data file");
@@ -71,7 +69,6 @@ public class SuperDuperMarketController {
         }
 
         String absolutePath = selectedFile.getAbsolutePath();
-
         try {
             businessLogic.loadSystemData(absolutePath);
             isFileSelected.set(true);
@@ -83,12 +80,17 @@ public class SuperDuperMarketController {
     }
 
     @FXML
-    void ordersButtonAction(ActionEvent event) {
+    void updateItemButtonAction(ActionEvent event) {
 
     }
 
     @FXML
-    void productsButtonAction(ActionEvent event) {
+    void addOrderButtonAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void customersButtonAction(ActionEvent event) {
 
     }
 
@@ -98,8 +100,59 @@ public class SuperDuperMarketController {
     }
 
     @FXML
-    void updateItemButtonAction(ActionEvent event) {
+    void productsButtonAction(ActionEvent event) {
+        Collection<ItemDto> itemsDto = businessLogic.getItemsDto();
+        if (!itemsDto.isEmpty()) {
+            for (ItemDto itemDto : itemsDto) {
+                int id = itemDto.getId();
+                String name = itemDto.getName();
+                String purchaseCategory = itemDto.getPurchaseCategory();
+                int numberOfStoresSellingTheItem = businessLogic.getNumberOfStoresSellingTheItem(itemDto);
+                float averageItemPrice = businessLogic.getAverageItemPrice(itemDto);
+                float totalAmountOfItemSells = businessLogic.getTotalAmountOfItemSells(itemDto);
+                createItem(id, name, purchaseCategory, numberOfStoresSellingTheItem, averageItemPrice, totalAmountOfItemSells);
+            }
+        }
+        else {
+            // show no items component!
+        }
 
     }
+
+    @FXML
+    void ordersButtonAction(ActionEvent event) {
+
+    }
+
+    private void createItem(int id, String name, String purchaseCategory, int numberOfStoresSellingTheItem,
+                            float averagePrice, float totalSells) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketResourcesConstants.SINGLE_ITEM_FXML_RESOURCE);
+            Node singleItem = loader.load();
+
+            SingleItemController singleItemController = loader.getController();
+            singleItemController.setId(id);
+            singleItemController.setName(name);
+            singleItemController.setPurchaseCategory(purchaseCategory);
+            singleItemController.setNumberOfStoresSellingTheItem(numberOfStoresSellingTheItem);
+            singleItemController.setAveragePrice(averagePrice);
+            singleItemController.setTotalSells(totalSells);
+
+            Platform.runLater(
+                    () -> {
+                        superDuperMarketFlowPane.getChildren().add(singleItem);
+                    }
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
 
 }
