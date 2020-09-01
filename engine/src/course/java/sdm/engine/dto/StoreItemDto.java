@@ -5,7 +5,7 @@ import course.java.sdm.engine.engine.StoreItem;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class StoreItemDto extends ItemDto {
+public class StoreItemDto extends BasicItemDto {
 
     private final float price;
     private final float totalSold;

@@ -1,5 +1,6 @@
 package course.java.sdm.javafx.components.singleItem;
 
+import course.java.sdm.engine.dto.ItemDto;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,26 +25,44 @@ public class ItemData {
         this.totalSells = new SimpleFloatProperty(totalSells);
     }
 
-    public void setId(int id) {
+//    public ItemData(ItemDto itemDto) {
+//        this.id = new SimpleIntegerProperty(itemDto.getId());
+//        this.name = new SimpleStringProperty(itemDto.getName());
+//        this.purchaseCategory = new SimpleStringProperty(itemDto.getPurchaseCategory());
+//        this.numberOfStoresSellingTheItem = new SimpleIntegerProperty(itemDto.getNumberOfStoresSellingTheItem());
+//        this.averagePrice = new SimpleFloatProperty(itemDto.getAverageItemPrice());
+//        this.totalSells = new SimpleFloatProperty(itemDto.getTotalAmountOfItemSells());
+//    }
+
+    private void setId(int id) {
         this.id.set(id);
     }
-    public void setName(String name) {
+    private void setName(String name) {
         this.name.set(name);
     }
 
-    public void setPurchaseCategory(String purchaseCategory) {
+    private void setPurchaseCategory(String purchaseCategory) {
         this.purchaseCategory.set(purchaseCategory);
     }
 
-    public void setNumberOfStoresSellingTheItem(int numberOfStoresSellingTheItem) {
+    private void setNumberOfStoresSellingTheItem(int numberOfStoresSellingTheItem) {
         this.numberOfStoresSellingTheItem.set(numberOfStoresSellingTheItem);
     }
 
-    public void setAveragePrice(float averagePrice) {
+    private void setAveragePrice(float averagePrice) {
         this.averagePrice.set(averagePrice);
     }
 
-    public void setTotalSells(float totalSells) {
+    private void setTotalSells(float totalSells) {
         this.totalSells.set(totalSells);
+    }
+
+    public void setItemDataValues(ItemDto itemDto) {
+        setId(itemDto.getId());
+        setName(itemDto.getName());
+        setPurchaseCategory(itemDto.getPurchaseCategory());
+        setNumberOfStoresSellingTheItem(itemDto.getNumberOfStoresSellingTheItem());
+        setAveragePrice(itemDto.getAverageItemPrice());
+        setTotalSells(itemDto.getTotalAmountOfItemSells());
     }
 }

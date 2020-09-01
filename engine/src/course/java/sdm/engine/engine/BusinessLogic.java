@@ -3,6 +3,7 @@ import course.java.sdm.engine.Configurations;
 import course.java.sdm.engine.dto.*;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
@@ -23,39 +24,55 @@ public class BusinessLogic {
         return SuperDuperMarketDto.getCustomersDto(superDuperMarket.getCustomers());
     }
 
+    public Collection<BasicItemDto> getBasicItemsDto() {
+        return SuperDuperMarketDto.getBasicItemsDto(superDuperMarket.getItems());
+    }
+
     public Collection<ItemDto> getItemsDto() {
-        return SuperDuperMarketDto.getItemsDto(superDuperMarket.getItems());
+        Collection<ItemDto> itemsDto = new ArrayList<>();
+
+        Collection<Item> items = superDuperMarket.getItems();
+        for (Item item : items) {
+            int itemId = item.getId();
+            int numberOfStoresSellingTheItem = superDuperMarket.getNumberOfStoresSellingTheItem(itemId);
+            float averageItemPrice = superDuperMarket.getAverageItemPrice(itemId);
+            float totalAmountOfItemSells = superDuperMarket.getTotalAmountOfItemSells(itemId);
+            ItemDto itemDto = new ItemDto(item, numberOfStoresSellingTheItem, averageItemPrice, totalAmountOfItemSells);
+            itemsDto.add(itemDto);
+        }
+
+        return itemsDto;
     }
 
     public Collection<OrderDto> getOrdersDto() {
         return SuperDuperMarketDto.getOrdersDto(superDuperMarket.getOrders());
     }
 
-    public int getNumberOfStoresSellingTheItem(ItemDto itemDto) {
-        return superDuperMarket.getNumberOfStoresSellingTheItem(itemDto.getId());
+    public int getNumberOfStoresSellingTheItem(BasicItemDto basicItemDto) {
+        return superDuperMarket.getNumberOfStoresSellingTheItem(basicItemDto.getId());
     }
 
-    public float getAverageItemPrice(ItemDto itemDto) {
-        return superDuperMarket.getAverageItemPrice(itemDto.getId());
+    public float getAverageItemPrice(BasicItemDto basicItemDto) {
+        return superDuperMarket.getAverageItemPrice(basicItemDto.getId());
     }
 
-    public float getTotalAmountOfItemSells(ItemDto itemDto) {
-        return superDuperMarket.getTotalAmountOfItemSells(itemDto.getId());
+    public float getTotalAmountOfItemSells(BasicItemDto basicItemDto) {
+        return superDuperMarket.getTotalAmountOfItemSells(basicItemDto.getId());
     }
 
     public Collection<StoreItemDto> getStoreItems(StoreDto storeDto) {
         return storeDto.getStoreItemsDto();
     }
 
-    public boolean isItemInTheStoreDto(StoreDto storeDto, ItemDto itemDto) {
+    public boolean isItemInTheStoreDto(StoreDto storeDto, BasicItemDto basicItemDto) {
         int storeId = storeDto.getId();
-        int itemId = itemDto.getId();
+        int itemId = basicItemDto.getId();
         return superDuperMarket.isItemInTheStore(storeId, itemId);
     }
 
-    public float getItemPriceInStore(StoreDto storeDto, ItemDto itemDto) {
+    public float getItemPriceInStore(StoreDto storeDto, BasicItemDto basicItemDto) {
         int storeId = storeDto.getId();
-        int itemId = itemDto.getId();
+        int itemId = basicItemDto.getId();
         return new BusinessLogic().getItemPriceInStoreByIds(storeId, itemId);
     }
 

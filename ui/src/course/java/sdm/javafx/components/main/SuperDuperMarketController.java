@@ -6,12 +6,10 @@ import course.java.sdm.javafx.SuperDuperMarketResourcesConstants;
 import course.java.sdm.javafx.components.singleItem.SingleItemController;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
@@ -104,13 +102,7 @@ public class SuperDuperMarketController {
         Collection<ItemDto> itemsDto = businessLogic.getItemsDto();
         if (!itemsDto.isEmpty()) {
             for (ItemDto itemDto : itemsDto) {
-                int id = itemDto.getId();
-                String name = itemDto.getName();
-                String purchaseCategory = itemDto.getPurchaseCategory();
-                int numberOfStoresSellingTheItem = businessLogic.getNumberOfStoresSellingTheItem(itemDto);
-                float averageItemPrice = businessLogic.getAverageItemPrice(itemDto);
-                float totalAmountOfItemSells = businessLogic.getTotalAmountOfItemSells(itemDto);
-                createItem(id, name, purchaseCategory, numberOfStoresSellingTheItem, averageItemPrice, totalAmountOfItemSells);
+                createItem(itemDto);
             }
         }
         else {
@@ -124,20 +116,20 @@ public class SuperDuperMarketController {
 
     }
 
-    private void createItem(int id, String name, String purchaseCategory, int numberOfStoresSellingTheItem,
-                            float averagePrice, float totalSells) {
+    private void createItem(ItemDto itemDto) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketResourcesConstants.SINGLE_ITEM_FXML_RESOURCE);
             Node singleItem = loader.load();
 
             SingleItemController singleItemController = loader.getController();
-            singleItemController.setId(id);
-            singleItemController.setName(name);
-            singleItemController.setPurchaseCategory(purchaseCategory);
-            singleItemController.setNumberOfStoresSellingTheItem(numberOfStoresSellingTheItem);
-            singleItemController.setAveragePrice(averagePrice);
-            singleItemController.setTotalSells(totalSells);
+            singleItemController.setItemDataValues(itemDto);
+//            singleItemController.setId(id);
+//            singleItemController.setName(name);
+//            singleItemController.setPurchaseCategory(purchaseCategory);
+//            singleItemController.setNumberOfStoresSellingTheItem(numberOfStoresSellingTheItem);
+//            singleItemController.setAveragePrice(averagePrice);
+//            singleItemController.setTotalSells(totalSells);
 
             Platform.runLater(
                     () -> {
@@ -148,7 +140,6 @@ public class SuperDuperMarketController {
             e.printStackTrace();
         }
     }
-
 
 
 

@@ -24,12 +24,12 @@ public class SuperDuperMarketDto {
         return storesDto;
     }
 
-    public static Collection<ItemDto> getItemsDto(Collection<Item> items) {
-        Collection<ItemDto> itemsDto = new ArrayList<>();
+    public static Collection<BasicItemDto> getBasicItemsDto(Collection<Item> items) {
+        Collection<BasicItemDto> basicItemsDto = new ArrayList<>();
         for (Item item : items) {
-            itemsDto.add(new ItemDto(item));
+            basicItemsDto.add(new BasicItemDto(item));
         }
-        return itemsDto;
+        return basicItemsDto;
     }
 
     public static Collection<OrderDto> getOrdersDto(Collection<Order> orders) {

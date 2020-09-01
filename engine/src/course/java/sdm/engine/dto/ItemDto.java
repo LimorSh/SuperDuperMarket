@@ -1,26 +1,30 @@
 package course.java.sdm.engine.dto;
+
 import course.java.sdm.engine.engine.Item;
 
-public class ItemDto {
-    private final int id;
-    private final String name;
-    private final String purchaseCategory;
+public class ItemDto extends BasicItemDto {
 
-    public ItemDto(Item item) {
-        this.id = item.getId();
-        this.name = item.getName();
-        this.purchaseCategory = item.getPurchaseCategory().getPurchaseCategoryStr();
+    private final int numberOfStoresSellingTheItem;
+    private final float averageItemPrice;
+    private final float totalAmountOfItemSells;
+
+    public ItemDto(Item item, int numberOfStoresSellingTheItem,
+                   float averageItemPrice, float totalAmountOfItemSells) {
+        super(item);
+        this.numberOfStoresSellingTheItem = numberOfStoresSellingTheItem;
+        this.averageItemPrice = averageItemPrice;
+        this.totalAmountOfItemSells = totalAmountOfItemSells;
     }
 
-    public int getId() {
-        return id;
+    public int getNumberOfStoresSellingTheItem() {
+        return numberOfStoresSellingTheItem;
     }
 
-    public String getName() {
-        return name;
+    public float getAverageItemPrice() {
+        return averageItemPrice;
     }
 
-    public String getPurchaseCategory() {
-        return purchaseCategory;
+    public float getTotalAmountOfItemSells() {
+        return totalAmountOfItemSells;
     }
 }

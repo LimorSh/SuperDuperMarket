@@ -350,10 +350,10 @@ public class ConsoleUI {
         }
     }
 
-    private void showItemBasicDetails(ItemDto itemDto) {
-        System.out.print("ID: " + itemDto.getId() + COMA_SEPARATOR);
-        System.out.print("Name: " + itemDto.getName() + COMA_SEPARATOR);
-        System.out.print("Purchase category: " + itemDto.getPurchaseCategory());
+    private void showItemBasicDetails(BasicItemDto basicItemDto) {
+        System.out.print("ID: " + basicItemDto.getId() + COMA_SEPARATOR);
+        System.out.print("Name: " + basicItemDto.getName() + COMA_SEPARATOR);
+        System.out.print("Purchase category: " + basicItemDto.getPurchaseCategory());
     }
 
     private void showStoreBasicDetails(StoreDto storeDto) {
@@ -362,12 +362,12 @@ public class ConsoleUI {
         System.out.print("PPK: " + storeDto.getPpk());
     }
 
-    private void showItem(ItemDto itemDto) {
-        showItemBasicDetails(itemDto);
+    private void showItem(BasicItemDto basicItemDto) {
+        showItemBasicDetails(basicItemDto);
         System.out.println();
-        int numberOfStoresSellingTheItem = businessLogic.getNumberOfStoresSellingTheItem(itemDto);
-        float averageItemPrice = businessLogic.getAverageItemPrice(itemDto);
-        float totalAmountOfItemSells = businessLogic.getTotalAmountOfItemSells(itemDto);
+        int numberOfStoresSellingTheItem = businessLogic.getNumberOfStoresSellingTheItem(basicItemDto);
+        float averageItemPrice = businessLogic.getAverageItemPrice(basicItemDto);
+        float totalAmountOfItemSells = businessLogic.getTotalAmountOfItemSells(basicItemDto);
         System.out.print("       ");
         System.out.print("Number of stores selling the item: " + numberOfStoresSellingTheItem + COMA_SEPARATOR);
         System.out.print("Average price: " + getFormatNumberWithTwoDigitsAfterPoint(averageItemPrice) + COMA_SEPARATOR);
@@ -376,13 +376,13 @@ public class ConsoleUI {
     }
 
     private void showAllItems() {
-        Collection<ItemDto> itemsDto = businessLogic.getItemsDto();
+        Collection<BasicItemDto> itemsDto = businessLogic.getBasicItemsDto();
 
         if (!itemsDto.isEmpty()) {
             System.out.println("\nSuper market items:");
             System.out.println("------------------");
-            for (ItemDto itemDto : itemsDto) {
-                showItem(itemDto);
+            for (BasicItemDto basicItemDto : itemsDto) {
+                showItem(basicItemDto);
             }
         }
         else {
@@ -391,13 +391,13 @@ public class ConsoleUI {
     }
 
     private void showItemsPerStore(StoreDto storeDto) {
-        Collection<ItemDto> itemsDto = businessLogic.getItemsDto();
+        Collection<BasicItemDto> itemsDto = businessLogic.getBasicItemsDto();
         System.out.println("The items in the super market are:");
-        for (ItemDto itemDto : itemsDto) {
-            showItemBasicDetails(itemDto);
+        for (BasicItemDto basicItemDto : itemsDto) {
+            showItemBasicDetails(basicItemDto);
             System.out.print(COMA_SEPARATOR);
-            if(businessLogic.isItemInTheStoreDto(storeDto, itemDto)) {
-                float price = businessLogic.getItemPriceInStore(storeDto, itemDto);
+            if(businessLogic.isItemInTheStoreDto(storeDto, basicItemDto)) {
+                float price = businessLogic.getItemPriceInStore(storeDto, basicItemDto);
                 System.out.println("Price: " + getFormatNumberWithTwoDigitsAfterPoint(price));
             }
             else
