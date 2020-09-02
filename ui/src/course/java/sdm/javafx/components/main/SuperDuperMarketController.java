@@ -3,6 +3,7 @@ package course.java.sdm.javafx.components.main;
 import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.javafx.SuperDuperMarketResourcesConstants;
+import course.java.sdm.javafx.components.items.ItemsController;
 import course.java.sdm.javafx.components.singleItem.SingleItemController;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -10,7 +11,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -23,7 +26,8 @@ public class SuperDuperMarketController {
     private BusinessLogic businessLogic;
     private Stage primaryStage;
 
-    @FXML private FlowPane superDuperMarketFlowPane;
+    @FXML private BorderPane superDuperMarketBorderPane;
+//    @FXML private FlowPane superDuperMarketFlowPane;
     @FXML private Button customersButton;
     @FXML private Button storesButton;
     @FXML private Button productsButton;
@@ -99,41 +103,23 @@ public class SuperDuperMarketController {
 
     @FXML
     void productsButtonAction(ActionEvent event) {
-        Collection<ItemDto> itemsDto = businessLogic.getItemsDto();
-        if (!itemsDto.isEmpty()) {
-            for (ItemDto itemDto : itemsDto) {
-                createItem(itemDto);
-            }
-        }
-        else {
-            // show no items component!
-        }
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketResourcesConstants.ITEMS_FXML_RESOURCE);
+            Node items = loader.load();
+            ItemsController itemsController = loader.getController();
 
+            Collection<ItemDto> itemsDto = businessLogic.getItemsDto();
+            itemsController.createAllItems(itemsDto);
+
+            superDuperMarketBorderPane.setCenter(items);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     void ordersButtonAction(ActionEvent event) {
 
     }
-
-    private void createItem(ItemDto itemDto) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SuperDuperMarketResourcesConstants.SINGLE_ITEM_FXML_RESOURCE);
-            Node singleItem = loader.load();
-
-            SingleItemController singleItemController = loader.getController();
-            singleItemController.setItemDataValues(itemDto);
-
-            superDuperMarketFlowPane.getChildren().add(singleItem);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-
-
-
 }

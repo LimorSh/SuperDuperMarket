@@ -1,6 +1,7 @@
 package course.java.sdm.javafx.components.singleItem;
 
 import course.java.sdm.engine.dto.ItemDto;
+import course.java.sdm.javafx.UtilsUI;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -27,28 +28,10 @@ public class ItemData {
         this.totalSells = new SimpleFloatProperty(INIT_FLOAT);
     }
 
-    //    public ItemData(int id, String name, String purchaseCategory, int numberOfStoresSellingTheItem,
-//                    float averagePrice, float totalSells) {
-//        this.id = new SimpleIntegerProperty(id);
-//        this.name = new SimpleStringProperty(name);
-//        this.purchaseCategory = new SimpleStringProperty(purchaseCategory);
-//        this.numberOfStoresSellingTheItem = new SimpleIntegerProperty(numberOfStoresSellingTheItem);
-//        this.averagePrice = new SimpleFloatProperty(averagePrice);
-//        this.totalSells = new SimpleFloatProperty(totalSells);
-//    }
-
-//    public ItemData(ItemDto itemDto) {
-//        this.id = new SimpleIntegerProperty(itemDto.getId());
-//        this.name = new SimpleStringProperty(itemDto.getName());
-//        this.purchaseCategory = new SimpleStringProperty(itemDto.getPurchaseCategory());
-//        this.numberOfStoresSellingTheItem = new SimpleIntegerProperty(itemDto.getNumberOfStoresSellingTheItem());
-//        this.averagePrice = new SimpleFloatProperty(itemDto.getAverageItemPrice());
-//        this.totalSells = new SimpleFloatProperty(itemDto.getTotalAmountOfItemSells());
-//    }
-
     private void setId(int id) {
         this.id.set(id);
     }
+
     private void setName(String name) {
         this.name.set(name);
     }
@@ -62,11 +45,11 @@ public class ItemData {
     }
 
     private void setAveragePrice(float averagePrice) {
-        this.averagePrice.set(averagePrice);
+        this.averagePrice.set(UtilsUI.roundNumberWithTwoDigitsAfterPoint(averagePrice));
     }
 
     private void setTotalSells(float totalSells) {
-        this.totalSells.set(totalSells);
+        this.totalSells.set(UtilsUI.roundNumberWithTwoDigitsAfterPoint(totalSells));
     }
 
     public void setItemDataValues(ItemDto itemDto) {

@@ -8,8 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-//import org.fxmisc.cssfx.CSSFX;
-
 import java.net.URL;
 
 public class JavaFxUI extends Application{
@@ -24,8 +22,6 @@ public class JavaFxUI extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        CSSFX.start();
-
         FXMLLoader loader = new FXMLLoader();
 
         // load main fxml
