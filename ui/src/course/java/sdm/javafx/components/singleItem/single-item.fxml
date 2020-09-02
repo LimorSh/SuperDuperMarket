@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="single-item-vbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@single-item-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.singleItem.SingleItemController">
+<VBox id="vbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@single-item-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.singleItem.SingleItemController">
    <children>
       <GridPane>
         <columnConstraints>
@@ -23,18 +23,18 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label styleClass="item-title-label" text="ID:" />
-            <Label fx:id="idLabel" styleClass="item-value-label" GridPane.columnIndex="1" />
-            <Label styleClass="item-title-label" text="Name:" GridPane.rowIndex="1" />
-            <Label fx:id="nameLabel" layoutX="125.0" layoutY="17.0" styleClass="item-value-label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label styleClass="item-title-label" text="Purchase category:" GridPane.rowIndex="2" />
-            <Label fx:id="purchaseCategoryLabel" layoutX="125.0" layoutY="47.0" styleClass="item-value-label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label styleClass="item-title-label" text="Availability:" GridPane.rowIndex="3" />
-            <Label fx:id="numberOfStoresSellingTheItemLabel" layoutX="10.0" layoutY="17.0" styleClass="item-value-label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label styleClass="item-title-label" text="Average price:" GridPane.rowIndex="4" />
-            <Label fx:id="averagePriceLabel" layoutX="10.0" layoutY="17.0" styleClass="item-value-label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label styleClass="item-title-label" text="Total sells:" GridPane.rowIndex="5" />
-            <Label fx:id="totalSellsLabel" layoutX="10.0" layoutY="17.0" styleClass="item-value-label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label styleClass="field-label" text="ID:" />
+            <Label fx:id="idLabel" styleClass="value-label" GridPane.columnIndex="1" />
+            <Label styleClass="field-label" text="Name:" GridPane.rowIndex="1" />
+            <Label fx:id="nameLabel" layoutX="125.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label styleClass="field-label" text="Purchase category:" GridPane.rowIndex="2" />
+            <Label fx:id="purchaseCategoryLabel" layoutX="125.0" layoutY="47.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label styleClass="field-label" text="Availability:" GridPane.rowIndex="3" />
+            <Label fx:id="numberOfStoresSellingTheItemLabel" layoutX="10.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label styleClass="field-label" text="Average price:" GridPane.rowIndex="4" />
+            <Label fx:id="averagePriceLabel" layoutX="10.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label styleClass="field-label" text="Total sells:" GridPane.rowIndex="5" />
+            <Label fx:id="totalSellsLabel" layoutX="10.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
    </children>

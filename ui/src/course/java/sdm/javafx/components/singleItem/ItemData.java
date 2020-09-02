@@ -1,16 +1,13 @@
 package course.java.sdm.javafx.components.singleItem;
 
 import course.java.sdm.engine.dto.ItemDto;
+import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.UtilsUI;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class ItemData {
-
-    private static final int INIT_INT = -1;
-    private static final float INIT_FLOAT = -1f;
-    private static final String INIT_STRING = "";
 
     protected SimpleIntegerProperty id;
     protected SimpleStringProperty name;
@@ -20,12 +17,12 @@ public class ItemData {
     protected SimpleFloatProperty totalSells;
 
     public ItemData() {
-        this.id = new SimpleIntegerProperty(INIT_INT);
-        this.name = new SimpleStringProperty(INIT_STRING);
-        this.purchaseCategory = new SimpleStringProperty(INIT_STRING);
-        this.numberOfStoresSellingTheItem = new SimpleIntegerProperty(INIT_INT);
-        this.averagePrice = new SimpleFloatProperty(INIT_FLOAT);
-        this.totalSells = new SimpleFloatProperty(INIT_FLOAT);
+        this.id = new SimpleIntegerProperty(SuperDuperMarketConstants.INIT_INT);
+        this.name = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
+        this.purchaseCategory = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
+        this.numberOfStoresSellingTheItem = new SimpleIntegerProperty(SuperDuperMarketConstants.INIT_INT);
+        this.averagePrice = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
+        this.totalSells = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
     }
 
     private void setId(int id) {

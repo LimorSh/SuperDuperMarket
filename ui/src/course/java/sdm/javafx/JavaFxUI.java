@@ -25,7 +25,7 @@ public class JavaFxUI extends Application{
         FXMLLoader loader = new FXMLLoader();
 
         // load main fxml
-        URL mainFXML = getClass().getResource(SuperDuperMarketResourcesConstants.MAIN_FXML_RESOURCE_IDENTIFIER);
+        URL mainFXML = getClass().getResource(SuperDuperMarketConstants.MAIN_FXML_RESOURCE_IDENTIFIER);
         loader.setLocation(mainFXML);
         BorderPane root = loader.load();
 
