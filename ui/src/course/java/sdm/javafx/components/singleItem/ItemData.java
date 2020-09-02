@@ -7,6 +7,10 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class ItemData {
 
+    private static final int INIT_INT = -1;
+    private static final float INIT_FLOAT = -1f;
+    private static final String INIT_STRING = "";
+
     protected SimpleIntegerProperty id;
     protected SimpleStringProperty name;
     protected SimpleStringProperty purchaseCategory;
@@ -14,16 +18,24 @@ public class ItemData {
     protected SimpleFloatProperty averagePrice;
     protected SimpleFloatProperty totalSells;
 
-
-    public ItemData(int id, String name, String purchaseCategory, int numberOfStoresSellingTheItem,
-                    float averagePrice, float totalSells) {
-        this.id = new SimpleIntegerProperty(id);
-        this.name = new SimpleStringProperty(name);
-        this.purchaseCategory = new SimpleStringProperty(purchaseCategory);
-        this.numberOfStoresSellingTheItem = new SimpleIntegerProperty(numberOfStoresSellingTheItem);
-        this.averagePrice = new SimpleFloatProperty(averagePrice);
-        this.totalSells = new SimpleFloatProperty(totalSells);
+    public ItemData() {
+        this.id = new SimpleIntegerProperty(INIT_INT);
+        this.name = new SimpleStringProperty(INIT_STRING);
+        this.purchaseCategory = new SimpleStringProperty(INIT_STRING);
+        this.numberOfStoresSellingTheItem = new SimpleIntegerProperty(INIT_INT);
+        this.averagePrice = new SimpleFloatProperty(INIT_FLOAT);
+        this.totalSells = new SimpleFloatProperty(INIT_FLOAT);
     }
+
+    //    public ItemData(int id, String name, String purchaseCategory, int numberOfStoresSellingTheItem,
+//                    float averagePrice, float totalSells) {
+//        this.id = new SimpleIntegerProperty(id);
+//        this.name = new SimpleStringProperty(name);
+//        this.purchaseCategory = new SimpleStringProperty(purchaseCategory);
+//        this.numberOfStoresSellingTheItem = new SimpleIntegerProperty(numberOfStoresSellingTheItem);
+//        this.averagePrice = new SimpleFloatProperty(averagePrice);
+//        this.totalSells = new SimpleFloatProperty(totalSells);
+//    }
 
 //    public ItemData(ItemDto itemDto) {
 //        this.id = new SimpleIntegerProperty(itemDto.getId());

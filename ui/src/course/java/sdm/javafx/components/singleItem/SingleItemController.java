@@ -12,13 +12,6 @@ public class SingleItemController extends ItemData {
     @FXML private Label averagePriceLabel;
     @FXML private Label totalSellsLabel;
 
-    private static final int INIT_INT = -1;
-    private static final String INIT_STRING = "";
-
-    public SingleItemController() {
-        super(INIT_INT, INIT_STRING, INIT_STRING, INIT_INT, INIT_INT, INIT_INT);
-    }
-
     @FXML
     private void initialize() {
         idLabel.textProperty().bind(id.asString());

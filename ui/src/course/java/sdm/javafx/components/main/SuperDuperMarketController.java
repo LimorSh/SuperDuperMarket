@@ -124,18 +124,8 @@ public class SuperDuperMarketController {
 
             SingleItemController singleItemController = loader.getController();
             singleItemController.setItemDataValues(itemDto);
-//            singleItemController.setId(id);
-//            singleItemController.setName(name);
-//            singleItemController.setPurchaseCategory(purchaseCategory);
-//            singleItemController.setNumberOfStoresSellingTheItem(numberOfStoresSellingTheItem);
-//            singleItemController.setAveragePrice(averagePrice);
-//            singleItemController.setTotalSells(totalSells);
 
-            Platform.runLater(
-                    () -> {
-                        superDuperMarketFlowPane.getChildren().add(singleItem);
-                    }
-            );
+            superDuperMarketFlowPane.getChildren().add(singleItem);
         } catch (IOException e) {
             e.printStackTrace();
         }
