@@ -24,6 +24,10 @@ public class BusinessLogic {
         return SuperDuperMarketDto.getCustomersDto(superDuperMarket.getCustomers());
     }
 
+    public Collection<BasicCustomerDto> getBasicCustomersDto() {
+        return SuperDuperMarketDto.getBasicCustomersDto(superDuperMarket.getCustomers());
+    }
+
     public Collection<BasicItemDto> getBasicItemsDto() {
         return SuperDuperMarketDto.getBasicItemsDto(superDuperMarket.getItems());
     }

@@ -1,5 +1,6 @@
 package course.java.sdm.javafx.components.main;
 
+import course.java.sdm.engine.dto.BasicCustomerDto;
 import course.java.sdm.engine.dto.CustomerDto;
 import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.engine.engine.BusinessLogic;
@@ -97,6 +98,8 @@ public class SuperDuperMarketController {
             OrderController orderController = loader.getController();
 
             Collection<CustomerDto> customersDto = businessLogic.getCustomersDto();
+//            Collection<BasicCustomerDto> basicCustomersDto = businessLogic.getBasicCustomersDto();
+//            orderController.setCustomers(basicCustomersDto);
             orderController.setCustomers(customersDto);
 
             superDuperMarketBorderPane.setCenter(order);
