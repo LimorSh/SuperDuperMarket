@@ -3,6 +3,7 @@ package course.java.sdm.javafx.components.main;
 import course.java.sdm.engine.dto.BasicCustomerDto;
 import course.java.sdm.engine.dto.CustomerDto;
 import course.java.sdm.engine.dto.ItemDto;
+import course.java.sdm.engine.dto.StoreDto;
 import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.OrderController;
@@ -101,9 +102,12 @@ public class SuperDuperMarketController {
             UIOrderDto uiOrderDto = new UIOrderDto();
 
             Collection<CustomerDto> customersDto = businessLogic.getCustomersDto();
+            Collection<StoreDto> storesDto = businessLogic.getStoresDto();
 //            Collection<BasicCustomerDto> basicCustomersDto = businessLogic.getBasicCustomersDto();
 //            orderController.setCustomers(basicCustomersDto);
             orderController.setCustomers(customersDto);
+            orderController.setStores(storesDto);
+
 
             superDuperMarketBorderPane.setCenter(order);
 

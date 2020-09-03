@@ -1,13 +1,15 @@
 package course.java.sdm.javafx.components.actions.order;
 
 import course.java.sdm.engine.dto.CustomerDto;
+import course.java.sdm.engine.dto.StoreDto;
+import course.java.sdm.javafx.components.actions.order.staticOrder.StoreInfo;
 import course.java.sdm.javafx.dto.UIOrderDto;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-
+import javafx.scene.control.Label;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -20,6 +22,8 @@ public class OrderController {
     @FXML private DatePicker datePicker;
     @FXML private RadioButton staticOrderRadioButton;
     @FXML private RadioButton dynamicOrderRadioButton;
+    @FXML private Label chooseStoreLabel;
+    @FXML private ComboBox<StoreInfo> chooseStoreComboBox;
 
     private final ToggleGroup orderTypeRadioButtonsGroup;
     private final UIOrderDto uiOrderDto;
@@ -53,6 +57,20 @@ public class OrderController {
                 customersInfo.add(customerInfo);
             }
             chooseCustomerComboBox.setItems(FXCollections.observableArrayList(customersInfo));
+        }
+        else {
+            // show no customers component!
+        }
+    }
+
+    public void setStores(Collection<StoreDto> storesDto) {
+        if (!storesDto.isEmpty()) {
+            ArrayList<StoreInfo> storesInfo = new ArrayList<>();
+            for (StoreDto storeDto : storesDto) {
+                StoreInfo storeInfo = new StoreInfo(storeDto);
+                storesInfo.add(storeInfo);
+            }
+            chooseStoreComboBox.setItems(FXCollections.observableArrayList(storesInfo));
         }
         else {
             // show no customers component!
