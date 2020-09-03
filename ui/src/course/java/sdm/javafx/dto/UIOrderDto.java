@@ -7,6 +7,7 @@ public class UIOrderDto {
 
     private int customerId;
     private Date date;
+    private int storeId;
 
     public int getCustomerId() {
         return customerId;
@@ -14,6 +15,10 @@ public class UIOrderDto {
 
     public Date getDate() {
         return date;
+    }
+
+    public int getStoreId() {
+        return storeId;
     }
 
     public void setCustomerId(int customerId) {
@@ -24,6 +29,7 @@ public class UIOrderDto {
         this.date = java.sql.Date.valueOf(localDate);
     }
 
-
-
+    public void setStoreId(int storeId) {
+        this.storeId = storeId;
+    }
 }

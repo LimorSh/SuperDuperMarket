@@ -22,10 +22,10 @@
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="113.0" minWidth="10.0" prefWidth="113.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="156.0" minWidth="10.0" prefWidth="142.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="75.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="233.0" minWidth="260.0" prefWidth="260.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="119.0" minWidth="10.0" prefWidth="94.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="8.0" prefWidth="56.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.0" minWidth="10.0" prefWidth="59.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
@@ -37,15 +37,17 @@
         </rowConstraints>
          <children>
             <Label text="Choose customer:" />
-            <ComboBox fx:id="chooseCustomerComboBox" prefWidth="150.0" GridPane.columnIndex="1" />
-            <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="chooseCustomerComboBox" prefHeight="25.0" prefWidth="250.0" GridPane.columnIndex="1" />
+            <DatePicker fx:id="datePicker" prefHeight="25.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Pick a date:" GridPane.rowIndex="1" />
             <Label text="Choose order type:" GridPane.rowIndex="2" />
             <RadioButton fx:id="staticOrderRadioButton" mnemonicParsing="false" text="One store" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <RadioButton fx:id="dynamicOrderRadioButton" mnemonicParsing="false" text="Best cart" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Button fx:id="confirmOrderButton" mnemonicParsing="false" onAction="#confirmOrderButtonAction" text="Confirm order" GridPane.columnIndex="4" />
-            <Label fx:id="chooseStoreLabel" text="Choose store:" GridPane.rowIndex="4" />
-            <ComboBox fx:id="chooseStoreComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button fx:id="confirmOrderButton" mnemonicParsing="false" onAction="#confirmOrderButtonAction" text="Confirm order" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="chooseStoreLabel" text="Choose store:" visible="false" GridPane.rowIndex="4" />
+            <ComboBox fx:id="chooseStoreComboBox" disable="true" onAction="#chooseStoreComboBoxAction" prefHeight="25.0" prefWidth="250.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="deliveryCostFieldLabel" text="Delivery cost:" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Label fx:id="deliveryCostValueLabel" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="4" />
          </children>
          <padding>
             <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />

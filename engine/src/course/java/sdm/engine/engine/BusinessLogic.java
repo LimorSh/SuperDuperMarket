@@ -178,6 +178,10 @@ public class BusinessLogic {
         }
     }
 
+    public float getDeliveryCost(int storeId, int customerId) {
+        return superDuperMarket.getDeliveryCost(storeId, customerId);
+    }
+
 
 
 }

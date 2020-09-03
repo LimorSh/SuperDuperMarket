@@ -294,7 +294,9 @@ public class SuperDuperMarket {
 
     }
 
-
-
-
+    public float getDeliveryCost(int storeId, int customerId) {
+        Store store = getStore(storeId);
+        Customer customer = getCustomer(customerId);
+        return store.getDeliveryCost(customer.getLocation());
+    }
 }

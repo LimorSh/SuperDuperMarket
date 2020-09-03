@@ -99,12 +99,11 @@ public class SuperDuperMarketController {
             Node order = loader.load();
             OrderController orderController = loader.getController();
 
-            UIOrderDto uiOrderDto = new UIOrderDto();
-
+            //------!!!!!!!!!!!!-------
+            // if we decide to put businessLogic in OrderController or in intermediate - we can move this there:
+            orderController.setBusinessLogic(businessLogic);
             Collection<CustomerDto> customersDto = businessLogic.getCustomersDto();
             Collection<StoreDto> storesDto = businessLogic.getStoresDto();
-//            Collection<BasicCustomerDto> basicCustomersDto = businessLogic.getBasicCustomersDto();
-//            orderController.setCustomers(basicCustomersDto);
             orderController.setCustomers(customersDto);
             orderController.setStores(storesDto);
 
