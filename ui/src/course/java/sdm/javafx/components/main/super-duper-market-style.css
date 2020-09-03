@@ -1,0 +1,26 @@
+#h-box {
+    /*-fx-background-image: url("/course/java/sdm/javafx/resources/images/hbox_background.jpg");*/
+   /*-fx-background-image: url("pics/hbox_background2.jpg");*/
+   /* -fx-background-image: url("pics/hbox_background3.jpg");*/
+    /*-fx-background-image: url("pics/hbox_background4.jpg");*/
+    /*-fx-background-size: cover;*/
+    /*-fx-background-size: contain;*/
+    /*-fx-background-size: stretch;*/
+    -fx-background-color: lightblue;
+}
+
+#data-label {
+    -fx-text-fill: gray;
+    -fx-font-size: 20px;
+    -fx-font-family: Arial;
+    -fx-font-weight: bold;
+}
+
+.data-button {
+    -fx-alignment: top-left;
+    -fx-background-color: transparent;
+    -fx-font-size: 13px;
+    -fx-pref-width: 79px;
+    /*-fx-text-fill: #828282;*/
+}
+
