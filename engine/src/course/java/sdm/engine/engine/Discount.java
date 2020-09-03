@@ -1,5 +1,5 @@
 package course.java.sdm.engine.engine;
-import course.java.sdm.engine.Configurations;
+import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.jaxb.schema.generated.SDMDiscount;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,9 +9,9 @@ import java.util.Objects;
 public class Discount {
 
     public enum Category {
-        IRRELEVANT(Configurations.DISCOUNT_CATEGORY_IRRELEVANT),
-        ONE_OF(Configurations.DISCOUNT_CATEGORY_ONE_OF),
-        ALL_OR_NOTHING(Configurations.DISCOUNT_CATEGORY_ALL_OR_NOTHING),
+        IRRELEVANT(Constants.DISCOUNT_CATEGORY_IRRELEVANT),
+        ONE_OF(Constants.DISCOUNT_CATEGORY_ONE_OF),
+        ALL_OR_NOTHING(Constants.DISCOUNT_CATEGORY_ALL_OR_NOTHING),
         ;
 
         private final String categoryStr;
@@ -46,10 +46,10 @@ public class Discount {
     }
 
     private static Discount.Category convertStringToCategory(String category) {
-        if (category.contains(Configurations.DISCOUNT_CATEGORY_ONE_OF)) {
+        if (category.contains(Constants.DISCOUNT_CATEGORY_ONE_OF)) {
             return Discount.Category.ONE_OF;
         }
-        else if (category.contains(Configurations.DISCOUNT_CATEGORY_ALL_OR_NOTHING)) {
+        else if (category.contains(Constants.DISCOUNT_CATEGORY_ALL_OR_NOTHING)) {
             return Discount.Category.ALL_OR_NOTHING;
         }
         return Discount.Category.IRRELEVANT;

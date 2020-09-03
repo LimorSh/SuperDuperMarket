@@ -1,5 +1,6 @@
 package course.java.sdm.javafx.components.main;
 
+import com.sun.prism.paint.Color;
 import course.java.sdm.engine.dto.CustomerDto;
 import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.engine.engine.BusinessLogic;
@@ -13,7 +14,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
@@ -34,6 +37,7 @@ public class SuperDuperMarketController {
     @FXML private Button loadFileButton;
     @FXML private Button updateItemButton;
     @FXML private Button addOrderButton;
+    @FXML private Label titleVBox;
 
     private SimpleBooleanProperty isFileSelected;
 
@@ -73,6 +77,7 @@ public class SuperDuperMarketController {
         try {
             businessLogic.loadSystemData(absolutePath);
             isFileSelected.set(true);
+            titleVBox.setStyle("-fx-text-fill: #000000;");  // check how to do bind instead
         }
         catch (Exception e) {
             // activate file error component!!!

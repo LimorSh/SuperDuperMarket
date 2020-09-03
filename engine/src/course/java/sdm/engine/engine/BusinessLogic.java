@@ -1,5 +1,5 @@
 package course.java.sdm.engine.engine;
-import course.java.sdm.engine.Configurations;
+import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.dto.*;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
@@ -167,7 +167,7 @@ public class BusinessLogic {
             throw new IllegalArgumentException("The quantity " + quantity + " is not a positive integer number. Item quantity should be greater than zero.");
         }
         String purchaseCategory = superDuperMarket.getItemPurchaseCategory(itemId);
-        if (purchaseCategory.equals(Configurations.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR)) {
+        if (purchaseCategory.equals(Constants.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR)) {
             if ((quantity % 1) != 0) {
                 throw new IllegalArgumentException("The item purchase category is '" + purchaseCategory + "', and the quantity should be in units - an integer.");
             }

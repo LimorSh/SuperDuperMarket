@@ -1,8 +1,8 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Utils;
-import course.java.sdm.engine.exceptions.DuplicateStoreItemIdException;
-import course.java.sdm.engine.exceptions.InvalidElementNameException;
-import course.java.sdm.engine.exceptions.LocationOutOfRangeException;
+import course.java.sdm.engine.exception.DuplicateStoreItemIdException;
+import course.java.sdm.engine.exception.InvalidElementNameException;
+import course.java.sdm.engine.exception.LocationOutOfRangeException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
 
 import java.util.*;

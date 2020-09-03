@@ -1,8 +1,8 @@
 package course.java.sdm.engine.engine;
-import course.java.sdm.engine.Configurations;
-import course.java.sdm.engine.exceptions.ItemDoesNotExistInTheSuperException;
-import course.java.sdm.engine.exceptions.NotAllItemsAreBeingSoldException;
-import course.java.sdm.engine.exceptions.DuplicateLocationException;
+import course.java.sdm.engine.Constants;
+import course.java.sdm.engine.exception.ItemDoesNotExistInTheSuperException;
+import course.java.sdm.engine.exception.NotAllItemsAreBeingSoldException;
+import course.java.sdm.engine.exception.DuplicateLocationException;
 import course.java.sdm.engine.jaxb.schema.generated.*;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class DataLoader {
 
-    private static final String JAXB_XML_PACKAGE_NAME = Configurations.JAXB_XML_PACKAGE_NAME;
+    private static final String JAXB_XML_PACKAGE_NAME = Constants.JAXB_XML_PACKAGE_NAME;
     private static final String FILE_EXTENSION = ".xml";
 
     public static SuperDuperMarket loadFromXmlFile(String xmlFilePath) throws JAXBException, FileNotFoundException {

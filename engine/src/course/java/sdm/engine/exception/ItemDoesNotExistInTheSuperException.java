@@ -1,4 +1,4 @@
-package course.java.sdm.engine.exceptions;
+package course.java.sdm.engine.exception;
 
 public class ItemDoesNotExistInTheSuperException extends RuntimeException {
     private final String EXCEPTION_MESSAGE;

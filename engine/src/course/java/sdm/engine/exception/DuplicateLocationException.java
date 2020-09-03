@@ -1,4 +1,4 @@
-package course.java.sdm.engine.exceptions;
+package course.java.sdm.engine.exception;
 import course.java.sdm.engine.Utils;
 import course.java.sdm.engine.engine.Location;
 

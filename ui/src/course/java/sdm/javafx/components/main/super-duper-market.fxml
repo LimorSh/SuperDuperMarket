@@ -13,7 +13,7 @@
    <left>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Label id="data-label" layoutX="50.0" text="Data">
+            <Label id="data-label" fx:id="titleVBox" layoutX="50.0" text="Data">
                <VBox.margin>
                   <Insets />
                </VBox.margin>

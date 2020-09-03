@@ -1,14 +1,14 @@
 package course.java.sdm.engine.engine;
-import course.java.sdm.engine.Configurations;
+import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.Utils;
-import course.java.sdm.engine.exceptions.InvalidElementNameException;
+import course.java.sdm.engine.exception.InvalidElementNameException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMItem;
 
 public class Item {
 
     public enum PurchaseCategory {
-        PER_UNIT(Configurations.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR),
-        PER_WEIGHT(Configurations.ITEM_PURCHASE_CATEGORY_PER_WEIGHT_STR),
+        PER_UNIT(Constants.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR),
+        PER_WEIGHT(Constants.ITEM_PURCHASE_CATEGORY_PER_WEIGHT_STR),
         ;
 
         private final String purchaseCategoryStr;
@@ -49,7 +49,7 @@ public class Item {
     }
 
     private static PurchaseCategory convertStringToPurchaseCategory(String purchaseCategory) {
-        if (purchaseCategory.toLowerCase().contains(Configurations.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR)) {
+        if (purchaseCategory.toLowerCase().contains(Constants.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR)) {
             return PurchaseCategory.PER_UNIT;
         }
         return PurchaseCategory.PER_WEIGHT;
