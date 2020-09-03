@@ -1,4 +1,4 @@
-package course.java.sdm.javafx.components.singleItem;
+package course.java.sdm.javafx.components.sdmData.singleItem;
 
 import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;

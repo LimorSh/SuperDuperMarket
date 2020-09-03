@@ -1,4 +1,4 @@
-package course.java.sdm.javafx.components.singleItem;
+package course.java.sdm.javafx.components.sdmData.singleItem;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

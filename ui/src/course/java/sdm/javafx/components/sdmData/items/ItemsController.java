@@ -1,8 +1,8 @@
-package course.java.sdm.javafx.components.items;
+package course.java.sdm.javafx.components.sdmData.items;
 
 import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
-import course.java.sdm.javafx.components.singleItem.SingleItemController;
+import course.java.sdm.javafx.components.sdmData.singleItem.SingleItemController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

@@ -1,13 +1,11 @@
 package course.java.sdm.javafx.components.main;
 
-import com.sun.prism.paint.Color;
 import course.java.sdm.engine.dto.CustomerDto;
 import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.engine.engine.BusinessLogic;
-import course.java.sdm.engine.engine.Customer;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
-import course.java.sdm.javafx.components.customers.CustomersController;
-import course.java.sdm.javafx.components.items.ItemsController;
+import course.java.sdm.javafx.components.sdmData.customers.CustomersController;
+import course.java.sdm.javafx.components.sdmData.items.ItemsController;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +14,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;

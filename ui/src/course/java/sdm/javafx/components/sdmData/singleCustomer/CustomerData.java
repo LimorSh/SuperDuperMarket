@@ -1,10 +1,7 @@
-package course.java.sdm.javafx.components.singleCustomer;
+package course.java.sdm.javafx.components.sdmData.singleCustomer;
 
 import course.java.sdm.engine.dto.CustomerDto;
-import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
-import course.java.sdm.javafx.UtilsUI;
-import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 

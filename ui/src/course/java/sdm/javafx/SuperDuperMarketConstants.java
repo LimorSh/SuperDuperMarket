@@ -12,13 +12,13 @@ public class SuperDuperMarketConstants {
 
     public static final String MAIN_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/main/super-duper-market.fxml";
 
-    private static final String SINGLE_ITEM_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/singleItem/single-item.fxml";
+    private static final String SINGLE_ITEM_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/sdmData/singleItem/single-item.fxml";
     public static final URL SINGLE_ITEM_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.SINGLE_ITEM_FXML_RESOURCE_IDENTIFIER);
-    private static final String ITEMS_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/items/items.fxml";
+    private static final String ITEMS_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/sdmData/items/items.fxml";
     public static final URL ITEMS_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ITEMS_FXML_RESOURCE_IDENTIFIER);
 
-    private static final String SINGLE_CUSTOMER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/singleCustomer/single-customer.fxml";
+    private static final String SINGLE_CUSTOMER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/sdmData/singleCustomer/single-customer.fxml";
     public static final URL SINGLE_CUSTOMER_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.SINGLE_CUSTOMER_FXML_RESOURCE_IDENTIFIER);
-    private static final String CUSTOMERS_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/customers/customers.fxml";
+    private static final String CUSTOMERS_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/sdmData/customers/customers.fxml";
     public static final URL CUSTOMERS_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.CUSTOMERS_FXML_RESOURCE_IDENTIFIER);
 }

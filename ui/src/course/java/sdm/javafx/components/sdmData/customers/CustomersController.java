@@ -1,8 +1,8 @@
-package course.java.sdm.javafx.components.customers;
+package course.java.sdm.javafx.components.sdmData.customers;
 
 import course.java.sdm.engine.dto.CustomerDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
-import course.java.sdm.javafx.components.singleCustomer.SingleCustomerController;
+import course.java.sdm.javafx.components.sdmData.singleCustomer.SingleCustomerController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
