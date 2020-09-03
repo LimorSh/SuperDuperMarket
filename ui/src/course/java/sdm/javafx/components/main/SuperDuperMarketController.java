@@ -8,6 +8,7 @@ import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.OrderController;
 import course.java.sdm.javafx.components.sdmData.customers.CustomersController;
 import course.java.sdm.javafx.components.sdmData.items.ItemsController;
+import course.java.sdm.javafx.dto.UIOrderDto;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -97,12 +98,17 @@ public class SuperDuperMarketController {
             Node order = loader.load();
             OrderController orderController = loader.getController();
 
+            UIOrderDto uiOrderDto = new UIOrderDto();
+
             Collection<CustomerDto> customersDto = businessLogic.getCustomersDto();
 //            Collection<BasicCustomerDto> basicCustomersDto = businessLogic.getBasicCustomersDto();
 //            orderController.setCustomers(basicCustomersDto);
             orderController.setCustomers(customersDto);
 
             superDuperMarketBorderPane.setCenter(order);
+
+
+            // send uiOrderDto back to engine.
         } catch (IOException e) {
             e.printStackTrace();
         }

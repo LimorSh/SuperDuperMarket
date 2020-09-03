@@ -1,11 +1,12 @@
 package course.java.sdm.javafx.components.actions.order;
 
-import course.java.sdm.engine.dto.BasicCustomerDto;
 import course.java.sdm.engine.dto.CustomerDto;
+import course.java.sdm.javafx.dto.UIOrderDto;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,23 +16,34 @@ public class OrderController {
 //    @FXML private ComboBox<String> chooseCustomerComboBox;
 //    @FXML private ComboBox<BasicCustomerDto> chooseCustomerComboBox;
     @FXML private ComboBox<CustomerInfo> chooseCustomerComboBox;
+    @FXML private Button confirmOrderButton;
+    @FXML private DatePicker datePicker;
+    @FXML private RadioButton staticOrderRadioButton;
+    @FXML private RadioButton dynamicOrderRadioButton;
 
+    private final ToggleGroup orderTypeRadioButtonsGroup;
+    private final UIOrderDto uiOrderDto;
 
-//    public void setCustomers(Collection<BasicCustomerDto> basicCustomersDto) {
-//        if (!basicCustomersDto.isEmpty()) {
-////            ArrayList<BasicCustomerDto> basicCustomerDtos = new ArrayList<>();
-//            for (BasicCustomerDto basicCustomerDto : basicCustomersDto) {
-////                CustomerOrderData c = new C...(customerDto.getId(), customerDto.getName())
-////                String str = String.format("ID %d: %s", customerDto.getId(), customerDto.getName());
-////                strings.add(str);
-////                strings.add(c);
-//            }
-//            chooseCustomerComboBox.setItems(FXCollections.observableArrayList(basicCustomersDto));
-//        }
-//        else {
-//            // show no items component!
-//        }
-//    }
+    public OrderController() {
+        uiOrderDto = new UIOrderDto();
+        orderTypeRadioButtonsGroup =  new ToggleGroup();
+    }
+
+    @FXML
+    private void initialize() {
+        setOrderTypeRadioButtons();
+    }
+
+    private void setOrderTypeRadioButtons() {
+        staticOrderRadioButton.setToggleGroup(orderTypeRadioButtonsGroup);
+        staticOrderRadioButton.setSelected(true);
+        dynamicOrderRadioButton.setToggleGroup(orderTypeRadioButtonsGroup);
+    }
+
+    @FXML
+    void confirmOrderButtonAction(ActionEvent event) {
+        finishOrdering();
+    }
 
     public void setCustomers(Collection<CustomerDto> customersDto) {
         if (!customersDto.isEmpty()) {
@@ -46,4 +58,12 @@ public class OrderController {
             // show no customers component!
         }
     }
+
+    public void finishOrdering() {
+        uiOrderDto.setCustomerId(chooseCustomerComboBox.getValue().getId());
+        uiOrderDto.setDate(datePicker.getValue());
+    }
+
+
+
 }
