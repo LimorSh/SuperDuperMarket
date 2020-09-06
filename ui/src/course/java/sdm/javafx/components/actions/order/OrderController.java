@@ -3,14 +3,9 @@ package course.java.sdm.javafx.components.actions.order;
 import course.java.sdm.engine.dto.CustomerDto;
 import course.java.sdm.engine.dto.ItemWithPriceDto;
 import course.java.sdm.engine.dto.StoreDto;
-import course.java.sdm.engine.dto.StoreItemDto;
-import course.java.sdm.engine.engine.StoreItem;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
-import course.java.sdm.javafx.components.actions.order.staticOrder.StaticOrderController;
 import course.java.sdm.javafx.components.actions.order.staticOrder.StoreInfo;
-import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemData;
 import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsController;
-import course.java.sdm.javafx.components.sdmData.items.ItemsController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,11 +31,15 @@ public class OrderController extends OrderData {
     @FXML private Label deliveryCostFieldLabel;
     @FXML private Label deliveryCostValueLabel;
 
+    Collection<Node> oneStoreItemsNodes;
+//    Collection<Node> bestCartItemsNodes;
     private final ToggleGroup orderTypeRadioButtonsGroup;
 
 
     public OrderController() {
         super();
+        oneStoreItemsNodes = new ArrayList<>();
+//        bestCartItemsNodes = new ArrayList<>();
         orderTypeRadioButtonsGroup =  new ToggleGroup();
     }
 
@@ -57,6 +57,7 @@ public class OrderController extends OrderData {
                 if (dynamicOrderRadioButton.isSelected()) {
                     setOneStoreControls(false);
                     setDeliveryCostLabels(false);
+                    dynamicOrderWasChosen();
                 }
             }
         });
@@ -76,12 +77,21 @@ public class OrderController extends OrderData {
         finishOrdering();
     }
 
+    public void createOrder() {
+        Collection<CustomerDto> customersDto = businessLogic.getCustomersDto();
+        Collection<StoreDto> storesDto = businessLogic.getStoresDto();
+        setCustomers(customersDto);
+        setStores(storesDto);
+    }
+
     private void staticOrderWasChosen(int storeId, int customerId) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.STORE_ITEMS_FXML_RESOURCE);
             Node storeItems = loader.load();
             StoreItemsController storeItemsController = loader.getController();
+
+            oneStoreItemsNodes.add(storeItems);
 
 //            StoreDto storeDto = businessLogic.getStoreDto(storeId);
             Collection<ItemWithPriceDto> itemsWithPriceDto = businessLogic.getItemsWithPriceDto(storeId);
@@ -96,6 +106,7 @@ public class OrderController extends OrderData {
     }
 
     private void dynamicOrderWasChosen() {
+        gridPane.getChildren().removeAll(oneStoreItemsNodes);
     }
 
     private void setOneStoreControls(boolean value) {

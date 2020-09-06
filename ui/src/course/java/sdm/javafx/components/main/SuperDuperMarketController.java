@@ -102,10 +102,11 @@ public class SuperDuperMarketController {
             //------!!!!!!!!!!!!-------
             // if we decide to put businessLogic in OrderController or in intermediate - we can move this there:
             orderController.setBusinessLogic(businessLogic);
-            Collection<CustomerDto> customersDto = businessLogic.getCustomersDto();
-            Collection<StoreDto> storesDto = businessLogic.getStoresDto();
-            orderController.setCustomers(customersDto);
-            orderController.setStores(storesDto);
+            orderController.createOrder();
+//            Collection<CustomerDto> customersDto = businessLogic.getCustomersDto();
+//            Collection<StoreDto> storesDto = businessLogic.getStoresDto();
+//            orderController.setCustomers(customersDto);
+//            orderController.setStores(storesDto);
 
 
             superDuperMarketBorderPane.setCenter(order);
