@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" stylesheets="@store-items-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsController">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" stylesheets="@store-items-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsController">
    <children>
       <TableView fx:id="tableView" prefHeight="150.0">
         <columns>
@@ -15,6 +18,9 @@
             <TableColumn fx:id="priceCol" prefWidth="136.0" text="Price" />
         </columns>
       </TableView>
+      <TextField fx:id="quantityTextField" layoutX="62.0" layoutY="155.0" prefHeight="25.0" prefWidth="87.0" visible="false" />
+      <Button fx:id="addItemButton" disable="true" layoutX="168.0" layoutY="155.0" mnemonicParsing="false" onAction="#addItemButtonAction" text="Add Item" visible="false" />
+      <Label fx:id="quantityLabel" layoutX="4.0" layoutY="159.0" text="Quantity:" visible="false" />
    </children>
    <padding>
       <Insets top="50.0" />

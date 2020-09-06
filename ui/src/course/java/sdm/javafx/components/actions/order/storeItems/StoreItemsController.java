@@ -1,17 +1,17 @@
 package course.java.sdm.javafx.components.actions.order.storeItems;
 
-import course.java.sdm.engine.dto.CustomerDto;
 import course.java.sdm.engine.dto.ItemWithPriceDto;
-import course.java.sdm.engine.dto.StoreItemDto;
-import course.java.sdm.engine.engine.StoreItem;
-import course.java.sdm.javafx.components.actions.order.CustomerInfo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-import javafx.scene.control.TableColumn;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,6 +24,34 @@ public class StoreItemsController {
     @FXML private TableColumn<StoreItemData, String> nameCol;
     @FXML private TableColumn<StoreItemData, String> purchaseCategoryCol;
     @FXML private TableColumn<StoreItemData, String> priceCol;
+    @FXML private TextField quantityTextField;
+    @FXML private Button addItemButton;
+    @FXML private Label quantityLabel;
+
+    @FXML
+    private void initialize() {
+        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                setAddItemsControls();
+            }
+        });
+    }
+
+    @FXML
+    void addItemButtonAction(ActionEvent event) {
+        StoreItemData storeItemData = tableView.getSelectionModel().getSelectedItem();
+        float quantity = Float.parseFloat(quantityTextField.getText());
+        System.out.println(storeItemData.getId());
+        System.out.println(storeItemData.getName());
+        System.out.println(quantity);
+    }
+
+    private void setAddItemsControls() {
+        quantityLabel.setVisible(true);
+        quantityTextField.setVisible(true);
+        addItemButton.setVisible(true);
+        addItemButton.setDisable(false);
+    }
 
     public void setTableViewData(Collection<ItemWithPriceDto> itemsWithPriceDto) {
         if (!itemsWithPriceDto.isEmpty()) {
