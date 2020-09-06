@@ -2,17 +2,25 @@ package course.java.sdm.javafx.components.actions.order;
 
 import course.java.sdm.engine.dto.CustomerDto;
 import course.java.sdm.engine.dto.StoreDto;
+import course.java.sdm.javafx.SuperDuperMarketConstants;
+import course.java.sdm.javafx.components.actions.order.staticOrder.StaticOrderController;
 import course.java.sdm.javafx.components.actions.order.staticOrder.StoreInfo;
+import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsController;
+import course.java.sdm.javafx.components.sdmData.items.ItemsController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class OrderController extends OrderData {
-
+    @FXML private GridPane gridPane;
     @FXML private ComboBox<CustomerInfo> chooseCustomerComboBox;
     @FXML private ComboBox<StoreInfo> chooseStoreComboBox;
     @FXML private Label chooseStoreLabel;
@@ -41,6 +49,7 @@ public class OrderController extends OrderData {
             if (orderTypeRadioButtonsGroup.getSelectedToggle() != null) {
                 if (staticOrderRadioButton.isSelected()) {
                     setOneStoreControls(true);
+                    staticOrderWasChosen();
                 }
                 if (dynamicOrderRadioButton.isSelected()) {
                     setOneStoreControls(false);
@@ -59,6 +68,29 @@ public class OrderController extends OrderData {
     @FXML
     void confirmOrderButtonAction(ActionEvent event) {
         finishOrdering();
+    }
+
+    private void staticOrderWasChosen() {
+        try {
+//            FXMLLoader loader = new FXMLLoader();
+//            loader.setLocation(SuperDuperMarketConstants.STATIC_ORDER_FXML_RESOURCE);
+//            Node staticOrder = loader.load();
+//            StaticOrderController staticOrderController = loader.getController();
+
+            FXMLLoader loader2 = new FXMLLoader();
+            loader2.setLocation(SuperDuperMarketConstants.STORE_ITEMS_FXML_RESOURCE);
+            Node storeItems = loader2.load();
+            StoreItemsController storeItemsController = loader2.getController();
+
+//            staticOrderController.getBorderPane().setCenter(storeItems);
+            gridPane.add(storeItems, 1, 5);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void dynamicOrderWasChosen() {
     }
 
     private void setOneStoreControls(boolean value) {

@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="400.0" stylesheets="@store-items-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsController">
    <children>
-      <TableView prefHeight="400.0" prefWidth="600.0">
+      <TableView prefHeight="150.0" prefWidth="400.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Item ID" />
-          <TableColumn prefWidth="103.0" text="Name" />
-            <TableColumn prefWidth="185.0" text="Purchase Category" />
-            <TableColumn prefWidth="135.0" text="Availability" />
-            <TableColumn prefWidth="101.0" text="Price" />
+          <TableColumn prefWidth="68.0" text="Item ID" />
+          <TableColumn prefWidth="121.0" text="Name" />
+            <TableColumn prefWidth="167.0" text="Purchase Category" />
+            <TableColumn prefWidth="43.0" text="Price" />
         </columns>
       </TableView>
    </children>
+   <padding>
+      <Insets top="50.0" />
+   </padding>
 </Pane>
