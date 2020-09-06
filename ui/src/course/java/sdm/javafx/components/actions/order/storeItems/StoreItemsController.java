@@ -1,6 +1,7 @@
 package course.java.sdm.javafx.components.actions.order.storeItems;
 
 import course.java.sdm.engine.dto.CustomerDto;
+import course.java.sdm.engine.dto.ItemWithPriceDto;
 import course.java.sdm.engine.dto.StoreItemDto;
 import course.java.sdm.engine.engine.StoreItem;
 import course.java.sdm.javafx.components.actions.order.CustomerInfo;
@@ -22,13 +23,13 @@ public class StoreItemsController {
     @FXML private TableColumn<StoreItemData, Integer> itemIdCol;
     @FXML private TableColumn<StoreItemData, String> nameCol;
     @FXML private TableColumn<StoreItemData, String> purchaseCategoryCol;
-    @FXML private TableColumn<StoreItemData, Float> priceCol;
+    @FXML private TableColumn<StoreItemData, String> priceCol;
 
-    public void setTableViewData(Collection<StoreItemDto> storeItemsDto) {
-        if (!storeItemsDto.isEmpty()) {
+    public void setTableViewData(Collection<ItemWithPriceDto> itemsWithPriceDto) {
+        if (!itemsWithPriceDto.isEmpty()) {
             ArrayList<StoreItemData> storeItemsData = new ArrayList<>();
-            for (StoreItemDto storeItemDto : storeItemsDto) {
-                StoreItemData storeItemData = new StoreItemData(storeItemDto);
+            for (ItemWithPriceDto itemWithPriceDto : itemsWithPriceDto) {
+                StoreItemData storeItemData = new StoreItemData(itemWithPriceDto);
                 storeItemsData.add(storeItemData);
             }
             final ObservableList<StoreItemData> data = FXCollections.observableArrayList(storeItemsData);
@@ -43,7 +44,7 @@ public class StoreItemsController {
                     new PropertyValueFactory<StoreItemData,String>("purchaseCategory")
             );
             priceCol.setCellValueFactory(
-                    new PropertyValueFactory<StoreItemData,Float>("price")
+                    new PropertyValueFactory<StoreItemData,String>("price")
             );
 
             tableView.setItems(data);

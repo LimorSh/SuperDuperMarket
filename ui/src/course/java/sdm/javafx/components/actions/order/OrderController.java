@@ -1,6 +1,7 @@
 package course.java.sdm.javafx.components.actions.order;
 
 import course.java.sdm.engine.dto.CustomerDto;
+import course.java.sdm.engine.dto.ItemWithPriceDto;
 import course.java.sdm.engine.dto.StoreDto;
 import course.java.sdm.engine.dto.StoreItemDto;
 import course.java.sdm.engine.engine.StoreItem;
@@ -82,8 +83,9 @@ public class OrderController extends OrderData {
             Node storeItems = loader.load();
             StoreItemsController storeItemsController = loader.getController();
 
-            StoreDto storeDto = businessLogic.getStoreDto(storeId);
-            storeItemsController.setTableViewData(storeDto.getStoreItemsDto());
+//            StoreDto storeDto = businessLogic.getStoreDto(storeId);
+            Collection<ItemWithPriceDto> itemsWithPriceDto = businessLogic.getItemsWithPriceDto(storeId);
+            storeItemsController.setTableViewData(itemsWithPriceDto);
 
             gridPane.add(storeItems, 1, 5);
 

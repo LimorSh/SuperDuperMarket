@@ -48,6 +48,26 @@ public class BusinessLogic {
         return itemsDto;
     }
 
+    public Collection<ItemWithPriceDto> getItemsWithPriceDto(int storeId) {
+        Collection<ItemWithPriceDto> itemsWithPriceDto = new ArrayList<>();
+        Store store = superDuperMarket.getStore(storeId);
+
+        Collection<Item> items = superDuperMarket.getItems();
+        for (Item item : items) {
+            ItemWithPriceDto itemWithPriceDto;
+            if (store.isItemInTheStore(item)) {
+                itemWithPriceDto = new ItemWithPriceDto(item, true);
+                itemWithPriceDto.setPrice(store.getItemPrice(item));
+            }
+            else {
+                itemWithPriceDto = new ItemWithPriceDto(item, false);
+            }
+            itemsWithPriceDto.add(itemWithPriceDto);
+        }
+
+        return itemsWithPriceDto;
+    }
+
     public Collection<OrderDto> getOrdersDto() {
         return SuperDuperMarketDto.getOrdersDto(superDuperMarket.getOrders());
     }

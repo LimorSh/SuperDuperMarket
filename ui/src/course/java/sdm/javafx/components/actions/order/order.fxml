@@ -33,7 +33,7 @@
           <RowConstraints maxHeight="240.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="270.0" minHeight="200.0" prefHeight="200.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="200.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
             <Label text="Choose customer:" />

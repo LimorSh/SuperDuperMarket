@@ -1,5 +1,6 @@
 package course.java.sdm.javafx.components.actions.order.storeItems;
 
+import course.java.sdm.engine.dto.ItemWithPriceDto;
 import course.java.sdm.engine.dto.StoreItemDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.UtilsUI;
@@ -12,13 +13,19 @@ public class StoreItemData {
     protected SimpleIntegerProperty id;
     protected SimpleStringProperty name;
     protected SimpleStringProperty purchaseCategory;
-    protected SimpleFloatProperty price;
+    protected SimpleStringProperty price;
+    private static final String NOT_AVAILABLE = "Not Available";
 
-    public StoreItemData(StoreItemDto storeItemDto) {
-        this.id = new SimpleIntegerProperty(storeItemDto.getId());
-        this.name = new SimpleStringProperty(storeItemDto.getName());
-        this.purchaseCategory = new SimpleStringProperty(storeItemDto.getPurchaseCategory());
-        this.price = new SimpleFloatProperty(storeItemDto.getPrice());
+    public StoreItemData(ItemWithPriceDto itemWithPriceDto) {
+        this.id = new SimpleIntegerProperty(itemWithPriceDto.getId());
+        this.name = new SimpleStringProperty(itemWithPriceDto.getName());
+        this.purchaseCategory = new SimpleStringProperty(itemWithPriceDto.getPurchaseCategory());
+        if (itemWithPriceDto.isAvailableInStore()) {
+            this.price = new SimpleStringProperty(String.format("%.2f", itemWithPriceDto.getPrice()));
+        }
+        else {
+            this.price = new SimpleStringProperty(NOT_AVAILABLE);
+        }
     }
 
     public int getId() {
@@ -33,7 +40,7 @@ public class StoreItemData {
         return purchaseCategory.get();
     }
 
-    public float getPrice() {
+    public String getPrice() {
         return price.get();
     }
 }
