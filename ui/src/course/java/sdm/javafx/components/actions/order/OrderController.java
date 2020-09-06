@@ -2,9 +2,12 @@ package course.java.sdm.javafx.components.actions.order;
 
 import course.java.sdm.engine.dto.CustomerDto;
 import course.java.sdm.engine.dto.StoreDto;
+import course.java.sdm.engine.dto.StoreItemDto;
+import course.java.sdm.engine.engine.StoreItem;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.staticOrder.StaticOrderController;
 import course.java.sdm.javafx.components.actions.order.staticOrder.StoreInfo;
+import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemData;
 import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsController;
 import course.java.sdm.javafx.components.sdmData.items.ItemsController;
 import javafx.collections.FXCollections;
@@ -49,7 +52,6 @@ public class OrderController extends OrderData {
             if (orderTypeRadioButtonsGroup.getSelectedToggle() != null) {
                 if (staticOrderRadioButton.isSelected()) {
                     setOneStoreControls(true);
-                    staticOrderWasChosen();
                 }
                 if (dynamicOrderRadioButton.isSelected()) {
                     setOneStoreControls(false);
@@ -62,7 +64,10 @@ public class OrderController extends OrderData {
     @FXML
     void chooseStoreComboBoxAction(ActionEvent event) {
         setDeliveryCostLabels(true);
-        setDeliveryCost(getStoreIdSelected(), getCustomerIdSelected());
+        int storeId = getStoreIdSelected();
+        int customerId = getCustomerIdSelected();
+        setDeliveryCost(storeId, customerId);
+        staticOrderWasChosen(storeId, customerId);
     }
 
     @FXML
@@ -70,20 +75,18 @@ public class OrderController extends OrderData {
         finishOrdering();
     }
 
-    private void staticOrderWasChosen() {
+    private void staticOrderWasChosen(int storeId, int customerId) {
         try {
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(SuperDuperMarketConstants.STATIC_ORDER_FXML_RESOURCE);
-//            Node staticOrder = loader.load();
-//            StaticOrderController staticOrderController = loader.getController();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.STORE_ITEMS_FXML_RESOURCE);
+            Node storeItems = loader.load();
+            StoreItemsController storeItemsController = loader.getController();
 
-            FXMLLoader loader2 = new FXMLLoader();
-            loader2.setLocation(SuperDuperMarketConstants.STORE_ITEMS_FXML_RESOURCE);
-            Node storeItems = loader2.load();
-            StoreItemsController storeItemsController = loader2.getController();
+            StoreDto storeDto = businessLogic.getStoreDto(storeId);
+            storeItemsController.setTableViewData(storeDto.getStoreItemsDto());
 
-//            staticOrderController.getBorderPane().setCenter(storeItems);
             gridPane.add(storeItems, 1, 5);
+
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -7,12 +7,12 @@
 
 <Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="400.0" stylesheets="@store-items-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsController">
    <children>
-      <TableView prefHeight="150.0" prefWidth="400.0">
+      <TableView fx:id="tableView" prefHeight="150.0" prefWidth="400.0">
         <columns>
-          <TableColumn prefWidth="68.0" text="Item ID" />
-          <TableColumn prefWidth="121.0" text="Name" />
-            <TableColumn prefWidth="167.0" text="Purchase Category" />
-            <TableColumn prefWidth="43.0" text="Price" />
+          <TableColumn fx:id="itemIdCol" prefWidth="68.0" text="Item ID" />
+          <TableColumn fx:id="nameCol" prefWidth="121.0" text="Name" />
+            <TableColumn fx:id="purchaseCategoryCol" prefWidth="167.0" text="Purchase Category" />
+            <TableColumn fx:id="priceCol" prefWidth="43.0" text="Price" />
         </columns>
       </TableView>
    </children>
