@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@order-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.OrderController">
+<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@order-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.OrderController">
    <top>
       <Label text="Create new order!" BorderPane.alignment="CENTER" />
    </top>
@@ -48,6 +48,11 @@
             <ComboBox fx:id="chooseStoreComboBox" disable="true" onAction="#chooseStoreComboBoxAction" prefHeight="25.0" prefWidth="250.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label fx:id="deliveryCostFieldLabel" text="Delivery cost:" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="4" />
             <Label fx:id="deliveryCostValueLabel" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Label fx:id="selectItemsLabel" text="Select items:" visible="false" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets bottom="175.0" />
+               </GridPane.margin>
+            </Label>
          </children>
          <padding>
             <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />

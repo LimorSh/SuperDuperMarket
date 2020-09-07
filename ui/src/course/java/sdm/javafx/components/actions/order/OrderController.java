@@ -30,6 +30,7 @@ public class OrderController extends OrderData {
     @FXML private RadioButton dynamicOrderRadioButton;
     @FXML private Label deliveryCostFieldLabel;
     @FXML private Label deliveryCostValueLabel;
+    @FXML private Label selectItemsLabel;
 
     Collection<Node> oneStoreItemsNodes;
 //    Collection<Node> bestCartItemsNodes;
@@ -97,8 +98,8 @@ public class OrderController extends OrderData {
             Collection<ItemWithPriceDto> itemsWithPriceDto = businessLogic.getItemsWithPriceDto(storeId);
             storeItemsController.setTableViewData(itemsWithPriceDto);
 
+            selectItemsLabel.setVisible(true);
             gridPane.add(storeItems, 1, 5);
-
 
         } catch (IOException e) {
             e.printStackTrace();
