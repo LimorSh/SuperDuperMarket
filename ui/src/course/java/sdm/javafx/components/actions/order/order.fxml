@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@order-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.OrderController">
+<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" stylesheets="@order-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.OrderController">
    <top>
       <Label text="Create new order!" BorderPane.alignment="CENTER">
          <font>
@@ -32,12 +32,12 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.0" minWidth="10.0" prefWidth="59.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="41.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="142.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="240.0" minHeight="19.0" prefHeight="29.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="256.0" minHeight="12.0" prefHeight="23.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="193.0" minHeight="162.0" prefHeight="177.0" vgrow="ALWAYS" />
+          <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="142.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="240.0" minHeight="19.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="256.0" minHeight="12.0" prefHeight="28.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="225.0" minHeight="162.0" prefHeight="225.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
             <Label text="Choose customer:" />
