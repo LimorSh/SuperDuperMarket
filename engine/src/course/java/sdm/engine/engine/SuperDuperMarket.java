@@ -159,7 +159,7 @@ public class SuperDuperMarket {
         return store.isItemInTheStore(storeItemId);
     }
 
-    private Customer getCustomer(int id) {
+    public Customer getCustomer(int id) {
         return customers.get(id);
     }
 

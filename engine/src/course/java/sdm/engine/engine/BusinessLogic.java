@@ -108,6 +108,11 @@ public class BusinessLogic {
         return (new StoreDto(superDuperMarket.getStore(id)));
     }
 
+    public CustomerDto getCustomerDto(int id) {
+        return (new CustomerDto(superDuperMarket.getCustomer(id)));
+    }
+
+
     public String getItemPurchaseCategory(int id) {
         return superDuperMarket.getItemPurchaseCategory(id);
     }

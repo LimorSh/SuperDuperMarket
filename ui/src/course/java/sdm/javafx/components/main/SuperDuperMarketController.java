@@ -8,6 +8,7 @@ import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.OrderController;
 import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryController;
+import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryInfo;
 import course.java.sdm.javafx.components.sdmData.customers.CustomersController;
 import course.java.sdm.javafx.components.sdmData.items.ItemsController;
 import course.java.sdm.javafx.dto.UIOrderDto;
@@ -111,13 +112,13 @@ public class SuperDuperMarketController {
         }
     }
 
-    public void showOrderSummery() {
+    public void showOrderSummery(OrderSummeryInfo orderSummeryInfo) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.ORDER_SUMMERY_FXML_RESOURCE);
             Node orderSummery = loader.load();
             OrderSummeryController orderSummeryController = loader.getController();
-
+            orderSummeryController.setDataValues(orderSummeryInfo);
             superDuperMarketBorderPane.setCenter(orderSummery);
         } catch (IOException e) {
             e.printStackTrace();

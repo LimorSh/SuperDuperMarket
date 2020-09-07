@@ -42,7 +42,7 @@ public class CustomerData {
         this.location.set(String.format("(%d,%d)", x, y));
     }
 
-    public void setItemDataValues(CustomerDto customerDto) {
+    public void setCustomerDataValues(CustomerDto customerDto) {
         setId(customerDto.getId());
         setName(customerDto.getName());
         setLocation(customerDto.getXLocation(), customerDto.getYLocation());

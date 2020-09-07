@@ -1,8 +1,6 @@
 package course.java.sdm.javafx.components.actions.order;
 
-import course.java.sdm.engine.dto.CustomerDto;
-import course.java.sdm.engine.dto.ItemWithPriceDto;
-import course.java.sdm.engine.dto.StoreDto;
+import course.java.sdm.engine.dto.*;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.staticOrder.StoreInfo;
 import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsController;
@@ -17,8 +15,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 public class OrderController extends OrderData {
 
@@ -71,8 +71,8 @@ public class OrderController extends OrderData {
     @FXML
     void chooseStoreComboBoxAction(ActionEvent event) {
         setDeliveryCostLabels(true);
-        int storeId = getStoreIdSelected();
-        int customerId = getCustomerIdSelected();
+        int storeId = getSelectedStoreId();
+        int customerId = getSelectedCustomerId();
         setDeliveryCost(storeId, customerId);
         staticOrderWasChosen(storeId, customerId);
     }
@@ -80,7 +80,8 @@ public class OrderController extends OrderData {
     @FXML
     void nextButtonAction(ActionEvent event) {
         updateUiOrderDto();
-        superDuperMarketController.showOrderSummery();
+        updateOrderSummeryInfo();
+        superDuperMarketController.showOrderSummery(orderSummeryInfo);
     }
 
     public void createOrder() {
@@ -161,17 +162,34 @@ public class OrderController extends OrderData {
     }
 
     public void updateUiOrderDto() {
-        uiOrderDto.setCustomerId(getCustomerIdSelected());
-        uiOrderDto.setStoreId(getStoreIdSelected());
-        uiOrderDto.setDate(datePicker.getValue());
-        uiOrderDto.setItemsIdsAndQuantities(storeItemsController.getItemsIdsAndQuantities());
+        uiOrderDto.setCustomerId(getSelectedCustomerId());
+        uiOrderDto.setStoreId(getSelectedStoreId());
+        uiOrderDto.setDate(getPickedDate());
+        uiOrderDto.setItemsIdsAndQuantities(getSelectedItemsIdsAndQuantities());
     }
 
-    private int getStoreIdSelected() {
+    private void updateOrderSummeryInfo() {
+        int customerId = getSelectedCustomerId();
+        orderSummeryInfo.setCustomerId(customerId);
+        CustomerDto customerDto = businessLogic.getCustomerDto(customerId);
+        orderSummeryInfo.setCustomerName(customerDto.getName());
+        orderSummeryInfo.setCustomerXLocation(customerDto.getXLocation());
+        orderSummeryInfo.setCustomerYLocation(customerDto.getYLocation());
+    }
+
+    private LocalDate getPickedDate() {
+        return datePicker.getValue();
+    }
+
+    private Map<Integer, Float> getSelectedItemsIdsAndQuantities() {
+        return storeItemsController.getItemsIdsAndQuantities();
+    }
+
+    private int getSelectedStoreId() {
         return chooseStoreComboBox.getValue().getId();
     }
 
-    private int getCustomerIdSelected() {
+    private int getSelectedCustomerId() {
         return chooseCustomerComboBox.getValue().getId();
     }
 
