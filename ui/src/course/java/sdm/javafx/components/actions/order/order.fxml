@@ -43,7 +43,7 @@
             <Label text="Choose order type:" GridPane.rowIndex="2" />
             <RadioButton fx:id="staticOrderRadioButton" mnemonicParsing="false" text="One store" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <RadioButton fx:id="dynamicOrderRadioButton" mnemonicParsing="false" text="Best cart" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Button fx:id="confirmOrderButton" mnemonicParsing="false" onAction="#confirmOrderButtonAction" text="Confirm order" GridPane.columnIndex="2" />
+            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextButtonAction" prefHeight="25.0" prefWidth="73.0" text="Next" GridPane.columnIndex="4" />
             <Label fx:id="chooseStoreLabel" text="Choose store:" visible="false" GridPane.rowIndex="4" />
             <ComboBox fx:id="chooseStoreComboBox" disable="true" onAction="#chooseStoreComboBoxAction" prefHeight="25.0" prefWidth="250.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label fx:id="deliveryCostFieldLabel" text="Delivery cost:" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="4" />

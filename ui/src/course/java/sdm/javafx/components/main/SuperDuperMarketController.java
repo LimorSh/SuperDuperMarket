@@ -7,6 +7,7 @@ import course.java.sdm.engine.dto.StoreDto;
 import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.OrderController;
+import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryController;
 import course.java.sdm.javafx.components.sdmData.customers.CustomersController;
 import course.java.sdm.javafx.components.sdmData.items.ItemsController;
 import course.java.sdm.javafx.dto.UIOrderDto;
@@ -99,24 +100,30 @@ public class SuperDuperMarketController {
             Node order = loader.load();
             OrderController orderController = loader.getController();
 
-            //------!!!!!!!!!!!!-------
-            // if we decide to put businessLogic in OrderController or in intermediate - we can move this there:
+            orderController.setSuperDuperMarketController(this);
             orderController.setBusinessLogic(businessLogic);
             orderController.createOrder();
-//            Collection<CustomerDto> customersDto = businessLogic.getCustomersDto();
-//            Collection<StoreDto> storesDto = businessLogic.getStoresDto();
-//            orderController.setCustomers(customersDto);
-//            orderController.setStores(storesDto);
-
 
             superDuperMarketBorderPane.setCenter(order);
-
-
             // send uiOrderDto back to engine.
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public void showOrderSummery() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.ORDER_SUMMERY_FXML_RESOURCE);
+            Node orderSummery = loader.load();
+            OrderSummeryController orderSummeryController = loader.getController();
+
+            superDuperMarketBorderPane.setCenter(orderSummery);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     void customersButtonAction(ActionEvent event) {

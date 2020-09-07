@@ -6,7 +6,7 @@ import course.java.sdm.engine.dto.StoreDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.staticOrder.StoreInfo;
 import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsController;
-import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsData;
+import course.java.sdm.javafx.components.main.SuperDuperMarketController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,7 +26,7 @@ public class OrderController extends OrderData {
     @FXML private ComboBox<CustomerInfo> chooseCustomerComboBox;
     @FXML private ComboBox<StoreInfo> chooseStoreComboBox;
     @FXML private Label chooseStoreLabel;
-    @FXML private Button confirmOrderButton;
+    @FXML private Button nextButton;
     @FXML private DatePicker datePicker;
     @FXML private RadioButton staticOrderRadioButton;
     @FXML private RadioButton dynamicOrderRadioButton;
@@ -39,7 +39,7 @@ public class OrderController extends OrderData {
     private final ToggleGroup orderTypeRadioButtonsGroup;
 
     private StoreItemsController storeItemsController;
-
+    private SuperDuperMarketController superDuperMarketController;
 
     public OrderController() {
         super();
@@ -78,8 +78,9 @@ public class OrderController extends OrderData {
     }
 
     @FXML
-    void confirmOrderButtonAction(ActionEvent event) {
-        finishOrdering();
+    void nextButtonAction(ActionEvent event) {
+        updateUiOrderDto();
+        superDuperMarketController.showOrderSummery();
     }
 
     public void createOrder() {
@@ -159,7 +160,7 @@ public class OrderController extends OrderData {
         }
     }
 
-    public void finishOrdering() {
+    public void updateUiOrderDto() {
         uiOrderDto.setCustomerId(getCustomerIdSelected());
         uiOrderDto.setStoreId(getStoreIdSelected());
         uiOrderDto.setDate(datePicker.getValue());
@@ -176,5 +177,9 @@ public class OrderController extends OrderData {
 
     public void setStoreItemsController(StoreItemsController storeItemsController) {
         this.storeItemsController = storeItemsController;
+    }
+
+    public void setSuperDuperMarketController(SuperDuperMarketController superDuperMarketController) {
+        this.superDuperMarketController = superDuperMarketController;
     }
 }
