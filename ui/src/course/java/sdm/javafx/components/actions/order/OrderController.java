@@ -98,13 +98,14 @@ public class OrderController extends OrderData {
             Node storeItems = loader.load();
             StoreItemsController storeItemsController = loader.getController();
 
+            storeItemsController.setBusinessLogic(businessLogic);
             setStoreItemsController(storeItemsController);
 
             oneStoreItemsNodes.add(storeItems);
 
 //            StoreDto storeDto = businessLogic.getStoreDto(storeId);
-            Collection<ItemWithPriceDto> itemsWithPriceDto = businessLogic.getItemsWithPriceDto(storeId);
-            storeItemsController.setTableViewData(itemsWithPriceDto);
+//            Collection<ItemWithPriceDto> itemsWithPriceDto = businessLogic.getItemsWithPriceDto(storeId);
+            storeItemsController.setTableViewData(storeId);
 
             selectItemsLabel.setVisible(true);
             gridPane.add(storeItems, 1, 5);
@@ -175,6 +176,12 @@ public class OrderController extends OrderData {
         orderSummeryInfo.setCustomerName(customerDto.getName());
         orderSummeryInfo.setCustomerXLocation(customerDto.getXLocation());
         orderSummeryInfo.setCustomerYLocation(customerDto.getYLocation());
+
+        float itemsCost = storeItemsController.getItemsCost();
+        orderSummeryInfo.setItemsCost(itemsCost);
+        orderSummeryInfo.setDeliveryCost(deliveryCost.floatValue());
+        orderSummeryInfo.setTotalCost(itemsCost + deliveryCost.floatValue());
+
     }
 
     private LocalDate getPickedDate() {
@@ -185,15 +192,16 @@ public class OrderController extends OrderData {
         return storeItemsController.getItemsIdsAndQuantities();
     }
 
-    private int getSelectedStoreId() {
+    public int getSelectedStoreId() {
         return chooseStoreComboBox.getValue().getId();
     }
 
-    private int getSelectedCustomerId() {
+    public int getSelectedCustomerId() {
         return chooseCustomerComboBox.getValue().getId();
     }
 
     public void setStoreItemsController(StoreItemsController storeItemsController) {
+        storeItemsController.setOrderController(this);
         this.storeItemsController = storeItemsController;
     }
 

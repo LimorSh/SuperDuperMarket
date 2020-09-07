@@ -118,6 +118,7 @@ public class SuperDuperMarketController {
             loader.setLocation(SuperDuperMarketConstants.ORDER_SUMMERY_FXML_RESOURCE);
             Node orderSummery = loader.load();
             OrderSummeryController orderSummeryController = loader.getController();
+
             orderSummeryController.setDataValues(orderSummeryInfo);
             superDuperMarketBorderPane.setCenter(orderSummery);
         } catch (IOException e) {

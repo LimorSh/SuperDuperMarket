@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@order-summery-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.summery.OrderSummeryController">
+<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" stylesheets="@order-summery-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.summery.OrderSummeryController">
    <top>
       <Label text="Order Summery" BorderPane.alignment="CENTER">
          <font>
@@ -41,7 +41,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="Label">
+                  <Label fx:id="orderCostValueLabel" minWidth="60.0">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
@@ -51,7 +51,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="Label">
+                  <Label fx:id="deliveryCostValueLabel" minWidth="60.0">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
@@ -61,14 +61,14 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="Label">
+                  <Label fx:id="totalCostValueLabel" minWidth="60.0">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
                   <Button mnemonicParsing="false" text="Cancel">
                      <HBox.margin>
-                        <Insets left="50.0" />
+                        <Insets left="100.0" />
                      </HBox.margin>
                   </Button>
                   <Button mnemonicParsing="false" text="Confirm" />

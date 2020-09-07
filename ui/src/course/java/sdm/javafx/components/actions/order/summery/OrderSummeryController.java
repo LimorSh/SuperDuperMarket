@@ -6,6 +6,9 @@ import javafx.scene.control.Label;
 public class OrderSummeryController extends OrderSummeryData {
 
     @FXML private Label customerDetailsValuesLabel;
+    @FXML private Label orderCostValueLabel;
+    @FXML private Label deliveryCostValueLabel;
+    @FXML private Label totalCostValueLabel;
 
     public OrderSummeryController() {
         super();
@@ -14,5 +17,8 @@ public class OrderSummeryController extends OrderSummeryData {
     @FXML
     private void initialize() {
         customerDetailsValuesLabel.textProperty().bind(customerDetails);
+        orderCostValueLabel.textProperty().bind(itemsCost.asString());
+        deliveryCostValueLabel.textProperty().bind(deliveryCost.asString());
+        totalCostValueLabel.textProperty().bind(totalCost.asString());
     }
 }

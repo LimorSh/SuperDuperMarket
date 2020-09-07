@@ -6,6 +6,9 @@ public class OrderSummeryInfo {
     private String customerName;
     private int customerXLocation;
     private int customerYLocation;
+    private float itemsCost;
+    private float deliveryCost;
+    private float totalCost;
 
     public OrderSummeryInfo() {
     }
@@ -40,5 +43,29 @@ public class OrderSummeryInfo {
 
     public void setCustomerYLocation(int customerYLocation) {
         this.customerYLocation = customerYLocation;
+    }
+
+    public float getItemsCost() {
+        return itemsCost;
+    }
+
+    public void setItemsCost(float itemsCost) {
+        this.itemsCost = itemsCost;
+    }
+
+    public float getDeliveryCost() {
+        return deliveryCost;
+    }
+
+    public void setDeliveryCost(float deliveryCost) {
+        this.deliveryCost = deliveryCost;
+    }
+
+    public float getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(float totalCost) {
+        this.totalCost = totalCost;
     }
 }

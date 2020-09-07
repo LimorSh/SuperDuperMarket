@@ -29,6 +29,8 @@ public class StoreItemsController extends StoreItemsData {
     @FXML private Button addItemButton;
     @FXML private Label quantityLabel;
 
+    private OrderController orderController;
+
     @FXML
     private void initialize() {
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -42,7 +44,14 @@ public class StoreItemsController extends StoreItemsData {
     void addItemButtonAction(ActionEvent event) {
         StoreItemData storeItemData = tableView.getSelectionModel().getSelectedItem();
         float quantity = Float.parseFloat(quantityTextField.getText());
-        updateItemsAndQuantities(storeItemData.getId(), quantity);
+        int storeItemId = storeItemData.getId();
+        updateItemsAndQuantities(storeItemId, quantity);
+
+        int storeId = orderController.getSelectedStoreId();
+        float price = businessLogic.getItemPriceInStoreByIds(storeId, storeItemId);
+
+        float cost = quantity * price;
+        updateItemsCost(cost);
     }
 
     private void setAddItemsControls() {
@@ -52,7 +61,8 @@ public class StoreItemsController extends StoreItemsData {
         addItemButton.setDisable(false);
     }
 
-    public void setTableViewData(Collection<ItemWithPriceDto> itemsWithPriceDto) {
+    public void setTableViewData(int storeId) {
+        Collection<ItemWithPriceDto> itemsWithPriceDto = businessLogic.getItemsWithPriceDto(storeId);
         if (!itemsWithPriceDto.isEmpty()) {
             ArrayList<StoreItemData> storeItemsData = new ArrayList<>();
             for (ItemWithPriceDto itemWithPriceDto : itemsWithPriceDto) {
@@ -79,5 +89,9 @@ public class StoreItemsController extends StoreItemsData {
         else {
             // show no store items component!
         }
+    }
+
+    public void setOrderController(OrderController orderController) {
+        this.orderController = orderController;
     }
 }

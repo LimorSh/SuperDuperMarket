@@ -21,7 +21,7 @@
                   <Insets top="15.0" />
                </padding>
             </Label>
-            <FlowPane prefHeight="207.0" prefWidth="94.0" vgap="15.0">
+            <FlowPane prefHeight="207.0" prefWidth="90.0" vgap="15.0">
                <children>
                   <Button fx:id="customersButton" mnemonicParsing="false" onAction="#customersButtonAction" styleClass="data-button" text="Customers">
                      <font>
