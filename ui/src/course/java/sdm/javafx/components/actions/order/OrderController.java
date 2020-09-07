@@ -6,6 +6,7 @@ import course.java.sdm.engine.dto.StoreDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.staticOrder.StoreInfo;
 import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsController;
+import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsData;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class OrderController extends OrderData {
+
     @FXML private GridPane gridPane;
     @FXML private ComboBox<CustomerInfo> chooseCustomerComboBox;
     @FXML private ComboBox<StoreInfo> chooseStoreComboBox;
@@ -32,9 +34,11 @@ public class OrderController extends OrderData {
     @FXML private Label deliveryCostValueLabel;
     @FXML private Label selectItemsLabel;
 
-    Collection<Node> oneStoreItemsNodes;
+    private final Collection<Node> oneStoreItemsNodes;
 //    Collection<Node> bestCartItemsNodes;
     private final ToggleGroup orderTypeRadioButtonsGroup;
+
+    private StoreItemsController storeItemsController;
 
 
     public OrderController() {
@@ -92,6 +96,8 @@ public class OrderController extends OrderData {
             Node storeItems = loader.load();
             StoreItemsController storeItemsController = loader.getController();
 
+            setStoreItemsController(storeItemsController);
+
             oneStoreItemsNodes.add(storeItems);
 
 //            StoreDto storeDto = businessLogic.getStoreDto(storeId);
@@ -100,7 +106,6 @@ public class OrderController extends OrderData {
 
             selectItemsLabel.setVisible(true);
             gridPane.add(storeItems, 1, 5);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -155,9 +160,10 @@ public class OrderController extends OrderData {
     }
 
     public void finishOrdering() {
-        uiOrderDto.setCustomerId(getStoreIdSelected());
+        uiOrderDto.setCustomerId(getCustomerIdSelected());
+        uiOrderDto.setStoreId(getStoreIdSelected());
         uiOrderDto.setDate(datePicker.getValue());
-        uiOrderDto.setStoreId(getCustomerIdSelected());
+        uiOrderDto.setItemsIdsAndQuantities(storeItemsController.getItemsIdsAndQuantities());
     }
 
     private int getStoreIdSelected() {
@@ -168,5 +174,7 @@ public class OrderController extends OrderData {
         return chooseCustomerComboBox.getValue().getId();
     }
 
-
+    public void setStoreItemsController(StoreItemsController storeItemsController) {
+        this.storeItemsController = storeItemsController;
+    }
 }

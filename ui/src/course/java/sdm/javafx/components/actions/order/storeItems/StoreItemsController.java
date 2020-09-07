@@ -1,6 +1,7 @@
 package course.java.sdm.javafx.components.actions.order.storeItems;
 
 import course.java.sdm.engine.dto.ItemWithPriceDto;
+import course.java.sdm.javafx.components.actions.order.OrderController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,7 +17,7 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class StoreItemsController {
+public class StoreItemsController extends StoreItemsData {
 
     @FXML private Pane pane;
     @FXML private TableView<StoreItemData> tableView;
@@ -41,9 +42,7 @@ public class StoreItemsController {
     void addItemButtonAction(ActionEvent event) {
         StoreItemData storeItemData = tableView.getSelectionModel().getSelectedItem();
         float quantity = Float.parseFloat(quantityTextField.getText());
-        System.out.println(storeItemData.getId());
-        System.out.println(storeItemData.getName());
-        System.out.println(quantity);
+        updateItemsAndQuantities(storeItemData.getId(), quantity);
     }
 
     private void setAddItemsControls() {
