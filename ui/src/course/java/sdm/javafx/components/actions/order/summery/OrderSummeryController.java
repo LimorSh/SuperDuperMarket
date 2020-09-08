@@ -32,7 +32,7 @@ public class OrderSummeryController extends OrderSummeryData {
         totalCostValueLabel.textProperty().bind(totalCost.asString());
     }
 
-    public void showStores(Collection<OrderSummerySingleStoreInfo> singleStoresInfo) {
+    public void showStores(Collection<OrderSummerySingleStoreInfo> orderSummerySingleStoresInfo) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.ORDER_SUMMERY_STORES_FXML_RESOURCE);
@@ -40,7 +40,7 @@ public class OrderSummeryController extends OrderSummeryData {
             OrderSummeryStoresController orderSummeryStoresController = loader.getController();
 
             innerBorderPane.setCenter(stores);
-            orderSummeryStoresController.createAllStores(singleStoresInfo);
+            orderSummeryStoresController.createAllStores(orderSummerySingleStoresInfo);
         } catch (IOException e) {
             e.printStackTrace();
         }

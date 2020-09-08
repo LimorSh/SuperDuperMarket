@@ -108,6 +108,14 @@ public class BusinessLogic {
         return (new StoreDto(superDuperMarket.getStore(id)));
     }
 
+    public ItemWithPriceDto getItemWithPriceDto(int storeId, int itemId) {
+        Store store = superDuperMarket.getStore(storeId);
+        Item item = superDuperMarket.getItem(itemId);
+        ItemWithPriceDto itemWithPriceDto = new ItemWithPriceDto(item, true);
+        itemWithPriceDto.setPrice(store.getItemPrice(item));
+        return itemWithPriceDto;
+    }
+
     public CustomerDto getCustomerDto(int id) {
         return (new CustomerDto(superDuperMarket.getCustomer(id)));
     }
@@ -125,6 +133,7 @@ public class BusinessLogic {
         int x = customerDto.getXLocation();
         int y = customerDto.getYLocation();
         superDuperMarket.createOrder(date, x, y, store.getId(), itemsIdsAndQuantities);
+
 
         // don't need the above - should be like this:
 //        superDuperMarket.createOrder(customer, date, store.getId(), itemsIdsAndQuantities);

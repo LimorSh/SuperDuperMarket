@@ -1,6 +1,6 @@
 package course.java.sdm.javafx.components.actions.order.summery.singleStore;
 
-import course.java.sdm.engine.dto.ItemWithPriceDto;
+import course.java.sdm.javafx.SuperDuperMarketConstants;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -17,13 +17,14 @@ public class OrderSummerySinglePurchasedItemData {
 //    protected SimpleBooleanProperty discount;
 //    protected SimpleStringProperty discount;
 
-//    public OrderSummerySinglePurchasedItemData(OrderSummerySinglePurchasedItemInfo orderSummerySinglePurchasedItemInfo) {
-//        this.id = new SimpleIntegerProperty(orderSummerySinglePurchasedItemInfo.getId());
-//        this.name = new SimpleStringProperty(orderSummerySinglePurchasedItemInfo.getName());
-//        this.purchaseCategory = new SimpleStringProperty(orderSummerySinglePurchasedItemInfo.getPurchaseCategory());
-//        this.quantity = new SimpleStringProperty(orderSummerySinglePurchasedItemInfo.getPurchaseCategory());
-//
-//    }
+    public OrderSummerySinglePurchasedItemData(OrderSummerySingleStoreItemInfo orderSummerySingleStoreItemInfo) {
+        this.id = new SimpleIntegerProperty(orderSummerySingleStoreItemInfo.getId());
+        this.name = new SimpleStringProperty(orderSummerySingleStoreItemInfo.getName());
+        this.purchaseCategory = new SimpleStringProperty(orderSummerySingleStoreItemInfo.getPurchaseCategory());
+        this.quantity = new SimpleFloatProperty(orderSummerySingleStoreItemInfo.getQuantity());
+        this.pricePerUnit = new SimpleFloatProperty(orderSummerySingleStoreItemInfo.getPricePerUnit());
+        this.totalCost = new SimpleFloatProperty(orderSummerySingleStoreItemInfo.getTotalCost());
+    }
 
     public int getId() {
         return id.get();
@@ -35,5 +36,17 @@ public class OrderSummerySinglePurchasedItemData {
 
     public String getPurchaseCategory() {
         return purchaseCategory.get();
+    }
+
+    public float getQuantity() {
+        return quantity.get();
+    }
+
+    public float getPricePerUnit() {
+        return pricePerUnit.get();
+    }
+
+    public float getTotalCost() {
+        return totalCost.get();
     }
 }

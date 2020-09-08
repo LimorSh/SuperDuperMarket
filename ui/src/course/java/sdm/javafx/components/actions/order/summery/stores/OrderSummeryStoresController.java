@@ -25,18 +25,6 @@ public class OrderSummeryStoresController {
         }
     }
 
-//    public void createAllStores(StoresInfo storesInfo) {
-//        Collection<SingleStoreInfo> singleStoresInfo = storesInfo.getSingleStoresInfo();
-//        if (!singleStoresInfo.isEmpty()) {
-//            for (SingleStoreInfo singleStoreInfo : singleStoresInfo) {
-//                createSingleStore(singleStoreInfo);
-//            }
-//        }
-//        else {
-//            // show no items component!
-//        }
-//    }
-
     private void createSingleStore(OrderSummerySingleStoreInfo orderSummerySingleStoreInfo) {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -45,6 +33,8 @@ public class OrderSummeryStoresController {
             OrderSummerySingleStoreController singleStoreController = loader.getController();
 
             singleStoreController.setDataValues(orderSummerySingleStoreInfo);
+            singleStoreController.setTableViewData(orderSummerySingleStoreInfo.getOrderSummerySingleStoreItemsInfo());
+
             flowPane.getChildren().add(singleStore);
         } catch (IOException e) {
             e.printStackTrace();

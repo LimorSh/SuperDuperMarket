@@ -1,5 +1,8 @@
 package course.java.sdm.javafx.components.actions.order.summery.singleStore;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class OrderSummerySingleStoreInfo {
 
     private int id;
@@ -7,8 +10,11 @@ public class OrderSummerySingleStoreInfo {
     private int ppk;
     private double distance;
     private float deliveryCost;
+    private final Collection<OrderSummerySingleStoreItemInfo> orderSummerySingleStoreItemsInfo;
+
 
     public OrderSummerySingleStoreInfo() {
+        orderSummerySingleStoreItemsInfo = new ArrayList<>();
     }
 
     public int getId() {
@@ -49,5 +55,13 @@ public class OrderSummerySingleStoreInfo {
 
     public void setDeliveryCost(float deliveryCost) {
         this.deliveryCost = deliveryCost;
+    }
+
+    public Collection<OrderSummerySingleStoreItemInfo> getOrderSummerySingleStoreItemsInfo() {
+        return orderSummerySingleStoreItemsInfo;
+    }
+
+    public void addOrderSummerySingleStoreItemsInfo(OrderSummerySingleStoreItemInfo orderSummerySingleStoreItemInfo) {
+        orderSummerySingleStoreItemsInfo.add(orderSummerySingleStoreItemInfo);
     }
 }

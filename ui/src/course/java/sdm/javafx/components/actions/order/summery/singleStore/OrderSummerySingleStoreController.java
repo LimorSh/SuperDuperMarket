@@ -1,8 +1,19 @@
 package course.java.sdm.javafx.components.actions.order.summery.singleStore;
 
+import course.java.sdm.engine.dto.ItemWithPriceDto;
+import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemData;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class OrderSummerySingleStoreController extends OrderSummerySingleStoreData {
 
@@ -11,7 +22,15 @@ public class OrderSummerySingleStoreController extends OrderSummerySingleStoreDa
     @FXML private Label ppkValueLabel;
     @FXML private Label distanceFromTheCustomerValueLabel;
     @FXML private Label deliveryCostValueLabel;
-    @FXML private TableView<?> purchasedItemsTableView;
+
+    @FXML private TableView<OrderSummerySinglePurchasedItemData> purchasedItemsTableView;
+    @FXML private TableColumn<OrderSummerySinglePurchasedItemData, Integer> itemIdCol;
+    @FXML private TableColumn<OrderSummerySinglePurchasedItemData, String> itemNameCol;
+    @FXML private TableColumn<OrderSummerySinglePurchasedItemData, String> itemPurchaseCategoryCol;
+    @FXML private TableColumn<OrderSummerySinglePurchasedItemData, Float> itemQuantityCol;
+    @FXML private TableColumn<OrderSummerySinglePurchasedItemData, Float> itemPricePerUnitCol;
+    @FXML private TableColumn<OrderSummerySinglePurchasedItemData, Float> itemTotalCostCol;
+    @FXML private TableColumn<OrderSummerySinglePurchasedItemData, String> itemDiscountCol;
 
     @FXML
     private void initialize() {
@@ -21,4 +40,43 @@ public class OrderSummerySingleStoreController extends OrderSummerySingleStoreDa
         distanceFromTheCustomerValueLabel.textProperty().bind(distanceFromTheCustomer.asString());
         deliveryCostValueLabel.textProperty().bind(deliveryCost.asString());
     }
+
+    public void setTableViewData(Collection<OrderSummerySingleStoreItemInfo> orderSummerySingleStoreItemsInfo) {
+        if (!orderSummerySingleStoreItemsInfo.isEmpty()) {
+            ArrayList<OrderSummerySinglePurchasedItemData> orderSummerySinglePurchasedItemsData = new ArrayList<>();
+            for (OrderSummerySingleStoreItemInfo orderSummerySingleStoreItemInfo : orderSummerySingleStoreItemsInfo) {
+                OrderSummerySinglePurchasedItemData orderSummerySinglePurchasedItemData =
+                        new OrderSummerySinglePurchasedItemData(orderSummerySingleStoreItemInfo);
+                orderSummerySinglePurchasedItemsData.add(orderSummerySinglePurchasedItemData);
+            }
+            final ObservableList<OrderSummerySinglePurchasedItemData> data =
+                    FXCollections.observableArrayList(orderSummerySinglePurchasedItemsData);
+
+            itemIdCol.setCellValueFactory(
+                    new PropertyValueFactory<OrderSummerySinglePurchasedItemData,Integer>("id")
+            );
+            itemNameCol.setCellValueFactory(
+                    new PropertyValueFactory<OrderSummerySinglePurchasedItemData,String>("name")
+            );
+            itemPurchaseCategoryCol.setCellValueFactory(
+                    new PropertyValueFactory<OrderSummerySinglePurchasedItemData,String>("purchaseCategory")
+            );
+            itemQuantityCol.setCellValueFactory(
+                    new PropertyValueFactory<OrderSummerySinglePurchasedItemData,Float>("quantity")
+            );
+            itemPricePerUnitCol.setCellValueFactory(
+                    new PropertyValueFactory<OrderSummerySinglePurchasedItemData,Float>("pricePerUnit")
+            );
+            itemTotalCostCol.setCellValueFactory(
+                    new PropertyValueFactory<OrderSummerySinglePurchasedItemData,Float>("totalCost")
+            );
+
+            purchasedItemsTableView.setItems(data);
+        }
+        else {
+            // show no store items component!
+        }
+    }
+
+
 }
