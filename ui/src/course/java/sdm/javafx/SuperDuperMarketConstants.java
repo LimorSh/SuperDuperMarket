@@ -4,9 +4,9 @@ import java.net.URL;
 
 public class SuperDuperMarketConstants {
 
-    public static final int INIT_INT = -1;
-    public static final float INIT_FLOAT = -1f;
-    public static final double INIT_DOUBLE = -1d;
+    public static final int INIT_INT = 0;
+    public static final float INIT_FLOAT = 0f;
+    public static final double INIT_DOUBLE = 0d;
     public static final String INIT_STRING = "";
 
     private static final String BASE_PACKAGE = "/course/java/sdm/javafx";

@@ -21,7 +21,15 @@ public class BusinessLogic {
     }
 
     public Collection<CustomerDto> getCustomersDto() {
-        return SuperDuperMarketDto.getCustomersDto(superDuperMarket.getCustomers());
+        Collection<CustomerDto> customersDto = new ArrayList<>();
+
+        Collection<Customer> customers = superDuperMarket.getCustomers();
+        for (Customer customer : customers) {
+            CustomerDto customerDto = getCustomerDto(customer.getId());
+            customersDto.add(customerDto);
+        }
+
+        return customersDto;
     }
 
     public Collection<BasicCustomerDto> getBasicCustomersDto() {
@@ -117,7 +125,11 @@ public class BusinessLogic {
     }
 
     public CustomerDto getCustomerDto(int id) {
-        return (new CustomerDto(superDuperMarket.getCustomer(id)));
+        Customer customer = superDuperMarket.getCustomer(id);
+        float totalOrdersCost = customer.getTotalOrdersCost();
+        float averageItemsCost = customer.getAverageItemsCost();
+        float averageDeliveriesCost = customer.getAverageDeliveriesCost();
+        return (new CustomerDto(customer, totalOrdersCost, averageItemsCost, averageDeliveriesCost));
     }
 
 
