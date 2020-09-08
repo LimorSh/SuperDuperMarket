@@ -1,10 +1,8 @@
 package course.java.sdm.javafx.components.actions.order.summery.stores;
 
-import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
-import course.java.sdm.javafx.components.actions.order.summery.singleStore.SingleStoreController;
-import course.java.sdm.javafx.components.actions.order.summery.singleStore.SingleStoreInfo;
-import course.java.sdm.javafx.components.sdmData.singleItem.SingleItemController;
+import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreController;
+import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreInfo;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,14 +10,14 @@ import javafx.scene.layout.FlowPane;
 import java.io.IOException;
 import java.util.Collection;
 
-public class StoresController {
+public class OrderSummeryStoresController {
 
     @FXML private FlowPane flowPane;
 
-    public void createAllStores(Collection<SingleStoreInfo> singleStoresInfo) {
+    public void createAllStores(Collection<OrderSummerySingleStoreInfo> singleStoresInfo) {
         if (!singleStoresInfo.isEmpty()) {
-            for (SingleStoreInfo singleStoreInfo : singleStoresInfo) {
-                createSingleStore(singleStoreInfo);
+            for (OrderSummerySingleStoreInfo orderSummerySingleStoreInfo : singleStoresInfo) {
+                createSingleStore(orderSummerySingleStoreInfo);
             }
         }
         else {
@@ -39,14 +37,14 @@ public class StoresController {
 //        }
 //    }
 
-    private void createSingleStore(SingleStoreInfo singleStoreInfo) {
+    private void createSingleStore(OrderSummerySingleStoreInfo orderSummerySingleStoreInfo) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE);
             Node singleStore = loader.load();
-            SingleStoreController singleStoreController = loader.getController();
+            OrderSummerySingleStoreController singleStoreController = loader.getController();
 
-            singleStoreController.setDataValues(singleStoreInfo);
+            singleStoreController.setDataValues(orderSummerySingleStoreInfo);
             flowPane.getChildren().add(singleStore);
         } catch (IOException e) {
             e.printStackTrace();

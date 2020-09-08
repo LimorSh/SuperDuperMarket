@@ -35,10 +35,10 @@ public class SuperDuperMarketConstants {
     private static final String ORDER_SUMMERY_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/order-summery.fxml";
     public static final URL ORDER_SUMMERY_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ORDER_SUMMERY_FXML_RESOURCE_IDENTIFIER);
 
-    private static final String ORDER_SUMMERY_STORES_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/stores/stores.fxml";
+    private static final String ORDER_SUMMERY_STORES_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/stores/order-summery-stores.fxml";
     public static final URL ORDER_SUMMERY_STORES_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ORDER_SUMMERY_STORES_FXML_RESOURCE_IDENTIFIER);
 
-    private static final String ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/singleStore/single-store.fxml";
+    private static final String ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/singleStore/order-summery-single-store.fxml";
     public static final URL ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE_IDENTIFIER);
 
 }

@@ -1,6 +1,7 @@
 package course.java.sdm.javafx.components.actions.order.summery;
 
-import course.java.sdm.javafx.components.actions.order.summery.singleStore.SingleStoreInfo;
+import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreInfo;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -13,7 +14,8 @@ public class OrderSummeryInfo {
     private float itemsCost;
     private float deliveryCost;
     private float totalCost;
-    private final Collection<SingleStoreInfo> singleStoresInfo;
+    private final Collection<OrderSummerySingleStoreInfo> singleStoresInfo; //don't need this for dynamic order, only this:
+//    private final Collection<StoresInfo> storesInfo;  //for dynamic order
 
     public OrderSummeryInfo() {
         singleStoresInfo = new ArrayList<>();
@@ -75,11 +77,11 @@ public class OrderSummeryInfo {
         this.totalCost = totalCost;
     }
 
-    public Collection<SingleStoreInfo> getSingleStoresInfo() {
+    public Collection<OrderSummerySingleStoreInfo> getSingleStoresInfo() {
         return singleStoresInfo;
     }
 
-    public void addSingleStoreInfo(SingleStoreInfo singleStoreInfo) {
-        singleStoresInfo.add(singleStoreInfo);
+    public void addSingleStoreInfo(OrderSummerySingleStoreInfo orderSummerySingleStoreInfo) {
+        singleStoresInfo.add(orderSummerySingleStoreInfo);
     }
 }

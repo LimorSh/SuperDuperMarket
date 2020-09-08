@@ -1,6 +1,6 @@
 package course.java.sdm.javafx.components.actions.order.summery.singleStore;
 
-public class SingleStoreInfo {
+public class OrderSummerySingleStoreInfo {
 
     private int id;
     private String name;
@@ -8,7 +8,7 @@ public class SingleStoreInfo {
     private double distance;
     private float deliveryCost;
 
-    public SingleStoreInfo() {
+    public OrderSummerySingleStoreInfo() {
     }
 
     public int getId() {

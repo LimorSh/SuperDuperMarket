@@ -1,12 +1,13 @@
 package course.java.sdm.javafx.components.actions.order.summery.singleStore;
 
 import course.java.sdm.javafx.SuperDuperMarketConstants;
+import course.java.sdm.javafx.UtilsUI;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class SingleStoreData {
+public class OrderSummerySingleStoreData {
 
     protected SimpleIntegerProperty id;
     protected SimpleStringProperty name;
@@ -14,7 +15,7 @@ public class SingleStoreData {
     protected SimpleDoubleProperty distanceFromTheCustomer;
     protected SimpleFloatProperty deliveryCost;
 
-    public SingleStoreData() {
+    public OrderSummerySingleStoreData() {
         this.id = new SimpleIntegerProperty(SuperDuperMarketConstants.INIT_INT);
         this.name = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
         this.ppk = new SimpleIntegerProperty(SuperDuperMarketConstants.INIT_INT);
@@ -35,18 +36,18 @@ public class SingleStoreData {
     }
 
     public void setDistanceFromTheCustomer(double distanceFromTheCustomer) {
-        this.distanceFromTheCustomer.set(distanceFromTheCustomer);
+        this.distanceFromTheCustomer.set(UtilsUI.roundNumberWithTwoDigitsAfterPoint(distanceFromTheCustomer));
     }
 
     public void setDeliveryCost(float deliveryCost) {
-        this.deliveryCost.set(deliveryCost);
+        this.deliveryCost.set(UtilsUI.roundNumberWithTwoDigitsAfterPoint(deliveryCost));
     }
 
-    public void setDataValues(SingleStoreInfo singleStoreInfo) {
-        setId(singleStoreInfo.getId());
-        setName(singleStoreInfo.getName());
-        setPpk(singleStoreInfo.getPpk());
-        setDistanceFromTheCustomer(singleStoreInfo.getDistance());
-        setDeliveryCost(singleStoreInfo.getDeliveryCost());
+    public void setDataValues(OrderSummerySingleStoreInfo orderSummerySingleStoreInfo) {
+        setId(orderSummerySingleStoreInfo.getId());
+        setName(orderSummerySingleStoreInfo.getName());
+        setPpk(orderSummerySingleStoreInfo.getPpk());
+        setDistanceFromTheCustomer(orderSummerySingleStoreInfo.getDistance());
+        setDeliveryCost(orderSummerySingleStoreInfo.getDeliveryCost());
     }
 }

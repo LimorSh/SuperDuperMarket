@@ -4,7 +4,7 @@ import course.java.sdm.engine.dto.*;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.staticOrder.StoreInfo;
 import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsController;
-import course.java.sdm.javafx.components.actions.order.summery.singleStore.SingleStoreInfo;
+import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreInfo;
 import course.java.sdm.javafx.components.main.SuperDuperMarketController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -185,16 +185,16 @@ public class OrderController extends OrderData {
         orderSummeryInfo.setDeliveryCost(deliveryCost.floatValue());
         orderSummeryInfo.setTotalCost(itemsCost + deliveryCost.floatValue());
 
-        SingleStoreInfo singleStoreInfo = new SingleStoreInfo();
+        OrderSummerySingleStoreInfo orderSummerySingleStoreInfo = new OrderSummerySingleStoreInfo();
         int storeId = getSelectedStoreId();
-        singleStoreInfo.setId(storeId);
+        orderSummerySingleStoreInfo.setId(storeId);
         StoreDto storeDto = businessLogic.getStoreDto(storeId);
-        singleStoreInfo.setName(storeDto.getName());
-        singleStoreInfo.setPpk(storeDto.getPpk());
-        singleStoreInfo.setDistance(businessLogic.getDistanceBetweenCustomerAndStore(storeId, customerId));
-        singleStoreInfo.setDeliveryCost(businessLogic.getDeliveryCost(storeId, customerId));
+        orderSummerySingleStoreInfo.setName(storeDto.getName());
+        orderSummerySingleStoreInfo.setPpk(storeDto.getPpk());
+        orderSummerySingleStoreInfo.setDistance(businessLogic.getDistanceBetweenCustomerAndStore(storeId, customerId));
+        orderSummerySingleStoreInfo.setDeliveryCost(businessLogic.getDeliveryCost(storeId, customerId));
 
-        orderSummeryInfo.addSingleStoreInfo(singleStoreInfo);
+        orderSummeryInfo.addSingleStoreInfo(orderSummerySingleStoreInfo);
 
     }
 

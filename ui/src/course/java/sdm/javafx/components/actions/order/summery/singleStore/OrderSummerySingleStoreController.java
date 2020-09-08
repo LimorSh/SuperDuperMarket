@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 
-public class SingleStoreController extends SingleStoreData {
+public class OrderSummerySingleStoreController extends OrderSummerySingleStoreData {
 
     @FXML private Label nameValueLabel;
     @FXML private Label idValueLabel;

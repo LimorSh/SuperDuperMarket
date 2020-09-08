@@ -1,8 +1,8 @@
 package course.java.sdm.javafx.components.actions.order.summery;
 
 import course.java.sdm.javafx.SuperDuperMarketConstants;
-import course.java.sdm.javafx.components.actions.order.summery.singleStore.SingleStoreInfo;
-import course.java.sdm.javafx.components.actions.order.summery.stores.StoresController;
+import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreInfo;
+import course.java.sdm.javafx.components.actions.order.summery.stores.OrderSummeryStoresController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -32,15 +32,15 @@ public class OrderSummeryController extends OrderSummeryData {
         totalCostValueLabel.textProperty().bind(totalCost.asString());
     }
 
-    public void showStores(Collection<SingleStoreInfo> singleStoresInfo) {
+    public void showStores(Collection<OrderSummerySingleStoreInfo> singleStoresInfo) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.ORDER_SUMMERY_STORES_FXML_RESOURCE);
             Node stores = loader.load();
-            StoresController storesController = loader.getController();
+            OrderSummeryStoresController orderSummeryStoresController = loader.getController();
 
             innerBorderPane.setCenter(stores);
-            storesController.createAllStores(singleStoresInfo);
+            orderSummeryStoresController.createAllStores(singleStoresInfo);
         } catch (IOException e) {
             e.printStackTrace();
         }
