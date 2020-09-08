@@ -1,12 +1,13 @@
 package course.java.sdm.javafx.components.actions.order.summery;
-
 import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreInfo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class OrderSummeryInfo {
 
+    private LocalDate date;
     private int customerId;
     private String customerName;
     private int customerXLocation;
@@ -19,6 +20,14 @@ public class OrderSummeryInfo {
 
     public OrderSummeryInfo() {
         singleStoresInfo = new ArrayList<>();
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public int getCustomerId() {

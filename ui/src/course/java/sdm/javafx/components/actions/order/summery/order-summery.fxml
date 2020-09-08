@@ -26,6 +26,8 @@
          <top>
             <HBox prefHeight="25.0" prefWidth="576.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
+                  <Label text="Date:" />
+                  <Label fx:id="dateValueLabel" minWidth="100.0" />
                   <Label text="Customer Details:" />
                   <Label fx:id="customerDetailsValuesLabel" />
                </children>

@@ -14,12 +14,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
 
 public class OrderSummeryController extends OrderSummeryData {
 
     @FXML private BorderPane innerBorderPane;
+    @FXML private Label dateValueLabel;
     @FXML private Label customerDetailsValuesLabel;
     @FXML private Label itemsCostValueLabel;
     @FXML private Label deliveryCostValueLabel;
@@ -37,6 +36,7 @@ public class OrderSummeryController extends OrderSummeryData {
 
     @FXML
     private void initialize() {
+        dateValueLabel.textProperty().bind(date);
         customerDetailsValuesLabel.textProperty().bind(customerDetails);
         itemsCostValueLabel.textProperty().bind(itemsCost.asString());
         deliveryCostValueLabel.textProperty().bind(deliveryCost.asString());

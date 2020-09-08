@@ -6,9 +6,11 @@ import course.java.sdm.javafx.UtilsUI;
 import course.java.sdm.javafx.dto.UIOrderDto;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleStringProperty;
+import java.time.LocalDate;
 
 public class OrderSummeryData {
 
+    protected SimpleStringProperty date;
     protected SimpleStringProperty customerDetails;
     protected SimpleFloatProperty itemsCost;
     protected SimpleFloatProperty deliveryCost;
@@ -17,10 +19,15 @@ public class OrderSummeryData {
     protected UIOrderDto uiOrderDto;
 
     public OrderSummeryData() {
+        date = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
         customerDetails = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
         itemsCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
         deliveryCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
         totalCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
+    }
+
+    public void setDate(LocalDate date) {
+        this.date.set(String.format("%d/%d/%d", date.getDayOfMonth(), date.getMonthValue(), date.getYear()));
     }
 
     private void setCustomerDetails(int id, String name, int xLocation, int yLocation) {
@@ -41,6 +48,7 @@ public class OrderSummeryData {
     }
 
     public void setDataValues(OrderSummeryInfo orderSummeryInfo) {
+        setDate(orderSummeryInfo.getDate());
         setCustomerDetails(orderSummeryInfo.getCustomerId(),
                 orderSummeryInfo.getCustomerName(), orderSummeryInfo.getCustomerXLocation(),
                 orderSummeryInfo.getCustomerYLocation());

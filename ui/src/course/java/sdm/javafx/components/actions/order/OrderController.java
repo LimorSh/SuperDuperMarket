@@ -176,6 +176,7 @@ public class OrderController extends OrderData {
     }
 
     private void updateOrderSummeryInfo() {
+        orderSummeryInfo.setDate(getPickedDate());
         int customerId = getSelectedCustomerId();
         orderSummeryInfo.setCustomerId(customerId);
         CustomerDto customerDto = businessLogic.getCustomerDto(customerId);
