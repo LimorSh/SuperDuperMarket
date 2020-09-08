@@ -38,4 +38,8 @@ public class StoreItemsData {
     public void updateItemsCost(float cost) {
         itemsCost += cost;
     }
+
+    public boolean isItemsIdsAndQuantitiesEmpty() {
+        return itemsIdsAndQuantities.isEmpty();
+    }
 }

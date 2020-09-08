@@ -32,7 +32,7 @@ public class OrderController extends OrderData {
     @FXML private ComboBox<CustomerInfo> chooseCustomerComboBox;
     @FXML private ComboBox<StoreInfo> chooseStoreComboBox;
     @FXML private Label chooseStoreLabel;
-    @FXML private Button nextButton;
+    @FXML private Button finishButton;
     @FXML private DatePicker datePicker;
     @FXML private RadioButton staticOrderRadioButton;
     @FXML private RadioButton dynamicOrderRadioButton;
@@ -84,10 +84,14 @@ public class OrderController extends OrderData {
     }
 
     @FXML
-    void nextButtonAction(ActionEvent event) {
+    void finishButtonAction(ActionEvent event) {
         updateUiOrderDto();
         updateOrderSummeryInfo();
         superDuperMarketController.showOrderSummery(orderSummeryInfo, uiOrderDto);
+    }
+
+    public void setFinishButton(boolean value) {
+        finishButton.setDisable(value);
     }
 
     public void createOrder() {

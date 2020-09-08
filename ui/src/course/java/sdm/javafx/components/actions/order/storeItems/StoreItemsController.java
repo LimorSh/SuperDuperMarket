@@ -42,6 +42,10 @@ public class StoreItemsController extends StoreItemsData {
 
     @FXML
     void addItemButtonAction(ActionEvent event) {
+        if (isItemsIdsAndQuantitiesEmpty()) {
+            orderController.setFinishButton(false);
+        }
+
         StoreItemData storeItemData = tableView.getSelectionModel().getSelectedItem();
         float quantity = Float.parseFloat(quantityTextField.getText());
         int storeItemId = storeItemData.getId();
