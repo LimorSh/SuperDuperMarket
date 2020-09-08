@@ -193,9 +193,7 @@ public class OrderController extends OrderData {
         orderSummerySingleStoreInfo.setPpk(storeDto.getPpk());
         orderSummerySingleStoreInfo.setDistance(businessLogic.getDistanceBetweenCustomerAndStore(storeId, customerId));
         orderSummerySingleStoreInfo.setDeliveryCost(businessLogic.getDeliveryCost(storeId, customerId));
-
         orderSummeryInfo.addSingleStoreInfo(orderSummerySingleStoreInfo);
-
     }
 
     private LocalDate getPickedDate() {

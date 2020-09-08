@@ -1,10 +1,6 @@
 package course.java.sdm.javafx.components.actions.order.storeItems;
 
 import course.java.sdm.engine.dto.ItemWithPriceDto;
-import course.java.sdm.engine.dto.StoreItemDto;
-import course.java.sdm.javafx.SuperDuperMarketConstants;
-import course.java.sdm.javafx.UtilsUI;
-import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
