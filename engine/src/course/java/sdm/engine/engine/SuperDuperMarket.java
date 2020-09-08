@@ -261,21 +261,6 @@ public class SuperDuperMarket {
         return amount;
     }
 
-    public void createOrder(Date date, int customerLocationX, int customerLocationY, int storeId, Map<Integer, Float> itemsIdsAndQuantities) {
-        Location customerLocation = new Location(customerLocationX, customerLocationY);
-        Store store = getStore(storeId);
-        Order order = new Order(date, customerLocation, store);
-        addOrder(order);
-
-        Map<Item, Float> itemsAndQuantities = new HashMap<>();
-        itemsIdsAndQuantities.forEach((itemId,itemQuantity) -> {
-            Item item = getItem(itemId);
-            itemsAndQuantities.put(item, itemQuantity);
-        });
-        order.addOrderLines(itemsAndQuantities);
-        order.finish();
-    }
-
     public boolean isStoreExists(int id) {
         return stores.containsKey(id);
     }
@@ -307,6 +292,22 @@ public class SuperDuperMarket {
         Location customerLocation = customer.getLocation();
         return store.getDistance(customerLocation);
     }
+
+    public void createOrder(int customerId, Date date, int storeId,  Map<Integer, Float> itemsIdsAndQuantities) {
+        Customer customer = getCustomer(customerId);
+        Store store = getStore(storeId);
+        Order order = new Order(customer, date, store);
+        addOrder(order);
+
+        Map<Item, Float> itemsAndQuantities = new HashMap<>();
+        itemsIdsAndQuantities.forEach((itemId,itemQuantity) -> {
+            Item item = getItem(itemId);
+            itemsAndQuantities.put(item, itemQuantity);
+        });
+        order.addOrderLines(itemsAndQuantities);
+        order.finish();
+    }
+
 
 
 

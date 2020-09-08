@@ -87,7 +87,7 @@ public class OrderController extends OrderData {
     void nextButtonAction(ActionEvent event) {
         updateUiOrderDto();
         updateOrderSummeryInfo();
-        superDuperMarketController.showOrderSummery(orderSummeryInfo);
+        superDuperMarketController.showOrderSummery(orderSummeryInfo, uiOrderDto);
     }
 
     public void createOrder() {

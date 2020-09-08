@@ -129,16 +129,6 @@ public class BusinessLogic {
         return superDuperMarket.getItemName(id);
     }
 
-    public void createOrder(CustomerDto customerDto, Date date, StoreDto store, Map<Integer, Float> itemsIdsAndQuantities) {
-        int x = customerDto.getXLocation();
-        int y = customerDto.getYLocation();
-        superDuperMarket.createOrder(date, x, y, store.getId(), itemsIdsAndQuantities);
-
-
-        // don't need the above - should be like this:
-//        superDuperMarket.createOrder(customer, date, store.getId(), itemsIdsAndQuantities);
-    }
-
 //    public static void createOrder(Date date, int customerLocationX, int customerLocationY, StoreDto store, Map<Integer, Float> itemsIdsAndQuantities) {
 //        superDuperMarket.createOrder(date, customerLocationX, customerLocationY, store.getId(), itemsIdsAndQuantities);
 //    }
@@ -219,5 +209,12 @@ public class BusinessLogic {
     public double getDistanceBetweenCustomerAndStore(int storeId, int customerId) {
         return superDuperMarket.getDistanceBetweenCustomerAndStore(storeId, customerId);
     }
+
+    public void createOrder(int customerId, Date date, int storeId,  Map<Integer, Float> itemsIdsAndQuantities) {
+        superDuperMarket.createOrder(customerId, date, storeId, itemsIdsAndQuantities);
+    }
+
+
+
 
 }

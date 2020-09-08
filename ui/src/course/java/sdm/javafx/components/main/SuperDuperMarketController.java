@@ -112,13 +112,15 @@ public class SuperDuperMarketController {
         }
     }
 
-    public void showOrderSummery(OrderSummeryInfo orderSummeryInfo) {
+    public void showOrderSummery(OrderSummeryInfo orderSummeryInfo, UIOrderDto uiOrderDto) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.ORDER_SUMMERY_FXML_RESOURCE);
             Node orderSummery = loader.load();
             OrderSummeryController orderSummeryController = loader.getController();
 
+            orderSummeryController.setBusinessLogic(businessLogic);
+            orderSummeryController.setUiOrderDto(uiOrderDto);
             orderSummeryController.setDataValues(orderSummeryInfo);
             orderSummeryController.showStores(orderSummeryInfo.getSingleStoresInfo());
             superDuperMarketBorderPane.setCenter(orderSummery);

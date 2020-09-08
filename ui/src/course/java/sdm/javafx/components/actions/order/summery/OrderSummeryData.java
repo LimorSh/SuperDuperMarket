@@ -1,7 +1,9 @@
 package course.java.sdm.javafx.components.actions.order.summery;
 
+import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.UtilsUI;
+import course.java.sdm.javafx.dto.UIOrderDto;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -11,6 +13,8 @@ public class OrderSummeryData {
     protected SimpleFloatProperty itemsCost;
     protected SimpleFloatProperty deliveryCost;
     protected SimpleFloatProperty totalCost;
+    protected BusinessLogic businessLogic;
+    protected UIOrderDto uiOrderDto;
 
     public OrderSummeryData() {
         customerDetails = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
@@ -43,5 +47,13 @@ public class OrderSummeryData {
         setItemsCost(orderSummeryInfo.getItemsCost());
         setDeliveryCost(orderSummeryInfo.getDeliveryCost());
         setTotalCost(orderSummeryInfo.getTotalCost());
+    }
+
+    public void setBusinessLogic(BusinessLogic businessLogic) {
+        this.businessLogic = businessLogic;
+    }
+
+    public void setUiOrderDto(UIOrderDto uiOrderDto) {
+        this.uiOrderDto = uiOrderDto;
     }
 }

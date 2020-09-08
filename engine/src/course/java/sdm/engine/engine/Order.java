@@ -8,8 +8,7 @@ public class Order {
     private static int numOrders = 1;
     private final int id;
     private final Date date;
-//    private final Customer customer;   //need for later
-    private final Location customerLocation;
+    private final Customer customer;
     private final Store store;
     private final Map<Integer, OrderLine> orderLines; //the key is itemId
 //    private final Map<Integer, Set<OrderLine>> orderLines; //the key is itemId
@@ -17,10 +16,10 @@ public class Order {
     private float deliveryCost;
     private int totalItems;
 
-    public Order(Date date, Location customerLocation, Store store) {
+    public Order(Customer customer, Date date, Store store) {
         this.id = numOrders;
+        this.customer = customer;
         this.date = date;
-        this.customerLocation = customerLocation;
         this.store = store;
         orderLines = new HashMap<>();
         store.addOrder(this);
@@ -104,11 +103,12 @@ public class Order {
 
     public void finish() {
         updateDeliveryCost();
-        store.updateTotalDeliveriesRevenue(customerLocation);
+        store.updateTotalDeliveriesRevenue(customer.getLocation());
+        customer.addOrder(this);
     }
 
     public void updateDeliveryCost() {
-        float cost = store.getDeliveryCost(customerLocation);
+        float cost = store.getDeliveryCost(customer.getLocation());
         deliveryCost += cost;
     }
 
@@ -121,7 +121,7 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", date=" + date +
-                ", customerLocation=" + customerLocation +
+                ", customer=" + customer +
                 ", store=" + store +
                 ", orderLines=" + orderLines +
                 ", itemsCost=" + itemsCost +
