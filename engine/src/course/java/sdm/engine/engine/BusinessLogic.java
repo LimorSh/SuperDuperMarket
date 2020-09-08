@@ -121,11 +121,6 @@ public class BusinessLogic {
         return superDuperMarket.getItemName(id);
     }
 
-    public double getDistanceBetweenCustomerAndStore(StoreDto storeDto, int customerLocationX, int customerLocationY) {
-        return Distance.getDistanceBetweenTwoLocations(storeDto.getXLocation(), storeDto.getYLocation(),
-                                                                    customerLocationX, customerLocationY);
-    }
-
     public void createOrder(CustomerDto customerDto, Date date, StoreDto store, Map<Integer, Float> itemsIdsAndQuantities) {
         int x = customerDto.getXLocation();
         int y = customerDto.getYLocation();
@@ -203,10 +198,17 @@ public class BusinessLogic {
         }
     }
 
+    public double getDistanceBetweenCustomerAndStore(StoreDto storeDto, int customerLocationX, int customerLocationY) {
+        return Distance.getDistanceBetweenTwoLocations(storeDto.getXLocation(), storeDto.getYLocation(),
+                customerLocationX, customerLocationY);
+    }
+
     public float getDeliveryCost(int storeId, int customerId) {
         return superDuperMarket.getDeliveryCost(storeId, customerId);
     }
 
-
+    public double getDistanceBetweenCustomerAndStore(int storeId, int customerId) {
+        return superDuperMarket.getDistanceBetweenCustomerAndStore(storeId, customerId);
+    }
 
 }

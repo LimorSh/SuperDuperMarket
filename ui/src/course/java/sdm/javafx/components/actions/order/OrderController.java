@@ -4,6 +4,7 @@ import course.java.sdm.engine.dto.*;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.staticOrder.StoreInfo;
 import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsController;
+import course.java.sdm.javafx.components.actions.order.summery.singleStore.SingleStoreInfo;
 import course.java.sdm.javafx.components.main.SuperDuperMarketController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -174,13 +175,26 @@ public class OrderController extends OrderData {
         orderSummeryInfo.setCustomerId(customerId);
         CustomerDto customerDto = businessLogic.getCustomerDto(customerId);
         orderSummeryInfo.setCustomerName(customerDto.getName());
-        orderSummeryInfo.setCustomerXLocation(customerDto.getXLocation());
-        orderSummeryInfo.setCustomerYLocation(customerDto.getYLocation());
+        int customerXLocation = customerDto.getXLocation();
+        int customerYLocation = customerDto.getYLocation();
+        orderSummeryInfo.setCustomerXLocation(customerXLocation);
+        orderSummeryInfo.setCustomerYLocation(customerYLocation);
 
         float itemsCost = storeItemsController.getItemsCost();
         orderSummeryInfo.setItemsCost(itemsCost);
         orderSummeryInfo.setDeliveryCost(deliveryCost.floatValue());
         orderSummeryInfo.setTotalCost(itemsCost + deliveryCost.floatValue());
+
+        SingleStoreInfo singleStoreInfo = new SingleStoreInfo();
+        int storeId = getSelectedStoreId();
+        singleStoreInfo.setId(storeId);
+        StoreDto storeDto = businessLogic.getStoreDto(storeId);
+        singleStoreInfo.setName(storeDto.getName());
+        singleStoreInfo.setPpk(storeDto.getPpk());
+        singleStoreInfo.setDistance(businessLogic.getDistanceBetweenCustomerAndStore(storeId, customerId));
+        singleStoreInfo.setDeliveryCost(businessLogic.getDeliveryCost(storeId, customerId));
+
+        orderSummeryInfo.addSingleStoreInfo(singleStoreInfo);
 
     }
 

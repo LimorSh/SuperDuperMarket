@@ -21,9 +21,4 @@ public class SingleItemController extends ItemData {
         averagePriceLabel.textProperty().bind(averagePrice.asString());
         totalSellsLabel.textProperty().bind(totalSells.asString());
     }
-
-
-
-
-
 }

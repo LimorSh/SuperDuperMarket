@@ -6,6 +6,7 @@ public class SuperDuperMarketConstants {
 
     public static final int INIT_INT = -1;
     public static final float INIT_FLOAT = -1f;
+    public static final double INIT_DOUBLE = -1d;
     public static final String INIT_STRING = "";
 
     private static final String BASE_PACKAGE = "/course/java/sdm/javafx";
@@ -33,5 +34,11 @@ public class SuperDuperMarketConstants {
 
     private static final String ORDER_SUMMERY_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/order-summery.fxml";
     public static final URL ORDER_SUMMERY_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ORDER_SUMMERY_FXML_RESOURCE_IDENTIFIER);
+
+    private static final String ORDER_SUMMERY_STORES_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/stores/stores.fxml";
+    public static final URL ORDER_SUMMERY_STORES_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ORDER_SUMMERY_STORES_FXML_RESOURCE_IDENTIFIER);
+
+    private static final String ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/singleStore/single-store.fxml";
+    public static final URL ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE_IDENTIFIER);
 
 }

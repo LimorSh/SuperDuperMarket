@@ -3,6 +3,8 @@ import course.java.sdm.engine.exception.DuplicateElementIdException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheStoreException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheSuperException;
 import course.java.sdm.engine.exception.DuplicateLocationException;
+
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class SuperDuperMarket {
@@ -299,7 +301,12 @@ public class SuperDuperMarket {
         return store.getDeliveryCost(customer.getLocation());
     }
 
-
+    public double getDistanceBetweenCustomerAndStore(int storeId, int customerId) {
+        Store store = stores.get(storeId);
+        Customer customer = customers.get(customerId);
+        Location customerLocation = customer.getLocation();
+        return store.getDistance(customerLocation);
+    }
 
 
 

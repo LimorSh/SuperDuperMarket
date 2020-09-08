@@ -120,7 +120,9 @@ public class SuperDuperMarketController {
             OrderSummeryController orderSummeryController = loader.getController();
 
             orderSummeryController.setDataValues(orderSummeryInfo);
+            orderSummeryController.showStores(orderSummeryInfo.getSingleStoresInfo());
             superDuperMarketBorderPane.setCenter(orderSummery);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
