@@ -9,5 +9,4 @@ public class UpdateItemData {
     public void setBusinessLogic(BusinessLogic businessLogic) {
         this.businessLogic = businessLogic;
     }
-
 }
