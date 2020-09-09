@@ -9,6 +9,7 @@ import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.OrderController;
 import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryController;
 import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryInfo;
+import course.java.sdm.javafx.components.actions.updateItem.UpdateItemController;
 import course.java.sdm.javafx.components.sdmData.customers.CustomersController;
 import course.java.sdm.javafx.components.sdmData.items.ItemsController;
 import course.java.sdm.javafx.components.sdmData.stores.StoresController;
@@ -91,7 +92,20 @@ public class SuperDuperMarketController {
 
     @FXML
     void updateItemButtonAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.UPDATE_ITEM_FXML_RESOURCE);
+            Node updateItem = loader.load();
+            UpdateItemController updateItemController = loader.getController();
 
+//            updateItemController.setSuperDuperMarketController(this);
+            updateItemController.setBusinessLogic(businessLogic);
+            updateItemController.updateItem();
+
+            superDuperMarketBorderPane.setCenter(updateItem);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -107,7 +121,6 @@ public class SuperDuperMarketController {
             orderController.createOrder();
 
             superDuperMarketBorderPane.setCenter(order);
-            // send uiOrderDto back to engine.
         } catch (IOException e) {
             e.printStackTrace();
         }

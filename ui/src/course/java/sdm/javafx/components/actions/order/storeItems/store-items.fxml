@@ -13,9 +13,9 @@
       <TableView fx:id="tableView" prefHeight="150.0">
         <columns>
           <TableColumn fx:id="itemIdCol" prefWidth="52.0" text="Item ID" />
-          <TableColumn fx:id="nameCol" prefWidth="96.0" text="Name" />
-            <TableColumn fx:id="purchaseCategoryCol" prefWidth="115.0" text="Purchase Category" />
-            <TableColumn fx:id="priceCol" prefWidth="136.0" text="Price" />
+          <TableColumn fx:id="nameCol" prefWidth="108.0" text="Name" />
+            <TableColumn fx:id="purchaseCategoryCol" prefWidth="117.0" text="Purchase Category" />
+            <TableColumn fx:id="priceCol" prefWidth="122.0" text="Price" />
         </columns>
       </TableView>
       <TextField fx:id="quantityTextField" layoutX="62.0" layoutY="155.0" prefHeight="25.0" prefWidth="87.0" visible="false" />

@@ -46,4 +46,7 @@ public class SuperDuperMarketConstants {
     private static final String ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/singleStore/order-summery-single-store.fxml";
     public static final URL ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE_IDENTIFIER);
 
+    private static final String UPDATE_ITEM_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/updateItem/update-item.fxml";
+    public static final URL UPDATE_ITEM_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.UPDATE_ITEM_FXML_RESOURCE_IDENTIFIER);
+
 }

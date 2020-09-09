@@ -1,23 +1,19 @@
 package course.java.sdm.javafx.components.actions.order;
 
 import course.java.sdm.engine.dto.*;
-import course.java.sdm.engine.engine.OrderLine;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
-import course.java.sdm.javafx.components.actions.order.staticOrder.StoreInfo;
-import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemData;
+import course.java.sdm.javafx.components.actions.info.StoreInfo;
 import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsController;
 import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreInfo;
 import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreItemInfo;
 import course.java.sdm.javafx.components.main.SuperDuperMarketController;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;

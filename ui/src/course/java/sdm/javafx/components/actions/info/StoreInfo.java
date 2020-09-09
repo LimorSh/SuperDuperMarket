@@ -1,4 +1,4 @@
-package course.java.sdm.javafx.components.actions.order.staticOrder;
+package course.java.sdm.javafx.components.actions.info;
 
 import course.java.sdm.engine.dto.StoreDto;
 
