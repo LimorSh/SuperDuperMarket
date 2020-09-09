@@ -11,6 +11,7 @@ import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryContr
 import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryInfo;
 import course.java.sdm.javafx.components.sdmData.customers.CustomersController;
 import course.java.sdm.javafx.components.sdmData.items.ItemsController;
+import course.java.sdm.javafx.components.sdmData.stores.StoresController;
 import course.java.sdm.javafx.dto.UIOrderDto;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
@@ -150,7 +151,19 @@ public class SuperDuperMarketController {
 
     @FXML
     void storesButtonAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.STORES_FXML_RESOURCE);
+            Node stores = loader.load();
+            StoresController storesController = loader.getController();
 
+            Collection<StoreDto> storesDto = businessLogic.getStoresDto();
+            storesController.createAllStores(storesDto);
+
+            superDuperMarketBorderPane.setCenter(stores);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

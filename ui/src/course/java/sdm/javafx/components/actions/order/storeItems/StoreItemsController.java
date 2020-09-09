@@ -76,16 +76,16 @@ public class StoreItemsController extends StoreItemsData {
             final ObservableList<StoreItemData> data = FXCollections.observableArrayList(storeItemsData);
 
             itemIdCol.setCellValueFactory(
-                    new PropertyValueFactory<StoreItemData,Integer>("id")
+                    new PropertyValueFactory<>("id")
             );
             nameCol.setCellValueFactory(
-                    new PropertyValueFactory<StoreItemData,String>("name")
+                    new PropertyValueFactory<>("name")
             );
             purchaseCategoryCol.setCellValueFactory(
-                    new PropertyValueFactory<StoreItemData,String>("purchaseCategory")
+                    new PropertyValueFactory<>("purchaseCategory")
             );
             priceCol.setCellValueFactory(
-                    new PropertyValueFactory<StoreItemData,String>("price")
+                    new PropertyValueFactory<>("price")
             );
 
             tableView.setItems(data);

@@ -1,10 +1,5 @@
 package course.java.sdm.javafx.components.actions.order.summery.singleStore;
 
-import course.java.sdm.engine.dto.ItemWithPriceDto;
-import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemData;
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -77,6 +72,4 @@ public class OrderSummerySingleStoreController extends OrderSummerySingleStoreDa
             // show no store items component!
         }
     }
-
-
 }

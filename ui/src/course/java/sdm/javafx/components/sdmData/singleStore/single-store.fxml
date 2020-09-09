@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="895.0" stylesheets="@single-store-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.singleStore.SingleStoreController">
+   <children>
+      <Label fx:id="nameValueLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="291.0" layoutY="14.0" prefHeight="27.0" prefWidth="227.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <HBox layoutY="44.0" prefHeight="37.0" prefWidth="726.0" spacing="10.0">
+         <children>
+            <Label text="ID:" />
+            <Label fx:id="idValueLabel" minWidth="60.0" />
+            <Label text="PPK:" />
+            <Label fx:id="ppkValueLabel" minWidth="60.0" />
+            <Label text="Total delivery revenue:" />
+            <Label fx:id="totalDeliveryRevenueValueLabel" minWidth="60.0" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+      <TableView fx:id="itemsTableView" layoutY="106.0" prefHeight="174.0" prefWidth="404.0">
+        <columns>
+          <TableColumn fx:id="itemIdCol" prefWidth="43.0" text="ID" />
+          <TableColumn fx:id="itemNameCol" prefWidth="79.0" text="Name" />
+            <TableColumn fx:id="itemPurchaseCategoryCol" prefWidth="115.0" text="Purchase Category" />
+            <TableColumn fx:id="itemPricePerUnitCol" prefWidth="87.0" text="Price Per Unit" />
+            <TableColumn fx:id="itemTotalSoldCol" text="Total Sells" />
+        </columns>
+      </TableView>
+      <Label layoutX="180.0" layoutY="81.0" text="Items:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="646.0" layoutY="81.0" text="Orders:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <TableView fx:id="ordersTableView" layoutX="449.0" layoutY="106.0" prefHeight="174.0" prefWidth="446.0">
+         <columns>
+            <TableColumn fx:id="orderDateCol" prefWidth="96.0" text="Date" />
+            <TableColumn fx:id="orderTotalItemsCol" prefWidth="78.0" text="Total Items" />
+            <TableColumn fx:id="orderTotalItemsCostCol" prefWidth="100.0" text="Total Items Cost" />
+            <TableColumn fx:id="orderDeliveryCostCol" prefWidth="86.0" text="Delivery Cost" />
+            <TableColumn fx:id="orderTotalCostCol" prefWidth="83.0" text="Total Cost" />
+         </columns>
+      </TableView>
+      <ScrollPane layoutY="300.0" prefHeight="102.0" prefWidth="895.0">
+         <content>
+            <FlowPane fx:id="discountsFlowPane" prefHeight="95.0" prefWidth="872.0" />
+         </content>
+      </ScrollPane>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</Pane>
