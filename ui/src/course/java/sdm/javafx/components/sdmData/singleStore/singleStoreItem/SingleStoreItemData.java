@@ -1,4 +1,4 @@
-package course.java.sdm.javafx.components.sdmData.singleStore.SingleStoreItem;
+package course.java.sdm.javafx.components.sdmData.singleStore.singleStoreItem;
 
 import course.java.sdm.engine.dto.StoreItemDto;
 import javafx.beans.property.SimpleFloatProperty;

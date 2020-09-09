@@ -26,8 +26,8 @@ public class OrderSummeryData {
         totalCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
     }
 
-    public void setDate(LocalDate date) {
-        this.date.set(String.format("%d/%d/%d", date.getDayOfMonth(), date.getMonthValue(), date.getYear()));
+    public void setDate(LocalDate localDate) {
+        this.date.set(UtilsUI.convertLocalDateToString(localDate));
     }
 
     private void setCustomerDetails(int id, String name, int xLocation, int yLocation) {

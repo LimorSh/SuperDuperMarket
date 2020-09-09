@@ -1,11 +1,9 @@
 package course.java.sdm.javafx.components.sdmData.singleStore;
 
-import course.java.sdm.engine.dto.ItemWithPriceDto;
+import course.java.sdm.engine.dto.OrderDto;
 import course.java.sdm.engine.dto.StoreItemDto;
-import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemData;
-import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySinglePurchasedItemData;
-import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreItemInfo;
-import course.java.sdm.javafx.components.sdmData.singleStore.SingleStoreItem.SingleStoreItemData;
+import course.java.sdm.javafx.components.sdmData.singleStore.singleStoreOrder.SingleStoreOrderData;
+import course.java.sdm.javafx.components.sdmData.singleStore.singleStoreItem.SingleStoreItemData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -32,12 +30,12 @@ public class SingleStoreController extends StoreData {
     @FXML private TableColumn<SingleStoreItemData, Float> itemPricePerUnitCol;
     @FXML private TableColumn<SingleStoreItemData, Float> itemTotalSoldCol;
 
-    @FXML private TableView<?> ordersTableView;
-    @FXML private TableColumn<?, ?> orderDateCol;
-    @FXML private TableColumn<?, ?> orderTotalItemsCol;
-    @FXML private TableColumn<?, ?> orderTotalItemsCostCol;
-    @FXML private TableColumn<?, ?> orderDeliveryCostCol;
-    @FXML private TableColumn<?, ?> orderTotalCostCol;
+    @FXML private TableView<SingleStoreOrderData> ordersTableView;
+    @FXML private TableColumn<SingleStoreOrderData, String> orderDateCol;
+    @FXML private TableColumn<SingleStoreOrderData, Integer> orderTotalItemsCol;
+    @FXML private TableColumn<SingleStoreOrderData, Float> orderItemsCostCol;
+    @FXML private TableColumn<SingleStoreOrderData, Float> orderDeliveryCostCol;
+    @FXML private TableColumn<SingleStoreOrderData, Float> orderTotalCostCol;
 
     @FXML private FlowPane discountsFlowPane;
 
@@ -81,4 +79,35 @@ public class SingleStoreController extends StoreData {
         }
     }
 
+    public void setOrdersTableView(Collection<OrderDto> ordersDto) {
+        if (!ordersDto.isEmpty()) {
+            ArrayList<SingleStoreOrderData> singleStoreOrdersData = new ArrayList<>();
+            for (OrderDto orderDto : ordersDto) {
+                SingleStoreOrderData singleStoreOrderData = new SingleStoreOrderData(orderDto);
+                singleStoreOrdersData.add(singleStoreOrderData);
+            }
+            final ObservableList<SingleStoreOrderData> data = FXCollections.observableArrayList(singleStoreOrdersData);
+
+            orderDateCol.setCellValueFactory(
+                    new PropertyValueFactory<>("date")
+            );
+            orderTotalItemsCol.setCellValueFactory(
+                    new PropertyValueFactory<>("totalItems")
+            );
+            orderItemsCostCol.setCellValueFactory(
+                    new PropertyValueFactory<>("itemsCost")
+            );
+            orderDeliveryCostCol.setCellValueFactory(
+                    new PropertyValueFactory<>("deliveryCost")
+            );
+            orderTotalCostCol.setCellValueFactory(
+                    new PropertyValueFactory<>("totalCost")
+            );
+
+            ordersTableView.setItems(data);
+        }
+        else {
+            // show no store orders component!
+        }
+    }
 }
