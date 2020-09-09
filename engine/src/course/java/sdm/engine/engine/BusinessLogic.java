@@ -126,10 +126,10 @@ public class BusinessLogic {
 
     public CustomerDto getCustomerDto(int id) {
         Customer customer = superDuperMarket.getCustomer(id);
-        float totalOrdersCost = customer.getTotalOrdersCost();
+        int numberOfOrders = customer.getNumberOfOrders();
         float averageItemsCost = customer.getAverageItemsCost();
         float averageDeliveriesCost = customer.getAverageDeliveriesCost();
-        return (new CustomerDto(customer, totalOrdersCost, averageItemsCost, averageDeliveriesCost));
+        return (new CustomerDto(customer, numberOfOrders, averageItemsCost, averageDeliveriesCost));
     }
 
 

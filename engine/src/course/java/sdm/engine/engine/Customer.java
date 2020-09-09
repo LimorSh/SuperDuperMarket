@@ -82,14 +82,8 @@ public class Customer {
         return orders.isEmpty();
     }
 
-    public float getTotalOrdersCost() {
-        float sum = 0f;
-
-        for (Order order : orders.values()) {
-            sum += order.getTotalCost();
-        }
-
-        return sum;
+    public int getNumberOfOrders() {
+        return orders.size();
     }
 
     public float getAverageItemsCost() {

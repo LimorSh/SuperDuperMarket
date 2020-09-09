@@ -12,7 +12,7 @@ public class CustomerData {
     protected SimpleIntegerProperty id;
     protected SimpleStringProperty name;
     protected SimpleStringProperty location;
-    protected SimpleFloatProperty totalOrdersCost;
+    protected SimpleIntegerProperty numberOfOrders;
     protected SimpleFloatProperty averageItemsCost;
     protected SimpleFloatProperty averageDeliveriesCost;
 
@@ -20,7 +20,7 @@ public class CustomerData {
         this.id = new SimpleIntegerProperty(SuperDuperMarketConstants.INIT_INT);
         this.name = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
         this.location = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
-        this.totalOrdersCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
+        this.numberOfOrders = new SimpleIntegerProperty(SuperDuperMarketConstants.INIT_INT);
         this.averageItemsCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
         this.averageDeliveriesCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
     }
@@ -37,8 +37,8 @@ public class CustomerData {
         this.location.set(String.format("(%d,%d)", x, y));
     }
 
-    public void setTotalOrdersCost(float totalOrdersCost) {
-        this.totalOrdersCost.set(UtilsUI.roundNumberWithTwoDigitsAfterPoint(totalOrdersCost));
+    public void setNumberOfOrders(int numberOfOrders) {
+        this.numberOfOrders.set(numberOfOrders);
     }
 
     public void setAverageItemsCost(float averageItemsCost) {
@@ -53,7 +53,7 @@ public class CustomerData {
         setId(customerDto.getId());
         setName(customerDto.getName());
         setLocation(customerDto.getXLocation(), customerDto.getYLocation());
-        setTotalOrdersCost(customerDto.getTotalOrdersCost());
+        setNumberOfOrders(customerDto.getNumberOfOrders());
         setAverageItemsCost(customerDto.getAverageItemsCost());
         setAverageDeliveriesCost(customerDto.getAverageDeliveriesCost());
     }

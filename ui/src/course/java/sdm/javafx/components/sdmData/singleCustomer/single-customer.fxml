@@ -29,8 +29,8 @@
                 <Label fx:id="nameValueLabel" layoutX="125.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <Label styleClass="field-label" text="Location:" GridPane.rowIndex="2" />
                 <Label fx:id="locationValueLabel" layoutX="125.0" layoutY="47.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <Label styleClass="field-label" text="Total orders cost:" GridPane.rowIndex="3" />
-                <Label fx:id="totalOrdersCostValueLabel" layoutX="10.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Label styleClass="field-label" text="Number of orders:" GridPane.rowIndex="3" />
+                <Label fx:id="numberOfOrdersValueLabel" layoutX="10.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <Label styleClass="field-label" text="Average items cost:" GridPane.rowIndex="4" />
                 <Label fx:id="averageItemsCostValueLabel" layoutX="10.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                 <Label styleClass="field-label" text="Average deliveries cost:" GridPane.rowIndex="5" />

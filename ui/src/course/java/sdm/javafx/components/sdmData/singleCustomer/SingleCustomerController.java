@@ -8,7 +8,7 @@ public class SingleCustomerController extends CustomerData{
     @FXML private Label idValueLabel;
     @FXML private Label nameValueLabel;
     @FXML private Label locationValueLabel;
-    @FXML private Label totalOrdersCostValueLabel;
+    @FXML private Label numberOfOrdersValueLabel;
     @FXML private Label averageItemsCostValueLabel;
     @FXML private Label averageDeliveriesCostValueLabel;
 
@@ -17,7 +17,7 @@ public class SingleCustomerController extends CustomerData{
         idValueLabel.textProperty().bind(id.asString());
         nameValueLabel.textProperty().bind(name);
         locationValueLabel.textProperty().bind(location);
-        totalOrdersCostValueLabel.textProperty().bind(totalOrdersCost.asString());
+        numberOfOrdersValueLabel.textProperty().bind(numberOfOrders.asString());
         averageItemsCostValueLabel.textProperty().bind(averageItemsCost.asString());
         averageDeliveriesCostValueLabel.textProperty().bind(averageDeliveriesCost.asString());
     }
