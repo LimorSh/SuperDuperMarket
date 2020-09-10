@@ -6,28 +6,51 @@ public class StoreOrder {
 
     private final Store store;
     private final Map<Integer, OrderLine> orderLines; //the key is itemId
-    private final int totalItems;
-    private final float itemsCost;
-    private final float deliveryCost;
-    private final float totalCost;
+    private int totalItems;
+    private float itemsCost;
+    private float deliveryCost;
+    private float totalCost;
 
-    public StoreOrder(Store store, Map<Integer, OrderLine> orderLines,
-                      int totalItems, float itemsCost, float deliveryCost, float totalCost) {
+
+    public StoreOrder(Store store, Map<Integer, OrderLine> orderLines) {
         this.store = store;
         this.orderLines = orderLines;
-        this.totalItems = totalItems;
-        this.itemsCost = itemsCost;
-        this.deliveryCost = deliveryCost;
-        this.totalCost = totalCost;
+    }
+
+    public void SetValues(Location customerLocation) {
+        setItemsCost();
+        setDeliveryCost(customerLocation);
+        setTotalCost();
+        setTotalItems();
+    }
+
+    public void setItemsCost() {
+        for (OrderLine orderline : orderLines.values()) {
+            this.itemsCost += orderline.calcItemCost();
+        }
+    }
+
+    public void setDeliveryCost(Location customerLocation) {
+        this.deliveryCost = store.getDeliveryCost(customerLocation);
+    }
+
+    public void setTotalCost() {
+        this.totalCost = itemsCost + deliveryCost;
+    }
+
+    public void setTotalItems() {
+        for (OrderLine orderline : orderLines.values()) {
+            this.totalItems += orderline.calcTotalItems();
+        }
     }
 
     public Store getStore() {
         return store;
     }
 
-    public Map<Integer, OrderLine> getOrderLines() {
-        return orderLines;
-    }
+//    public Map<Integer, OrderLine> getOrderLines() {
+//        return orderLines;
+//    }
 
     public int getTotalItems() {
         return totalItems;
@@ -47,5 +70,9 @@ public class StoreOrder {
 
     public boolean isContainItem(int id) {
         return orderLines.containsKey(id);
+    }
+
+    public float getItemQuantity(int id) {
+        return orderLines.get(id).getQuantity();
     }
 }
