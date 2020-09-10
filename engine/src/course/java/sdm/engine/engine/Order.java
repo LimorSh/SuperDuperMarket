@@ -1,7 +1,5 @@
 package course.java.sdm.engine.engine;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Order {
 
@@ -9,20 +7,16 @@ public class Order {
     private final int id;
     private final Date date;
     private final Customer customer;
-    private final Store store;
-    private final Map<Integer, OrderLine> orderLines; //the key is itemId
-//    private final Map<Integer, Set<OrderLine>> orderLines; //the key is itemId
+    private final Map<Integer, StoreOrder> storesOrder;     //The key is store id
     private float itemsCost;
     private float deliveryCost;
     private int totalItems;
 
-    public Order(Customer customer, Date date, Store store) {
+    public Order(Customer customer, Date date) {
         this.id = numOrders;
         this.customer = customer;
         this.date = date;
-        this.store = store;
-        orderLines = new HashMap<>();
-        store.addOrder(this);
+        storesOrder = new HashMap<>();
         numOrders++;
     }
 
@@ -34,12 +28,8 @@ public class Order {
         return date;
     }
 
-    public Store getStore() {
-        return store;
-    }
-
-    public Map<Integer, OrderLine> getOrderLines() {
-        return orderLines;
+    public Map<Integer, StoreOrder> getStoresOrder() {
+        return storesOrder;
     }
 
     public float getItemsCost() {
@@ -58,15 +48,20 @@ public class Order {
         return totalItems;
     }
 
-    public int getTotalItemsTypes() {
-        return orderLines.keySet().size();
-    }
-
     public boolean isItemInTheOrder(int id) {
-        return orderLines.containsKey(id);
+        for (StoreOrder storeOrder : storesOrder.values()) {
+            if (storeOrder.isContainItem(id)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void addOrderLines(Map<Item, Float> itemsAndQuantities) {
+
+        //do this for every store
+//        store.addOrder(this);
+
         itemsAndQuantities.forEach((item,itemQuantity) -> {
             int itemId = item.getId();
             float itemPrice = store.getItemPrice(itemId);
