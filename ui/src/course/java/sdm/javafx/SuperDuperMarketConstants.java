@@ -23,6 +23,11 @@ public class SuperDuperMarketConstants {
     private static final String CUSTOMERS_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/sdmData/customers/customers.fxml";
     public static final URL CUSTOMERS_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.CUSTOMERS_FXML_RESOURCE_IDENTIFIER);
 
+    private static final String SINGLE_ORDER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/sdmData/singleOrder/single-order.fxml";
+    public static final URL SINGLE_ORDER_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.SINGLE_ORDER_FXML_RESOURCE_IDENTIFIER);
+    private static final String ORDERS_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/sdmData/orders/orders.fxml";
+    public static final URL ORDERS_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ORDERS_FXML_RESOURCE_IDENTIFIER);
+
     private static final String SINGLE_STORE_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/sdmData/singleStore/single-store.fxml";
     public static final URL SINGLE_STORE_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.SINGLE_STORE_FXML_RESOURCE_IDENTIFIER);
     private static final String STORES_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/sdmData/stores/stores.fxml";

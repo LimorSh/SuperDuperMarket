@@ -1,4 +1,4 @@
-package course.java.sdm.javafx.components.actions.order.summery.stores;
+package course.java.sdm.javafx.components.sdmData.SingleOrder.allStores;
 
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreController;
@@ -10,9 +10,10 @@ import javafx.scene.layout.FlowPane;
 import java.io.IOException;
 import java.util.Collection;
 
-public class OrderSummeryStoresController {
+public class AllStoresController {
 
     @FXML private FlowPane flowPane;
+
 
     public void createAllStores(Collection<OrderSummerySingleStoreInfo> singleStoresInfo) {
         if (!singleStoresInfo.isEmpty()) {
@@ -41,4 +42,3 @@ public class OrderSummeryStoresController {
         }
     }
 }
-
