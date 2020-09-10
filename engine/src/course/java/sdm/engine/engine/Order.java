@@ -57,10 +57,31 @@ public class Order {
         return false;
     }
 
-    public void addOrderLines(Map<Item, Float> itemsAndQuantities) {
+//    public void addOrderLines(Map<Item, Float> itemsAndQuantities) {
+//
+//        //do this for every store
+////        store.addOrder(this);
+//
+//        itemsAndQuantities.forEach((item,itemQuantity) -> {
+//            int itemId = item.getId();
+//            float itemPrice = store.getItemPrice(itemId);
+//            if (!orderLines.containsKey(itemId)) {
+//                OrderLine orderLine = new OrderLine(item, itemQuantity, itemPrice);
+//                orderLines.put(itemId, orderLine);
+//            }
+//            else {
+//                float totalQuantity = itemQuantity;
+//                totalQuantity += orderLines.get(itemId).getQuantity();
+//                orderLines.get(itemId).setQuantity(totalQuantity);
+//            }
+//            updateOrderData(item, itemQuantity);
+//        });
+//    }
 
-        //do this for every store
-//        store.addOrder(this);
+    public void addStoreOrder(Store store, Map<Item, Float> itemsAndQuantities) {
+        store.addOrder(this);
+
+        Map<Integer, OrderLine> orderLines = new HashMap<>();
 
         itemsAndQuantities.forEach((item,itemQuantity) -> {
             int itemId = item.getId();
@@ -74,14 +95,48 @@ public class Order {
                 totalQuantity += orderLines.get(itemId).getQuantity();
                 orderLines.get(itemId).setQuantity(totalQuantity);
             }
-            updateOrderData(item, itemQuantity);
+            updateOrderData(store, item, itemQuantity);
         });
+
+        StoreOrder storeOrder = new StoreOrder(store, orderLines, totalItems, itemsCost,
+                deliveryCost, getTotalCost());
+
+        storesOrder.put(store.getId(), storeOrder);
     }
 
-    private void updateOrderData(Item item, float itemQuantity) {
+    public void addStoresOrder(Map<Store, Map<Item, Float>> storesToItemsAndQuantities) {
+        storesToItemsAndQuantities.forEach((store,itemsAndQuantities) -> {
+            store.addOrder(this);
+
+            Map<Integer, OrderLine> orderLines = new HashMap<>();
+
+            itemsAndQuantities.forEach((item,itemQuantity) -> {
+                int itemId = item.getId();
+                float itemPrice = store.getItemPrice(itemId);
+                if (!orderLines.containsKey(itemId)) {
+                    OrderLine orderLine = new OrderLine(item, itemQuantity, itemPrice);
+                    orderLines.put(itemId, orderLine);
+                }
+                else {
+                    float totalQuantity = itemQuantity;
+                    totalQuantity += orderLines.get(itemId).getQuantity();
+                    orderLines.get(itemId).setQuantity(totalQuantity);
+                }
+                updateOrderData(store, item, itemQuantity);
+            });
+
+            StoreOrder storeOrder = new StoreOrder(store, orderLines, totalItems, itemsCost,
+                    deliveryCost, getTotalCost());
+
+            storesOrder.put(store.getId(), storeOrder);
+
+        }
+    }
+
+    private void updateOrderData(Store store, Item item, float itemQuantity) {
         updateTotalItems(item.getPurchaseCategory(), itemQuantity);
-        updateItemsCost(item, itemQuantity);
-        updateTotalNumberSoldItemInStore(item, itemQuantity);
+        updateItemsCost(store, item, itemQuantity);
+        updateTotalNumberSoldItemInStore(store, item, itemQuantity);
     }
 
     public void updateTotalItems(Item.PurchaseCategory purchaseCategory, float quantity) {
@@ -91,52 +146,59 @@ public class Order {
             totalItems++;
     }
 
-    public void updateItemsCost(Item item, float quantity) {
+    public void updateItemsCost(Store store, Item item, float quantity) {
         float itemCost = (store.getItemPrice(item));
         itemsCost += (itemCost * quantity);
     }
 
-    public void finish() {
-        updateDeliveryCost();
-        store.updateTotalDeliveriesRevenue(customer.getLocation());
-        customer.addOrder(this);
-    }
-
-    public void updateDeliveryCost() {
+    public void updateDeliveryCost(Store store) {
         float cost = store.getDeliveryCost(customer.getLocation());
         deliveryCost += cost;
     }
 
-    public void updateTotalNumberSoldItemInStore(Item item, float quantity) {
+    public void updateTotalNumberSoldItemInStore(Store store, Item item, float quantity) {
         store.updateTotalNumberSoldItem(item, quantity);
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", date=" + date +
-                ", customer=" + customer +
-                ", store=" + store +
-                ", orderLines=" + orderLines +
-                ", itemsCost=" + itemsCost +
-                ", deliveryCost=" + deliveryCost +
-                ", totalItems=" + totalItems +
-                '}';
+    public void finish(Store store) {
+        updateDeliveryCost(store);
+        store.updateTotalDeliveriesRevenue(customer.getLocation());
+        customer.addOrder(this);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Order order = (Order) o;
-
-        return id == order.id;
+    public void finish(Collection<Store> stores) {
+        for (Store store : stores) {
+            finish(store);
+        }
     }
 
-    @Override
-    public int hashCode() {
-        return id;
-    }
+
+//    @Override
+//    public String toString() {
+//        return "Order{" +
+//                "id=" + id +
+//                ", date=" + date +
+//                ", customer=" + customer +
+//                ", store=" + store +
+//                ", orderLines=" + orderLines +
+//                ", itemsCost=" + itemsCost +
+//                ", deliveryCost=" + deliveryCost +
+//                ", totalItems=" + totalItems +
+//                '}';
+//    }
+//
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Order order = (Order) o;
+//
+//        return id == order.id;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return id;
+//    }
 }

@@ -293,7 +293,7 @@ public class SuperDuperMarket {
         return store.getDistance(customerLocation);
     }
 
-    public Map<Integer, Store> getOptimalCard(Collection<Integer> itemsIds) {
+    public Map<Integer, Store> getOptimalCart(Collection<Integer> itemsIds) {
         Map<Integer, Store> itemsToStores = new HashMap<>();
         for (Integer id : itemsIds) {
             Store minStore = null;
@@ -314,22 +314,26 @@ public class SuperDuperMarket {
     }
 
     public void createOrder(int customerId, Date date, Map<Integer, Float> itemsIdsAndQuantities) {
+        Map<Integer, Store> itemsToStores = getOptimalCart(itemsIdsAndQuantities.keySet());
+
 
     }
 
     public void createOrder(int customerId, Date date, int storeId, Map<Integer, Float> itemsIdsAndQuantities) {
         Customer customer = getCustomer(customerId);
-        Store store = getStore(storeId);
-        Order order = new Order(customer, date, store);
+        Order order = new Order(customer, date);
         addOrder(order);
+
+        Store store = getStore(storeId);
 
         Map<Item, Float> itemsAndQuantities = new HashMap<>();
         itemsIdsAndQuantities.forEach((itemId,itemQuantity) -> {
             Item item = getItem(itemId);
             itemsAndQuantities.put(item, itemQuantity);
         });
-        order.addOrderLines(itemsAndQuantities);
-        order.finish();
+        order.addStoreOrder(store, itemsAndQuantities);
+
+        order.finish(store);
     }
 
 
