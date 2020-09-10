@@ -36,13 +36,6 @@ public class UpdateItemController extends UpdateItemData {
 
     private final ToggleGroup actionRadioButtonsGroup;
 
-    private static final String DELETE_ITEM = "Delete Item";
-    private static final String ADD_ITEM = "Add Item";
-    private static final String UPDATE_PRICE = "Update Price";
-    private static final String DELETE_ITEM_SUCCESS = "The item was deleted from the store successfully!";
-    private static final String ADD_ITEM_SUCCESS = "The item was added to the store successfully!";
-    private static final String UPDATE_ITEM_SUCCESS = "The item price was updated successfully!";
-
 
     public UpdateItemController() {
         super();
@@ -51,8 +44,6 @@ public class UpdateItemController extends UpdateItemData {
 
     @FXML
     private void initialize() {
-//        deliveryCostValueLabel.textProperty().bind(deliveryCost.asString());
-
         setActionRadioButtons();
 
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {

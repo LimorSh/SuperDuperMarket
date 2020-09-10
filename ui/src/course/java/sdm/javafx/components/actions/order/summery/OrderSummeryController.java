@@ -1,8 +1,6 @@
 package course.java.sdm.javafx.components.actions.order.summery;
 
 import course.java.sdm.javafx.SuperDuperMarketConstants;
-import course.java.sdm.javafx.components.actions.order.OrderController;
-import course.java.sdm.javafx.components.actions.order.storeItems.StoreItemsController;
 import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreInfo;
 import course.java.sdm.javafx.components.actions.order.summery.stores.OrderSummeryStoresController;
 import javafx.event.ActionEvent;

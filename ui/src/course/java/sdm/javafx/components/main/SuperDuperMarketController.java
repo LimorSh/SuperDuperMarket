@@ -1,11 +1,11 @@
 package course.java.sdm.javafx.components.main;
 
-import course.java.sdm.engine.dto.BasicCustomerDto;
 import course.java.sdm.engine.dto.CustomerDto;
 import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.engine.dto.StoreDto;
 import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
+import course.java.sdm.javafx.components.actions.loadFile.LoadFileController;
 import course.java.sdm.javafx.components.actions.order.OrderController;
 import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryController;
 import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryInfo;
@@ -45,6 +45,8 @@ public class SuperDuperMarketController {
     @FXML private Label titleVBox;
 
     private SimpleBooleanProperty isFileSelected;
+    private LoadFileController loadFileController;
+    private  Node loadFile;
 
     public SuperDuperMarketController() {
         isFileSelected = new SimpleBooleanProperty(false);
@@ -78,15 +80,29 @@ public class SuperDuperMarketController {
             return;
         }
 
-        String absolutePath = selectedFile.getAbsolutePath();
         try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.LOAD_FILE_FXML_RESOURCE);
+            Node loadFile = loader.load();
+            LoadFileController loadFileController = loader.getController();
+            this.loadFileController = loadFileController;
+            this.loadFile = loadFile;
+
+            String absolutePath = selectedFile.getAbsolutePath();
             businessLogic.loadSystemData(absolutePath);
             isFileSelected.set(true);
-            titleVBox.setStyle("-fx-text-fill: #000000;");  // check how to do bind instead
+            titleVBox.setDisable(false);
+            loadFileController.showMsg(true, true, "");
+            superDuperMarketBorderPane.setCenter(loadFile);
         }
         catch (Exception e) {
-            // activate file error component!!!
-            System.out.println(e.getMessage());
+            if (isFileSelected.getValue()) {
+                loadFileController.showMsg(false, false, e.getMessage());
+            }
+            else {
+                loadFileController.showMsg(false, true, e.getMessage());
+            }
+            superDuperMarketBorderPane.setCenter(loadFile);
         }
     }
 
