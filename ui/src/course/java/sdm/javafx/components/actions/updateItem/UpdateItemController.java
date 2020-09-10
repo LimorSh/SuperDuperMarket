@@ -35,6 +35,14 @@ public class UpdateItemController extends UpdateItemData {
 
     private final ToggleGroup actionRadioButtonsGroup;
 
+    private static final String DELETE_ITEM = "Delete Item";
+    private static final String ADD_ITEM = "Add Item";
+    private static final String UPDATE_PRICE = "Update Price";
+    private static final String DELETE_ITEM_SUCCESS = "The item was deleted from the store successfully!";
+    private static final String ADD_ITEM_SUCCESS = "The item was added to the store successfully!";
+    private static final String UPDATE_ITEM_SUCCESS = "The item price was updated successfully!";
+
+
     public UpdateItemController() {
         super();
         actionRadioButtonsGroup =  new ToggleGroup();
@@ -87,22 +95,54 @@ public class UpdateItemController extends UpdateItemData {
 
     @FXML
     void confirmButtonAction(ActionEvent event) {
+        if (actionRadioButtonsGroup.getSelectedToggle().isSelected()) {
+            int itemId = getSelectedItemId();
+            int storeId = getSelectedStoreId();
 
+            if (deleteItemRadioButton.isSelected()) {
+                businessLogic.deleteItemFromStore(itemId, storeId);
+                finish(DELETE_ITEM_SUCCESS);
+            }
+            if (addItemRadioButton.isSelected()) {
+                businessLogic.addItemToStore(itemId, getEnteredPrice(), storeId);
+                finish(ADD_ITEM_SUCCESS);
+            }
+            if (updateItemPriceRadioButton.isSelected()) {
+                businessLogic.updateItemPriceInStore(itemId, getEnteredPrice(), storeId);
+                finish(UPDATE_ITEM_SUCCESS);
+            }
+        }
     }
 
-    private void setUpdateItemPriceControls() {
-        showConfirmButton("Update Price");
-        showPriceControls(true);
+    private void finish(String msg) {
+        chooseStoreComboBox.setDisable(true);
+        deleteItemRadioButton.setDisable(true);
+        addItemRadioButton.setDisable(true);
+        updateItemPriceRadioButton.setDisable(true);
+        tableView.setDisable(true);
+        confirmButton.setDisable(true);
+        setPriceControls(true);
+        msgLabel.setVisible(true);
+        msgLabel.setText(msg);
     }
 
-    private void setAddItemControls() {
-        showConfirmButton("Add Item");
-        showPriceControls(true);
+    private float getEnteredPrice() {
+        return Float.parseFloat(priceTextField.getText());
     }
 
     private void setDeleteItemControls() {
-        showConfirmButton("Delete Item");
+        showConfirmButton(DELETE_ITEM);
         showPriceControls(false);
+    }
+
+    private void setAddItemControls() {
+        showConfirmButton(ADD_ITEM);
+        showPriceControls(true);
+    }
+
+    private void setUpdateItemPriceControls() {
+        showConfirmButton(UPDATE_PRICE);
+        showPriceControls(true);
     }
 
     private void showConfirmButton(String buttonText) {
@@ -122,6 +162,11 @@ public class UpdateItemController extends UpdateItemData {
 
     public int getSelectedStoreId() {
         return chooseStoreComboBox.getValue().getId();
+    }
+
+    private int getSelectedItemId() {
+        StoreItemData storeItemData = tableView.getSelectionModel().getSelectedItem();
+        return storeItemData.getId();
     }
 
     private void showTableView() {
