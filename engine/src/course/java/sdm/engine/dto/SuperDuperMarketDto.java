@@ -8,13 +8,6 @@ import java.util.Collection;
 
 public class SuperDuperMarketDto {
 
-    public static Collection<CustomerDto> getCustomersDto(Collection<Customer> customers) {
-        Collection<CustomerDto> customersDto = new ArrayList<>();
-        for (Customer customer : customers) {
-            customersDto.add(new CustomerDto(customer));
-        }
-        return customersDto;
-    }
 
     public static Collection<StoreDto> getStoresDto(Collection<Store> stores) {
         Collection<StoreDto> storesDto = new ArrayList<>();
@@ -30,6 +23,14 @@ public class SuperDuperMarketDto {
             basicItemsDto.add(new BasicItemDto(item));
         }
         return basicItemsDto;
+    }
+
+    public static Collection<BasicCustomerDto> getBasicCustomersDto(Collection<Customer> customers) {
+        Collection<BasicCustomerDto> basicCustomersDto = new ArrayList<>();
+        for (Customer customer : customers) {
+            basicCustomersDto.add(new BasicCustomerDto(customer));
+        }
+        return basicCustomersDto;
     }
 
     public static Collection<OrderDto> getOrdersDto(Collection<Order> orders) {

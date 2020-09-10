@@ -13,7 +13,7 @@
    <left>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Label id="data-label" fx:id="titleVBox" layoutX="50.0" text="Data">
+            <Label id="data-label" fx:id="titleVBox" disable="true" layoutX="50.0" text="Data">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -21,7 +21,7 @@
                   <Insets top="15.0" />
                </padding>
             </Label>
-            <FlowPane prefHeight="207.0" prefWidth="94.0" vgap="15.0">
+            <FlowPane prefHeight="207.0" prefWidth="90.0" vgap="15.0">
                <children>
                   <Button fx:id="customersButton" mnemonicParsing="false" onAction="#customersButtonAction" styleClass="data-button" text="Customers">
                      <font>

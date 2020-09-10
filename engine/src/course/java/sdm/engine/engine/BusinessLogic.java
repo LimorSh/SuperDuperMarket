@@ -21,7 +21,19 @@ public class BusinessLogic {
     }
 
     public Collection<CustomerDto> getCustomersDto() {
-        return SuperDuperMarketDto.getCustomersDto(superDuperMarket.getCustomers());
+        Collection<CustomerDto> customersDto = new ArrayList<>();
+
+        Collection<Customer> customers = superDuperMarket.getCustomers();
+        for (Customer customer : customers) {
+            CustomerDto customerDto = getCustomerDto(customer.getId());
+            customersDto.add(customerDto);
+        }
+
+        return customersDto;
+    }
+
+    public Collection<BasicCustomerDto> getBasicCustomersDto() {
+        return SuperDuperMarketDto.getBasicCustomersDto(superDuperMarket.getCustomers());
     }
 
     public Collection<BasicItemDto> getBasicItemsDto() {
@@ -44,6 +56,26 @@ public class BusinessLogic {
         return itemsDto;
     }
 
+    public Collection<ItemWithPriceDto> getItemsWithPriceDto(int storeId) {
+        Collection<ItemWithPriceDto> itemsWithPriceDto = new ArrayList<>();
+        Store store = superDuperMarket.getStore(storeId);
+
+        Collection<Item> items = superDuperMarket.getItems();
+        for (Item item : items) {
+            ItemWithPriceDto itemWithPriceDto;
+            if (store.isItemInTheStore(item)) {
+                itemWithPriceDto = new ItemWithPriceDto(item, true);
+                itemWithPriceDto.setPrice(store.getItemPrice(item));
+            }
+            else {
+                itemWithPriceDto = new ItemWithPriceDto(item, false);
+            }
+            itemsWithPriceDto.add(itemWithPriceDto);
+        }
+
+        return itemsWithPriceDto;
+    }
+
     public Collection<OrderDto> getOrdersDto() {
         return SuperDuperMarketDto.getOrdersDto(superDuperMarket.getOrders());
     }
@@ -64,9 +96,13 @@ public class BusinessLogic {
         return storeDto.getStoreItemsDto();
     }
 
-    public boolean isItemInTheStoreDto(StoreDto storeDto, BasicItemDto basicItemDto) {
+    public boolean isItemInTheStore(StoreDto storeDto, BasicItemDto basicItemDto) {
         int storeId = storeDto.getId();
         int itemId = basicItemDto.getId();
+        return isItemInTheStore(storeId, itemId);
+    }
+
+    public boolean isItemInTheStore(int storeId, int itemId) {
         return superDuperMarket.isItemInTheStore(storeId, itemId);
     }
 
@@ -84,26 +120,29 @@ public class BusinessLogic {
         return (new StoreDto(superDuperMarket.getStore(id)));
     }
 
+    public ItemWithPriceDto getItemWithPriceDto(int storeId, int itemId) {
+        Store store = superDuperMarket.getStore(storeId);
+        Item item = superDuperMarket.getItem(itemId);
+        ItemWithPriceDto itemWithPriceDto = new ItemWithPriceDto(item, true);
+        itemWithPriceDto.setPrice(store.getItemPrice(item));
+        return itemWithPriceDto;
+    }
+
+    public CustomerDto getCustomerDto(int id) {
+        Customer customer = superDuperMarket.getCustomer(id);
+        int numberOfOrders = customer.getNumberOfOrders();
+        float averageItemsCost = customer.getAverageItemsCost();
+        float averageDeliveriesCost = customer.getAverageDeliveriesCost();
+        return (new CustomerDto(customer, numberOfOrders, averageItemsCost, averageDeliveriesCost));
+    }
+
+
     public String getItemPurchaseCategory(int id) {
         return superDuperMarket.getItemPurchaseCategory(id);
     }
 
     public String getItemName(int id) {
         return superDuperMarket.getItemName(id);
-    }
-
-    public double getDistanceBetweenCustomerAndStore(StoreDto storeDto, int customerLocationX, int customerLocationY) {
-        return Distance.getDistanceBetweenTwoLocations(storeDto.getXLocation(), storeDto.getYLocation(),
-                                                                    customerLocationX, customerLocationY);
-    }
-
-    public void createOrder(CustomerDto customerDto, Date date, StoreDto store, Map<Integer, Float> itemsIdsAndQuantities) {
-        int x = customerDto.getXLocation();
-        int y = customerDto.getYLocation();
-        superDuperMarket.createOrder(date, x, y, store.getId(), itemsIdsAndQuantities);
-
-        // don't need the above - should be like this:
-//        superDuperMarket.createOrder(customer, date, store.getId(), itemsIdsAndQuantities);
     }
 
 //    public static void createOrder(Date date, int customerLocationX, int customerLocationY, StoreDto store, Map<Integer, Float> itemsIdsAndQuantities) {
@@ -173,6 +212,24 @@ public class BusinessLogic {
             }
         }
     }
+
+    public double getDistanceBetweenCustomerAndStore(StoreDto storeDto, int customerLocationX, int customerLocationY) {
+        return Distance.getDistanceBetweenTwoLocations(storeDto.getXLocation(), storeDto.getYLocation(),
+                customerLocationX, customerLocationY);
+    }
+
+    public float getDeliveryCost(int storeId, int customerId) {
+        return superDuperMarket.getDeliveryCost(storeId, customerId);
+    }
+
+    public double getDistanceBetweenCustomerAndStore(int storeId, int customerId) {
+        return superDuperMarket.getDistanceBetweenCustomerAndStore(storeId, customerId);
+    }
+
+    public void createOrder(int customerId, Date date, int storeId,  Map<Integer, Float> itemsIdsAndQuantities) {
+        superDuperMarket.createOrder(customerId, date, storeId, itemsIdsAndQuantities);
+    }
+
 
 
 

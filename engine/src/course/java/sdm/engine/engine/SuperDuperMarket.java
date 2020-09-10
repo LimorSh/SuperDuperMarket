@@ -3,6 +3,8 @@ import course.java.sdm.engine.exception.DuplicateElementIdException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheStoreException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheSuperException;
 import course.java.sdm.engine.exception.DuplicateLocationException;
+
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class SuperDuperMarket {
@@ -159,7 +161,7 @@ public class SuperDuperMarket {
         return store.isItemInTheStore(storeItemId);
     }
 
-    private Customer getCustomer(int id) {
+    public Customer getCustomer(int id) {
         return customers.get(id);
     }
 
@@ -259,21 +261,6 @@ public class SuperDuperMarket {
         return amount;
     }
 
-    public void createOrder(Date date, int customerLocationX, int customerLocationY, int storeId, Map<Integer, Float> itemsIdsAndQuantities) {
-        Location customerLocation = new Location(customerLocationX, customerLocationY);
-        Store store = getStore(storeId);
-        Order order = new Order(date, customerLocation, store);
-        addOrder(order);
-
-        Map<Item, Float> itemsAndQuantities = new HashMap<>();
-        itemsIdsAndQuantities.forEach((itemId,itemQuantity) -> {
-            Item item = getItem(itemId);
-            itemsAndQuantities.put(item, itemQuantity);
-        });
-        order.addOrderLines(itemsAndQuantities);
-        order.finish();
-    }
-
     public boolean isStoreExists(int id) {
         return stores.containsKey(id);
     }
@@ -291,8 +278,36 @@ public class SuperDuperMarket {
             Store store = stores.get(storeId);
             store.deleteItem(storeItemId);
         }
-
     }
+
+    public float getDeliveryCost(int storeId, int customerId) {
+        Store store = getStore(storeId);
+        Customer customer = getCustomer(customerId);
+        return store.getDeliveryCost(customer.getLocation());
+    }
+
+    public double getDistanceBetweenCustomerAndStore(int storeId, int customerId) {
+        Store store = stores.get(storeId);
+        Customer customer = customers.get(customerId);
+        Location customerLocation = customer.getLocation();
+        return store.getDistance(customerLocation);
+    }
+
+    public void createOrder(int customerId, Date date, int storeId,  Map<Integer, Float> itemsIdsAndQuantities) {
+        Customer customer = getCustomer(customerId);
+        Store store = getStore(storeId);
+        Order order = new Order(customer, date, store);
+        addOrder(order);
+
+        Map<Item, Float> itemsAndQuantities = new HashMap<>();
+        itemsIdsAndQuantities.forEach((itemId,itemQuantity) -> {
+            Item item = getItem(itemId);
+            itemsAndQuantities.put(item, itemQuantity);
+        });
+        order.addOrderLines(itemsAndQuantities);
+        order.finish();
+    }
+
 
 
 

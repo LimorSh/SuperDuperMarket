@@ -78,6 +78,42 @@ public class Customer {
         return location;
     }
 
+    public boolean isOrdersEmpty() {
+        return orders.isEmpty();
+    }
+
+    public int getNumberOfOrders() {
+        return orders.size();
+    }
+
+    public float getAverageItemsCost() {
+        if (isOrdersEmpty()) {
+            return 0f;
+        }
+
+        float sum = 0f;
+
+        for (Order order : orders.values()) {
+            sum += order.getItemsCost();
+        }
+
+        return (sum / orders.size());
+    }
+
+    public float getAverageDeliveriesCost() {
+        if (isOrdersEmpty()) {
+            return 0f;
+        }
+
+        float sum = 0f;
+
+        for (Order order : orders.values()) {
+            sum += order.getDeliveryCost();
+        }
+
+        return (sum / orders.size());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

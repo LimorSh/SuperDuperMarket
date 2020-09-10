@@ -5,21 +5,20 @@ import javafx.scene.control.Label;
 
 public class SingleCustomerController extends CustomerData{
 
-    @FXML private Label idLabel;
-    @FXML private Label nameLabel;
-    @FXML private Label locationLabel;
-    @FXML private Label totalOrdersLabel;
-    @FXML private Label averageOrdersCostLabel;
-    @FXML private Label averageDeliveriesCostLabel;
+    @FXML private Label idValueLabel;
+    @FXML private Label nameValueLabel;
+    @FXML private Label locationValueLabel;
+    @FXML private Label numberOfOrdersValueLabel;
+    @FXML private Label averageItemsCostValueLabel;
+    @FXML private Label averageDeliveriesCostValueLabel;
 
     @FXML
     private void initialize() {
-        idLabel.textProperty().bind(id.asString());
-        nameLabel.textProperty().bind(name);
-        locationLabel.textProperty().bind(location);
-//        totalOrdersLabel.textProperty().bind(totalOrders.asString());
-//        averageOrdersCostLabel.textProperty().bind(averageOrdersCost.asString());
-//        averageDeliveriesCostLabel.textProperty().bind(averageDeliveriesCost.asString());
+        idValueLabel.textProperty().bind(id.asString());
+        nameValueLabel.textProperty().bind(name);
+        locationValueLabel.textProperty().bind(location);
+        numberOfOrdersValueLabel.textProperty().bind(numberOfOrders.asString());
+        averageItemsCostValueLabel.textProperty().bind(averageItemsCost.asString());
+        averageDeliveriesCostValueLabel.textProperty().bind(averageDeliveriesCost.asString());
     }
-
 }

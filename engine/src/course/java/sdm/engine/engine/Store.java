@@ -116,8 +116,12 @@ public class Store {
     }
 
     public float getDeliveryCost(Location location) {
-        float distance = (float) (Distance.getDistanceBetweenTwoLocations(location, this.location));
+        float distance = (float) getDistance(location);
         return (distance * ppk);
+    }
+
+    public double getDistance(Location location) {
+        return (Distance.getDistanceBetweenTwoLocations(location, this.location));
     }
 
     public float getItemPrice(Item item) {
@@ -148,7 +152,12 @@ public class Store {
     }
 
     public void deleteItem(int id) {
-        storeItems.remove(id);
+        if (storeItems.size() > 1) {
+            storeItems.remove(id);
+            return;
+        }
+
+        throw new IllegalArgumentException("Cannot delete the item: The store must sell at least one item.");
     }
 
     @Override

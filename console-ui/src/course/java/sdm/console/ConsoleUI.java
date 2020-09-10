@@ -396,7 +396,7 @@ public class ConsoleUI {
         for (BasicItemDto basicItemDto : itemsDto) {
             showItemBasicDetails(basicItemDto);
             System.out.print(COMA_SEPARATOR);
-            if(businessLogic.isItemInTheStoreDto(storeDto, basicItemDto)) {
+            if(businessLogic.isItemInTheStore(storeDto, basicItemDto)) {
                 float price = businessLogic.getItemPriceInStore(storeDto, basicItemDto);
                 System.out.println("Price: " + getFormatNumberWithTwoDigitsAfterPoint(price));
             }

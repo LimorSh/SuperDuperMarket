@@ -32,7 +32,7 @@ public class CustomersController {
             Node singleCustomer = loader.load();
 
             SingleCustomerController singleCustomerController = loader.getController();
-            singleCustomerController.setItemDataValues(customerDto);
+            singleCustomerController.setCustomerDataValues(customerDto);
 
             flowPane.getChildren().add(singleCustomer);
         } catch (IOException e) {

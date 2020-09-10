@@ -10,14 +10,21 @@ public class CustomerDto {
     private final int xLocation;
     private final int yLocation;
     private final Collection<OrderDto> ordersDto;
+    private final int numberOfOrders;
+    private final float averageItemsCost;
+    private final float averageDeliveriesCost;
 
-    public CustomerDto(Customer customer) {
+    public CustomerDto(Customer customer, int numberOfOrders,
+                       float averageItemsCost, float averageDeliveriesCost) {
         this.id = customer.getId();
         this.name = customer.getName();
         this.xLocation = customer.getLocation().getCoordinate().x;
         this.yLocation = customer.getLocation().getCoordinate().y;
         ordersDto = new ArrayList<>();
         copyOrdersDto(customer);
+        this.numberOfOrders = numberOfOrders;
+        this.averageItemsCost = averageItemsCost;
+        this.averageDeliveriesCost = averageDeliveriesCost;
     }
 
     private void copyOrdersDto(Customer customer) {
@@ -46,5 +53,17 @@ public class CustomerDto {
 
     public int getYLocation() {
         return yLocation;
+    }
+
+    public int getNumberOfOrders() {
+        return numberOfOrders;
+    }
+
+    public float getAverageItemsCost() {
+        return averageItemsCost;
+    }
+
+    public float getAverageDeliveriesCost() {
+        return averageDeliveriesCost;
     }
 }
