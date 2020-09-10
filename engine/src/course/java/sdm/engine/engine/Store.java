@@ -152,7 +152,12 @@ public class Store {
     }
 
     public void deleteItem(int id) {
-        storeItems.remove(id);
+        if (storeItems.size() > 1) {
+            storeItems.remove(id);
+            return;
+        }
+
+        throw new IllegalArgumentException("Cannot delete the item: The store must sell at least one item.");
     }
 
     @Override

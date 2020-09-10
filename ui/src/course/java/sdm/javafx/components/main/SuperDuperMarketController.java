@@ -98,7 +98,6 @@ public class SuperDuperMarketController {
             Node updateItem = loader.load();
             UpdateItemController updateItemController = loader.getController();
 
-//            updateItemController.setSuperDuperMarketController(this);
             updateItemController.setBusinessLogic(businessLogic);
             updateItemController.updateItem();
 

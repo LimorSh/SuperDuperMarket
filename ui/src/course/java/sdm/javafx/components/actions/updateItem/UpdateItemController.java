@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -90,6 +91,7 @@ public class UpdateItemController extends UpdateItemData {
 
     @FXML
     void chooseStoreComboBoxAction(ActionEvent event) {
+        setActionRadioButtonsDisable(false);
         showTableView();
     }
 
@@ -99,35 +101,53 @@ public class UpdateItemController extends UpdateItemData {
             int itemId = getSelectedItemId();
             int storeId = getSelectedStoreId();
 
-            if (deleteItemRadioButton.isSelected()) {
-                businessLogic.deleteItemFromStore(itemId, storeId);
-                finish(DELETE_ITEM_SUCCESS);
+            try {
+                if (deleteItemRadioButton.isSelected()) {
+                    businessLogic.deleteItemFromStore(itemId, storeId);
+                    finish(false, DELETE_ITEM_SUCCESS);
+                }
+                if (addItemRadioButton.isSelected()) {
+                    businessLogic.addItemToStore(itemId, getEnteredPrice(), storeId);
+                    finish(false, ADD_ITEM_SUCCESS);
+                }
+                if (updateItemPriceRadioButton.isSelected()) {
+                    businessLogic.updateItemPriceInStore(itemId, getEnteredPrice(), storeId);
+                    finish(false, UPDATE_ITEM_SUCCESS);
+                }
             }
-            if (addItemRadioButton.isSelected()) {
-                businessLogic.addItemToStore(itemId, getEnteredPrice(), storeId);
-                finish(ADD_ITEM_SUCCESS);
-            }
-            if (updateItemPriceRadioButton.isSelected()) {
-                businessLogic.updateItemPriceInStore(itemId, getEnteredPrice(), storeId);
-                finish(UPDATE_ITEM_SUCCESS);
+            catch (Exception e) {
+                finish(true, e.getMessage());
             }
         }
     }
 
-    private void finish(String msg) {
+    private void finish(boolean error, String msg) {
         chooseStoreComboBox.setDisable(true);
-        deleteItemRadioButton.setDisable(true);
-        addItemRadioButton.setDisable(true);
-        updateItemPriceRadioButton.setDisable(true);
+        setActionRadioButtonsDisable(true);
         tableView.setDisable(true);
         confirmButton.setDisable(true);
         setPriceControls(true);
+
+        if (error) {
+            msgLabel.setStyle("-fx-text-fill: #ff0000;");
+        }
         msgLabel.setVisible(true);
         msgLabel.setText(msg);
     }
 
+    private void setActionRadioButtonsDisable(boolean value) {
+        deleteItemRadioButton.setDisable(value);
+        addItemRadioButton.setDisable(value);
+        updateItemPriceRadioButton.setDisable(value);
+    }
+
     private float getEnteredPrice() {
-        return Float.parseFloat(priceTextField.getText());
+        try {
+            return Float.parseFloat(priceTextField.getText());
+        }
+        catch (Exception e) {
+            throw new IllegalArgumentException("The price you entered is not valid.");
+        }
     }
 
     private void setDeleteItemControls() {

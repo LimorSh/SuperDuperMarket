@@ -96,9 +96,13 @@ public class BusinessLogic {
         return storeDto.getStoreItemsDto();
     }
 
-    public boolean isItemInTheStoreDto(StoreDto storeDto, BasicItemDto basicItemDto) {
+    public boolean isItemInTheStore(StoreDto storeDto, BasicItemDto basicItemDto) {
         int storeId = storeDto.getId();
         int itemId = basicItemDto.getId();
+        return isItemInTheStore(storeId, itemId);
+    }
+
+    public boolean isItemInTheStore(int storeId, int itemId) {
         return superDuperMarket.isItemInTheStore(storeId, itemId);
     }
 

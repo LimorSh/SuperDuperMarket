@@ -43,9 +43,9 @@
         </rowConstraints>
          <children>
             <Label text="Choose action:" GridPane.rowIndex="1" />
-            <RadioButton fx:id="deleteItemRadioButton" mnemonicParsing="false" text="Delete Item" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <RadioButton fx:id="addItemRadioButton" mnemonicParsing="false" text="Add Item" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <RadioButton fx:id="updateItemPriceRadioButton" mnemonicParsing="false" text="Update Item Price" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <RadioButton fx:id="deleteItemRadioButton" disable="true" mnemonicParsing="false" text="Delete Item" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <RadioButton fx:id="addItemRadioButton" disable="true" mnemonicParsing="false" text="Add Item" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <RadioButton fx:id="updateItemPriceRadioButton" disable="true" mnemonicParsing="false" text="Update Item Price" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Choose store:" />
             <ComboBox fx:id="chooseStoreComboBox" onAction="#chooseStoreComboBoxAction" prefHeight="25.0" prefWidth="250.0" GridPane.columnIndex="1" />
             <Label fx:id="selectItemLabel" text="Select an item:" visible="false" GridPane.rowIndex="4">
