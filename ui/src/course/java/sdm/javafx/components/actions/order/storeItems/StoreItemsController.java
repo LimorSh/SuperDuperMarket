@@ -1,6 +1,8 @@
 package course.java.sdm.javafx.components.actions.order.storeItems;
 
+import course.java.sdm.engine.dto.BasicItemDto;
 import course.java.sdm.engine.dto.ItemWithPriceDto;
+import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.OrderController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -48,14 +50,25 @@ public class StoreItemsController extends StoreItemsData {
 
         StoreItemData storeItemData = tableView.getSelectionModel().getSelectedItem();
         float quantity = Float.parseFloat(quantityTextField.getText());
-        int storeItemId = storeItemData.getId();
-        updateItemsAndQuantities(storeItemId, quantity);
+        int itemId = storeItemData.getId();
+        updateItemsAndQuantities(itemId, quantity);
 
-        int storeId = orderController.getSelectedStoreId();
-        float price = businessLogic.getItemPriceInStoreByIds(storeId, storeItemId);
+        setDataForStaticOrder(itemId, quantity);
+        setDataForDynamicOrder(itemId, quantity);
+    }
 
-        float cost = quantity * price;
-        updateItemsCost(cost);
+    private void setDataForStaticOrder(int storeItemId, float quantity) {
+        if (orderController.isStaticOrder()) {
+            int storeId = orderController.getSelectedStoreId();
+            float price = businessLogic.getItemPriceInStoreByIds(storeId, storeItemId);
+
+            float cost = quantity * price;
+            updateItemsCost(cost);
+        }
+    }
+
+    private void setDataForDynamicOrder(int itemId, float quantity) {
+
     }
 
     private void setAddItemsControls() {
@@ -65,34 +78,49 @@ public class StoreItemsController extends StoreItemsData {
         addItemButton.setDisable(false);
     }
 
-    public void setTableViewData(int storeId) {
-        Collection<ItemWithPriceDto> itemsWithPriceDto = businessLogic.getItemsWithPriceDto(storeId);
-        if (!itemsWithPriceDto.isEmpty()) {
-            ArrayList<StoreItemData> storeItemsData = new ArrayList<>();
+    public ArrayList<StoreItemData> getStoreItemsData(int storeId) {
+        ArrayList<StoreItemData> storeItemsData = new ArrayList<>();
+
+        if (storeId == SuperDuperMarketConstants.NO_STORE_ID) {
+            Collection<BasicItemDto> basicItemsDto = businessLogic.getBasicItemsDto();
+            for (BasicItemDto basicItemDto : basicItemsDto) {
+                StoreItemData storeItemData = new StoreItemData(basicItemDto);
+                storeItemsData.add(storeItemData);
+            }
+        }
+        else {
+            Collection<ItemWithPriceDto> itemsWithPriceDto = businessLogic.getItemsWithPriceDto(storeId);
             for (ItemWithPriceDto itemWithPriceDto : itemsWithPriceDto) {
                 StoreItemData storeItemData = new StoreItemData(itemWithPriceDto);
                 storeItemsData.add(storeItemData);
             }
-            final ObservableList<StoreItemData> data = FXCollections.observableArrayList(storeItemsData);
-
-            itemIdCol.setCellValueFactory(
-                    new PropertyValueFactory<>("id")
-            );
-            nameCol.setCellValueFactory(
-                    new PropertyValueFactory<>("name")
-            );
-            purchaseCategoryCol.setCellValueFactory(
-                    new PropertyValueFactory<>("purchaseCategory")
-            );
-            priceCol.setCellValueFactory(
-                    new PropertyValueFactory<>("price")
-            );
-
-            tableView.setItems(data);
         }
-        else {
-            // show no store items component!
+
+        return storeItemsData;
+    }
+
+    public void setTableViewData(int storeId) {
+        ArrayList<StoreItemData> storeItemsData = getStoreItemsData(storeId);
+        final ObservableList<StoreItemData> data = FXCollections.observableArrayList(storeItemsData);
+
+        itemIdCol.setCellValueFactory(
+                new PropertyValueFactory<>("id")
+        );
+        nameCol.setCellValueFactory(
+                new PropertyValueFactory<>("name")
+        );
+        purchaseCategoryCol.setCellValueFactory(
+                new PropertyValueFactory<>("purchaseCategory")
+        );
+        priceCol.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+        );
+
+        if (storeId == SuperDuperMarketConstants.NO_STORE_ID) {
+            tableView.getColumns().remove(PRICE_COLUMN_INDEX);
         }
+
+        tableView.setItems(data);
     }
 
     public void setOrderController(OrderController orderController) {

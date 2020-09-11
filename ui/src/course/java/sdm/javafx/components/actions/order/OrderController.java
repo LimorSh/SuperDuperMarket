@@ -36,8 +36,7 @@ public class OrderController extends OrderData {
     @FXML private Label deliveryCostValueLabel;
     @FXML private Label selectItemsLabel;
 
-    private final Collection<Node> oneStoreItemsNodes;
-//    Collection<Node> bestCartItemsNodes;
+    private final Collection<Node> storeItemsNodes;
     private final ToggleGroup orderTypeRadioButtonsGroup;
 
     private StoreItemsController storeItemsController;
@@ -45,8 +44,7 @@ public class OrderController extends OrderData {
 
     public OrderController() {
         super();
-        oneStoreItemsNodes = new ArrayList<>();
-//        bestCartItemsNodes = new ArrayList<>();
+        storeItemsNodes = new ArrayList<>();
         orderTypeRadioButtonsGroup =  new ToggleGroup();
     }
 
@@ -76,7 +74,7 @@ public class OrderController extends OrderData {
         int storeId = getSelectedStoreId();
         int customerId = getSelectedCustomerId();
         setDeliveryCost(storeId, customerId);
-        staticOrderWasChosen(storeId, customerId);
+        chooseItems(storeId);
     }
 
     @FXML
@@ -97,7 +95,9 @@ public class OrderController extends OrderData {
         setStores(storesDto);
     }
 
-    private void staticOrderWasChosen(int storeId, int customerId) {
+    private void chooseItems(int storeId) {
+        gridPane.getChildren().removeAll(storeItemsNodes);
+
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.STORE_ITEMS_FXML_RESOURCE);
@@ -107,21 +107,19 @@ public class OrderController extends OrderData {
             storeItemsController.setBusinessLogic(businessLogic);
             setStoreItemsController(storeItemsController);
 
-            oneStoreItemsNodes.add(storeItems);
+            storeItemsNodes.add(storeItems);
 
-//            StoreDto storeDto = businessLogic.getStoreDto(storeId);
-//            Collection<ItemWithPriceDto> itemsWithPriceDto = businessLogic.getItemsWithPriceDto(storeId);
             storeItemsController.setTableViewData(storeId);
 
             selectItemsLabel.setVisible(true);
-            gridPane.add(storeItems, 1, 5);
+            gridPane.add(storeItems, STORE_ITEMS_COLUMN_INDEX, STORE_ITEMS_ROW_INDEX);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void dynamicOrderWasChosen() {
-        gridPane.getChildren().removeAll(oneStoreItemsNodes);
+        chooseItems(SuperDuperMarketConstants.NO_STORE_ID);
     }
 
     private void setOneStoreControls(boolean value) {
@@ -214,6 +212,9 @@ public class OrderController extends OrderData {
         });
     }
 
+    public boolean isStaticOrder() {
+        return staticOrderRadioButton.isSelected();
+    }
 
     private LocalDate getPickedDate() {
         return datePicker.getValue();

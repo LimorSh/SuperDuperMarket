@@ -10,6 +10,7 @@ public class StoreItemsData {
     protected BusinessLogic businessLogic;
     protected final Map<Integer, Float> itemsIdsAndQuantities;
     protected float itemsCost;
+    protected static final int PRICE_COLUMN_INDEX = 3;
 
     public StoreItemsData() {
         itemsIdsAndQuantities = new HashMap<>();

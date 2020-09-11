@@ -1,4 +1,5 @@
 package course.java.sdm.engine.engine;
+import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.exception.DuplicateElementIdException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheStoreException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheSuperException;
@@ -256,7 +257,7 @@ public class SuperDuperMarket {
 
         for (Order order : orders.values()) {
             if (order.isItemInTheOrder(id))
-                amount += order.getOrderLines().get(id).getQuantity();
+                amount += order.getItemQuantity(id);
         }
         return amount;
     }
@@ -293,19 +294,83 @@ public class SuperDuperMarket {
         return store.getDistance(customerLocation);
     }
 
-    public void createOrder(int customerId, Date date, int storeId,  Map<Integer, Float> itemsIdsAndQuantities) {
+//    public Map<Integer, Store> getOptimalCart(Collection<Integer> itemsIds) {
+//        Map<Integer, Store> itemsIdsToStores = new HashMap<>();
+//        for (Integer id : itemsIds) {
+//            Store minStore = null;
+//            float minPrice = Float.MAX_VALUE;
+//
+//            for (Store store : stores.values()) {
+//                if (store.isItemInTheStore(id)) {
+//                    float storeItemPrice = store.getItemPrice(id);
+//                    if (storeItemPrice < minPrice) {
+//                        minStore = store;
+//                    }
+//                }
+//            }
+//            itemsIdsToStores.put(id, minStore);
+//        }
+//
+//        return itemsIdsToStores;
+//    }
+
+    public Map<Store, Map<Item, Float>> getOptimalCart(Map<Integer, Float> itemsIdsAndQuantities) {
+        Map<Store, Map<Item, Float>> storesToItemsAndQuantities = new HashMap<>();
+
+        itemsIdsAndQuantities.forEach((itemId,itemQuantity) -> {
+            Store minStore = null;
+            float minPrice = Float.MAX_VALUE;
+
+            for (Store store : stores.values()) {
+                if (store.isItemInTheStore(itemId)) {
+                    float storeItemPrice = store.getItemPrice(itemId);
+                    if (storeItemPrice < minPrice) {
+                        minStore = store;
+                    }
+                }
+            }
+            Item item = getItem(itemId);
+
+            if (storesToItemsAndQuantities.containsKey(minStore)) {
+                storesToItemsAndQuantities.get(minStore).put(item, itemQuantity);
+            }
+            else {
+                Map<Item, Float> itemsAndQuantities = new HashMap<>();
+                itemsAndQuantities.put(item, itemQuantity);
+                storesToItemsAndQuantities.put(minStore, itemsAndQuantities);
+            }
+        });
+
+        return storesToItemsAndQuantities;
+    }
+
+    public void createOrder(int customerId, Date date, Map<Integer, Float> itemsIdsAndQuantities) {
+        Map<Store, Map<Item, Float>> storesToItemsAndQuantities = getOptimalCart(itemsIdsAndQuantities);
+
         Customer customer = getCustomer(customerId);
-        Store store = getStore(storeId);
-        Order order = new Order(customer, date, store);
+        Order order = new Order(customer, date, Constants.ORDER_CATEGORY_DYNAMIC_STR);
         addOrder(order);
+
+        order.addStoresOrder(storesToItemsAndQuantities);
+
+        order.finish(storesToItemsAndQuantities.keySet());
+    }
+
+    public void createOrder(int customerId, Date date, int storeId, Map<Integer, Float> itemsIdsAndQuantities) {
+        Customer customer = getCustomer(customerId);
+        Order order = new Order(customer, date, Constants.ORDER_CATEGORY_STATIC_STR);
+        addOrder(order);
+
+        Store store = getStore(storeId);
 
         Map<Item, Float> itemsAndQuantities = new HashMap<>();
         itemsIdsAndQuantities.forEach((itemId,itemQuantity) -> {
             Item item = getItem(itemId);
             itemsAndQuantities.put(item, itemQuantity);
         });
-        order.addOrderLines(itemsAndQuantities);
-        order.finish();
+        order.addStoreOrder(store, itemsAndQuantities);
+
+        order.finish(store);
     }
 
 

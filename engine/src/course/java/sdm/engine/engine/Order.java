@@ -1,29 +1,50 @@
 package course.java.sdm.engine.engine;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import course.java.sdm.engine.Constants;
+
+import java.util.*;
 
 public class Order {
+
+    public enum OrderCategory {
+        STATIC(Constants.ORDER_CATEGORY_STATIC_STR),
+        DYNAMIC(Constants.ORDER_CATEGORY_DYNAMIC_STR),
+        ;
+
+        private final String orderCategoryStr;
+
+        OrderCategory(String orderCategory) {
+            this.orderCategoryStr = orderCategory;
+        }
+
+        public String getOrderCategoryStr() {
+            return orderCategoryStr;
+        }
+    }
 
     private static int numOrders = 1;
     private final int id;
     private final Date date;
     private final Customer customer;
-    private final Store store;
-    private final Map<Integer, OrderLine> orderLines; //the key is itemId
-//    private final Map<Integer, Set<OrderLine>> orderLines; //the key is itemId
+    private final Map<Integer, StoreOrder> storesOrder;     //The key is store id
     private float itemsCost;
     private float deliveryCost;
     private int totalItems;
+    private final OrderCategory orderCategory;
 
-    public Order(Customer customer, Date date, Store store) {
+    public Order(Customer customer, Date date, String orderCategory) {
         this.id = numOrders;
         this.customer = customer;
         this.date = date;
-        this.store = store;
-        orderLines = new HashMap<>();
-        store.addOrder(this);
+        this.orderCategory = convertStringToOrderCategory(orderCategory);
+        storesOrder = new HashMap<>();
         numOrders++;
+    }
+
+    private static Order.OrderCategory convertStringToOrderCategory(String orderCategory) {
+        if (orderCategory.toLowerCase().contains(Constants.ORDER_CATEGORY_STATIC_STR)) {
+            return Order.OrderCategory.STATIC;
+        }
+        return Order.OrderCategory.DYNAMIC;
     }
 
     public int getId() {
@@ -34,12 +55,16 @@ public class Order {
         return date;
     }
 
-    public Store getStore() {
-        return store;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public Map<Integer, OrderLine> getOrderLines() {
-        return orderLines;
+    public Map<Integer, StoreOrder> getStoresOrder() {
+        return storesOrder;
+    }
+
+    public OrderCategory getOrderCategory() {
+        return orderCategory;
     }
 
     public float getItemsCost() {
@@ -58,15 +83,30 @@ public class Order {
         return totalItems;
     }
 
-    public int getTotalItemsTypes() {
-        return orderLines.keySet().size();
-    }
-
     public boolean isItemInTheOrder(int id) {
-        return orderLines.containsKey(id);
+        for (StoreOrder storeOrder : storesOrder.values()) {
+            if (storeOrder.isContainItem(id)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void addOrderLines(Map<Item, Float> itemsAndQuantities) {
+    public float getItemQuantity(int id) {
+        float quantity = 0f;
+        for (StoreOrder storeOrder : storesOrder.values()) {
+            if (storeOrder.isContainItem(id)) {
+                quantity = storeOrder.getItemQuantity(id);
+            }
+        }
+        return quantity;
+    }
+
+    public void addStoreOrder(Store store, Map<Item, Float> itemsAndQuantities) {
+        store.addOrder(this);
+
+        Map<Integer, OrderLine> orderLines = new HashMap<>();
+
         itemsAndQuantities.forEach((item,itemQuantity) -> {
             int itemId = item.getId();
             float itemPrice = store.getItemPrice(itemId);
@@ -79,41 +119,36 @@ public class Order {
                 totalQuantity += orderLines.get(itemId).getQuantity();
                 orderLines.get(itemId).setQuantity(totalQuantity);
             }
-            updateOrderData(item, itemQuantity);
+            store.updateTotalNumberSoldItem(item, itemQuantity);
         });
+
+        StoreOrder storeOrder = new StoreOrder(date, store, orderLines);
+        storeOrder.SetValues(customer.getLocation());
+        storesOrder.put(store.getId(), storeOrder);
+        setValues();
     }
 
-    private void updateOrderData(Item item, float itemQuantity) {
-        updateTotalItems(item.getPurchaseCategory(), itemQuantity);
-        updateItemsCost(item, itemQuantity);
-        updateTotalNumberSoldItemInStore(item, itemQuantity);
+    private void setValues() {
+        for (StoreOrder storeOrder : this.storesOrder.values()) {
+            itemsCost += storeOrder.getItemsCost();
+            deliveryCost += storeOrder.getDeliveryCost();
+            totalItems += storeOrder.getTotalItems();
+        }
     }
 
-    public void updateTotalItems(Item.PurchaseCategory purchaseCategory, float quantity) {
-        if (purchaseCategory.equals(Item.PurchaseCategory.PER_UNIT))
-            totalItems += (int) quantity;
-        else
-            totalItems++;
+    public void addStoresOrder(Map<Store, Map<Item, Float>> storesToItemsAndQuantities) {
+        storesToItemsAndQuantities.forEach(this::addStoreOrder);
     }
 
-    public void updateItemsCost(Item item, float quantity) {
-        float itemCost = (store.getItemPrice(item));
-        itemsCost += (itemCost * quantity);
-    }
-
-    public void finish() {
-        updateDeliveryCost();
+    public void finish(Store store) {
         store.updateTotalDeliveriesRevenue(customer.getLocation());
         customer.addOrder(this);
     }
 
-    public void updateDeliveryCost() {
-        float cost = store.getDeliveryCost(customer.getLocation());
-        deliveryCost += cost;
-    }
-
-    public void updateTotalNumberSoldItemInStore(Item item, float quantity) {
-        store.updateTotalNumberSoldItem(item, quantity);
+    public void finish(Collection<Store> stores) {
+        for (Store store : stores) {
+            finish(store);
+        }
     }
 
     @Override
@@ -122,8 +157,7 @@ public class Order {
                 "id=" + id +
                 ", date=" + date +
                 ", customer=" + customer +
-                ", store=" + store +
-                ", orderLines=" + orderLines +
+                ", storesOrder=" + storesOrder +
                 ", itemsCost=" + itemsCost +
                 ", deliveryCost=" + deliveryCost +
                 ", totalItems=" + totalItems +

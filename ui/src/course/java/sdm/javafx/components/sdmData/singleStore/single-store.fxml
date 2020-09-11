@@ -35,8 +35,8 @@
           <TableColumn fx:id="itemIdCol" prefWidth="43.0" text="ID" />
           <TableColumn fx:id="itemNameCol" prefWidth="79.0" text="Name" />
             <TableColumn fx:id="itemPurchaseCategoryCol" prefWidth="115.0" text="Purchase Category" />
-            <TableColumn fx:id="itemPricePerUnitCol" prefWidth="87.0" text="Price Per Unit" />
-            <TableColumn fx:id="itemTotalSoldCol" editable="false" text="Total Sells" />
+            <TableColumn fx:id="itemPricePerUnitCol" prefWidth="92.0" text="Price Per Unit" />
+            <TableColumn fx:id="itemTotalSoldCol" editable="false" prefWidth="75.0" text="Total Sells" />
         </columns>
       </TableView>
       <Label layoutX="180.0" layoutY="81.0" text="Items:">

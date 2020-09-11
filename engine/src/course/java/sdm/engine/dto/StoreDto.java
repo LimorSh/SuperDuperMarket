@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class StoreDto {
+
     private final int id;
     private final String name;
     private final int ppk;

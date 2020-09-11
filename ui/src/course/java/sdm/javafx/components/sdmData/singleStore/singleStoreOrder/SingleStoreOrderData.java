@@ -1,6 +1,7 @@
 package course.java.sdm.javafx.components.sdmData.singleStore.singleStoreOrder;
 
 import course.java.sdm.engine.dto.OrderDto;
+import course.java.sdm.engine.dto.StoreOrderDto;
 import course.java.sdm.javafx.UtilsUI;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -14,15 +15,15 @@ public class SingleStoreOrderData {
     protected SimpleFloatProperty deliveryCost;
     protected SimpleFloatProperty totalCost;
 
-    public SingleStoreOrderData(OrderDto orderDto) {
-        this.date = new SimpleStringProperty(UtilsUI.convertDateToString(orderDto.getDate()));
-        this.totalItems = new SimpleIntegerProperty(orderDto.getTotalItems());
+    public SingleStoreOrderData(StoreOrderDto storeOrderDto) {
+        this.date = new SimpleStringProperty(UtilsUI.convertDateToString(storeOrderDto.getDate()));
+        this.totalItems = new SimpleIntegerProperty(storeOrderDto.getTotalItems());
         this.itemsCost = new SimpleFloatProperty(UtilsUI.roundNumberWithTwoDigitsAfterPoint
-                (orderDto.getItemsCost()));
+                (storeOrderDto.getItemsCost()));
         this.deliveryCost = new SimpleFloatProperty(UtilsUI.roundNumberWithTwoDigitsAfterPoint
-                (orderDto.getDeliveryCost()));
+                (storeOrderDto.getDeliveryCost()));
         this.totalCost = new SimpleFloatProperty(UtilsUI.roundNumberWithTwoDigitsAfterPoint
-                (orderDto.getTotalCost()));
+                (storeOrderDto.getTotalCost()));
     }
 
     public String getDate() {

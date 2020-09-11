@@ -1,31 +1,37 @@
 package course.java.sdm.engine.dto;
-import course.java.sdm.engine.engine.Order;
-import course.java.sdm.engine.engine.Store;
+import course.java.sdm.engine.engine.*;
 
-import java.util.Date;
+import java.util.*;
 
 public class OrderDto {
+
     private final int id;
     private final Date date;
-    private final int storeId;
-    private final String storeName;
-    private final int totalItemsTypes;
-    private final int totalItems;
+    private final BasicCustomerDto basicCustomerDto;
+    private final Map<Integer, StoreOrderDto> storesOrderDto;   // The key is store id
     private final float itemsCost;
     private final float deliveryCost;
-    private final float totalCost;
+    private final int totalItems;
+    private final String orderCategory;
+
 
     public OrderDto(Order order) {
         this.id = order.getId();
         this.date = order.getDate();
-        Store store = order.getStore();
-        this.storeId = store.getId();
-        this.storeName = store.getName();
-        this.totalItemsTypes = order.getTotalItemsTypes();
-        this.totalCost = order.getTotalCost();
+        this.basicCustomerDto = new BasicCustomerDto(order.getCustomer());
+        this.storesOrderDto = new HashMap<>();
+        copyStoreOrdersDto(order);
         this.itemsCost = order.getItemsCost();
         this.deliveryCost = order.getDeliveryCost();
         this.totalItems = order.getTotalItems();
+        this.orderCategory = order.getOrderCategory().getOrderCategoryStr();
+    }
+
+    private void copyStoreOrdersDto(Order order) {
+        order.getStoresOrder().forEach((storeId,storeOrder) -> {
+            StoreOrderDto storeOrderDto = new StoreOrderDto(storeOrder);
+            storesOrderDto.put(storeId, storeOrderDto);
+        });
     }
 
     public int getId() {
@@ -36,6 +42,14 @@ public class OrderDto {
         return date;
     }
 
+    public BasicCustomerDto getBasicCustomerDto() {
+        return basicCustomerDto;
+    }
+
+    public Collection<StoreOrderDto> getStoresOrderDto() {
+        return storesOrderDto.values();
+    }
+
     public float getItemsCost() {
         return itemsCost;
     }
@@ -44,23 +58,15 @@ public class OrderDto {
         return deliveryCost;
     }
 
-    public int getTotalItemsTypes() {
-        return totalItemsTypes;
-    }
-
     public int getTotalItems() {
         return totalItems;
     }
 
-    public float getTotalCost() {
-        return totalCost;
+    public String getOrderCategory() {
+        return orderCategory;
     }
 
-    public int getStoreId() {
-        return storeId;
-    }
-
-    public String getStoreName() {
-        return storeName;
+    public StoreOrderDto getStoreOrderDto(int storeId) {
+        return storesOrderDto.get(storeId);
     }
 }
