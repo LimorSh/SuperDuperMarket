@@ -50,9 +50,14 @@ public class StoreItemsController extends StoreItemsData {
 
         StoreItemData storeItemData = tableView.getSelectionModel().getSelectedItem();
         float quantity = Float.parseFloat(quantityTextField.getText());
-        int storeItemId = storeItemData.getId();
-        updateItemsAndQuantities(storeItemId, quantity);
+        int itemId = storeItemData.getId();
+        updateItemsAndQuantities(itemId, quantity);
 
+        setDataForStaticOrder(itemId, quantity);
+        setDataForDynamicOrder(itemId, quantity);
+    }
+
+    private void setDataForStaticOrder(int storeItemId, float quantity) {
         if (orderController.isStaticOrder()) {
             int storeId = orderController.getSelectedStoreId();
             float price = businessLogic.getItemPriceInStoreByIds(storeId, storeItemId);
@@ -60,6 +65,10 @@ public class StoreItemsController extends StoreItemsData {
             float cost = quantity * price;
             updateItemsCost(cost);
         }
+    }
+
+    private void setDataForDynamicOrder(int itemId, float quantity) {
+
     }
 
     private void setAddItemsControls() {
