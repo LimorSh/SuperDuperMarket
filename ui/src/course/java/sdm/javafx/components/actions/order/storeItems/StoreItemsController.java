@@ -1,5 +1,6 @@
 package course.java.sdm.javafx.components.actions.order.storeItems;
 
+import course.java.sdm.engine.dto.BasicItemDto;
 import course.java.sdm.engine.dto.ItemWithPriceDto;
 import course.java.sdm.javafx.components.actions.order.OrderController;
 import javafx.collections.FXCollections;
@@ -65,34 +66,49 @@ public class StoreItemsController extends StoreItemsData {
         addItemButton.setDisable(false);
     }
 
-    public void setTableViewData(int storeId) {
-        Collection<ItemWithPriceDto> itemsWithPriceDto = businessLogic.getItemsWithPriceDto(storeId);
-        if (!itemsWithPriceDto.isEmpty()) {
-            ArrayList<StoreItemData> storeItemsData = new ArrayList<>();
+    public ArrayList<StoreItemData> getStoreItemsData(int storeId) {
+        ArrayList<StoreItemData> storeItemsData = new ArrayList<>();
+
+        if (storeId == -1) {
+            Collection<BasicItemDto> basicItemsDto = businessLogic.getBasicItemsDto();
+            for (BasicItemDto basicItemDto : basicItemsDto) {
+                StoreItemData storeItemData = new StoreItemData(basicItemDto);
+                storeItemsData.add(storeItemData);
+            }
+        }
+        else {
+            Collection<ItemWithPriceDto> itemsWithPriceDto = businessLogic.getItemsWithPriceDto(storeId);
             for (ItemWithPriceDto itemWithPriceDto : itemsWithPriceDto) {
                 StoreItemData storeItemData = new StoreItemData(itemWithPriceDto);
                 storeItemsData.add(storeItemData);
             }
-            final ObservableList<StoreItemData> data = FXCollections.observableArrayList(storeItemsData);
-
-            itemIdCol.setCellValueFactory(
-                    new PropertyValueFactory<>("id")
-            );
-            nameCol.setCellValueFactory(
-                    new PropertyValueFactory<>("name")
-            );
-            purchaseCategoryCol.setCellValueFactory(
-                    new PropertyValueFactory<>("purchaseCategory")
-            );
-            priceCol.setCellValueFactory(
-                    new PropertyValueFactory<>("price")
-            );
-
-            tableView.setItems(data);
         }
-        else {
-            // show no store items component!
+
+        return storeItemsData;
+    }
+
+    public void setTableViewData(int storeId) {
+        ArrayList<StoreItemData> storeItemsData = getStoreItemsData(storeId);
+        final ObservableList<StoreItemData> data = FXCollections.observableArrayList(storeItemsData);
+
+        itemIdCol.setCellValueFactory(
+                new PropertyValueFactory<>("id")
+        );
+        nameCol.setCellValueFactory(
+                new PropertyValueFactory<>("name")
+        );
+        purchaseCategoryCol.setCellValueFactory(
+                new PropertyValueFactory<>("purchaseCategory")
+        );
+        priceCol.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+        );
+
+        if (storeId == -1) {
+            tableView.getColumns().remove(3);
         }
+
+        tableView.setItems(data);
     }
 
     public void setOrderController(OrderController orderController) {
