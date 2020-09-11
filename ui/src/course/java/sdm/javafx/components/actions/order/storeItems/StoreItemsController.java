@@ -53,11 +53,13 @@ public class StoreItemsController extends StoreItemsData {
         int storeItemId = storeItemData.getId();
         updateItemsAndQuantities(storeItemId, quantity);
 
-        int storeId = orderController.getSelectedStoreId();
-        float price = businessLogic.getItemPriceInStoreByIds(storeId, storeItemId);
+        if (orderController.isStaticOrder()) {
+            int storeId = orderController.getSelectedStoreId();
+            float price = businessLogic.getItemPriceInStoreByIds(storeId, storeItemId);
 
-        float cost = quantity * price;
-        updateItemsCost(cost);
+            float cost = quantity * price;
+            updateItemsCost(cost);
+        }
     }
 
     private void setAddItemsControls() {

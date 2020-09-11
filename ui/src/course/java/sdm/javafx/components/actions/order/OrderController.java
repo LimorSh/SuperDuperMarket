@@ -212,6 +212,9 @@ public class OrderController extends OrderData {
         });
     }
 
+    public boolean isStaticOrder() {
+        return staticOrderRadioButton.isSelected();
+    }
 
     private LocalDate getPickedDate() {
         return datePicker.getValue();
