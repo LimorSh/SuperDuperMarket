@@ -2,6 +2,7 @@ package course.java.sdm.javafx.components.sdmData.singleStore;
 
 import course.java.sdm.engine.dto.OrderDto;
 import course.java.sdm.engine.dto.StoreItemDto;
+import course.java.sdm.engine.dto.StoreOrderDto;
 import course.java.sdm.javafx.components.sdmData.singleStore.singleStoreOrder.SingleStoreOrderData;
 import course.java.sdm.javafx.components.sdmData.singleStore.singleStoreItem.SingleStoreItemData;
 import javafx.collections.FXCollections;
@@ -79,11 +80,12 @@ public class SingleStoreController extends StoreData {
         }
     }
 
-    public void setOrdersTableView(Collection<OrderDto> ordersDto) {
+    public void setOrdersTableView(Collection<OrderDto> ordersDto, int storeId) {
         if (!ordersDto.isEmpty()) {
             ArrayList<SingleStoreOrderData> singleStoreOrdersData = new ArrayList<>();
             for (OrderDto orderDto : ordersDto) {
-                SingleStoreOrderData singleStoreOrderData = new SingleStoreOrderData(orderDto);
+                StoreOrderDto storeOrderDto = orderDto.getStoreOrderDto(storeId);
+                SingleStoreOrderData singleStoreOrderData = new SingleStoreOrderData(storeOrderDto);
                 singleStoreOrdersData.add(singleStoreOrderData);
             }
             final ObservableList<SingleStoreOrderData> data = FXCollections.observableArrayList(singleStoreOrdersData);

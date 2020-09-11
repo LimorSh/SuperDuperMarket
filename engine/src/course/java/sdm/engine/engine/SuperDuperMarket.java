@@ -1,4 +1,5 @@
 package course.java.sdm.engine.engine;
+import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.exception.DuplicateElementIdException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheStoreException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheSuperException;
@@ -347,7 +348,7 @@ public class SuperDuperMarket {
         Map<Store, Map<Item, Float>> storesToItemsAndQuantities = getOptimalCart(itemsIdsAndQuantities);
 
         Customer customer = getCustomer(customerId);
-        Order order = new Order(customer, date);
+        Order order = new Order(customer, date, Constants.ORDER_CATEGORY_DYNAMIC_STR);
         addOrder(order);
 
         order.addStoresOrder(storesToItemsAndQuantities);
@@ -357,7 +358,7 @@ public class SuperDuperMarket {
 
     public void createOrder(int customerId, Date date, int storeId, Map<Integer, Float> itemsIdsAndQuantities) {
         Customer customer = getCustomer(customerId);
-        Order order = new Order(customer, date);
+        Order order = new Order(customer, date, Constants.ORDER_CATEGORY_STATIC_STR);
         addOrder(order);
 
         Store store = getStore(storeId);

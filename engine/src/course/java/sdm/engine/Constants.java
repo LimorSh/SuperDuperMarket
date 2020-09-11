@@ -7,4 +7,6 @@ public class Constants {
     public final static String DISCOUNT_CATEGORY_IRRELEVANT = "irrelevant";
     public final static String DISCOUNT_CATEGORY_ONE_OF = "one-of";
     public final static String DISCOUNT_CATEGORY_ALL_OR_NOTHING = "all-or-nothing";
+    public final static String ORDER_CATEGORY_STATIC_STR = "static";
+    public final static String ORDER_CATEGORY_DYNAMIC_STR = "dynamic";
 }

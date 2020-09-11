@@ -34,7 +34,7 @@ public class StoresController {
             SingleStoreController singleStoreController = loader.getController();
             singleStoreController.setStoreDataValues(storeDto);
             singleStoreController.setItemsTableView(storeDto.getStoreItemsDto());
-            singleStoreController.setOrdersTableView(storeDto.getOrdersDto());
+            singleStoreController.setOrdersTableView(storeDto.getOrdersDto(), storeDto.getId());
 
             flowPane.getChildren().add(singleStore);
         } catch (IOException e) {

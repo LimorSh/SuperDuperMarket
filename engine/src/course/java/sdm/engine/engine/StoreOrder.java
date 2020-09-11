@@ -1,18 +1,21 @@
 package course.java.sdm.engine.engine;
 
+import java.util.Date;
 import java.util.Map;
 
 public class StoreOrder {
 
+    private final Date date;
     private final Store store;
     private final Map<Integer, OrderLine> orderLines; //the key is itemId
     private int totalItems;
     private float itemsCost;
     private float deliveryCost;
     private float totalCost;
+    private double distanceFromCustomer;
 
-
-    public StoreOrder(Store store, Map<Integer, OrderLine> orderLines) {
+    public StoreOrder(Date date, Store store, Map<Integer, OrderLine> orderLines) {
+        this.date = date;
         this.store = store;
         this.orderLines = orderLines;
     }
@@ -22,35 +25,44 @@ public class StoreOrder {
         setDeliveryCost(customerLocation);
         setTotalCost();
         setTotalItems();
+        setDistanceFromCustomer(customerLocation);
     }
 
-    public void setItemsCost() {
+    private void setItemsCost() {
         for (OrderLine orderline : orderLines.values()) {
-            this.itemsCost += orderline.calcItemCost();
+            this.itemsCost += orderline.getTotalCost();
         }
     }
 
-    public void setDeliveryCost(Location customerLocation) {
+    private void setDeliveryCost(Location customerLocation) {
         this.deliveryCost = store.getDeliveryCost(customerLocation);
     }
 
-    public void setTotalCost() {
+    private void setTotalCost() {
         this.totalCost = itemsCost + deliveryCost;
     }
 
-    public void setTotalItems() {
+    private void setTotalItems() {
         for (OrderLine orderline : orderLines.values()) {
             this.totalItems += orderline.calcTotalItems();
         }
+    }
+
+    private void setDistanceFromCustomer(Location customerLocation) {
+        this.distanceFromCustomer = store.getDistance(customerLocation);
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public Store getStore() {
         return store;
     }
 
-//    public Map<Integer, OrderLine> getOrderLines() {
-//        return orderLines;
-//    }
+    public Map<Integer, OrderLine> getOrderLines() {
+        return orderLines;
+    }
 
     public int getTotalItems() {
         return totalItems;
@@ -74,5 +86,9 @@ public class StoreOrder {
 
     public float getItemQuantity(int id) {
         return orderLines.get(id).getQuantity();
+    }
+
+    public double getDistanceFromCustomer() {
+        return distanceFromCustomer;
     }
 }

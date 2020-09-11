@@ -1,7 +1,25 @@
 package course.java.sdm.engine.engine;
+import course.java.sdm.engine.Constants;
+
 import java.util.*;
 
 public class Order {
+
+    public enum OrderCategory {
+        STATIC(Constants.ORDER_CATEGORY_STATIC_STR),
+        DYNAMIC(Constants.ORDER_CATEGORY_DYNAMIC_STR),
+        ;
+
+        private final String orderCategoryStr;
+
+        OrderCategory(String orderCategory) {
+            this.orderCategoryStr = orderCategory;
+        }
+
+        public String getOrderCategoryStr() {
+            return orderCategoryStr;
+        }
+    }
 
     private static int numOrders = 1;
     private final int id;
@@ -11,13 +29,22 @@ public class Order {
     private float itemsCost;
     private float deliveryCost;
     private int totalItems;
+    private final OrderCategory orderCategory;
 
-    public Order(Customer customer, Date date) {
+    public Order(Customer customer, Date date, String orderCategory) {
         this.id = numOrders;
         this.customer = customer;
         this.date = date;
+        this.orderCategory = convertStringToOrderCategory(orderCategory);
         storesOrder = new HashMap<>();
         numOrders++;
+    }
+
+    private static Order.OrderCategory convertStringToOrderCategory(String orderCategory) {
+        if (orderCategory.toLowerCase().contains(Constants.ORDER_CATEGORY_STATIC_STR)) {
+            return Order.OrderCategory.STATIC;
+        }
+        return Order.OrderCategory.DYNAMIC;
     }
 
     public int getId() {
@@ -28,8 +55,16 @@ public class Order {
         return date;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
     public Map<Integer, StoreOrder> getStoresOrder() {
         return storesOrder;
+    }
+
+    public OrderCategory getOrderCategory() {
+        return orderCategory;
     }
 
     public float getItemsCost() {
@@ -87,7 +122,7 @@ public class Order {
             store.updateTotalNumberSoldItem(item, itemQuantity);
         });
 
-        StoreOrder storeOrder = new StoreOrder(store, orderLines);
+        StoreOrder storeOrder = new StoreOrder(date, store, orderLines);
         storeOrder.SetValues(customer.getLocation());
         storesOrder.put(store.getId(), storeOrder);
         setValues();
