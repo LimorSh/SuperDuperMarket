@@ -112,14 +112,14 @@ public class OrderController extends OrderData {
             storeItemsController.setTableViewData(storeId);
 
             selectItemsLabel.setVisible(true);
-            gridPane.add(storeItems, 1, 5);
+            gridPane.add(storeItems, STORE_ITEMS_COLUMN_INDEX, STORE_ITEMS_ROW_INDEX);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void dynamicOrderWasChosen() {
-        chooseItems(-1);
+        chooseItems(SuperDuperMarketConstants.NO_STORE_ID);
     }
 
     private void setOneStoreControls(boolean value) {

@@ -2,6 +2,7 @@ package course.java.sdm.javafx.components.actions.order.storeItems;
 
 import course.java.sdm.engine.dto.BasicItemDto;
 import course.java.sdm.engine.dto.ItemWithPriceDto;
+import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.OrderController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -69,7 +70,7 @@ public class StoreItemsController extends StoreItemsData {
     public ArrayList<StoreItemData> getStoreItemsData(int storeId) {
         ArrayList<StoreItemData> storeItemsData = new ArrayList<>();
 
-        if (storeId == -1) {
+        if (storeId == SuperDuperMarketConstants.NO_STORE_ID) {
             Collection<BasicItemDto> basicItemsDto = businessLogic.getBasicItemsDto();
             for (BasicItemDto basicItemDto : basicItemsDto) {
                 StoreItemData storeItemData = new StoreItemData(basicItemDto);
@@ -104,8 +105,8 @@ public class StoreItemsController extends StoreItemsData {
                 new PropertyValueFactory<>("price")
         );
 
-        if (storeId == -1) {
-            tableView.getColumns().remove(3);
+        if (storeId == SuperDuperMarketConstants.NO_STORE_ID) {
+            tableView.getColumns().remove(PRICE_COLUMN_INDEX);
         }
 
         tableView.setItems(data);

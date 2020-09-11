@@ -8,6 +8,7 @@ public class SuperDuperMarketConstants {
     public static final float INIT_FLOAT = 0f;
     public static final double INIT_DOUBLE = 0d;
     public static final String INIT_STRING = "";
+    public static final int NO_STORE_ID = -1;
 
     private static final String BASE_PACKAGE = "/course/java/sdm/javafx";
 

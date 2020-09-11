@@ -13,6 +13,8 @@ public class OrderData {
     protected SimpleFloatProperty deliveryCost;
     protected BusinessLogic businessLogic;
     protected OrderSummeryInfo orderSummeryInfo;
+    protected static final int STORE_ITEMS_COLUMN_INDEX = 1;
+    protected static final int STORE_ITEMS_ROW_INDEX = 5;
 
     public OrderData() {
         uiOrderDto = new UIOrderDto();
