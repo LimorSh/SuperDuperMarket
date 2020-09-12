@@ -22,6 +22,9 @@ public class OrderSummeryData {
     protected UIOrderDto uiOrderDto;
     protected boolean isStaticOrder;
 
+    protected static final String CONFIRM_MSG = "Your order was added successfully!";
+    protected static final String CANCEL_MSG = "Your order was canceled";
+
 
     public OrderSummeryData() {
         date = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);

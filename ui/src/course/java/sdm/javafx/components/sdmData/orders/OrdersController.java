@@ -30,10 +30,10 @@ public class OrdersController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.SINGLE_ORDER_FXML_RESOURCE);
             Node singleOrder= loader.load();
-
             SingleOrderController singleOrderController = loader.getController();
-            singleOrderController.setOrderDataValues(orderDto);
 
+            singleOrderController.setOrderDataValues(orderDto);
+            singleOrderController.showStores(orderDto.getStoresOrderDto());
             flowPane.getChildren().add(singleOrder);
         } catch (IOException e) {
             e.printStackTrace();

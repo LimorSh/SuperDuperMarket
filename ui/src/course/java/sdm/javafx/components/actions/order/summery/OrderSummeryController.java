@@ -26,8 +26,6 @@ public class OrderSummeryController extends OrderSummeryData {
     @FXML private Button confirmButton;
     @FXML private Label finalActionLabel;
 
-    private static final String CONFIRM_MSG = "Your order was added successfully!";
-    private static final String CANCEL_MSG = "Your order was canceled";
 
     public OrderSummeryController() {
         super();

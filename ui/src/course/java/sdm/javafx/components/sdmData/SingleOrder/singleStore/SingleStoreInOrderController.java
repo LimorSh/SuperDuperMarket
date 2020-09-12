@@ -1,5 +1,6 @@
-package course.java.sdm.javafx.components.actions.order.summery.singleStore;
+package course.java.sdm.javafx.components.sdmData.SingleOrder.singleStore;
 
+import course.java.sdm.engine.dto.OrderLineDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,7 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class OrderSummerySingleStoreController extends OrderSummerySingleStoreData {
+public class SingleStoreInOrderController extends StoreInOrderData {
 
     @FXML private Label nameValueLabel;
     @FXML private Label idValueLabel;
@@ -18,14 +19,14 @@ public class OrderSummerySingleStoreController extends OrderSummerySingleStoreDa
     @FXML private Label distanceFromTheCustomerValueLabel;
     @FXML private Label deliveryCostValueLabel;
 
-    @FXML private TableView<OrderSummerySinglePurchasedItemData> purchasedItemsTableView;
-    @FXML private TableColumn<OrderSummerySinglePurchasedItemData, Integer> itemIdCol;
-    @FXML private TableColumn<OrderSummerySinglePurchasedItemData, String> itemNameCol;
-    @FXML private TableColumn<OrderSummerySinglePurchasedItemData, String> itemPurchaseCategoryCol;
-    @FXML private TableColumn<OrderSummerySinglePurchasedItemData, Float> itemQuantityCol;
-    @FXML private TableColumn<OrderSummerySinglePurchasedItemData, Float> itemPricePerUnitCol;
-    @FXML private TableColumn<OrderSummerySinglePurchasedItemData, Float> itemTotalCostCol;
-    @FXML private TableColumn<OrderSummerySinglePurchasedItemData, String> itemDiscountCol;
+    @FXML private TableView<SinglePurchasedItemData> purchasedItemsTableView;
+    @FXML private TableColumn<SinglePurchasedItemData, Integer> itemIdCol;
+    @FXML private TableColumn<SinglePurchasedItemData, String> itemNameCol;
+    @FXML private TableColumn<SinglePurchasedItemData, String> itemPurchaseCategoryCol;
+    @FXML private TableColumn<SinglePurchasedItemData, Float> itemQuantityCol;
+    @FXML private TableColumn<SinglePurchasedItemData, Float> itemPricePerUnitCol;
+    @FXML private TableColumn<SinglePurchasedItemData, Float> itemTotalCostCol;
+    @FXML private TableColumn<SinglePurchasedItemData, String> itemDiscountCol;
 
     @FXML
     private void initialize() {
@@ -36,16 +37,16 @@ public class OrderSummerySingleStoreController extends OrderSummerySingleStoreDa
         deliveryCostValueLabel.textProperty().bind(deliveryCost.asString());
     }
 
-    public void setTableViewData(Collection<OrderSummerySingleStoreItemInfo> orderSummerySingleStoreItemsInfo) {
-        if (!orderSummerySingleStoreItemsInfo.isEmpty()) {
-            ArrayList<OrderSummerySinglePurchasedItemData> orderSummerySinglePurchasedItemsData = new ArrayList<>();
-            for (OrderSummerySingleStoreItemInfo orderSummerySingleStoreItemInfo : orderSummerySingleStoreItemsInfo) {
-                OrderSummerySinglePurchasedItemData orderSummerySinglePurchasedItemData =
-                        new OrderSummerySinglePurchasedItemData(orderSummerySingleStoreItemInfo);
-                orderSummerySinglePurchasedItemsData.add(orderSummerySinglePurchasedItemData);
+    public void setTableViewData(Collection<OrderLineDto> orderLinesDto) {
+        if (!orderLinesDto.isEmpty()) {
+            ArrayList<SinglePurchasedItemData> singlePurchasedItemsData = new ArrayList<>();
+            for (OrderLineDto orderLineDto : orderLinesDto) {
+                SinglePurchasedItemData singlePurchasedItemData =
+                        new SinglePurchasedItemData(orderLineDto);
+                singlePurchasedItemsData.add(singlePurchasedItemData);
             }
-            final ObservableList<OrderSummerySinglePurchasedItemData> data =
-                    FXCollections.observableArrayList(orderSummerySinglePurchasedItemsData);
+            final ObservableList<SinglePurchasedItemData> data =
+                    FXCollections.observableArrayList(singlePurchasedItemsData);
 
             itemIdCol.setCellValueFactory(
                     new PropertyValueFactory<>("id")

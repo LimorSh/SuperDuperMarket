@@ -230,18 +230,18 @@ public class SuperDuperMarketController {
 
     @FXML
     void ordersButtonAction(ActionEvent event) {
-//        try {
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(SuperDuperMarketConstants.ORDERS_FXML_RESOURCE);
-//            Node orders = loader.load();
-//            OrdersController ordersController = loader.getController();
-//
-//            Collection<OrderDto> ordersDto = businessLogic.getOrdersDto();
-//            ordersController.createAllOrders(ordersDto);
-//
-//            superDuperMarketBorderPane.setCenter(orders);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.ORDERS_FXML_RESOURCE);
+            Node orders = loader.load();
+            OrdersController ordersController = loader.getController();
+
+            Collection<OrderDto> ordersDto = businessLogic.getOrdersDto();
+            ordersController.createAllOrders(ordersDto);
+
+            superDuperMarketBorderPane.setCenter(orders);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
