@@ -11,6 +11,9 @@ public class SuperDuperMarketConstants {
     public static final boolean INIT_BOOLEAN = false;
     public static final int NO_STORE_ID = -1;
 
+    public static final String STATIC_ORDER_CATEGORY = "one store";
+    public static final String DYNAMIC_ORDER_CATEGORY = "best cart";
+
     private static final String BASE_PACKAGE = "/course/java/sdm/javafx";
 
     public static final String MAIN_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/main/super-duper-market.fxml";

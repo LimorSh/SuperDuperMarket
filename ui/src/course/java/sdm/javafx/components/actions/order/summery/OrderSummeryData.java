@@ -13,17 +13,20 @@ public class OrderSummeryData {
 
     protected SimpleStringProperty date;
     protected SimpleStringProperty customerDetails;
-    protected SimpleBooleanProperty isStaticOrder;
+    protected SimpleStringProperty orderCategory;
     protected SimpleFloatProperty itemsCost;
     protected SimpleFloatProperty deliveryCost;
     protected SimpleFloatProperty totalCost;
+
     protected BusinessLogic businessLogic;
     protected UIOrderDto uiOrderDto;
+    protected boolean isStaticOrder;
+
 
     public OrderSummeryData() {
         date = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
         customerDetails = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
-        isStaticOrder = new SimpleBooleanProperty(SuperDuperMarketConstants.INIT_BOOLEAN);
+        orderCategory = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
         itemsCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
         deliveryCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
         totalCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
@@ -38,8 +41,8 @@ public class OrderSummeryData {
                 name, xLocation, yLocation));
     }
 
-    private void setIsStaticOrder(boolean value) {
-        this.isStaticOrder.set(value);
+    private void setOrderCategory(String orderCategory) {
+        this.orderCategory.set(orderCategory);
     }
 
     private void setItemsCost(float itemsCost) {
@@ -54,15 +57,26 @@ public class OrderSummeryData {
         this.totalCost.set(UtilsUI.roundNumberWithTwoDigitsAfterPoint(totalCost));
     }
 
+    private void setIsStaticOrder(boolean value) {
+        this.isStaticOrder = value;
+    }
+
     public void setDataValues(OrderSummeryInfo orderSummeryInfo) {
         setDate(orderSummeryInfo.getDate());
         setCustomerDetails(orderSummeryInfo.getCustomerId(),
                 orderSummeryInfo.getCustomerName(), orderSummeryInfo.getCustomerXLocation(),
                 orderSummeryInfo.getCustomerYLocation());
-        setIsStaticOrder(orderSummeryInfo.getIsStaticOrder());
         setItemsCost(orderSummeryInfo.getItemsCost());
         setDeliveryCost(orderSummeryInfo.getDeliveryCost());
         setTotalCost(orderSummeryInfo.getTotalCost());
+
+        setIsStaticOrder(orderSummeryInfo.getIsStaticOrder());
+        if (isStaticOrder) {
+            setOrderCategory(SuperDuperMarketConstants.STATIC_ORDER_CATEGORY);
+        }
+        else {
+            setOrderCategory(SuperDuperMarketConstants.DYNAMIC_ORDER_CATEGORY);
+        }
     }
 
     public void setBusinessLogic(BusinessLogic businessLogic) {
