@@ -36,6 +36,7 @@ public class OrderSummeryController extends OrderSummeryData {
     private void initialize() {
         dateValueLabel.textProperty().bind(date);
         customerDetailsValuesLabel.textProperty().bind(customerDetails);
+        // make bind between isStaticOrder property and checkbox or something like that - with V mark.
         itemsCostValueLabel.textProperty().bind(itemsCost.asString());
         deliveryCostValueLabel.textProperty().bind(deliveryCost.asString());
         totalCostValueLabel.textProperty().bind(totalCost.asString());
@@ -46,8 +47,15 @@ public class OrderSummeryController extends OrderSummeryData {
     }
 
     @FXML void confirmButtonAction(ActionEvent event) {
-        businessLogic.createOrder(uiOrderDto.getCustomerId(), uiOrderDto.getDate(),
-                uiOrderDto.getStoreId(), uiOrderDto.getItemsIdsAndQuantities());
+        if (isStaticOrder.getValue()) {
+            businessLogic.createOrder(uiOrderDto.getCustomerId(), uiOrderDto.getDate(),
+                    uiOrderDto.getStoreId(), uiOrderDto.getItemsIdsAndQuantities());
+        }
+        else {
+            businessLogic.createOrder(uiOrderDto.getCustomerId(),
+                    uiOrderDto.getDate(), uiOrderDto.getItemsIdsAndQuantities());
+        }
+
         setFinalControls(CONFIRM_MSG);
     }
 

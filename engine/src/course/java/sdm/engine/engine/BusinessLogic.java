@@ -3,10 +3,7 @@ import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.dto.*;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 public class BusinessLogic {
 
@@ -226,9 +223,28 @@ public class BusinessLogic {
         return superDuperMarket.getDistanceBetweenCustomerAndStore(storeId, customerId);
     }
 
-    public void createOrder(int customerId, Date date, int storeId,  Map<Integer, Float> itemsIdsAndQuantities) {
+    public void createOrder(int customerId, Date date, int storeId, Map<Integer, Float> itemsIdsAndQuantities) {
         superDuperMarket.createOrder(customerId, date, storeId, itemsIdsAndQuantities);
     }
+
+    public void createOrder(int customerId, Date date, Map<Integer, Float> itemsIdsAndQuantities) {
+        superDuperMarket.createOrder(customerId, date, itemsIdsAndQuantities);
+    }
+
+    public Map<StoreDto, Map<Integer, Float>> getOptimalCart(Map<Integer, Float> itemsIdsAndQuantities) {
+        Map<Store, Map<Integer, Float>> storesToItemIdsAndQuantities =
+                superDuperMarket.getOptimalCartWithItemIds(itemsIdsAndQuantities);
+
+        Map<StoreDto, Map<Integer, Float>> storesDtoToItemIdsAndQuantities = new HashMap<>();
+
+        storesToItemIdsAndQuantities.forEach((store,itemIdsAndQuantities) -> {
+            StoreDto storeDto = new StoreDto(store);
+            storesDtoToItemIdsAndQuantities.put(storeDto, itemIdsAndQuantities);
+        });
+
+        return storesDtoToItemIdsAndQuantities;
+    }
+
 
 
 

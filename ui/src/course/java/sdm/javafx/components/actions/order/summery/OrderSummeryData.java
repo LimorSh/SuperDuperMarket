@@ -4,6 +4,7 @@ import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.UtilsUI;
 import course.java.sdm.javafx.dto.UIOrderDto;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleStringProperty;
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ public class OrderSummeryData {
 
     protected SimpleStringProperty date;
     protected SimpleStringProperty customerDetails;
+    protected SimpleBooleanProperty isStaticOrder;
     protected SimpleFloatProperty itemsCost;
     protected SimpleFloatProperty deliveryCost;
     protected SimpleFloatProperty totalCost;
@@ -21,6 +23,7 @@ public class OrderSummeryData {
     public OrderSummeryData() {
         date = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
         customerDetails = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
+        isStaticOrder = new SimpleBooleanProperty(SuperDuperMarketConstants.INIT_BOOLEAN);
         itemsCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
         deliveryCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
         totalCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
@@ -33,6 +36,10 @@ public class OrderSummeryData {
     private void setCustomerDetails(int id, String name, int xLocation, int yLocation) {
         this.customerDetails.set(String.format("ID %d | %s | Location: (%d,%d)", id,
                 name, xLocation, yLocation));
+    }
+
+    private void setIsStaticOrder(boolean value) {
+        this.isStaticOrder.set(value);
     }
 
     private void setItemsCost(float itemsCost) {
@@ -52,6 +59,7 @@ public class OrderSummeryData {
         setCustomerDetails(orderSummeryInfo.getCustomerId(),
                 orderSummeryInfo.getCustomerName(), orderSummeryInfo.getCustomerXLocation(),
                 orderSummeryInfo.getCustomerYLocation());
+        setIsStaticOrder(orderSummeryInfo.getIsStaticOrder());
         setItemsCost(orderSummeryInfo.getItemsCost());
         setDeliveryCost(orderSummeryInfo.getDeliveryCost());
         setTotalCost(orderSummeryInfo.getTotalCost());

@@ -54,7 +54,7 @@ public class StoreItemsController extends StoreItemsData {
         updateItemsAndQuantities(itemId, quantity);
 
         setDataForStaticOrder(itemId, quantity);
-        setDataForDynamicOrder(itemId, quantity);
+//        setDataForDynamicOrder(itemId, quantity);
     }
 
     private void setDataForStaticOrder(int storeItemId, float quantity) {
@@ -67,9 +67,9 @@ public class StoreItemsController extends StoreItemsData {
         }
     }
 
-    private void setDataForDynamicOrder(int itemId, float quantity) {
-
-    }
+//    private void setDataForDynamicOrder(int itemId, float quantity) {
+//
+//    }
 
     private void setAddItemsControls() {
         quantityLabel.setVisible(true);
