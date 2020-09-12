@@ -10,6 +10,7 @@ import course.java.sdm.javafx.components.actions.loadFile.LoadFileController;
 import course.java.sdm.javafx.components.actions.order.OrderController;
 import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryController;
 import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryInfo;
+import course.java.sdm.javafx.components.actions.order.summery.dynamicOrder.DynamicOrderStoresSummeryController;
 import course.java.sdm.javafx.components.actions.updateItem.UpdateItemController;
 import course.java.sdm.javafx.components.sdmData.customers.CustomersController;
 import course.java.sdm.javafx.components.sdmData.items.ItemsController;
@@ -161,6 +162,20 @@ public class SuperDuperMarketController {
         }
     }
 
+    public void showDynamicOrderStoresSummery(OrderSummeryInfo orderSummeryInfo) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE);
+            Node dynamicOrderStoresSummery = loader.load();
+            DynamicOrderStoresSummeryController dynamicOrderStoresSummeryController = loader.getController();
+
+            dynamicOrderStoresSummeryController.createAllStores(orderSummeryInfo.getSingleStoresInfo());
+            superDuperMarketBorderPane.setCenter(dynamicOrderStoresSummery);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     void customersButtonAction(ActionEvent event) {

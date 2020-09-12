@@ -16,8 +16,8 @@ public class OrderSummeryInfo {
     private float itemsCost;
     private float deliveryCost;
     private float totalCost;
-    private final Collection<OrderSummerySingleStoreInfo> singleStoresInfo; //don't need this for dynamic order, only this:
-//    private final Collection<StoreInfo> storesInfo;  //for dynamic order
+    private final Collection<OrderSummerySingleStoreInfo> singleStoresInfo;
+
 
     public OrderSummeryInfo() {
         singleStoresInfo = new ArrayList<>();

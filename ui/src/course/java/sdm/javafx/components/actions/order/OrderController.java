@@ -79,13 +79,12 @@ public class OrderController extends OrderData {
     }
 
     @FXML
-    void finishButtonAction(ActionEvent event) {
+    void finishButtonAction(ActionEvent event) throws InterruptedException {
         updateUiOrderDto();
         updateOrderSummeryInfo();
 
         if (isDynamicOrder()) {
-            // show summery just for stores - another component.
-            // set superDuperMarketController center with this component.
+            superDuperMarketController.showDynamicOrderStoresSummery(orderSummeryInfo);
         }
 
         superDuperMarketController.showOrderSummery(orderSummeryInfo, uiOrderDto);
@@ -250,6 +249,8 @@ public class OrderController extends OrderData {
 
         orderSummerySingleStoreInfo.setId(storeId);
         orderSummerySingleStoreInfo.setName(storeDto.getName());
+        orderSummerySingleStoreInfo.setXLocation(storeDto.getXLocation());
+        orderSummerySingleStoreInfo.setYLocation(storeDto.getYLocation());
         orderSummerySingleStoreInfo.setPpk(storeDto.getPpk());
         orderSummerySingleStoreInfo.setDistance(businessLogic.getDistanceBetweenCustomerAndStore(storeId, customerId));
         orderSummerySingleStoreInfo.setDeliveryCost(businessLogic.getDeliveryCost(storeId, customerId));

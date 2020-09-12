@@ -41,9 +41,6 @@ public class SuperDuperMarketConstants {
     private static final String ORDER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/order.fxml";
     public static final URL ORDER_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ORDER_FXML_RESOURCE_IDENTIFIER);
 
-    private static final String STATIC_ORDER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/staticOrder/static-order.fxml";
-    public static final URL STATIC_ORDER_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.STATIC_ORDER_FXML_RESOURCE_IDENTIFIER);
-
     private static final String STORE_ITEMS_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/storeItems/store-items.fxml";
     public static final URL STORE_ITEMS_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.STORE_ITEMS_FXML_RESOURCE_IDENTIFIER);
 
@@ -61,4 +58,14 @@ public class SuperDuperMarketConstants {
 
     private static final String LOAD_FILE_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/loadFile/load-file.fxml";
     public static final URL LOAD_FILE_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.LOAD_FILE_FXML_RESOURCE_IDENTIFIER);
+
+    private static final String DYNAMIC_ORDER_SINGLE_STORE_SUMMERY_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/dynamicOrder/singleStore/dynamic-order-single-store-summery.fxml";
+    public static final URL DYNAMIC_ORDER_SINGLE_STORE_SUMMERY_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.DYNAMIC_ORDER_SINGLE_STORE_SUMMERY_FXML_RESOURCE_IDENTIFIER);
+    private static final String DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/dynamicOrder/dynamic-order-stores-summery.fxml";
+    public static final URL DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE_IDENTIFIER);
+
+
+
+
+
 }
