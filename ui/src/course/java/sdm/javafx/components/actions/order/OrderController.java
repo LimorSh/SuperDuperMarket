@@ -43,6 +43,7 @@ public class OrderController extends OrderData {
     private StoreItemsController storeItemsController;
     private SuperDuperMarketController superDuperMarketController;
 
+
     public OrderController() {
         super();
         storeItemsNodes = new ArrayList<>();
@@ -83,11 +84,11 @@ public class OrderController extends OrderData {
         updateUiOrderDto();
         updateOrderSummeryInfo();
 
-        if (isDynamicOrder()) {
-            superDuperMarketController.showDynamicOrderStoresSummery(orderSummeryInfo);
+        if (isStaticOrder()) {
+            superDuperMarketController.showOrderSummery(orderSummeryInfo, uiOrderDto);
         }
 
-        superDuperMarketController.showOrderSummery(orderSummeryInfo, uiOrderDto);
+        superDuperMarketController.showDynamicOrderStoresSummery(orderSummeryInfo, uiOrderDto);
     }
 
     public void setFinishButton(boolean value) {

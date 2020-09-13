@@ -162,14 +162,16 @@ public class SuperDuperMarketController {
         }
     }
 
-    public void showDynamicOrderStoresSummery(OrderSummeryInfo orderSummeryInfo) {
+    public void showDynamicOrderStoresSummery(OrderSummeryInfo orderSummeryInfo, UIOrderDto uiOrderDto) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE);
             Node dynamicOrderStoresSummery = loader.load();
             DynamicOrderStoresSummeryController dynamicOrderStoresSummeryController = loader.getController();
 
-            dynamicOrderStoresSummeryController.createAllStores(orderSummeryInfo.getSingleStoresInfo());
+            dynamicOrderStoresSummeryController.setSuperDuperMarketController(this);
+            dynamicOrderStoresSummeryController.setValuesData(orderSummeryInfo, uiOrderDto);
+            dynamicOrderStoresSummeryController.createAllStores();
             superDuperMarketBorderPane.setCenter(dynamicOrderStoresSummery);
 
         } catch (IOException e) {

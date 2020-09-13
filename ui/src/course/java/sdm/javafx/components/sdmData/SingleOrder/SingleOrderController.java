@@ -8,13 +8,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-
 import java.io.IOException;
 import java.util.Collection;
 
 public class SingleOrderController extends OrderData {
 
     @FXML private BorderPane innerBorderPane;
+    @FXML private Label titleLabel;
     @FXML private Label dateValueLabel;
     @FXML private Label customerDetailsValuesLabel;
     @FXML private Label orderCategoryValueLabel;
@@ -29,6 +29,7 @@ public class SingleOrderController extends OrderData {
 
     @FXML
     private void initialize() {
+        titleLabel.textProperty().bind(title);
         dateValueLabel.textProperty().bind(date);
         customerDetailsValuesLabel.textProperty().bind(customerDetails);
         orderCategoryValueLabel.textProperty().bind(orderCategory);

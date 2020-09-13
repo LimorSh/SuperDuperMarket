@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="750.0" stylesheets="@single-order-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.SingleOrder.SingleOrderController">
+<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="650.0" stylesheets="@single-order-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.SingleOrder.SingleOrderController">
    <top>
-      <Label text="Order Record" BorderPane.alignment="CENTER">
+      <Label fx:id="titleLabel" BorderPane.alignment="CENTER">
          <font>
             <Font size="24.0" />
          </font></Label>
@@ -28,7 +28,7 @@
                   <Label text="Date:" />
                   <Label fx:id="dateValueLabel" minWidth="100.0" />
                   <Label text="Customer Details:" />
-                  <Label fx:id="customerDetailsValuesLabel" minWidth="200.0" />
+                  <Label fx:id="customerDetailsValuesLabel" minWidth="150.0" />
                   <Label text="Order Category:" />
                   <Label fx:id="orderCategoryValueLabel" />
                </children>

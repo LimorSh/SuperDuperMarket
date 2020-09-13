@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class OrderData {
 
-
+    protected SimpleStringProperty title;
     protected SimpleStringProperty date;
     protected SimpleStringProperty customerDetails;
     protected SimpleStringProperty orderCategory;
@@ -20,12 +20,17 @@ public class OrderData {
 
 
     public OrderData() {
+        title = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
         date = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
         customerDetails = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
         orderCategory = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
         itemsCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
         deliveryCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
         totalCost = new SimpleFloatProperty(SuperDuperMarketConstants.INIT_FLOAT);
+    }
+
+    public void setTitle(int id) {
+        this.title.set(String.format("Order ID %d", id));
     }
 
     public void setDate(Date date) {
@@ -60,5 +65,6 @@ public class OrderData {
         setDeliveryCost(orderDto.getDeliveryCost());
         setTotalCost(orderDto.getTotalCost());
         setOrderCategory(orderDto.getOrderCategory());
+        setTitle(orderDto.getId());
     }
 }
