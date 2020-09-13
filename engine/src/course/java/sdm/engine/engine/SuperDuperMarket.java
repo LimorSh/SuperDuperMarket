@@ -294,26 +294,6 @@ public class SuperDuperMarket {
         return store.getDistance(customerLocation);
     }
 
-//    public Map<Integer, Store> getOptimalCart(Collection<Integer> itemsIds) {
-//        Map<Integer, Store> itemsIdsToStores = new HashMap<>();
-//        for (Integer id : itemsIds) {
-//            Store minStore = null;
-//            float minPrice = Float.MAX_VALUE;
-//
-//            for (Store store : stores.values()) {
-//                if (store.isItemInTheStore(id)) {
-//                    float storeItemPrice = store.getItemPrice(id);
-//                    if (storeItemPrice < minPrice) {
-//                        minStore = store;
-//                    }
-//                }
-//            }
-//            itemsIdsToStores.put(id, minStore);
-//        }
-//
-//        return itemsIdsToStores;
-//    }
-
     public Map<Store, Map<Integer, Float>> getOptimalCartWithItemIds(Map<Integer, Float> itemsIdsAndQuantities) {
         Map<Store, Map<Integer, Float>> storesToItemIdsAndQuantities = new HashMap<>();
 
@@ -360,36 +340,6 @@ public class SuperDuperMarket {
 
         return storesToItemsAndQuantities;
     }
-
-//    public Map<Store, Map<Item, Float>> getOptimalCart(Map<Integer, Float> itemsIdsAndQuantities) {
-//        Map<Store, Map<Item, Float>> storesToItemsAndQuantities = new HashMap<>();
-//
-//        itemsIdsAndQuantities.forEach((itemId,itemQuantity) -> {
-//            Store minStore = null;
-//            float minPrice = Float.MAX_VALUE;
-//
-//            for (Store store : stores.values()) {
-//                if (store.isItemInTheStore(itemId)) {
-//                    float storeItemPrice = store.getItemPrice(itemId);
-//                    if (storeItemPrice < minPrice) {
-//                        minStore = store;
-//                    }
-//                }
-//            }
-//            Item item = getItem(itemId);
-//
-//            if (storesToItemsAndQuantities.containsKey(minStore)) {
-//                storesToItemsAndQuantities.get(minStore).put(item, itemQuantity);
-//            }
-//            else {
-//                Map<Item, Float> itemsAndQuantities = new HashMap<>();
-//                itemsAndQuantities.put(item, itemQuantity);
-//                storesToItemsAndQuantities.put(minStore, itemsAndQuantities);
-//            }
-//        });
-//
-//        return storesToItemsAndQuantities;
-//    }
 
     public void createOrder(int customerId, Date date, Map<Integer, Float> itemsIdsAndQuantities) {
         Map<Store, Map<Item, Float>> storesToItemsAndQuantities = getOptimalCartWithItems(itemsIdsAndQuantities);

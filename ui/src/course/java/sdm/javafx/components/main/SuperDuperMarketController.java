@@ -40,7 +40,7 @@ public class SuperDuperMarketController {
 //    @FXML private FlowPane superDuperMarketFlowPane;
     @FXML private Button customersButton;
     @FXML private Button storesButton;
-    @FXML private Button productsButton;
+    @FXML private Button itemsButton;
     @FXML private Button ordersButton;
     @FXML private Button loadFileButton;
     @FXML private Button updateItemButton;
@@ -67,7 +67,7 @@ public class SuperDuperMarketController {
     private void initialize() {
         customersButton.disableProperty().bind(isFileSelected.not());
         storesButton.disableProperty().bind(isFileSelected.not());
-        productsButton.disableProperty().bind(isFileSelected.not());
+        itemsButton.disableProperty().bind(isFileSelected.not());
         ordersButton.disableProperty().bind(isFileSelected.not());
         updateItemButton.disableProperty().bind(isFileSelected.not());
         addOrderButton.disableProperty().bind(isFileSelected.not());
@@ -212,7 +212,7 @@ public class SuperDuperMarketController {
     }
 
     @FXML
-    void productsButtonAction(ActionEvent event) {
+    void itemsButtonAction(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.ITEMS_FXML_RESOURCE);

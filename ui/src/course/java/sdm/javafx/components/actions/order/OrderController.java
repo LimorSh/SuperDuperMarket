@@ -79,7 +79,7 @@ public class OrderController extends OrderData {
     }
 
     @FXML
-    void finishButtonAction(ActionEvent event) throws InterruptedException {
+    void finishButtonAction(ActionEvent event) {
         updateUiOrderDto();
         updateOrderSummeryInfo();
 
@@ -229,7 +229,6 @@ public class OrderController extends OrderData {
         orderSummeryInfo.setDeliveryCost(deliveriesCost.get());
         orderSummeryInfo.setTotalCost(totalCost);
     }
-
 
     private void updateOrderSummeryInfoForStaticOrder(int customerId) {
         float itemsCost = storeItemsController.getItemsCost();
