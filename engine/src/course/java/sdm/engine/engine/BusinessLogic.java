@@ -164,9 +164,8 @@ public class BusinessLogic {
     }
 
     public void validateItemIdExistsInStore(int storeId, int storeItemId) {
-        new BusinessLogic().validateItemExistInTheSuper(storeItemId);
         if (!superDuperMarket.isItemExistsInStore(storeId, storeItemId)) {
-            throw new IllegalArgumentException("The item ID " + storeItemId + " does not exist in the store.");
+            throw new IllegalArgumentException("The item does not exist in the store.");
         }
     }
 

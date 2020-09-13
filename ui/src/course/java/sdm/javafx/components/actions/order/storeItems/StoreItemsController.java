@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -30,6 +31,7 @@ public class StoreItemsController extends StoreItemsData {
     @FXML private TextField quantityTextField;
     @FXML private Button addItemButton;
     @FXML private Label quantityLabel;
+    @FXML private Label msgLabel;
 
     private OrderController orderController;
 
@@ -49,11 +51,38 @@ public class StoreItemsController extends StoreItemsData {
         }
 
         StoreItemData storeItemData = tableView.getSelectionModel().getSelectedItem();
-        float quantity = Float.parseFloat(quantityTextField.getText());
         int itemId = storeItemData.getId();
-        updateItemsAndQuantities(itemId, quantity);
+        float quantity;
+        try {
+            quantity = Float.parseFloat(quantityTextField.getText());
+            businessLogic.validateItemQuantity(itemId, quantity);
+        }
+        catch (NumberFormatException e) {
+            msgLabel.setText(INVALID_QUANTITY_INPUT_MSG);
+            return;
+        }
+        catch (IllegalArgumentException e) {
+            msgLabel.setText(e.getMessage());
+            return;
+        }
 
+        if (orderController.isStaticOrder()) {
+            try {
+                validateItemIsInTheStoreForStaticOrder(itemId);
+            }
+            catch (Exception e) {
+                msgLabel.setText(e.getMessage() + " Choose only items with prices.");
+                return;
+            }
+        }
+
+        msgLabel.setText("");
+        updateItemsAndQuantities(itemId, quantity);
         setDataForStaticOrder(itemId, quantity);
+    }
+
+    private void validateItemIsInTheStoreForStaticOrder(int itemId) {
+        businessLogic.validateItemIdExistsInStore(orderController.getSelectedStoreId(), itemId);
     }
 
     private void setDataForStaticOrder(int storeItemId, float quantity) {
