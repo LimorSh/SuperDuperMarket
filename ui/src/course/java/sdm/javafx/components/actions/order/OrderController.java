@@ -87,8 +87,9 @@ public class OrderController extends OrderData {
         if (isStaticOrder()) {
             superDuperMarketController.showOrderSummery(orderSummeryInfo, uiOrderDto);
         }
-
-        superDuperMarketController.showDynamicOrderStoresSummery(orderSummeryInfo, uiOrderDto);
+        else {
+            superDuperMarketController.showDynamicOrderStoresSummery(orderSummeryInfo, uiOrderDto);
+        }
     }
 
     public void setFinishButton(boolean value) {

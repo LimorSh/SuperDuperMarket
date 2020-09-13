@@ -9,7 +9,7 @@ public class LoadFileController {
     @FXML private Label FinalMsgLabel;
 
     private static final String FAILED_MSG = "Could not load the file:\nThe file you tried to load is not valid for the following reason:\n";
-    private static final String FINAL_MSG = "\n\nThe system contains the last valid data.";
+    private static final String FINAL_MSG = "The system contains the last valid data.";
 
     @FXML
     private void initialize() {
