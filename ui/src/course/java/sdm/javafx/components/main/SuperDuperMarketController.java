@@ -22,6 +22,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -36,7 +37,6 @@ public class SuperDuperMarketController {
     private Stage primaryStage;
 
     @FXML private BorderPane superDuperMarketBorderPane;
-//    @FXML private FlowPane superDuperMarketFlowPane;
     @FXML private Button customersButton;
     @FXML private Button storesButton;
     @FXML private Button itemsButton;
@@ -213,6 +213,9 @@ public class SuperDuperMarketController {
     @FXML
     void customersButtonAction(ActionEvent event) {
         try {
+//            customersButton.setEffect(new InnerShadow());
+//            customersButton.setStyle("-fx-text-fill: #0c33ba;");
+
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.CUSTOMERS_FXML_RESOURCE);
             Node customers = loader.load();
