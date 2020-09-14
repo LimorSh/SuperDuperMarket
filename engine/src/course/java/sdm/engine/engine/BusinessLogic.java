@@ -249,6 +249,19 @@ public class BusinessLogic {
     }
 
 
+    public Map<StoreItemDto, Float> getStoreItemsDtoAndQuantities(int storeId,
+                                                                   Map<Integer, Float> itemsIdsAndQuantities) {
+        Map<StoreItemDto, Float> storeItemsDtoAndQuantities = new HashMap<>();
+
+        itemsIdsAndQuantities.forEach((itemId,quantity) -> {
+            StoreItem storeItem = superDuperMarket.getStoreItem(storeId, itemId);
+            StoreItemDto storeItemDto = new StoreItemDto(storeItem);
+            storeItemsDtoAndQuantities.put(storeItemDto, quantity);
+        });
+
+        return storeItemsDtoAndQuantities;
+    }
+
 
 
 }

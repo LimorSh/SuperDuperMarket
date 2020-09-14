@@ -166,6 +166,11 @@ public class SuperDuperMarket {
         return customers.get(id);
     }
 
+    public StoreItem getStoreItem(int storeId, int itemId) {
+        Store store = getStore(storeId);
+        return store.getStoreItem(itemId);
+    }
+
     public Item getItem(int id) {
         return items.get(id);
     }

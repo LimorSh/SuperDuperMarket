@@ -160,6 +160,15 @@ public class Store {
         throw new IllegalArgumentException("Cannot delete the item: The store must sell at least one item.");
     }
 
+    public StoreItem getStoreItem(int itemId) {
+        for (StoreItem storeItem : storeItems.values()) {
+            if (storeItem.getId() == itemId) {
+                return storeItem;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return "Store{" +

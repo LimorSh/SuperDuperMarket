@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
 
 public class SuperDuperMarketController {
 
@@ -186,11 +187,19 @@ public class SuperDuperMarketController {
                 DiscountsController discountsController = loader.getController();
 
                 discountsController.setSuperDuperMarketController(this);
+                discountsController.setValuesData(orderSummeryInfo, uiOrderDto);
 
-                StoreDto storeDto = businessLogic.getStoreDto(uiOrderDto.getStoreId());
-                Collection<StoreItemDto> storeItemsDto = businessLogic.getStoreItems(storeDto);
-                discountsController.createAllDiscounts(storeItemsDto);
-                superDuperMarketBorderPane.setCenter(discounts);
+                int storeId = uiOrderDto.getStoreId();
+                Map<StoreItemDto, Float> storeItemsDtoAndQuantities =
+                        businessLogic.getStoreItemsDtoAndQuantities(storeId, uiOrderDto.getItemsIdsAndQuantities());
+
+                boolean success = discountsController.createAllDiscounts(storeItemsDtoAndQuantities);
+                if (success) {
+                    superDuperMarketBorderPane.setCenter(discounts);
+                }
+                else {
+                    showOrderSummery(orderSummeryInfo, uiOrderDto);
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();

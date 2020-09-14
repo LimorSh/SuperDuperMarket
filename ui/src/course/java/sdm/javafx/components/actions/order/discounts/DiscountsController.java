@@ -5,28 +5,56 @@ import course.java.sdm.engine.dto.StoreItemDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.order.discounts.singleDiscount.SingleDiscountController;
 import course.java.sdm.javafx.components.main.SuperDuperMarketController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.control.Button;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
-public class DiscountsController {
+public class DiscountsController extends DiscountsData {
 
     @FXML private FlowPane flowPane;
 
     private SuperDuperMarketController superDuperMarketController;
 
-    public void createAllDiscounts(Collection<StoreItemDto> storeItemsDto) {
-        for (StoreItemDto storeItemDto : storeItemsDto) {
+    @FXML
+    void nextButtonAction(ActionEvent event) {
+        superDuperMarketController.showOrderSummery(orderSummeryInfo, uiOrderDto);
+    }
+
+    public boolean createAllDiscounts(Map<StoreItemDto, Float> storeItemsDtoAndQuantities) {
+        Collection<DiscountDto> discountsDto = getDeserveDiscounts(storeItemsDtoAndQuantities);
+
+        if (!discountsDto.isEmpty()) {
+            for (DiscountDto discountDto : discountsDto) {
+                createDiscount(discountDto);
+            }
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    private Collection<DiscountDto> getDeserveDiscounts(Map<StoreItemDto, Float> storeItemsDtoAndQuantities) {
+        Collection<DiscountDto> deserveDiscountsDto = new ArrayList<>();
+
+        storeItemsDtoAndQuantities.forEach((storeItemDto,quantity) -> {
             Collection<DiscountDto> discountsDto = storeItemDto.getDiscountsDto();
-            if (!discountsDto.isEmpty()) {
-                for (DiscountDto discountDto : discountsDto) {
-                    createDiscount(discountDto);
+            for (DiscountDto discountDto : discountsDto) {
+                double neededQuantity = discountDto.getStoreItemQuantity();
+                if (quantity >= neededQuantity) {
+                    deserveDiscountsDto.add(discountDto);
                 }
             }
-        }
+        });
+
+        return deserveDiscountsDto;
     }
 
     private void createDiscount(DiscountDto discountDto) {
