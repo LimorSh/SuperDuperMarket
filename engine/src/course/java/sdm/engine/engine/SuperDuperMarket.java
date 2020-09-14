@@ -370,7 +370,10 @@ public class SuperDuperMarket {
         order.finish(store);
     }
 
-
+    public boolean isStoreHasDiscounts(int id) {
+        Store store = getStore(id);
+        return store.hasDiscounts();
+    }
 
 
 

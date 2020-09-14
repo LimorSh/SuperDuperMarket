@@ -1,4 +1,4 @@
-package course.java.sdm.javafx.components.sdmData.singleStore.singleDiscount;
+package course.java.sdm.javafx.components.actions.order.discounts.singleDiscount;
 
 import course.java.sdm.engine.dto.OfferDto;
 import course.java.sdm.javafx.UtilsUI;

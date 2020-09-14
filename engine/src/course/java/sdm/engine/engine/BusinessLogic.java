@@ -244,6 +244,9 @@ public class BusinessLogic {
         return storesDtoToItemIdsAndQuantities;
     }
 
+    public boolean isStoreHasDiscounts(int storeId) {
+        return superDuperMarket.isStoreHasDiscounts(storeId);
+    }
 
 
 

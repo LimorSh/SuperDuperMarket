@@ -1,22 +1,27 @@
-package course.java.sdm.javafx.components.sdmData.singleStore.singleDiscount;
+package course.java.sdm.javafx.components.actions.order.discounts.singleDiscount;
 
 import course.java.sdm.engine.dto.OfferDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class singleDiscountController extends DiscountData {
+public class SingleDiscountController extends DiscountData {
 
     @FXML private Label nameLabel;
     @FXML private Label itemDetailsLabel;
     @FXML private Label itemQuantityLabel;
     @FXML private Label categoryLabel;
+
+    @FXML private Button applyDiscountButton;
 
     @FXML private TableView<DiscountOfferData> tableView;
     @FXML private TableColumn<DiscountOfferData, Integer> idCol;
@@ -25,12 +30,18 @@ public class singleDiscountController extends DiscountData {
     @FXML private TableColumn<DiscountOfferData, Double> quantityCol;
     @FXML private TableColumn<DiscountOfferData, Integer> additionalPriceCol;
 
+
     @FXML
     private void initialize() {
         nameLabel.textProperty().bind(name);
         itemDetailsLabel.textProperty().bind(itemDetails);
         itemQuantityLabel.textProperty().bind(itemQuantity.asString());
         categoryLabel.textProperty().bind(category);
+    }
+
+    @FXML
+    void applyDiscountButtonAction(ActionEvent event) {
+
     }
 
     public void setTableView(Collection<OfferDto> offersDto) {
@@ -64,4 +75,6 @@ public class singleDiscountController extends DiscountData {
             // show no store orders component!
         }
     }
+
 }
+

@@ -120,7 +120,7 @@ public class SingleStoreController extends StoreData {
     }
 
     public void setDiscountsFlowPane(StoreDto storeDto) {
-        if (storeDto.hasDiscounts()) {
+        if (storeDto.getHasDiscounts()) {
             discountsHbox.getChildren().removeAll(noDiscountsLabel);
             Collection<StoreItemDto> storeItemsDto = storeDto.getStoreItemsDto();
             createAllDiscounts(storeItemsDto);

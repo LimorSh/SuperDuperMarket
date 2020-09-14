@@ -38,8 +38,4 @@ public class StoreItemDto extends BasicItemDto {
     public Collection<DiscountDto> getDiscountsDto() {
         return discountsDto;
     }
-
-    public boolean hasDiscounts() {
-        return (!discountsDto.isEmpty());
-    }
 }

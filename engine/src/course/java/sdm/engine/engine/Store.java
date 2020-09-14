@@ -1,4 +1,5 @@
 package course.java.sdm.engine.engine;
+import course.java.sdm.engine.dto.StoreItemDto;
 import course.java.sdm.engine.exception.DuplicateStoreItemIdException;
 import course.java.sdm.engine.exception.LocationOutOfRangeException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
@@ -139,6 +140,15 @@ public class Store {
 
     public boolean isOrderInTheStore(int orderId) {
         return orders.containsKey(orderId);
+    }
+
+    public boolean hasDiscounts() {
+        for (StoreItem storeItem : storeItems.values()) {
+            if (storeItem.hasDiscounts()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void deleteItem(int id) {

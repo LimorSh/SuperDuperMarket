@@ -46,6 +46,11 @@ public class SuperDuperMarketConstants {
     private static final String ALL_STORES_IN_ORDER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/sdmData/singleOrder/allStores/all-stores.fxml";
     public static final URL ALL_STORES_IN_ORDER_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ALL_STORES_IN_ORDER_FXML_RESOURCE_IDENTIFIER);
 
+    private static final String SINGLE_DISCOUNT_IN_ADD_ORDER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/discounts/singleDiscount/single-discount.fxml";
+    public static final URL SINGLE_DISCOUNT_IN_ADD_ORDER_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.SINGLE_DISCOUNT_IN_ADD_ORDER_FXML_RESOURCE_IDENTIFIER);
+    private static final String ALL_DISCOUNTS_IN_ADD_ORDER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/discounts/discounts.fxml";
+    public static final URL ALL_DISCOUNTS_IN_ADD_ORDER_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ALL_DISCOUNTS_IN_ADD_ORDER_FXML_RESOURCE_IDENTIFIER);
+
     private static final String ORDER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/order.fxml";
     public static final URL ORDER_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ORDER_FXML_RESOURCE_IDENTIFIER);
 

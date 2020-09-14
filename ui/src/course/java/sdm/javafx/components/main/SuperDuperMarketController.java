@@ -1,13 +1,11 @@
 package course.java.sdm.javafx.components.main;
 
-import course.java.sdm.engine.dto.CustomerDto;
-import course.java.sdm.engine.dto.ItemDto;
-import course.java.sdm.engine.dto.OrderDto;
-import course.java.sdm.engine.dto.StoreDto;
+import course.java.sdm.engine.dto.*;
 import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.loadFile.LoadFileController;
 import course.java.sdm.javafx.components.actions.order.OrderController;
+import course.java.sdm.javafx.components.actions.order.discounts.DiscountsController;
 import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryController;
 import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryInfo;
 import course.java.sdm.javafx.components.actions.order.summery.dynamicOrder.DynamicOrderStoresSummeryController;
@@ -176,6 +174,30 @@ public class SuperDuperMarketController {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void showDiscountsForStaticOrder(OrderSummeryInfo orderSummeryInfo, UIOrderDto uiOrderDto) {
+        if (businessLogic.isStoreHasDiscounts(uiOrderDto.getStoreId())) {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(SuperDuperMarketConstants.ALL_DISCOUNTS_IN_ADD_ORDER_FXML_RESOURCE);
+                Node discounts = loader.load();
+                DiscountsController discountsController = loader.getController();
+
+                discountsController.setSuperDuperMarketController(this);
+
+                StoreDto storeDto = businessLogic.getStoreDto(uiOrderDto.getStoreId());
+                Collection<StoreItemDto> storeItemsDto = businessLogic.getStoreItems(storeDto);
+                discountsController.createAllDiscounts(storeItemsDto);
+                superDuperMarketBorderPane.setCenter(discounts);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            showOrderSummery(orderSummeryInfo, uiOrderDto);
         }
     }
 

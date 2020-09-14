@@ -49,12 +49,9 @@ public class StoreItem extends Item{
                 .collect(Collectors.toList());
     }
 
-    public boolean isContainDiscounts() {
+    public boolean hasDiscounts() {
         return !discounts.isEmpty();
     }
-
-
-
 
     @Override
     public String toString() {
