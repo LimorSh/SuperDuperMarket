@@ -22,7 +22,7 @@ public class StoreItemDto extends BasicItemDto {
     private void copyDiscountsDto(StoreItem storeItem) {
         Collection<Discount> discounts = storeItem.getDiscounts();
         for (Discount discount : discounts) {
-            DiscountDto discountDto = new DiscountDto(discount);
+            DiscountDto discountDto = new DiscountDto(discount, storeItem.getName());
             discountsDto.add(discountDto);
         }
     }
@@ -37,5 +37,9 @@ public class StoreItemDto extends BasicItemDto {
 
     public Collection<DiscountDto> getDiscountsDto() {
         return discountsDto;
+    }
+
+    public boolean hasDiscounts() {
+        return (!discountsDto.isEmpty());
     }
 }

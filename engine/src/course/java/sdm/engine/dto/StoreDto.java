@@ -76,6 +76,15 @@ public class StoreDto {
     public int getYLocation() {
         return yLocation;
     }
+
+    public boolean hasDiscounts() {
+        for (StoreItemDto storeItemDto : storeItemsDto) {
+            if (storeItemDto.hasDiscounts()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 
