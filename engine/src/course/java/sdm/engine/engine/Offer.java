@@ -3,22 +3,22 @@ import course.java.sdm.engine.jaxb.schema.generated.SDMOffer;
 
 public class Offer {
 
-    private final int storeItemId;
+    private final Item item;
     private final double quantity;
     private final int additionalPrice;
 
-    public Offer(int storeItemId, double quantity, int additionalPrice) {
-        this.storeItemId = storeItemId;
+    public Offer(Item item, double quantity, int additionalPrice) {
+        this.item = item;
         this.quantity = quantity;
         this.additionalPrice = additionalPrice;
     }
 
-    public Offer(SDMOffer sdmOffer) {
-        this(sdmOffer.getItemId(), sdmOffer.getQuantity(), sdmOffer.getForAdditional());
+    public Offer(SDMOffer sdmOffer, Item item) {
+        this(item, sdmOffer.getQuantity(), sdmOffer.getForAdditional());
     }
 
-    public int getStoreItemId() {
-        return storeItemId;
+    public Item getItem() {
+        return item;
     }
 
     public double getQuantity() {
@@ -37,11 +37,11 @@ public class Offer {
 
         Offer offer = (Offer) o;
 
-        return storeItemId == offer.storeItemId;
+        return item.getId() == offer.getItem().getId();
     }
 
     @Override
     public int hashCode() {
-        return storeItemId;
+        return item.getId();
     }
 }

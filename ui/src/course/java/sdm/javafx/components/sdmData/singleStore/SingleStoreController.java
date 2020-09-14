@@ -147,6 +147,7 @@ public class SingleStoreController extends StoreData {
 
             singleDiscountController singleDiscountController = loader.getController();
             singleDiscountController.setDataValues(discountDto);
+            singleDiscountController.setTableView(discountDto.getOffersDto());
 
             discountsFlowPane.getChildren().add(singleDiscount);
         } catch (IOException e) {

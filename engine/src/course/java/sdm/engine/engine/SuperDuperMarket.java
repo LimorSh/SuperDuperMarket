@@ -218,7 +218,7 @@ public class SuperDuperMarket {
         validateItemIsInSuperAndStore(discountItemId, store);
 
         for (Offer offer : discount.getOffers()) {
-            int offerItemId = offer.getStoreItemId();
+            int offerItemId = offer.getItem().getId();
             validateItemIsInSuperAndStore(offerItemId, store);
         }
     }

@@ -87,7 +87,8 @@ public class DataLoader {
                 List<SDMOffer> sdmOffers = sdmDiscount.getThenYouGet().getSDMOffer();
                 try {
                     for (SDMOffer sdmOffer : sdmOffers) {
-                        Offer offer = new Offer(sdmOffer);
+                        Item item = superDuperMarket.getItem(sdmOffer.getItemId());
+                        Offer offer = new Offer(sdmOffer, item);
                         discount.addOffer(offer);
                     }
                     superDuperMarket.addDiscountToStore(discount, store);
