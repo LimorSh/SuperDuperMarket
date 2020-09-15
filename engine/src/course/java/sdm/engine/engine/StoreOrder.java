@@ -1,5 +1,6 @@
 package course.java.sdm.engine.engine;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
@@ -8,13 +9,16 @@ public class StoreOrder {
     private final Date date;
     private final Store store;
     private final Map<Integer, OrderLine> orderLines; //the key is itemId
+//    private final Map<String, ArrayList<Offer>> appliedOffers;  //the key is discount name
     private int totalItems;
     private float itemsCost;
     private float deliveryCost;
     private float totalCost;
     private double distanceFromCustomer;
 
-    public StoreOrder(Date date, Store store, Map<Integer, OrderLine> orderLines) {
+    public StoreOrder(Date date, Store store, Map<Integer, OrderLine> orderLines
+//                      Map<String, ArrayList<Offer>> appliedOffers
+    ) {
         this.date = date;
         this.store = store;
         this.orderLines = orderLines;

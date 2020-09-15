@@ -75,6 +75,5 @@ public class SingleDiscountController extends DiscountData {
             // show no store orders component!
         }
     }
-
 }
 
