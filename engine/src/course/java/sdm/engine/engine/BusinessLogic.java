@@ -222,12 +222,34 @@ public class BusinessLogic {
         return superDuperMarket.getDistanceBetweenCustomerAndStore(storeId, customerId);
     }
 
-    public void createOrder(int customerId, Date date, int storeId, Map<Integer, Float> itemsIdsAndQuantities) {
-        superDuperMarket.createOrder(customerId, date, storeId, itemsIdsAndQuantities);
+    public void createOrder(int customerId, Date date, int storeId, Map<Integer, Float> itemsIdsAndQuantities,
+                            Map<String, Collection<OfferDto>> appliedOffersDto) {
+        superDuperMarket.createOrder(customerId, date, storeId, itemsIdsAndQuantities,
+                convertAppliedOffersDtoToOffers(appliedOffersDto));
     }
 
-    public void createOrder(int customerId, Date date, Map<Integer, Float> itemsIdsAndQuantities) {
-        superDuperMarket.createOrder(customerId, date, itemsIdsAndQuantities);
+    public void createOrder(int customerId, Date date, Map<Integer, Float> itemsIdsAndQuantities,
+                            Map<String, Collection<OfferDto>> appliedOffersDto) {
+        superDuperMarket.createOrder(customerId, date, itemsIdsAndQuantities,
+                convertAppliedOffersDtoToOffers(appliedOffersDto));
+    }
+
+    private Map<String, ArrayList<Offer>> convertAppliedOffersDtoToOffers(Map<String, Collection<OfferDto>> appliedOffersDto) {
+        Map<String, ArrayList<Offer>> appliedOffers = new HashMap<>();
+
+        appliedOffersDto.forEach((discountName, offersDto) -> {
+            ArrayList<Offer> offers = new ArrayList<>();
+            for (OfferDto offerDto : offersDto) {
+                int storeItemId = offerDto.getStoreItemId();
+                Item item = superDuperMarket.getItem(storeItemId);
+                Offer offer = new Offer(item, offerDto.getQuantity(), offerDto.getAdditionalPrice());
+
+                offers.add(offer);
+            }
+            appliedOffers.put(discountName, offers);
+        });
+
+        return appliedOffers;
     }
 
     public Map<StoreDto, Map<Integer, Float>> getOptimalCart(Map<Integer, Float> itemsIdsAndQuantities) {

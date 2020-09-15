@@ -1,8 +1,9 @@
 package course.java.sdm.javafx.dto;
 
+import course.java.sdm.engine.dto.OfferDto;
+
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 public class UIOrderDto {
 
@@ -10,6 +11,7 @@ public class UIOrderDto {
     private Date date;
     private int storeId;
     private Map<Integer, Float> itemsIdsAndQuantities;
+    private Map<String, Collection<OfferDto>> appliedOffersDto = new HashMap<>(); //the key is discount name
 
     public int getCustomerId() {
         return customerId;
@@ -27,6 +29,10 @@ public class UIOrderDto {
         return itemsIdsAndQuantities;
     }
 
+    public Map<String, Collection<OfferDto>> getAppliedOffersDto() {
+        return appliedOffersDto;
+    }
+
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
@@ -41,5 +47,9 @@ public class UIOrderDto {
 
     public void setItemsIdsAndQuantities(Map<Integer, Float> itemsIdsAndQuantities) {
         this.itemsIdsAndQuantities = itemsIdsAndQuantities;
+    }
+
+    public void setAppliedOffersDto(Map<String, Collection<OfferDto>> appliedOffersDto) {
+        this.appliedOffersDto = appliedOffersDto;
     }
 }

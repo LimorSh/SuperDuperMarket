@@ -9,16 +9,14 @@ public class StoreOrder {
     private final Date date;
     private final Store store;
     private final Map<Integer, OrderLine> orderLines; //the key is itemId
-//    private final Map<String, ArrayList<Offer>> appliedOffers;  //the key is discount name
+    private Map<String, ArrayList<Offer>> appliedOffers;  //the key is discount name
     private int totalItems;
     private float itemsCost;
     private float deliveryCost;
     private float totalCost;
     private double distanceFromCustomer;
 
-    public StoreOrder(Date date, Store store, Map<Integer, OrderLine> orderLines
-//                      Map<String, ArrayList<Offer>> appliedOffers
-    ) {
+    public StoreOrder(Date date, Store store, Map<Integer, OrderLine> orderLines) {
         this.date = date;
         this.store = store;
         this.orderLines = orderLines;
@@ -56,6 +54,10 @@ public class StoreOrder {
         this.distanceFromCustomer = store.getDistance(customerLocation);
     }
 
+    public void setAppliedOffers(Map<String, ArrayList<Offer>> appliedOffers) {
+        this.appliedOffers = appliedOffers;
+    }
+
     public Date getDate() {
         return date;
     }
@@ -66,6 +68,10 @@ public class StoreOrder {
 
     public Map<Integer, OrderLine> getOrderLines() {
         return orderLines;
+    }
+
+    public Map<String, ArrayList<Offer>> getAppliedOffers() {
+        return appliedOffers;
     }
 
     public int getTotalItems() {

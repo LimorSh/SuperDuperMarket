@@ -21,9 +21,18 @@ public class DiscountsController extends DiscountsData {
 
     private SuperDuperMarketController superDuperMarketController;
 
+    public void setSuperDuperMarketController(SuperDuperMarketController superDuperMarketController) {
+        this.superDuperMarketController = superDuperMarketController;
+    }
+
     @FXML
     void nextButtonAction(ActionEvent event) {
+        setAppliedOffersDtoToUiOrderDto();
         superDuperMarketController.showOrderSummery(orderSummeryInfo, uiOrderDto);
+    }
+
+    private void setAppliedOffersDtoToUiOrderDto() {
+        uiOrderDto.setAppliedOffersDto(appliedOffersDto);
     }
 
     public boolean createAllDiscounts(Map<StoreItemDto, Float> storeItemsDtoAndQuantities) {
@@ -36,6 +45,7 @@ public class DiscountsController extends DiscountsData {
             return true;
         }
         else {
+            setAppliedOffersDtoToUiOrderDto();
             return false;
         }
     }
@@ -61,8 +71,9 @@ public class DiscountsController extends DiscountsData {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.SINGLE_DISCOUNT_IN_ADD_ORDER_FXML_RESOURCE);
             Node singleDiscount = loader.load();
-
             SingleDiscountController singleDiscountController = loader.getController();
+
+            singleDiscountController.setDiscountsController(this);
             singleDiscountController.setDataValues(discountDto);
             singleDiscountController.setTableView(discountDto.getOffersDto());
 
@@ -70,9 +81,5 @@ public class DiscountsController extends DiscountsData {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setSuperDuperMarketController(SuperDuperMarketController superDuperMarketController) {
-        this.superDuperMarketController = superDuperMarketController;
     }
 }

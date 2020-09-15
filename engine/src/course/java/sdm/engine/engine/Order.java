@@ -102,7 +102,12 @@ public class Order {
         return quantity;
     }
 
-    public void addStoreOrder(Store store, Map<Item, Float> itemsAndQuantities) {
+    public StoreOrder getStoreOrder(int storeId) {
+        return storesOrder.get(storeId);
+    }
+
+    public void addStoreOrder(Store store, Map<Item, Float> itemsAndQuantities,
+                              Map<String, ArrayList<Offer>> appliedOffers) {
         store.addOrder(this);
 
         Map<Integer, OrderLine> orderLines = new HashMap<>();
@@ -124,6 +129,7 @@ public class Order {
 
         StoreOrder storeOrder = new StoreOrder(date, store, orderLines);
         storeOrder.SetValues(customer.getLocation());
+        storeOrder.setAppliedOffers(appliedOffers);
         storesOrder.put(store.getId(), storeOrder);
         setValues();
     }
@@ -136,8 +142,12 @@ public class Order {
         }
     }
 
-    public void addStoresOrder(Map<Store, Map<Item, Float>> storesToItemsAndQuantities) {
-        storesToItemsAndQuantities.forEach(this::addStoreOrder);
+    public void addStoresOrder(Collection<DynamicOrderStoreData> dynamicOrderStoresData) {
+        for (DynamicOrderStoreData dynamicOrderStoreData : dynamicOrderStoresData) {
+            addStoreOrder(dynamicOrderStoreData.getStore(),
+                    dynamicOrderStoreData.getItemsAndQuantities(),
+                    dynamicOrderStoreData.getAppliedOffers());
+        }
     }
 
     public void finish(Store store) {
