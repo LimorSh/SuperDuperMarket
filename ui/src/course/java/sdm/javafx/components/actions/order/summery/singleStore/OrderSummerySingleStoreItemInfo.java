@@ -1,6 +1,7 @@
 package course.java.sdm.javafx.components.actions.order.summery.singleStore;
 
 import course.java.sdm.engine.dto.ItemWithPriceDto;
+import course.java.sdm.engine.dto.OfferDto;
 
 public class OrderSummerySingleStoreItemInfo {
 
@@ -11,12 +12,22 @@ public class OrderSummerySingleStoreItemInfo {
     protected float pricePerUnit;
     protected float totalCost;
 
-    public OrderSummerySingleStoreItemInfo(ItemWithPriceDto itemWithPriceDto, float quantity ) {
+    public OrderSummerySingleStoreItemInfo(ItemWithPriceDto itemWithPriceDto, float quantity) {
         this.id = itemWithPriceDto.getId();
         this.name = itemWithPriceDto.getName();
         this.purchaseCategory = itemWithPriceDto.getPurchaseCategory();
         this.quantity = quantity;
         float price = itemWithPriceDto.getPrice();
+        this.pricePerUnit = price;
+        this.totalCost = quantity * price;
+    }
+
+    public OrderSummerySingleStoreItemInfo(OfferDto offerDto) {
+        this.id = offerDto.getStoreItemId();
+        this.name = offerDto.getStoreItemName();
+        this.purchaseCategory = offerDto.getStoreItemPurchaseCategory();
+        this.quantity = (float) (offerDto.getQuantity());
+        float price = offerDto.getAdditionalPrice();
         this.pricePerUnit = price;
         this.totalCost = quantity * price;
     }

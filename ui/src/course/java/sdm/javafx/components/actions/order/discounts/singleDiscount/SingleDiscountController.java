@@ -3,7 +3,6 @@ package course.java.sdm.javafx.components.actions.order.discounts.singleDiscount
 import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.dto.OfferDto;
 import course.java.sdm.javafx.components.actions.order.discounts.DiscountsController;
-import course.java.sdm.javafx.components.main.SuperDuperMarketController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,14 +48,13 @@ public class SingleDiscountController extends DiscountData {
 
     @FXML
     void applyDiscountButtonAction(ActionEvent event) {
-        Collection<OfferDto> offersDto = getOffersDto();
-
         if (categoryStr.equalsIgnoreCase(Constants.DISCOUNT_CATEGORY_ONE_OF)) {
             DiscountOfferData discountOfferData = tableView.getSelectionModel().getSelectedItem();
-//            OfferDto offerDto = discountOfferData.
+            OfferDto offerDto = getOfferDtoByStoreItemId(discountOfferData.getStoreItemId());
+            discountsController.addAppliedOfferDto(getName(), offerDto);
         }
         else {
-            discountsController.addAppliedOfferDto(getName(), offersDto);
+            discountsController.addAppliedOffersDto(getName(), getOffersDto());
         }
     }
 

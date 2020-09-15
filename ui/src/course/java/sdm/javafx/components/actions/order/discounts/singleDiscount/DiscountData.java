@@ -27,16 +27,25 @@ public class DiscountData {
         this.category = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
     }
 
-    public String getName() {
+    protected String getName() {
         return name.get();
     }
 
-    public String getCategoryStr() {
+    protected String getCategoryStr() {
         return categoryStr;
     }
 
-    public Collection<OfferDto> getOffersDto() {
+    protected Collection<OfferDto> getOffersDto() {
         return offersDto;
+    }
+
+    protected OfferDto getOfferDtoByStoreItemId (int storeItemId) {
+        for (OfferDto offerDto : offersDto) {
+            if (offerDto.getStoreItemId() == storeItemId) {
+                return offerDto;
+            }
+        }
+        return null;
     }
 
     private void setName(String name) {

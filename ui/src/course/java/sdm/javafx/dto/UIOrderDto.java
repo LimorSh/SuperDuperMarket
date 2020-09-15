@@ -1,6 +1,7 @@
 package course.java.sdm.javafx.dto;
 
 import course.java.sdm.engine.dto.OfferDto;
+import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreInfo;
 
 import java.time.LocalDate;
 import java.util.*;

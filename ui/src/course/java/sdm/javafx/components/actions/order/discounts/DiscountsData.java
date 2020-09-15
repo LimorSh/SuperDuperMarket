@@ -2,7 +2,11 @@ package course.java.sdm.javafx.components.actions.order.discounts;
 
 import course.java.sdm.engine.dto.OfferDto;
 import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryInfo;
+import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreInfo;
+import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreItemInfo;
 import course.java.sdm.javafx.dto.UIOrderDto;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +30,35 @@ public class DiscountsData {
         appliedOffersDto = new HashMap<>();
     }
 
-    public void addAppliedOfferDto(String discountName, Collection<OfferDto> appliedOffersDto) {
+    public void addAppliedOffersDto(String discountName, Collection<OfferDto> appliedOffersDto) {
         this.appliedOffersDto.put(discountName, appliedOffersDto);
+    }
+
+    public void addAppliedOfferDto(String discountName, OfferDto appliedOfferDto) {
+        Collection<OfferDto> offersDto = new ArrayList<>();
+        offersDto.add(appliedOfferDto);
+        this.appliedOffersDto.put(discountName, offersDto);
+    }
+
+    protected void setAppliedOffersDtoToUiOrderDto() {
+        uiOrderDto.setAppliedOffersDto(appliedOffersDto);
+
+        Collection<OrderSummerySingleStoreInfo> orderSummerySingleStoresInfo =
+                orderSummeryInfo.getSingleStoresInfo();
+
+        OrderSummerySingleStoreInfo orderSummerySingleStoreInfo =
+                orderSummerySingleStoresInfo.stream().findFirst().orElse(null);
+
+        appliedOffersDto.forEach((discountName, offersDto) -> {
+
+            for (OfferDto offerDto : offersDto) {
+
+                OrderSummerySingleStoreItemInfo orderSummerySingleStoreItemInfo =
+                        new OrderSummerySingleStoreItemInfo(offerDto);
+
+                assert orderSummerySingleStoreInfo != null;
+                orderSummerySingleStoreInfo.addOrderSummerySingleStoreItemsInfo(orderSummerySingleStoreItemInfo);
+            }
+        });
     }
 }

@@ -31,10 +31,6 @@ public class DiscountsController extends DiscountsData {
         superDuperMarketController.showOrderSummery(orderSummeryInfo, uiOrderDto);
     }
 
-    private void setAppliedOffersDtoToUiOrderDto() {
-        uiOrderDto.setAppliedOffersDto(appliedOffersDto);
-    }
-
     public boolean createAllDiscounts(Map<StoreItemDto, Float> storeItemsDtoAndQuantities) {
         Collection<DiscountDto> discountsDto = getDeserveDiscounts(storeItemsDtoAndQuantities);
 
