@@ -1,7 +1,6 @@
 package course.java.sdm.engine.engine;
-import course.java.sdm.engine.Utils;
+import course.java.sdm.engine.dto.StoreItemDto;
 import course.java.sdm.engine.exception.DuplicateStoreItemIdException;
-import course.java.sdm.engine.exception.InvalidElementNameException;
 import course.java.sdm.engine.exception.LocationOutOfRangeException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
 
@@ -23,7 +22,7 @@ public class Store {
 
     public Store(int id, String name, int ppk, int xLocation, int yLocation) {
         this.id = id;
-        setName(name);
+        this.name = name.trim();
         this.ppk = ppk;
         setLocation(xLocation, yLocation);
         storeItems = new HashMap<>();
@@ -33,14 +32,6 @@ public class Store {
     public Store(SDMStore sdmStore) {
         this(sdmStore.getId(), sdmStore.getName(),
                 sdmStore.getDeliveryPpk(), sdmStore.getLocation().getX(), sdmStore.getLocation().getY());
-    }
-
-    private void setName(String name) {
-        if (!Utils.isStringAnEnglishWord(name)) {
-            throw new InvalidElementNameException(this.getClass().getSimpleName(), name);
-//            throw new IllegalArgumentException("The store name " + name + " is not valid: should contain English letters or spaces only.");
-        }
-        this.name = name;
     }
 
     private void setLocation(int x, int y) {
@@ -151,6 +142,15 @@ public class Store {
         return orders.containsKey(orderId);
     }
 
+    public boolean hasDiscounts() {
+        for (StoreItem storeItem : storeItems.values()) {
+            if (storeItem.hasDiscounts()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void deleteItem(int id) {
         if (storeItems.size() > 1) {
             storeItems.remove(id);
@@ -158,6 +158,15 @@ public class Store {
         }
 
         throw new IllegalArgumentException("Cannot delete the item: The store must sell at least one item.");
+    }
+
+    public StoreItem getStoreItem(int itemId) {
+        for (StoreItem storeItem : storeItems.values()) {
+            if (storeItem.getId() == itemId) {
+                return storeItem;
+            }
+        }
+        return null;
     }
 
     @Override

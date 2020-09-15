@@ -3,10 +3,7 @@ import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.dto.*;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 public class BusinessLogic {
 
@@ -167,9 +164,8 @@ public class BusinessLogic {
     }
 
     public void validateItemIdExistsInStore(int storeId, int storeItemId) {
-        new BusinessLogic().validateItemExistInTheSuper(storeItemId);
         if (!superDuperMarket.isItemExistsInStore(storeId, storeItemId)) {
-            throw new IllegalArgumentException("The item ID " + storeItemId + " does not exist in the store.");
+            throw new IllegalArgumentException("The item does not exist in the store.");
         }
     }
 
@@ -226,10 +222,45 @@ public class BusinessLogic {
         return superDuperMarket.getDistanceBetweenCustomerAndStore(storeId, customerId);
     }
 
-    public void createOrder(int customerId, Date date, int storeId,  Map<Integer, Float> itemsIdsAndQuantities) {
+    public void createOrder(int customerId, Date date, int storeId, Map<Integer, Float> itemsIdsAndQuantities) {
         superDuperMarket.createOrder(customerId, date, storeId, itemsIdsAndQuantities);
     }
 
+    public void createOrder(int customerId, Date date, Map<Integer, Float> itemsIdsAndQuantities) {
+        superDuperMarket.createOrder(customerId, date, itemsIdsAndQuantities);
+    }
+
+    public Map<StoreDto, Map<Integer, Float>> getOptimalCart(Map<Integer, Float> itemsIdsAndQuantities) {
+        Map<Store, Map<Integer, Float>> storesToItemIdsAndQuantities =
+                superDuperMarket.getOptimalCartWithItemIds(itemsIdsAndQuantities);
+
+        Map<StoreDto, Map<Integer, Float>> storesDtoToItemIdsAndQuantities = new HashMap<>();
+
+        storesToItemIdsAndQuantities.forEach((store,itemIdsAndQuantities) -> {
+            StoreDto storeDto = new StoreDto(store);
+            storesDtoToItemIdsAndQuantities.put(storeDto, itemIdsAndQuantities);
+        });
+
+        return storesDtoToItemIdsAndQuantities;
+    }
+
+    public boolean isStoreHasDiscounts(int storeId) {
+        return superDuperMarket.isStoreHasDiscounts(storeId);
+    }
+
+
+    public Map<StoreItemDto, Float> getStoreItemsDtoAndQuantities(int storeId,
+                                                                   Map<Integer, Float> itemsIdsAndQuantities) {
+        Map<StoreItemDto, Float> storeItemsDtoAndQuantities = new HashMap<>();
+
+        itemsIdsAndQuantities.forEach((itemId,quantity) -> {
+            StoreItem storeItem = superDuperMarket.getStoreItem(storeId, itemId);
+            StoreItemDto storeItemDto = new StoreItemDto(storeItem);
+            storeItemsDtoAndQuantities.put(storeItemDto, quantity);
+        });
+
+        return storeItemsDtoAndQuantities;
+    }
 
 
 

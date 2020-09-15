@@ -1,7 +1,5 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
-import course.java.sdm.engine.Utils;
-import course.java.sdm.engine.exception.InvalidElementNameException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMItem;
 
 public class Item {
@@ -28,7 +26,7 @@ public class Item {
 
     public Item(int id, String name, PurchaseCategory purchaseCategory) {
         this.id = id;
-        setName(name);
+        this.name = name.trim();
         this.purchaseCategory = purchaseCategory;
     }
 
@@ -38,14 +36,6 @@ public class Item {
 
     public Item(SDMItem sdmItem) {
         this(sdmItem.getId(), sdmItem.getName(), convertStringToPurchaseCategory(sdmItem.getPurchaseCategory()));
-    }
-
-    private void setName(String name) {
-        if (!Utils.isStringAnEnglishWord(name)) {
-            throw new InvalidElementNameException(this.getClass().getSimpleName(), name);
-//            throw new IllegalArgumentException("The item name " + name + " is not valid: should contain English letters or spaces only.");
-        }
-        this.name = name;
     }
 
     private static PurchaseCategory convertStringToPurchaseCategory(String purchaseCategory) {

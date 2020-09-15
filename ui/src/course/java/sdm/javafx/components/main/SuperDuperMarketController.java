@@ -1,15 +1,14 @@
 package course.java.sdm.javafx.components.main;
 
-import course.java.sdm.engine.dto.CustomerDto;
-import course.java.sdm.engine.dto.ItemDto;
-import course.java.sdm.engine.dto.OrderDto;
-import course.java.sdm.engine.dto.StoreDto;
+import course.java.sdm.engine.dto.*;
 import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.loadFile.LoadFileController;
 import course.java.sdm.javafx.components.actions.order.OrderController;
+import course.java.sdm.javafx.components.actions.order.discounts.DiscountsController;
 import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryController;
 import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryInfo;
+import course.java.sdm.javafx.components.actions.order.summery.dynamicOrder.DynamicOrderStoresSummeryController;
 import course.java.sdm.javafx.components.actions.updateItem.UpdateItemController;
 import course.java.sdm.javafx.components.sdmData.customers.CustomersController;
 import course.java.sdm.javafx.components.sdmData.items.ItemsController;
@@ -23,12 +22,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
 
 public class SuperDuperMarketController {
 
@@ -36,10 +37,9 @@ public class SuperDuperMarketController {
     private Stage primaryStage;
 
     @FXML private BorderPane superDuperMarketBorderPane;
-//    @FXML private FlowPane superDuperMarketFlowPane;
     @FXML private Button customersButton;
     @FXML private Button storesButton;
-    @FXML private Button productsButton;
+    @FXML private Button itemsButton;
     @FXML private Button ordersButton;
     @FXML private Button loadFileButton;
     @FXML private Button updateItemButton;
@@ -66,7 +66,7 @@ public class SuperDuperMarketController {
     private void initialize() {
         customersButton.disableProperty().bind(isFileSelected.not());
         storesButton.disableProperty().bind(isFileSelected.not());
-        productsButton.disableProperty().bind(isFileSelected.not());
+        itemsButton.disableProperty().bind(isFileSelected.not());
         ordersButton.disableProperty().bind(isFileSelected.not());
         updateItemButton.disableProperty().bind(isFileSelected.not());
         addOrderButton.disableProperty().bind(isFileSelected.not());
@@ -161,10 +161,61 @@ public class SuperDuperMarketController {
         }
     }
 
+    public void showDynamicOrderStoresSummery(OrderSummeryInfo orderSummeryInfo, UIOrderDto uiOrderDto) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE);
+            Node dynamicOrderStoresSummery = loader.load();
+            DynamicOrderStoresSummeryController dynamicOrderStoresSummeryController = loader.getController();
+
+            dynamicOrderStoresSummeryController.setSuperDuperMarketController(this);
+            dynamicOrderStoresSummeryController.setValuesData(orderSummeryInfo, uiOrderDto);
+            dynamicOrderStoresSummeryController.createAllStores();
+            superDuperMarketBorderPane.setCenter(dynamicOrderStoresSummery);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showDiscountsForStaticOrder(OrderSummeryInfo orderSummeryInfo, UIOrderDto uiOrderDto) {
+        if (businessLogic.isStoreHasDiscounts(uiOrderDto.getStoreId())) {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(SuperDuperMarketConstants.ALL_DISCOUNTS_IN_ADD_ORDER_FXML_RESOURCE);
+                Node discounts = loader.load();
+                DiscountsController discountsController = loader.getController();
+
+                discountsController.setSuperDuperMarketController(this);
+                discountsController.setValuesData(orderSummeryInfo, uiOrderDto);
+
+                int storeId = uiOrderDto.getStoreId();
+                Map<StoreItemDto, Float> storeItemsDtoAndQuantities =
+                        businessLogic.getStoreItemsDtoAndQuantities(storeId, uiOrderDto.getItemsIdsAndQuantities());
+
+                boolean success = discountsController.createAllDiscounts(storeItemsDtoAndQuantities);
+                if (success) {
+                    superDuperMarketBorderPane.setCenter(discounts);
+                }
+                else {
+                    showOrderSummery(orderSummeryInfo, uiOrderDto);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            showOrderSummery(orderSummeryInfo, uiOrderDto);
+        }
+    }
 
     @FXML
     void customersButtonAction(ActionEvent event) {
         try {
+//            customersButton.setEffect(new InnerShadow());
+//            customersButton.setStyle("-fx-text-fill: #0c33ba;");
+
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.CUSTOMERS_FXML_RESOURCE);
             Node customers = loader.load();
@@ -197,7 +248,7 @@ public class SuperDuperMarketController {
     }
 
     @FXML
-    void productsButtonAction(ActionEvent event) {
+    void itemsButtonAction(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.ITEMS_FXML_RESOURCE);
@@ -215,18 +266,18 @@ public class SuperDuperMarketController {
 
     @FXML
     void ordersButtonAction(ActionEvent event) {
-//        try {
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(SuperDuperMarketConstants.ORDERS_FXML_RESOURCE);
-//            Node orders = loader.load();
-//            OrdersController ordersController = loader.getController();
-//
-//            Collection<OrderDto> ordersDto = businessLogic.getOrdersDto();
-//            ordersController.createAllOrders(ordersDto);
-//
-//            superDuperMarketBorderPane.setCenter(orders);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.ORDERS_FXML_RESOURCE);
+            Node orders = loader.load();
+            OrdersController ordersController = loader.getController();
+
+            Collection<OrderDto> ordersDto = businessLogic.getOrdersDto();
+            ordersController.createAllOrders(ordersDto);
+
+            superDuperMarketBorderPane.setCenter(orders);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

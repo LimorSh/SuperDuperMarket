@@ -7,13 +7,15 @@ import java.util.Collection;
 public class DiscountDto {
     private final String name;
     private final int storeItemId;
+    private final String storeItemName;
     private final double storeItemQuantity;
     private final String category;
     private final Collection<OfferDto> offersDto;
 
-    public DiscountDto(Discount discount) {
-        this.name = discount.getName() ;
+    public DiscountDto(Discount discount, String storeItemName) {
+        this.name = discount.getName();
         this.storeItemId = discount.getStoreItemId();
+        this.storeItemName = storeItemName;
         this.storeItemQuantity = discount.getStoreItemQuantity();
         this.category = discount.getCategory().getCategoryStr();
         offersDto = new ArrayList<>();
@@ -34,6 +36,10 @@ public class DiscountDto {
 
     public int getStoreItemId() {
         return storeItemId;
+    }
+
+    public String getStoreItemName() {
+        return storeItemName;
     }
 
     public double getStoreItemQuantity() {

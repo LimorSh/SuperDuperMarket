@@ -58,6 +58,10 @@ public class OrderDto {
         return deliveryCost;
     }
 
+    public float getTotalCost() {
+        return (itemsCost + deliveryCost);
+    }
+
     public int getTotalItems() {
         return totalItems;
     }

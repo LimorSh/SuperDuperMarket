@@ -9,14 +9,21 @@ import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class OrderSummeryStoresController {
 
     @FXML private FlowPane flowPane;
 
     public void createAllStores(Collection<OrderSummerySingleStoreInfo> singleStoresInfo) {
-        if (!singleStoresInfo.isEmpty()) {
-            for (OrderSummerySingleStoreInfo orderSummerySingleStoreInfo : singleStoresInfo) {
+
+        Collection<OrderSummerySingleStoreInfo> storesInfoSortedById = singleStoresInfo.stream()
+        .sorted(Comparator.comparing(OrderSummerySingleStoreInfo::getId))
+        .collect(Collectors.toList());
+
+        if (!storesInfoSortedById.isEmpty()) {
+            for (OrderSummerySingleStoreInfo orderSummerySingleStoreInfo : storesInfoSortedById) {
                 createSingleStore(orderSummerySingleStoreInfo);
             }
         }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="450.0" stylesheets="@dynamic-order-stores-summery-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.summery.dynamicOrder.DynamicOrderStoresSummeryController">
+   <children>
+      <Label layoutX="230.0" layoutY="8.0" text="Stores Summery - Best Cart">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <ScrollPane layoutY="48.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="362.0" prefWidth="731.0">
+         <content>
+            <FlowPane fx:id="flowPane" prefHeight="353.0" prefWidth="722.0" />
+         </content>
+      </ScrollPane>
+      <Button fx:id="nextButton" layoutX="651.0" layoutY="418.0" minWidth="80.0" mnemonicParsing="false" onAction="#nextButtonAction" text="Next" />
+   </children>
+</Pane>

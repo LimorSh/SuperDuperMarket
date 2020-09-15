@@ -7,6 +7,8 @@ public class OrderSummerySingleStoreInfo {
 
     private int id;
     private String name;
+    private int xLocation;
+    private int YLocation;
     private int ppk;
     private double distance;
     private float deliveryCost;
@@ -31,6 +33,22 @@ public class OrderSummerySingleStoreInfo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getXLocation() {
+        return xLocation;
+    }
+
+    public void setXLocation(int xLocation) {
+        this.xLocation = xLocation;
+    }
+
+    public int getYLocation() {
+        return YLocation;
+    }
+
+    public void setYLocation(int YLocation) {
+        this.YLocation = YLocation;
     }
 
     public int getPpk() {
@@ -59,6 +77,18 @@ public class OrderSummerySingleStoreInfo {
 
     public Collection<OrderSummerySingleStoreItemInfo> getOrderSummerySingleStoreItemsInfo() {
         return orderSummerySingleStoreItemsInfo;
+    }
+
+    public int getNumberOfDifferentPurchasedItems() {
+        return orderSummerySingleStoreItemsInfo.size();
+    }
+
+    public float getTotalItemsCost() {
+        float totalItemsCost = 0f;
+        for (OrderSummerySingleStoreItemInfo orderSummerySingleStoreItemInfo : orderSummerySingleStoreItemsInfo) {
+            totalItemsCost += orderSummerySingleStoreItemInfo.getTotalCost();
+        }
+        return totalItemsCost;
     }
 
     public void addOrderSummerySingleStoreItemsInfo(OrderSummerySingleStoreItemInfo orderSummerySingleStoreItemInfo) {

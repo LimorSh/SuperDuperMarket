@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="895.0" stylesheets="@single-store-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.singleStore.SingleStoreController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="895.0" stylesheets="@single-store-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.singleStore.SingleStoreController">
    <children>
       <Label fx:id="nameValueLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="291.0" layoutY="14.0" prefHeight="27.0" prefWidth="227.0">
          <font>
@@ -39,14 +39,14 @@
             <TableColumn fx:id="itemTotalSoldCol" editable="false" prefWidth="75.0" text="Total Sells" />
         </columns>
       </TableView>
-      <Label layoutX="180.0" layoutY="81.0" text="Items:">
+      <Label layoutX="180.0" layoutY="81.0" styleClass="subtitle-label" text="Items:">
          <font>
-            <Font size="17.0" />
+            <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="646.0" layoutY="81.0" text="Orders:">
+      <Label layoutX="646.0" layoutY="81.0" styleClass="subtitle-label" text="Orders:">
          <font>
-            <Font size="17.0" />
+            <Font size="15.0" />
          </font>
       </Label>
       <TableView fx:id="ordersTableView" layoutX="449.0" layoutY="106.0" prefHeight="174.0" prefWidth="446.0">
@@ -58,9 +58,28 @@
             <TableColumn fx:id="orderTotalCostCol" prefWidth="83.0" text="Total Cost" />
          </columns>
       </TableView>
-      <ScrollPane layoutY="300.0" prefHeight="102.0" prefWidth="895.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="300.0" prefHeight="200.0" prefWidth="895.0">
          <content>
-            <FlowPane fx:id="discountsFlowPane" prefHeight="95.0" prefWidth="872.0" />
+            <FlowPane fx:id="discountsFlowPane" prefHeight="191.0" prefWidth="888.0" vgap="20.0">
+               <children>
+                  <HBox fx:id="discountsHbox" prefHeight="32.0" prefWidth="892.0" spacing="15.0">
+                     <children>
+                        <Label styleClass="subtitle-label" text="Discounts:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="noDiscountsLabel" text="There are no discounts in the store.">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+               </children></FlowPane>
          </content>
       </ScrollPane>
    </children>

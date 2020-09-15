@@ -8,7 +8,7 @@ public class OrderLine {
     private float quantity;
     private final float cost;   //the price of one item/kg in the order
     private final float totalCost;
-//    private final boolean discount = false;
+
 
     public OrderLine(Item item, float quantity, float cost) {
         this.item = item;

@@ -48,22 +48,22 @@ public class OrderSummerySingleStoreController extends OrderSummerySingleStoreDa
                     FXCollections.observableArrayList(orderSummerySinglePurchasedItemsData);
 
             itemIdCol.setCellValueFactory(
-                    new PropertyValueFactory<OrderSummerySinglePurchasedItemData,Integer>("id")
+                    new PropertyValueFactory<>("id")
             );
             itemNameCol.setCellValueFactory(
-                    new PropertyValueFactory<OrderSummerySinglePurchasedItemData,String>("name")
+                    new PropertyValueFactory<>("name")
             );
             itemPurchaseCategoryCol.setCellValueFactory(
-                    new PropertyValueFactory<OrderSummerySinglePurchasedItemData,String>("purchaseCategory")
+                    new PropertyValueFactory<>("purchaseCategory")
             );
             itemQuantityCol.setCellValueFactory(
-                    new PropertyValueFactory<OrderSummerySinglePurchasedItemData,Float>("quantity")
+                    new PropertyValueFactory<>("quantity")
             );
             itemPricePerUnitCol.setCellValueFactory(
-                    new PropertyValueFactory<OrderSummerySinglePurchasedItemData,Float>("pricePerUnit")
+                    new PropertyValueFactory<>("pricePerUnit")
             );
             itemTotalCostCol.setCellValueFactory(
-                    new PropertyValueFactory<OrderSummerySinglePurchasedItemData,Float>("totalCost")
+                    new PropertyValueFactory<>("totalCost")
             );
 
             purchasedItemsTableView.setItems(data);

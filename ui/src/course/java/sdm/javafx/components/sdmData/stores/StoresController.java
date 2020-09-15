@@ -35,6 +35,7 @@ public class StoresController {
             singleStoreController.setStoreDataValues(storeDto);
             singleStoreController.setItemsTableView(storeDto.getStoreItemsDto());
             singleStoreController.setOrdersTableView(storeDto.getOrdersDto(), storeDto.getId());
+            singleStoreController.setDiscountsFlowPane(storeDto);
 
             flowPane.getChildren().add(singleStore);
         } catch (IOException e) {

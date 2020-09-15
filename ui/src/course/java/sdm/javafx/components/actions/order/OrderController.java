@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class OrderController extends OrderData {
 
@@ -41,6 +42,7 @@ public class OrderController extends OrderData {
 
     private StoreItemsController storeItemsController;
     private SuperDuperMarketController superDuperMarketController;
+
 
     public OrderController() {
         super();
@@ -81,7 +83,13 @@ public class OrderController extends OrderData {
     void finishButtonAction(ActionEvent event) {
         updateUiOrderDto();
         updateOrderSummeryInfo();
-        superDuperMarketController.showOrderSummery(orderSummeryInfo, uiOrderDto);
+
+        if (isStaticOrder()) {
+            superDuperMarketController.showDiscountsForStaticOrder(orderSummeryInfo, uiOrderDto);
+        }
+        else {
+            superDuperMarketController.showDynamicOrderStoresSummery(orderSummeryInfo, uiOrderDto);
+        }
     }
 
     public void setFinishButton(boolean value) {
@@ -168,7 +176,9 @@ public class OrderController extends OrderData {
 
     public void updateUiOrderDto() {
         uiOrderDto.setCustomerId(getSelectedCustomerId());
-        uiOrderDto.setStoreId(getSelectedStoreId());
+        if (isStaticOrder()) {
+            uiOrderDto.setStoreId(getSelectedStoreId());
+        }
         uiOrderDto.setDate(getPickedDate());
         uiOrderDto.setItemsIdsAndQuantities(getSelectedItemsIdsAndQuantities());
     }
@@ -183,29 +193,77 @@ public class OrderController extends OrderData {
         int customerYLocation = customerDto.getYLocation();
         orderSummeryInfo.setCustomerXLocation(customerXLocation);
         orderSummeryInfo.setCustomerYLocation(customerYLocation);
+        orderSummeryInfo.setIsStaticOrder(isStaticOrder());
 
+        if (isStaticOrder()) {
+            updateOrderSummeryInfoForStaticOrder(customerId);
+        }
+        else {
+            updateOrderSummeryInfoForDynamicOrder(customerId);
+        }
+    }
+
+    private void updateOrderSummeryInfoForDynamicOrder(int customerId) {
+        Map<Integer, Float> selectedItemsIdsAndQuantities = getSelectedItemsIdsAndQuantities();
+        Map<StoreDto, Map<Integer, Float>> optimalCart = businessLogic.getOptimalCart(selectedItemsIdsAndQuantities);
+
+        AtomicReference<Float> itemsCost = new AtomicReference<>(0f);
+        AtomicReference<Float> deliveriesCost = new AtomicReference<>(0f);
+
+        optimalCart.forEach((storeDto, itemIdsAndQuantities) -> {
+            int storeId = storeDto.getId();
+
+            itemIdsAndQuantities.forEach((itemId, quantity) -> {
+                float itemPrice = businessLogic.getItemPriceInStoreByIds(storeId, itemId);
+                float itemCost = itemPrice * quantity;
+                itemsCost.updateAndGet(v -> (v + itemCost));
+            });
+
+            float deliveryCost = businessLogic.getDeliveryCost(storeId, customerId);
+            deliveriesCost.updateAndGet(v -> (v + deliveryCost));
+
+            addOrderSummerySingleStoreInfo(storeDto, customerId, itemIdsAndQuantities);
+        });
+
+        float totalCost = itemsCost.get() + deliveriesCost.get();
+
+        orderSummeryInfo.setItemsCost(itemsCost.get());
+        orderSummeryInfo.setDeliveryCost(deliveriesCost.get());
+        orderSummeryInfo.setTotalCost(totalCost);
+    }
+
+    private void updateOrderSummeryInfoForStaticOrder(int customerId) {
         float itemsCost = storeItemsController.getItemsCost();
         orderSummeryInfo.setItemsCost(itemsCost);
         orderSummeryInfo.setDeliveryCost(deliveryCost.floatValue());
         orderSummeryInfo.setTotalCost(itemsCost + deliveryCost.floatValue());
 
-        OrderSummerySingleStoreInfo orderSummerySingleStoreInfo = new OrderSummerySingleStoreInfo();
         int storeId = getSelectedStoreId();
-        orderSummerySingleStoreInfo.setId(storeId);
         StoreDto storeDto = businessLogic.getStoreDto(storeId);
+        addOrderSummerySingleStoreInfo(storeDto, customerId, getSelectedItemsIdsAndQuantities());
+    }
+
+    private void addOrderSummerySingleStoreInfo(StoreDto storeDto, int customerId,
+                                                Map<Integer, Float> itemsIdsAndQuantities) {
+        OrderSummerySingleStoreInfo orderSummerySingleStoreInfo = new OrderSummerySingleStoreInfo();
+        int storeId = storeDto.getId();
+
+        orderSummerySingleStoreInfo.setId(storeId);
         orderSummerySingleStoreInfo.setName(storeDto.getName());
+        orderSummerySingleStoreInfo.setXLocation(storeDto.getXLocation());
+        orderSummerySingleStoreInfo.setYLocation(storeDto.getYLocation());
         orderSummerySingleStoreInfo.setPpk(storeDto.getPpk());
         orderSummerySingleStoreInfo.setDistance(businessLogic.getDistanceBetweenCustomerAndStore(storeId, customerId));
         orderSummerySingleStoreInfo.setDeliveryCost(businessLogic.getDeliveryCost(storeId, customerId));
-        updateOrderSummeryInfoSingleStoreItems(orderSummerySingleStoreInfo);
+        updateOrderSummeryInfoSingleStoreItems(orderSummerySingleStoreInfo, storeId,
+                itemsIdsAndQuantities);
         orderSummeryInfo.addSingleStoreInfo(orderSummerySingleStoreInfo);
     }
 
-    private void updateOrderSummeryInfoSingleStoreItems(OrderSummerySingleStoreInfo orderSummerySingleStoreInfo){
-        Map<Integer, Float> selectedItemsIdsAndQuantities = storeItemsController.getItemsIdsAndQuantities();
-
-        selectedItemsIdsAndQuantities.forEach((id,quantity) -> {
-            ItemWithPriceDto itemWithPriceDto = businessLogic.getItemWithPriceDto(getSelectedStoreId(), id);
+    private void updateOrderSummeryInfoSingleStoreItems(OrderSummerySingleStoreInfo orderSummerySingleStoreInfo,
+                                                        int storeId, Map<Integer, Float> itemsIdsAndQuantities) {
+        itemsIdsAndQuantities.forEach((id,quantity) -> {
+            ItemWithPriceDto itemWithPriceDto = businessLogic.getItemWithPriceDto(storeId, id);
             OrderSummerySingleStoreItemInfo orderSummerySingleStoreItemInfo =
                     new OrderSummerySingleStoreItemInfo(itemWithPriceDto, quantity);
             orderSummerySingleStoreInfo.addOrderSummerySingleStoreItemsInfo(orderSummerySingleStoreItemInfo);
@@ -214,6 +272,10 @@ public class OrderController extends OrderData {
 
     public boolean isStaticOrder() {
         return staticOrderRadioButton.isSelected();
+    }
+
+    public boolean isDynamicOrder() {
+        return dynamicOrderRadioButton.isSelected();
     }
 
     private LocalDate getPickedDate() {

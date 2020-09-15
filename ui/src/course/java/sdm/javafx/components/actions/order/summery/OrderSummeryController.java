@@ -18,6 +18,7 @@ public class OrderSummeryController extends OrderSummeryData {
     @FXML private BorderPane innerBorderPane;
     @FXML private Label dateValueLabel;
     @FXML private Label customerDetailsValuesLabel;
+    @FXML private Label orderCategoryValueLabel;
     @FXML private Label itemsCostValueLabel;
     @FXML private Label deliveryCostValueLabel;
     @FXML private Label totalCostValueLabel;
@@ -25,8 +26,6 @@ public class OrderSummeryController extends OrderSummeryData {
     @FXML private Button confirmButton;
     @FXML private Label finalActionLabel;
 
-    private static final String CONFIRM_MSG = "Your order was added successfully!";
-    private static final String CANCEL_MSG = "Your order was canceled";
 
     public OrderSummeryController() {
         super();
@@ -36,6 +35,7 @@ public class OrderSummeryController extends OrderSummeryData {
     private void initialize() {
         dateValueLabel.textProperty().bind(date);
         customerDetailsValuesLabel.textProperty().bind(customerDetails);
+        orderCategoryValueLabel.textProperty().bind(orderCategory);
         itemsCostValueLabel.textProperty().bind(itemsCost.asString());
         deliveryCostValueLabel.textProperty().bind(deliveryCost.asString());
         totalCostValueLabel.textProperty().bind(totalCost.asString());
@@ -46,8 +46,15 @@ public class OrderSummeryController extends OrderSummeryData {
     }
 
     @FXML void confirmButtonAction(ActionEvent event) {
-        businessLogic.createOrder(uiOrderDto.getCustomerId(), uiOrderDto.getDate(),
-                uiOrderDto.getStoreId(), uiOrderDto.getItemsIdsAndQuantities());
+        if (isStaticOrder) {
+            businessLogic.createOrder(uiOrderDto.getCustomerId(), uiOrderDto.getDate(),
+                    uiOrderDto.getStoreId(), uiOrderDto.getItemsIdsAndQuantities());
+        }
+        else {
+            businessLogic.createOrder(uiOrderDto.getCustomerId(),
+                    uiOrderDto.getDate(), uiOrderDto.getItemsIdsAndQuantities());
+        }
+
         setFinalControls(CONFIRM_MSG);
     }
 

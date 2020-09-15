@@ -13,6 +13,7 @@ public class StoreDto {
     private final float totalDeliveriesRevenue;
     private final int xLocation;
     private final int yLocation;
+    private final boolean hasDiscounts;
     private final Collection<StoreItemDto> storeItemsDto;
     private final Collection<OrderDto> ordersDto;
 
@@ -23,6 +24,7 @@ public class StoreDto {
         this.totalDeliveriesRevenue = store.getTotalDeliveriesRevenue();
         this.xLocation = store.getLocation().getCoordinate().x;
         this.yLocation = store.getLocation().getCoordinate().y;
+        this.hasDiscounts = store.hasDiscounts();
         storeItemsDto = new ArrayList<>();
         ordersDto = new ArrayList<>();
         copyStoreItemsDto(store);
@@ -75,6 +77,10 @@ public class StoreDto {
 
     public int getYLocation() {
         return yLocation;
+    }
+
+    public boolean getHasDiscounts() {
+        return hasDiscounts;
     }
 }
 

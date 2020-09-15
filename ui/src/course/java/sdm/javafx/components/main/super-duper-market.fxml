@@ -31,7 +31,7 @@
                      <font>
                         <Font size="13.0" />
                      </font></Button>
-                  <Button fx:id="productsButton" mnemonicParsing="false" onAction="#productsButtonAction" prefWidth="73.0" styleClass="data-button" text="Products">
+                  <Button fx:id="itemsButton" mnemonicParsing="false" onAction="#itemsButtonAction" prefWidth="73.0" styleClass="data-button" text="Items">
                      <font>
                         <Font size="13.0" />
                      </font></Button>

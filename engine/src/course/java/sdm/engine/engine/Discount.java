@@ -76,7 +76,7 @@ public class Discount {
     }
 
     public void addOffer(Offer offer) {
-        int storeItemId = offer.getStoreItemId();
+        int storeItemId = offer.getItem().getId();
         if (!isItemInTheOffers(storeItemId)) {
             offers.put(storeItemId, offer);
         }

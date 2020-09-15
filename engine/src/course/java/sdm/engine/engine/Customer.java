@@ -1,6 +1,4 @@
 package course.java.sdm.engine.engine;
-import course.java.sdm.engine.Utils;
-import course.java.sdm.engine.exception.InvalidElementNameException;
 import course.java.sdm.engine.exception.LocationOutOfRangeException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMCustomer;
 
@@ -22,7 +20,7 @@ public class Customer {
 
     public Customer(int id, String name, int xLocation, int yLocation) {
         this.id = id;
-        setName(name);
+        this.name = name.trim();
         setLocation(xLocation, yLocation);
         orders = new HashMap<>();
         numCustomers++;
@@ -31,14 +29,6 @@ public class Customer {
     public Customer(SDMCustomer sdmCustomer) {
         this(sdmCustomer.getId(), sdmCustomer.getName(),
                 sdmCustomer.getLocation().getX(), sdmCustomer.getLocation().getY());
-    }
-
-    private void setName(String name) {
-        if (!Utils.isStringAnEnglishWord(name)) {
-            throw new InvalidElementNameException(this.getClass().getSimpleName(), name);
-//            throw new IllegalArgumentException("The customer name " + name + " is not valid: should contain English letters or spaces only.");
-        }
-        this.name = name;
     }
 
     private void setLocation(int x, int y) {

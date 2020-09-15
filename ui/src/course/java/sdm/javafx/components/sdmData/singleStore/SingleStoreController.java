@@ -1,19 +1,22 @@
 package course.java.sdm.javafx.components.sdmData.singleStore;
 
-import course.java.sdm.engine.dto.OrderDto;
-import course.java.sdm.engine.dto.StoreItemDto;
-import course.java.sdm.engine.dto.StoreOrderDto;
+import course.java.sdm.engine.dto.*;
+import course.java.sdm.javafx.SuperDuperMarketConstants;
+import course.java.sdm.javafx.components.sdmData.singleStore.singleDiscount.singleDiscountController;
 import course.java.sdm.javafx.components.sdmData.singleStore.singleStoreOrder.SingleStoreOrderData;
 import course.java.sdm.javafx.components.sdmData.singleStore.singleStoreItem.SingleStoreItemData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.FlowPane;
-
+import javafx.scene.layout.HBox;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -23,6 +26,9 @@ public class SingleStoreController extends StoreData {
     @FXML private Label idValueLabel;
     @FXML private Label ppkValueLabel;
     @FXML private Label totalDeliveryRevenueValueLabel;
+
+    @FXML private Label noDiscountsLabel;
+    @FXML private HBox discountsHbox;
 
     @FXML private TableView<SingleStoreItemData> itemsTableView;
     @FXML private TableColumn<SingleStoreItemData, Integer> itemIdCol;
@@ -110,6 +116,42 @@ public class SingleStoreController extends StoreData {
         }
         else {
             // show no store orders component!
+        }
+    }
+
+    public void setDiscountsFlowPane(StoreDto storeDto) {
+        if (storeDto.getHasDiscounts()) {
+            discountsHbox.getChildren().removeAll(noDiscountsLabel);
+            Collection<StoreItemDto> storeItemsDto = storeDto.getStoreItemsDto();
+            createAllDiscounts(storeItemsDto);
+        }
+    }
+
+    public void createAllDiscounts(Collection<StoreItemDto> storeItemsDto) {
+        for (StoreItemDto storeItemDto : storeItemsDto) {
+            createStoreItemDiscounts(storeItemDto.getDiscountsDto());
+        }
+    }
+
+    private void createStoreItemDiscounts(Collection<DiscountDto> discountsDto) {
+        for (DiscountDto discountDto : discountsDto) {
+            createDiscount(discountDto);
+        }
+    }
+
+    private void createDiscount(DiscountDto discountDto) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.SINGLE_DISCOUNT_FXML_RESOURCE);
+            Node singleDiscount = loader.load();
+
+            singleDiscountController singleDiscountController = loader.getController();
+            singleDiscountController.setDataValues(discountDto);
+            singleDiscountController.setTableView(discountDto.getOffersDto());
+
+            discountsFlowPane.getChildren().add(singleDiscount);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

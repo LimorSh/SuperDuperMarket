@@ -4,15 +4,6 @@ import java.lang.reflect.Method;
 
 public class Utils {
 
-    public static boolean isStringAnEnglishWord(String str) {
-        for (char c : str.toCharArray()) {
-            if(!(Character.isLetter(c) || Character.isSpaceChar(c))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public static String invokeGetNameMethod(Object object) {
         try {
             Method func = object.getClass().getDeclaredMethod("getName", (Class<?>[]) null);
