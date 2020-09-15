@@ -12,7 +12,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -44,6 +43,24 @@ public class SingleDiscountController extends DiscountData {
         itemDetailsLabel.textProperty().bind(itemDetails);
         itemQuantityLabel.textProperty().bind(itemQuantity.asString());
         categoryLabel.textProperty().bind(category);
+
+        applyDiscountButton.disableProperty().bindBidirectional(isOneOfDiscountCategory);
+
+        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                setApplyButtonEnableForOneOfDiscountCategory();
+            }
+        });
+    }
+
+    private void setApplyButtonEnableForOneOfDiscountCategory() {
+        if (isOneOfDiscountCategory.getValue()) {
+            setApplyDiscountButtonEnable();
+        }
+    }
+
+    private void setApplyDiscountButtonEnable() {
+        applyDiscountButton.setDisable(false);
     }
 
     @FXML

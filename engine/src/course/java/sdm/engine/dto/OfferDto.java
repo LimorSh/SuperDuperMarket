@@ -8,6 +8,7 @@ public class OfferDto {
     private final String storeItemPurchaseCategory;
     private final double quantity;
     private final int additionalPrice;
+    private final float totalCost;
 
     public OfferDto(Offer offer) {
         this.storeItemId = offer.getItem().getId();
@@ -15,6 +16,7 @@ public class OfferDto {
         this.storeItemPurchaseCategory = offer.getItem().getPurchaseCategory().getPurchaseCategoryStr();
         this.quantity = offer.getQuantity();
         this.additionalPrice = offer.getAdditionalPrice();
+        this.totalCost = (float) (offer.getQuantity() * offer.getAdditionalPrice());
     }
 
     public int getStoreItemId() {
@@ -38,6 +40,6 @@ public class OfferDto {
     }
 
     public float getTotalCost() {
-        return (float) (quantity * additionalPrice);
+        return totalCost;
     }
 }

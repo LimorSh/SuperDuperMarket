@@ -64,7 +64,7 @@
    <bottom>
       <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="applyDiscountButton" mnemonicParsing="false" onAction="#applyDiscountButtonAction" text="Apply Discount" />
+            <Button fx:id="applyDiscountButton" disable="true" mnemonicParsing="false" onAction="#applyDiscountButtonAction" text="Apply Discount" />
          </children>
       </HBox>
    </bottom>

@@ -56,6 +56,13 @@ public class StoreOrder {
 
     public void setAppliedOffers(Map<String, ArrayList<Offer>> appliedOffers) {
         this.appliedOffers = appliedOffers;
+        appliedOffers.forEach((discountName,offers) -> {
+            for (Offer offer : offers) {
+                float cost = offer.getTotalCost();
+                this.itemsCost += cost;
+                this.totalCost += cost;
+            }
+        });
     }
 
     public Date getDate() {
