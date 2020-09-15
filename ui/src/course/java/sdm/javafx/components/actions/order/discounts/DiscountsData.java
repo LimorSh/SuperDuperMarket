@@ -40,7 +40,7 @@ public class DiscountsData {
         this.appliedOffersDto.put(discountName, offersDto);
     }
 
-    protected void setAppliedOffersDtoToUiOrderDto() {
+    protected void setAppliedOffersDtoToUiOrderDtoAndUpdateOrderSummeryInfo() {
         uiOrderDto.setAppliedOffersDto(appliedOffersDto);
 
         Collection<OrderSummerySingleStoreInfo> orderSummerySingleStoresInfo =
@@ -52,6 +52,7 @@ public class DiscountsData {
         appliedOffersDto.forEach((discountName, offersDto) -> {
 
             for (OfferDto offerDto : offersDto) {
+                orderSummeryInfo.updateCosts(offerDto.getTotalCost());
 
                 OrderSummerySingleStoreItemInfo orderSummerySingleStoreItemInfo =
                         new OrderSummerySingleStoreItemInfo(offerDto);

@@ -27,7 +27,7 @@ public class DiscountsController extends DiscountsData {
 
     @FXML
     void nextButtonAction(ActionEvent event) {
-        setAppliedOffersDtoToUiOrderDto();
+        setAppliedOffersDtoToUiOrderDtoAndUpdateOrderSummeryInfo();
         superDuperMarketController.showOrderSummery(orderSummeryInfo, uiOrderDto);
     }
 
@@ -41,7 +41,7 @@ public class DiscountsController extends DiscountsData {
             return true;
         }
         else {
-            setAppliedOffersDtoToUiOrderDto();
+            setAppliedOffersDtoToUiOrderDtoAndUpdateOrderSummeryInfo();
             return false;
         }
     }

@@ -36,4 +36,8 @@ public class OfferDto {
     public int getAdditionalPrice() {
         return additionalPrice;
     }
+
+    public float getTotalCost() {
+        return (float) (quantity * additionalPrice);
+    }
 }
