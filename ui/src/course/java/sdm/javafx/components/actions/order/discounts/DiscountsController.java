@@ -11,13 +11,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 public class DiscountsController extends DiscountsData {
 
     @FXML private FlowPane flowPane;
+
+    private Map<Node, SingleDiscountController> singleDiscountControllers;
 
     private SuperDuperMarketController superDuperMarketController;
 
@@ -32,7 +32,8 @@ public class DiscountsController extends DiscountsData {
     }
 
     public boolean createAllDiscounts(Map<StoreItemDto, Float> storeItemsDtoAndQuantities) {
-        Collection<DiscountDto> discountsDto = getDeserveDiscounts(storeItemsDtoAndQuantities);
+        singleDiscountControllers = new HashMap<>();
+        Collection<DiscountDto> discountsDto = getValidDiscountsToShow(storeItemsDtoAndQuantities);
 
         if (!discountsDto.isEmpty()) {
             for (DiscountDto discountDto : discountsDto) {
@@ -46,20 +47,20 @@ public class DiscountsController extends DiscountsData {
         }
     }
 
-    private Collection<DiscountDto> getDeserveDiscounts(Map<StoreItemDto, Float> storeItemsDtoAndQuantities) {
-        Collection<DiscountDto> deserveDiscountsDto = new ArrayList<>();
+    private Collection<DiscountDto> getValidDiscountsToShow(Map<StoreItemDto, Float> storeItemsDtoAndQuantities) {
+        Collection<DiscountDto> validDiscountsDto = new ArrayList<>();
 
-        storeItemsDtoAndQuantities.forEach((storeItemDto,quantity) -> {
+        storeItemsDtoAndQuantities.forEach((storeItemDto,purchasedQuantity) -> {
             Collection<DiscountDto> discountsDto = storeItemDto.getDiscountsDto();
             for (DiscountDto discountDto : discountsDto) {
-                double neededQuantity = discountDto.getStoreItemQuantity();
-                if (quantity >= neededQuantity) {
-                    deserveDiscountsDto.add(discountDto);
+                double neededQuantityToApplyDiscount = discountDto.getStoreItemQuantity();
+                if (purchasedQuantity >= neededQuantityToApplyDiscount) {
+                    validDiscountsDto.add(discountDto);
                 }
             }
         });
 
-        return deserveDiscountsDto;
+        return validDiscountsDto;
     }
 
     private void createDiscount(DiscountDto discountDto) {
@@ -73,9 +74,21 @@ public class DiscountsController extends DiscountsData {
             singleDiscountController.setDataValues(discountDto);
             singleDiscountController.setTableView(discountDto.getOffersDto());
 
+            singleDiscountControllers.put(singleDiscount, singleDiscountController);
             flowPane.getChildren().add(singleDiscount);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void checkDiscountsExpiration(int itemIdTriggered, double itemQuantity) {
+        singleDiscountControllers.forEach((node,singleDiscountController) -> {
+            if (singleDiscountController.getItemIdTriggered() == itemIdTriggered) {
+                if (singleDiscountController.getRemainderQuantityToApply() < itemQuantity) {
+                    flowPane.getChildren().removeAll(node);
+                }
+                singleDiscountController.updateItemQuantityTriggered(itemQuantity);
+            }
+        });
     }
 }

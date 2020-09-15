@@ -21,6 +21,9 @@ public class DiscountData {
     protected String categoryStr;
     protected Collection<OfferDto> offersDto;
 
+    protected int itemIdTriggered;
+    protected double remainderQuantityToApply;
+
     public DiscountData() {
         this.name = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
         this.itemDetails = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
@@ -41,6 +44,14 @@ public class DiscountData {
         return offersDto;
     }
 
+    public int getItemIdTriggered() {
+        return itemIdTriggered;
+    }
+
+    public double getRemainderQuantityToApply() {
+        return remainderQuantityToApply;
+    }
+
     protected OfferDto getOfferDtoByStoreItemId (int storeItemId) {
         for (OfferDto offerDto : offersDto) {
             if (offerDto.getStoreItemId() == storeItemId) {
@@ -48,6 +59,10 @@ public class DiscountData {
             }
         }
         return null;
+    }
+
+    public void updateItemQuantityTriggered(double quantity) {
+        this.remainderQuantityToApply -= quantity;
     }
 
     private void setName(String name) {
@@ -83,11 +98,21 @@ public class DiscountData {
         this.offersDto = offersDto;
     }
 
-    public void setDataValues(DiscountDto discountDto) {
+    private void setItemIdTriggered(int itemIdTriggered) {
+        this.itemIdTriggered = itemIdTriggered;
+    }
+
+    private void setRemainderQuantityToApply(double remainderQuantityToApply) {
+        this.remainderQuantityToApply = remainderQuantityToApply;
+    }
+
+    public void setDataValues(DiscountDto discountDto, ) {
         setName(discountDto.getName());
         setItemDetails(discountDto.getStoreItemName(), discountDto.getStoreItemId());
         setItemQuantity(discountDto.getStoreItemQuantity());
         setCategory(discountDto.getCategory());
         setOffersDto(discountDto.getOffersDto());
+        setItemIdTriggered(discountDto.getStoreItemId());
+        setRemainderQuantityToApply();  //צריך לשים את הכמות שנרכשה
     }
 }

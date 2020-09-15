@@ -73,6 +73,7 @@ public class SingleDiscountController extends DiscountData {
         else {
             discountsController.addAppliedOffersDto(getName(), getOffersDto());
         }
+        discountsController.checkDiscountsExpiration(itemIdTriggered, itemQuantity.getValue());
     }
 
     public void setTableView(Collection<OfferDto> offersDto) {
