@@ -12,8 +12,10 @@ public class OrderSummerySinglePurchasedItemData {
     protected SimpleFloatProperty quantity;
     protected SimpleFloatProperty pricePerUnit;
     protected SimpleFloatProperty totalCost;
-//    protected SimpleBooleanProperty discount;
-//    protected SimpleStringProperty discount;
+    protected SimpleStringProperty discount;
+
+    private static final String IN_DISCOUNT_STR = "YES";
+    private static final String NOT_IN_DISCOUNT_STR = "";
 
     public OrderSummerySinglePurchasedItemData(OrderSummerySingleStoreItemInfo orderSummerySingleStoreItemInfo) {
         this.id = new SimpleIntegerProperty(orderSummerySingleStoreItemInfo.getId());
@@ -22,6 +24,19 @@ public class OrderSummerySinglePurchasedItemData {
         this.quantity = new SimpleFloatProperty(orderSummerySingleStoreItemInfo.getQuantity());
         this.pricePerUnit = new SimpleFloatProperty(orderSummerySingleStoreItemInfo.getPricePerUnit());
         this.totalCost = new SimpleFloatProperty(orderSummerySingleStoreItemInfo.getTotalCost());
+        boolean isInDiscount = orderSummerySingleStoreItemInfo.getIsInDiscount();
+        this.discount = new SimpleStringProperty(getDiscountStr(isInDiscount));
+    }
+
+    private String getDiscountStr(boolean isInDiscount) {
+        String discountStr;
+        if (isInDiscount) {
+            discountStr = IN_DISCOUNT_STR;
+        }
+        else {
+            discountStr = NOT_IN_DISCOUNT_STR;
+        }
+        return discountStr;
     }
 
     public int getId() {
@@ -46,5 +61,9 @@ public class OrderSummerySinglePurchasedItemData {
 
     public float getTotalCost() {
         return totalCost.get();
+    }
+
+    public String getDiscount() {
+        return discount.get();
     }
 }

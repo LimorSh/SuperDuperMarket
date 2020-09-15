@@ -11,6 +11,7 @@ public class OrderSummerySingleStoreItemInfo {
     protected float quantity;
     protected float pricePerUnit;
     protected float totalCost;
+    protected boolean isInDiscount;
 
     public OrderSummerySingleStoreItemInfo(ItemWithPriceDto itemWithPriceDto, float quantity) {
         this.id = itemWithPriceDto.getId();
@@ -20,6 +21,7 @@ public class OrderSummerySingleStoreItemInfo {
         float price = itemWithPriceDto.getPrice();
         this.pricePerUnit = price;
         this.totalCost = quantity * price;
+        this.isInDiscount = false;
     }
 
     public OrderSummerySingleStoreItemInfo(OfferDto offerDto) {
@@ -30,6 +32,7 @@ public class OrderSummerySingleStoreItemInfo {
         float price = offerDto.getAdditionalPrice();
         this.pricePerUnit = price;
         this.totalCost = quantity * price;
+        this.isInDiscount = true;
     }
 
     public int getId() {
@@ -54,6 +57,10 @@ public class OrderSummerySingleStoreItemInfo {
 
     public float getTotalCost() {
         return totalCost;
+    }
+
+    public boolean getIsInDiscount() {
+        return isInDiscount;
     }
 
     public void setId(int id) {
