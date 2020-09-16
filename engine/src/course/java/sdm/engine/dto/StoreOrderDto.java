@@ -1,10 +1,11 @@
 package course.java.sdm.engine.dto;
 
+import course.java.sdm.engine.engine.Offer;
 import course.java.sdm.engine.engine.OrderLine;
 import course.java.sdm.engine.engine.StoreOrder;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class StoreOrderDto {
 
@@ -13,6 +14,7 @@ public class StoreOrderDto {
     private final String storeName;
     private final int storePpk;
     private final Collection<OrderLineDto> orderLinesDto; //the key is itemId
+    private final Map<String, ArrayList<OfferDto>> appliedOffersDto;  //the key is discount name
     private final int totalItems;
     private final float itemsCost;
     private final float deliveryCost;
@@ -26,6 +28,8 @@ public class StoreOrderDto {
         this.storePpk = storeOrder.getStore().getPpk();
         this.orderLinesDto = new ArrayList<>();
         copyOrderLinesDto(storeOrder);
+        this.appliedOffersDto = new HashMap<>();
+        copyAppliedOffersDto(storeOrder);
         this.totalItems = storeOrder.getTotalItems();
         this.itemsCost = storeOrder.getItemsCost();
         this.deliveryCost = storeOrder.getDeliveryCost();
@@ -39,6 +43,18 @@ public class StoreOrderDto {
             OrderLineDto orderLineDto = new OrderLineDto(orderLine);
             orderLinesDto.add(orderLineDto);
         }
+    }
+
+    private void copyAppliedOffersDto(StoreOrder storeOrder) {
+        Map<String, ArrayList<Offer>> appliedOffers = storeOrder.getAppliedOffers();
+        appliedOffers.forEach((discountName, offers) -> {
+            ArrayList<OfferDto> appliedOffersDto = new ArrayList<>();
+            for (Offer offer : offers) {
+                OfferDto offerDto = new OfferDto(offer);
+                appliedOffersDto.add(offerDto);
+            }
+            this.appliedOffersDto.put(discountName, appliedOffersDto);
+        });
     }
 
     public Date getDate() {
@@ -60,6 +76,15 @@ public class StoreOrderDto {
     public Collection<OrderLineDto> getOrderLinesDto() {
         return orderLinesDto;
     }
+
+    public Collection<OfferDto> getAppliedOffersDto() {
+        Collection<OfferDto> newOffersDto = new ArrayList<>();
+        this.appliedOffersDto.forEach((discountName, offersDto) -> {
+            newOffersDto.addAll(offersDto);
+        });
+        return newOffersDto;
+    }
+
 
     public int getTotalItems() {
         return totalItems;

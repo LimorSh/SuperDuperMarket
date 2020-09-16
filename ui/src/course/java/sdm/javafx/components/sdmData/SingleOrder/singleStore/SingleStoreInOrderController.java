@@ -1,6 +1,8 @@
 package course.java.sdm.javafx.components.sdmData.SingleOrder.singleStore;
 
+import course.java.sdm.engine.dto.OfferDto;
 import course.java.sdm.engine.dto.OrderLineDto;
+import course.java.sdm.engine.dto.StoreOrderDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,13 +39,22 @@ public class SingleStoreInOrderController extends StoreInOrderData {
         deliveryCostValueLabel.textProperty().bind(deliveryCost.asString());
     }
 
-    public void setTableViewData(Collection<OrderLineDto> orderLinesDto) {
+    public void setTableViewData(StoreOrderDto storeOrderDto) {
+        Collection<OrderLineDto> orderLinesDto = storeOrderDto.getOrderLinesDto();
+        Collection<OfferDto> appliedOffersDto = storeOrderDto.getAppliedOffersDto();
         if (!orderLinesDto.isEmpty()) {
             ArrayList<SinglePurchasedItemData> singlePurchasedItemsData = new ArrayList<>();
             for (OrderLineDto orderLineDto : orderLinesDto) {
                 SinglePurchasedItemData singlePurchasedItemData =
                         new SinglePurchasedItemData(orderLineDto);
                 singlePurchasedItemsData.add(singlePurchasedItemData);
+            }
+            if (!appliedOffersDto.isEmpty()) {
+                for (OfferDto offerDto : appliedOffersDto) {
+                    SinglePurchasedItemData singlePurchasedItemData =
+                            new SinglePurchasedItemData(offerDto);
+                    singlePurchasedItemsData.add(singlePurchasedItemData);
+                }
             }
             final ObservableList<SinglePurchasedItemData> data =
                     FXCollections.observableArrayList(singlePurchasedItemsData);
@@ -65,6 +76,9 @@ public class SingleStoreInOrderController extends StoreInOrderData {
             );
             itemTotalCostCol.setCellValueFactory(
                     new PropertyValueFactory<>("totalCost")
+            );
+            itemDiscountCol.setCellValueFactory(
+                    new PropertyValueFactory<>("discount")
             );
 
             purchasedItemsTableView.setItems(data);
