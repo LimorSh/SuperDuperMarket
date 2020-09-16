@@ -22,7 +22,7 @@ public class DiscountData {
     protected Collection<OfferDto> offersDto;
 
     protected int itemIdTriggered;
-    protected double remainderQuantityToApply;
+    protected float remainderQuantityToApply;
 
     public DiscountData() {
         this.name = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
@@ -34,6 +34,10 @@ public class DiscountData {
 
     protected String getName() {
         return name.get();
+    }
+
+    public double getItemQuantity() {
+        return itemQuantity.get();
     }
 
     protected String getCategoryStr() {
@@ -61,7 +65,7 @@ public class DiscountData {
         return null;
     }
 
-    public void updateItemQuantityTriggered(double quantity) {
+    public void updateRemainderQuantityToApply(double quantity) {
         this.remainderQuantityToApply -= quantity;
     }
 
@@ -102,17 +106,17 @@ public class DiscountData {
         this.itemIdTriggered = itemIdTriggered;
     }
 
-    private void setRemainderQuantityToApply(double remainderQuantityToApply) {
+    private void setRemainderQuantityToApply(float remainderQuantityToApply) {
         this.remainderQuantityToApply = remainderQuantityToApply;
     }
 
-    public void setDataValues(DiscountDto discountDto, ) {
+    public void setDataValues(DiscountDto discountDto, float purchasedQuantity ) {
         setName(discountDto.getName());
         setItemDetails(discountDto.getStoreItemName(), discountDto.getStoreItemId());
         setItemQuantity(discountDto.getStoreItemQuantity());
         setCategory(discountDto.getCategory());
         setOffersDto(discountDto.getOffersDto());
         setItemIdTriggered(discountDto.getStoreItemId());
-        setRemainderQuantityToApply();  //צריך לשים את הכמות שנרכשה
+        setRemainderQuantityToApply(purchasedQuantity);
     }
 }
