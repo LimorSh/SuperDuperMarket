@@ -31,13 +31,26 @@ public class DiscountsData {
     }
 
     public void addAppliedOffersDto(String discountName, Collection<OfferDto> appliedOffersDto) {
-        this.appliedOffersDto.put(discountName, appliedOffersDto);
+        if (this.appliedOffersDto.containsKey(discountName)) {
+            for (OfferDto appliedOfferDto : appliedOffersDto) {
+                this.appliedOffersDto.get(discountName).add(appliedOfferDto);
+            }
+        }
+        else {
+            Collection<OfferDto> newAppliedOffersDto = new ArrayList<>(appliedOffersDto);
+            this.appliedOffersDto.put(discountName, newAppliedOffersDto);
+        }
     }
 
     public void addAppliedOfferDto(String discountName, OfferDto appliedOfferDto) {
-        Collection<OfferDto> offersDto = new ArrayList<>();
-        offersDto.add(appliedOfferDto);
-        this.appliedOffersDto.put(discountName, offersDto);
+        if (this.appliedOffersDto.containsKey(discountName)) {
+            this.appliedOffersDto.get(discountName).add(appliedOfferDto);
+        }
+        else {
+            Collection<OfferDto> offersDto = new ArrayList<>();
+            offersDto.add(appliedOfferDto);
+            this.appliedOffersDto.put(discountName, offersDto);
+        }
     }
 
     protected void setAppliedOffersDtoToUiOrderDtoAndUpdateOrderSummeryInfo() {

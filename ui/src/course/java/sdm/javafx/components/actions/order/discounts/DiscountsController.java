@@ -86,12 +86,6 @@ public class DiscountsController extends DiscountsData {
                 if (singleDiscountController.getRemainderQuantityToApply() < singleDiscountController.getItemQuantity()) {
                     flowPane.getChildren().remove(node);
                 }
-//                if (singleDiscountController.getRemainderQuantityToApply() < itemQuantity) {
-//                    flowPane.getChildren().remove(node);
-//                }
-//                else {
-//                    singleDiscountController.updateRemainderQuantityToApply(itemQuantity);
-//                }
             }
         });
     }
