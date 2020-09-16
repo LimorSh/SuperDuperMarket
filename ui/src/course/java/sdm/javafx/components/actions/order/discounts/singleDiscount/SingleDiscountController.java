@@ -23,6 +23,7 @@ public class SingleDiscountController extends DiscountData {
     @FXML private Label categoryLabel;
 
     @FXML private Button applyDiscountButton;
+    @FXML private Label msgLabel;
 
     @FXML private TableView<DiscountOfferData> tableView;
     @FXML private TableColumn<DiscountOfferData, Integer> idCol;
@@ -65,6 +66,7 @@ public class SingleDiscountController extends DiscountData {
 
     @FXML
     void applyDiscountButtonAction(ActionEvent event) {
+        showMsgLabel();
         if (categoryStr.equalsIgnoreCase(Constants.DISCOUNT_CATEGORY_ONE_OF)) {
             DiscountOfferData discountOfferData = tableView.getSelectionModel().getSelectedItem();
             OfferDto offerDto = getOfferDtoByStoreItemId(discountOfferData.getStoreItemId());
@@ -74,6 +76,11 @@ public class SingleDiscountController extends DiscountData {
             discountsController.addAppliedOffersDto(getName(), getOffersDto());
         }
         discountsController.checkDiscountsExpiration(itemIdTriggered, itemQuantity.getValue());
+    }
+
+    private void showMsgLabel() {
+        updateNumberOfApplies();
+        msgLabel.setText(String.format("You applied this discount %d times", numberOfApplies));
     }
 
     public void setTableView(Collection<OfferDto> offersDto) {

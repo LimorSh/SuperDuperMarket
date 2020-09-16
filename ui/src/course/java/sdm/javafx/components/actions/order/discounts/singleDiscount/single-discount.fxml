@@ -62,8 +62,13 @@
       </TableView>
    </center>
    <bottom>
-      <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
+            <Label fx:id="msgLabel" prefHeight="17.0" prefWidth="476.0" style="-fx-text-fill: blue;">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
             <Button fx:id="applyDiscountButton" disable="true" mnemonicParsing="false" onAction="#applyDiscountButtonAction" text="Apply Discount" />
          </children>
       </HBox>

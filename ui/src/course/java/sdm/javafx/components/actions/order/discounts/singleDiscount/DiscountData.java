@@ -23,6 +23,7 @@ public class DiscountData {
 
     protected int itemIdTriggered;
     protected float remainderQuantityToApply;
+    protected int numberOfApplies;
 
     public DiscountData() {
         this.name = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);
@@ -69,6 +70,10 @@ public class DiscountData {
         this.remainderQuantityToApply -= quantity;
     }
 
+    public void updateNumberOfApplies() {
+        numberOfApplies++;
+    }
+
     private void setName(String name) {
         this.name.set(name);
     }
@@ -84,7 +89,7 @@ public class DiscountData {
     private void setCategory(String category) {
         String newCategory = "";
         if (category.equalsIgnoreCase(Constants.DISCOUNT_CATEGORY_ONE_OF)) {
-            newCategory = " one of the following items:";
+            newCategory = " one of the following items (click on one item in the table):";
             isOneOfDiscountCategory.set(true);
         }
         else if (category.equalsIgnoreCase(Constants.DISCOUNT_CATEGORY_ALL_OR_NOTHING)){
