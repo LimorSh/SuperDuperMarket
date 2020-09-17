@@ -5,7 +5,6 @@ import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryInfo;
 import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreInfo;
 import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreItemInfo;
 import course.java.sdm.javafx.dto.UIOrderDto;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

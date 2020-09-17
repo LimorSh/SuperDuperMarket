@@ -278,6 +278,8 @@ public class SuperDuperMarketController {
             superDuperMarketBorderPane.setCenter(orders);
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 }
