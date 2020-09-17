@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
-Main-Class: course.java.sdm.javafx.MainJavaFx
+Main-Class: course.java.sdm.javafx.JavaFxUI
 Class-Path: engine.jar
+

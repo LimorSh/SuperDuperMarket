@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="895.0" stylesheets="@single-store-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.singleStore.SingleStoreController">
+<Pane prefHeight="495.0" prefWidth="895.0" stylesheets="@single-store-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.singleStore.SingleStoreController">
    <children>
       <Label fx:id="nameValueLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="291.0" layoutY="14.0" prefHeight="27.0" prefWidth="227.0">
          <font>
