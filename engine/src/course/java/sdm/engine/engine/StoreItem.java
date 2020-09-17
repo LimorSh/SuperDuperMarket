@@ -53,6 +53,15 @@ public class StoreItem extends Item{
         return !discounts.isEmpty();
     }
 
+    public boolean isDiscountExist(String discountName) {
+        for (Discount discount : discounts) {
+            if (discount.getName().equalsIgnoreCase(discountName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return "StoreItem{" +

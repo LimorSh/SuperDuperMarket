@@ -11,68 +11,82 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 public class DiscountsController extends DiscountsData {
 
     @FXML private FlowPane flowPane;
 
+    private Map<Node, SingleDiscountController> singleDiscountControllers;
+
     private SuperDuperMarketController superDuperMarketController;
+
+    public void setSuperDuperMarketController(SuperDuperMarketController superDuperMarketController) {
+        this.superDuperMarketController = superDuperMarketController;
+    }
 
     @FXML
     void nextButtonAction(ActionEvent event) {
+        setAppliedOffersDtoToUiOrderDtoAndUpdateOrderSummeryInfo();
         superDuperMarketController.showOrderSummery(orderSummeryInfo, uiOrderDto);
     }
 
     public boolean createAllDiscounts(Map<StoreItemDto, Float> storeItemsDtoAndQuantities) {
-        Collection<DiscountDto> discountsDto = getDeserveDiscounts(storeItemsDtoAndQuantities);
+        singleDiscountControllers = new HashMap<>();
+        Map<DiscountDto, Float> discountsDtoAndQuantities = getValidDiscountsToShow(storeItemsDtoAndQuantities);
 
-        if (!discountsDto.isEmpty()) {
-            for (DiscountDto discountDto : discountsDto) {
-                createDiscount(discountDto);
-            }
+        if (!discountsDtoAndQuantities.isEmpty()) {
+            discountsDtoAndQuantities.forEach(this::createDiscount);
             return true;
         }
         else {
+            setAppliedOffersDtoToUiOrderDtoAndUpdateOrderSummeryInfo();
             return false;
         }
     }
 
-    private Collection<DiscountDto> getDeserveDiscounts(Map<StoreItemDto, Float> storeItemsDtoAndQuantities) {
-        Collection<DiscountDto> deserveDiscountsDto = new ArrayList<>();
+    private Map<DiscountDto, Float> getValidDiscountsToShow(Map<StoreItemDto, Float> storeItemsDtoAndQuantities) {
+        Map<DiscountDto, Float> validDiscountsDto = new HashMap<>();
 
-        storeItemsDtoAndQuantities.forEach((storeItemDto,quantity) -> {
+        storeItemsDtoAndQuantities.forEach((storeItemDto,purchasedQuantity) -> {
             Collection<DiscountDto> discountsDto = storeItemDto.getDiscountsDto();
             for (DiscountDto discountDto : discountsDto) {
-                double neededQuantity = discountDto.getStoreItemQuantity();
-                if (quantity >= neededQuantity) {
-                    deserveDiscountsDto.add(discountDto);
+                double neededQuantityToApplyDiscount = discountDto.getStoreItemQuantity();
+                if (purchasedQuantity >= neededQuantityToApplyDiscount) {
+                    validDiscountsDto.put(discountDto, purchasedQuantity);
                 }
             }
         });
 
-        return deserveDiscountsDto;
+        return validDiscountsDto;
     }
 
-    private void createDiscount(DiscountDto discountDto) {
+    private void createDiscount(DiscountDto discountDto, float purchasedQuantity) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.SINGLE_DISCOUNT_IN_ADD_ORDER_FXML_RESOURCE);
             Node singleDiscount = loader.load();
-
             SingleDiscountController singleDiscountController = loader.getController();
-            singleDiscountController.setDataValues(discountDto);
+
+            singleDiscountController.setDiscountsController(this);
+            singleDiscountController.setDataValues(discountDto, purchasedQuantity);
             singleDiscountController.setTableView(discountDto.getOffersDto());
 
+            singleDiscountControllers.put(singleDiscount, singleDiscountController);
             flowPane.getChildren().add(singleDiscount);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void setSuperDuperMarketController(SuperDuperMarketController superDuperMarketController) {
-        this.superDuperMarketController = superDuperMarketController;
+    public void checkDiscountsExpiration(int itemIdTriggered, double itemQuantity) {
+        singleDiscountControllers.forEach((node,singleDiscountController) -> {
+            if (singleDiscountController.getItemIdTriggered() == itemIdTriggered) {
+                singleDiscountController.updateRemainderQuantityToApply(itemQuantity);
+                if (singleDiscountController.getRemainderQuantityToApply() < singleDiscountController.getItemQuantity()) {
+                    flowPane.getChildren().remove(node);
+                }
+            }
+        });
     }
 }

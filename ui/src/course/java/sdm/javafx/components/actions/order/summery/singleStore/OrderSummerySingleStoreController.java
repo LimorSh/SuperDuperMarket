@@ -65,6 +65,9 @@ public class OrderSummerySingleStoreController extends OrderSummerySingleStoreDa
             itemTotalCostCol.setCellValueFactory(
                     new PropertyValueFactory<>("totalCost")
             );
+            itemDiscountCol.setCellValueFactory(
+                    new PropertyValueFactory<>("discount")
+            );
 
             purchasedItemsTableView.setItems(data);
         }

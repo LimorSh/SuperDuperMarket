@@ -1,5 +1,6 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
+import course.java.sdm.engine.dto.OfferDto;
 import course.java.sdm.engine.exception.DuplicateElementIdException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheStoreException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheSuperException;
@@ -346,19 +347,46 @@ public class SuperDuperMarket {
         return storesToItemsAndQuantities;
     }
 
-    public void createOrder(int customerId, Date date, Map<Integer, Float> itemsIdsAndQuantities) {
+    private Collection<DynamicOrderStoreData> getDynamicOrderStoresData (
+            Map<Store, Map<Item, Float>> storesToItemsAndQuantities,
+            Map<String, ArrayList<Offer>> appliedOffers) {
+
+        Collection<DynamicOrderStoreData> dynamicOrderStoresData = new ArrayList<>();
+
+        storesToItemsAndQuantities.forEach((store,itemsAndQuantities) -> {
+            DynamicOrderStoreData dynamicOrderStoreData = new DynamicOrderStoreData(store, itemsAndQuantities);
+            Map<String, ArrayList<Offer>> appliedOffersInStore = new HashMap<>();
+
+            appliedOffers.forEach((discountName, offers) -> {
+                if (store.isDiscountExist(discountName)) {
+                    appliedOffersInStore.put(discountName, offers);
+                }
+            });
+
+            dynamicOrderStoreData.setAppliedOffers(appliedOffersInStore);
+        });
+
+        return dynamicOrderStoresData;
+    }
+
+    public void createOrder(int customerId, Date date, Map<Integer, Float> itemsIdsAndQuantities,
+                            Map<String, ArrayList<Offer>> appliedOffers) {
         Map<Store, Map<Item, Float>> storesToItemsAndQuantities = getOptimalCartWithItems(itemsIdsAndQuantities);
+
+        Collection<DynamicOrderStoreData> dynamicOrderStoresData = getDynamicOrderStoresData(
+                storesToItemsAndQuantities, appliedOffers);
 
         Customer customer = getCustomer(customerId);
         Order order = new Order(customer, date, Constants.ORDER_CATEGORY_DYNAMIC_STR);
         addOrder(order);
 
-        order.addStoresOrder(storesToItemsAndQuantities);
+        order.addStoresOrder(dynamicOrderStoresData);
 
         order.finish(storesToItemsAndQuantities.keySet());
     }
 
-    public void createOrder(int customerId, Date date, int storeId, Map<Integer, Float> itemsIdsAndQuantities) {
+    public void createOrder(int customerId, Date date, int storeId, Map<Integer, Float> itemsIdsAndQuantities,
+                            Map<String, ArrayList<Offer>> appliedOffers) {
         Customer customer = getCustomer(customerId);
         Order order = new Order(customer, date, Constants.ORDER_CATEGORY_STATIC_STR);
         addOrder(order);
@@ -370,7 +398,7 @@ public class SuperDuperMarket {
             Item item = getItem(itemId);
             itemsAndQuantities.put(item, itemQuantity);
         });
-        order.addStoreOrder(store, itemsAndQuantities);
+        order.addStoreOrder(store, itemsAndQuantities, appliedOffers);
 
         order.finish(store);
     }

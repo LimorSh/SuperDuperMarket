@@ -48,11 +48,13 @@ public class OrderSummeryController extends OrderSummeryData {
     @FXML void confirmButtonAction(ActionEvent event) {
         if (isStaticOrder) {
             businessLogic.createOrder(uiOrderDto.getCustomerId(), uiOrderDto.getDate(),
-                    uiOrderDto.getStoreId(), uiOrderDto.getItemsIdsAndQuantities());
+                    uiOrderDto.getStoreId(), uiOrderDto.getItemsIdsAndQuantities(),
+                    uiOrderDto.getAppliedOffersDto());
         }
         else {
             businessLogic.createOrder(uiOrderDto.getCustomerId(),
-                    uiOrderDto.getDate(), uiOrderDto.getItemsIdsAndQuantities());
+                    uiOrderDto.getDate(), uiOrderDto.getItemsIdsAndQuantities(),
+                    uiOrderDto.getAppliedOffersDto());
         }
 
         setFinalControls(CONFIRM_MSG);

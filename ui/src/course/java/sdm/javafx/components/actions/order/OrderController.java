@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -225,22 +226,22 @@ public class OrderController extends OrderData {
             addOrderSummerySingleStoreInfo(storeDto, customerId, itemIdsAndQuantities);
         });
 
-        float totalCost = itemsCost.get() + deliveriesCost.get();
-
-        orderSummeryInfo.setItemsCost(itemsCost.get());
-        orderSummeryInfo.setDeliveryCost(deliveriesCost.get());
-        orderSummeryInfo.setTotalCost(totalCost);
+        setOrderSummeryInfoBasicData(itemsCost.get(), deliveriesCost.get());
     }
 
     private void updateOrderSummeryInfoForStaticOrder(int customerId) {
         float itemsCost = storeItemsController.getItemsCost();
-        orderSummeryInfo.setItemsCost(itemsCost);
-        orderSummeryInfo.setDeliveryCost(deliveryCost.floatValue());
-        orderSummeryInfo.setTotalCost(itemsCost + deliveryCost.floatValue());
+        setOrderSummeryInfoBasicData(itemsCost, deliveryCost.floatValue());
 
         int storeId = getSelectedStoreId();
         StoreDto storeDto = businessLogic.getStoreDto(storeId);
         addOrderSummerySingleStoreInfo(storeDto, customerId, getSelectedItemsIdsAndQuantities());
+    }
+
+    private void setOrderSummeryInfoBasicData(float itemsCost, float deliveryCost) {
+        orderSummeryInfo.setItemsCost(itemsCost);
+        orderSummeryInfo.setDeliveryCost(deliveryCost);
+        orderSummeryInfo.setTotalCost(itemsCost + deliveryCost);
     }
 
     private void addOrderSummerySingleStoreInfo(StoreDto storeDto, int customerId,

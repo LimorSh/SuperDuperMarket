@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="240.0" prefWidth="600.0" stylesheets="@single-discount-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.discounts.singleDiscount.SingleDiscountController">
+<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="600.0" stylesheets="@single-discount-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.discounts.singleDiscount.SingleDiscountController">
    <top>
       <VBox prefHeight="66.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -62,9 +62,14 @@
       </TableView>
    </center>
    <bottom>
-      <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="applyDiscountButton" mnemonicParsing="false" onAction="#applyDiscountButtonAction" text="Apply Discount" />
+            <Label fx:id="msgLabel" prefHeight="17.0" prefWidth="476.0" style="-fx-text-fill: blue;">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+            <Button fx:id="applyDiscountButton" disable="true" mnemonicParsing="false" onAction="#applyDiscountButtonAction" text="Apply Discount" />
          </children>
       </HBox>
    </bottom>

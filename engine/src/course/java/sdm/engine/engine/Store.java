@@ -9,7 +9,7 @@ import java.util.*;
 public class Store {
 
     private final int id;
-    private String name;
+    private final String name;
     private final int ppk;
     private Location location;
     private final Map<Integer, StoreItem> storeItems;
@@ -167,6 +167,15 @@ public class Store {
             }
         }
         return null;
+    }
+
+    public boolean isDiscountExist(String discountName) {
+        for (StoreItem storeItem : storeItems.values()) {
+            if (storeItem.isDiscountExist(discountName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

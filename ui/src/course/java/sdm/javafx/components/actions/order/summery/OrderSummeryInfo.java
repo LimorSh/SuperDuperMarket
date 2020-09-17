@@ -102,4 +102,9 @@ public class OrderSummeryInfo {
     public void addSingleStoreInfo(OrderSummerySingleStoreInfo orderSummerySingleStoreInfo) {
         singleStoresInfo.add(orderSummerySingleStoreInfo);
     }
+
+    public void updateCosts(float cost) {
+        this.itemsCost += cost;
+        this.totalCost += cost;
+    }
 }

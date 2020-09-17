@@ -3,7 +3,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.FlowPane?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="726.0" stylesheets="@order-summery-stores-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.summery.stores.OrderSummeryStoresController">
+<ScrollPane prefHeight="300.0" prefWidth="726.0" stylesheets="@order-summery-stores-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.order.summery.stores.OrderSummeryStoresController">
    <content>
       <FlowPane fx:id="flowPane" prefHeight="296.0" prefWidth="723.0" />
    </content>
