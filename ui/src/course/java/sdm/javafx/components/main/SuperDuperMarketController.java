@@ -187,6 +187,7 @@ public class SuperDuperMarketController {
                 DiscountsController discountsController = loader.getController();
 
                 discountsController.setSuperDuperMarketController(this);
+                discountsController.setBusinessLogic(businessLogic);
                 discountsController.setValuesData(orderSummeryInfo, uiOrderDto);
 
                 int storeId = uiOrderDto.getStoreId();

@@ -131,15 +131,13 @@ public class Order {
         storeOrder.SetValues(customer.getLocation());
         storeOrder.setAppliedOffers(appliedOffers);
         storesOrder.put(store.getId(), storeOrder);
-        setValues();
+        setValues(storeOrder);
     }
 
-    private void setValues() {
-        for (StoreOrder storeOrder : this.storesOrder.values()) {
-            itemsCost += storeOrder.getItemsCost();
-            deliveryCost += storeOrder.getDeliveryCost();
-            totalItems += storeOrder.getTotalItems();
-        }
+    private void setValues(StoreOrder storeOrder) {
+        itemsCost += storeOrder.getItemsCost();
+        deliveryCost += storeOrder.getDeliveryCost();
+        totalItems += storeOrder.getTotalItems();
     }
 
     public void addStoresOrder(Collection<DynamicOrderStoreData> dynamicOrderStoresData) {

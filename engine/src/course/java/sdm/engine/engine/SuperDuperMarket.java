@@ -355,6 +355,7 @@ public class SuperDuperMarket {
 
         storesToItemsAndQuantities.forEach((store,itemsAndQuantities) -> {
             DynamicOrderStoreData dynamicOrderStoreData = new DynamicOrderStoreData(store, itemsAndQuantities);
+            dynamicOrderStoresData.add(dynamicOrderStoreData);
             Map<String, ArrayList<Offer>> appliedOffersInStore = new HashMap<>();
 
             appliedOffers.forEach((discountName, offers) -> {

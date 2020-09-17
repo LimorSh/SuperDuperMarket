@@ -1,6 +1,7 @@
 package course.java.sdm.javafx.components.actions.order.discounts;
 
 import course.java.sdm.engine.dto.OfferDto;
+import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryInfo;
 import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreInfo;
 import course.java.sdm.javafx.components.actions.order.summery.singleStore.OrderSummerySingleStoreItemInfo;
@@ -15,12 +16,16 @@ public class DiscountsData {
     protected OrderSummeryInfo orderSummeryInfo;
     protected UIOrderDto uiOrderDto;
     protected Map<String, Collection<OfferDto>> appliedOffersDto;    //the key is discount name
+    protected BusinessLogic businessLogic;
 
     private void setOrderSummeryInfo(OrderSummeryInfo orderSummeryInfo) {
         this.orderSummeryInfo = orderSummeryInfo;
     }
     private void setUiOrderDto(UIOrderDto uiOrderDto) {
         this.uiOrderDto = uiOrderDto;
+    }
+    public void setBusinessLogic(BusinessLogic businessLogic) {
+        this.businessLogic = businessLogic;
     }
 
     public void setValuesData(OrderSummeryInfo orderSummeryInfo, UIOrderDto uiOrderDto) {
@@ -58,9 +63,19 @@ public class DiscountsData {
         Collection<OrderSummerySingleStoreInfo> orderSummerySingleStoresInfo =
                 orderSummeryInfo.getSingleStoresInfo();
 
-        OrderSummerySingleStoreInfo orderSummerySingleStoreInfo =
-                orderSummerySingleStoresInfo.stream().findFirst().orElse(null);
+        if (orderSummeryInfo.getIsStaticOrder()) {
+            OrderSummerySingleStoreInfo orderSummerySingleStoreInfo =
+                    orderSummerySingleStoresInfo.stream().findFirst().orElse(null);
+            addAppliedOffersToOrderSummerySingleStoreInfo(orderSummerySingleStoreInfo);
+        }
+        else {
+            for (OrderSummerySingleStoreInfo orderSummerySingleStoreInfo : orderSummerySingleStoresInfo) {
+                addAppliedOffersToOrderSummerySingleStoreInfo(orderSummerySingleStoreInfo);
+            }
+        }
+    }
 
+    private void addAppliedOffersToOrderSummerySingleStoreInfo(OrderSummerySingleStoreInfo orderSummerySingleStoreInfo) {
         appliedOffersDto.forEach((discountName, offersDto) -> {
 
             for (OfferDto offerDto : offersDto) {
