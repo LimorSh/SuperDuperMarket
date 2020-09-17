@@ -78,14 +78,15 @@ public class DiscountsData {
     private void addAppliedOffersToOrderSummerySingleStoreInfo(OrderSummerySingleStoreInfo orderSummerySingleStoreInfo) {
         appliedOffersDto.forEach((discountName, offersDto) -> {
 
-            for (OfferDto offerDto : offersDto) {
-                orderSummeryInfo.updateCosts(offerDto.getTotalCost());
+            if (businessLogic.isDiscountInStore(orderSummerySingleStoreInfo.getId(), discountName)){
+                for (OfferDto offerDto : offersDto) {
+                    orderSummeryInfo.updateCosts(offerDto.getTotalCost());
 
-                OrderSummerySingleStoreItemInfo orderSummerySingleStoreItemInfo =
-                        new OrderSummerySingleStoreItemInfo(offerDto);
+                    OrderSummerySingleStoreItemInfo orderSummerySingleStoreItemInfo =
+                            new OrderSummerySingleStoreItemInfo(offerDto);
 
-                assert orderSummerySingleStoreInfo != null;
-                orderSummerySingleStoreInfo.addOrderSummerySingleStoreItemsInfo(orderSummerySingleStoreItemInfo);
+                    orderSummerySingleStoreInfo.addOrderSummerySingleStoreItemsInfo(orderSummerySingleStoreItemInfo);
+                }
             }
         });
     }

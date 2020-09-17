@@ -311,7 +311,7 @@ public class BusinessLogic {
     }
 
 
-
-
-
+    public boolean isDiscountInStore(int storeId, String discountName) {
+        return superDuperMarket.isDiscountInStore(storeId, discountName);
+    }
 }

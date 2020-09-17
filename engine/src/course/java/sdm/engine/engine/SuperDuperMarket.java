@@ -410,5 +410,8 @@ public class SuperDuperMarket {
     }
 
 
-
+    public boolean isDiscountInStore(int storeId, String discountName) {
+        Store store = getStore(storeId);
+        return store.isDiscountExist(discountName);
+    }
 }
