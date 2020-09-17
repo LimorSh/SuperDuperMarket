@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 public class DynamicOrderStoresSummeryController extends DynamicOrderStoresData {
 
     @FXML private FlowPane flowPane;
-    @FXML private Button nextButton;
 
     private SuperDuperMarketController superDuperMarketController;
 
@@ -58,7 +57,7 @@ public class DynamicOrderStoresSummeryController extends DynamicOrderStoresData 
 
     @FXML
     void nextButtonAction(ActionEvent event) {
-        superDuperMarketController.showOrderSummery(orderSummeryInfo, uiOrderDto);
+        superDuperMarketController.showDiscountsInOrder(orderSummeryInfo, uiOrderDto);
     }
 
     public void setSuperDuperMarketController(SuperDuperMarketController superDuperMarketController) {

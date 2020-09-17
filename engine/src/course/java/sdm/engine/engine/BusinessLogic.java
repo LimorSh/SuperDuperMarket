@@ -270,6 +270,15 @@ public class BusinessLogic {
         return superDuperMarket.isStoreHasDiscounts(storeId);
     }
 
+    public boolean isStoresHaveDiscounts(Collection<Integer> storesIds) {
+        for (Integer storeId : storesIds) {
+            if (isStoreHasDiscounts(storeId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public Map<StoreItemDto, Float> getStoreItemsDtoAndQuantities(int storeId,
                                                                    Map<Integer, Float> itemsIdsAndQuantities) {
@@ -283,6 +292,25 @@ public class BusinessLogic {
 
         return storeItemsDtoAndQuantities;
     }
+
+    public Map<StoreItemDto, Float> getStoreItemsDtoAndQuantities(Map<Integer, Float> itemsIdsAndQuantities) {
+        Map<StoreItemDto, Float> storeItemsDtoAndQuantities = new HashMap<>();
+        Map<Store, Map<Integer, Float>> optimalCartWithItemIds =
+                superDuperMarket.getOptimalCartWithItemIds(itemsIdsAndQuantities);
+
+        optimalCartWithItemIds.forEach((store, itemIdsAndQuantities) -> {
+
+            itemIdsAndQuantities.forEach((itemId,quantity) -> {
+                StoreItem storeItem = superDuperMarket.getStoreItem(store.getId(), itemId);
+                StoreItemDto storeItemDto = new StoreItemDto(storeItem);
+                storeItemsDtoAndQuantities.put(storeItemDto, quantity);
+            });
+        });
+
+        return storeItemsDtoAndQuantities;
+    }
+
+
 
 
 

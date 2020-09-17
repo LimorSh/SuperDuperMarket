@@ -178,36 +178,66 @@ public class SuperDuperMarketController {
         }
     }
 
-    public void showDiscountsForStaticOrder(OrderSummeryInfo orderSummeryInfo, UIOrderDto uiOrderDto) {
-        if (businessLogic.isStoreHasDiscounts(uiOrderDto.getStoreId())) {
-            try {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(SuperDuperMarketConstants.ALL_DISCOUNTS_IN_ADD_ORDER_FXML_RESOURCE);
-                Node discounts = loader.load();
-                DiscountsController discountsController = loader.getController();
-
-                discountsController.setSuperDuperMarketController(this);
-                discountsController.setBusinessLogic(businessLogic);
-                discountsController.setValuesData(orderSummeryInfo, uiOrderDto);
-
-                int storeId = uiOrderDto.getStoreId();
-                Map<StoreItemDto, Float> storeItemsDtoAndQuantities =
-                        businessLogic.getStoreItemsDtoAndQuantities(storeId, uiOrderDto.getItemsIdsAndQuantities());
-
-                boolean success = discountsController.createAllDiscounts(storeItemsDtoAndQuantities);
-                if (success) {
-                    superDuperMarketBorderPane.setCenter(discounts);
-                }
-                else {
-                    showOrderSummery(orderSummeryInfo, uiOrderDto);
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
+    private boolean noDiscounts(OrderSummeryInfo orderSummeryInfo, UIOrderDto uiOrderDto) {
+        boolean noDiscounts = false;
+        if (orderSummeryInfo.getIsStaticOrder()) {
+            if (!businessLogic.isStoreHasDiscounts(uiOrderDto.getStoreId())) {
+                noDiscounts = true;
             }
         }
         else {
+            Collection<Integer> storesIds = orderSummeryInfo.getStoresIds();
+            if (!businessLogic.isStoresHaveDiscounts(storesIds)) {
+                noDiscounts = true;
+            }
+        }
+        return noDiscounts;
+    }
+
+    private Map<StoreItemDto, Float> getStoreItemsDtoAndQuantities(OrderSummeryInfo orderSummeryInfo,
+                                                                   UIOrderDto uiOrderDto) {
+        Map<StoreItemDto, Float> storeItemsDtoAndQuantities;
+        if (orderSummeryInfo.getIsStaticOrder()) {
+            int storeId = uiOrderDto.getStoreId();
+            storeItemsDtoAndQuantities =
+                    businessLogic.getStoreItemsDtoAndQuantities(storeId, uiOrderDto.getItemsIdsAndQuantities());
+        }
+        else {
+            storeItemsDtoAndQuantities =
+                    businessLogic.getStoreItemsDtoAndQuantities(uiOrderDto.getItemsIdsAndQuantities());
+        }
+        return storeItemsDtoAndQuantities;
+    }
+
+    public void showDiscountsInOrder(OrderSummeryInfo orderSummeryInfo, UIOrderDto uiOrderDto) {
+        if (noDiscounts(orderSummeryInfo, uiOrderDto)) {
             showOrderSummery(orderSummeryInfo, uiOrderDto);
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.ALL_DISCOUNTS_IN_ADD_ORDER_FXML_RESOURCE);
+            Node discounts = loader.load();
+            DiscountsController discountsController = loader.getController();
+
+            discountsController.setSuperDuperMarketController(this);
+            discountsController.setBusinessLogic(businessLogic);
+            discountsController.setValuesData(orderSummeryInfo, uiOrderDto);
+
+            Map<StoreItemDto, Float> storeItemsDtoAndQuantities =
+                    getStoreItemsDtoAndQuantities(orderSummeryInfo, uiOrderDto);
+
+            boolean success = discountsController.createAllDiscounts(storeItemsDtoAndQuantities);
+            if (success) {
+                superDuperMarketBorderPane.setCenter(discounts);
+            }
+            else {
+                showOrderSummery(orderSummeryInfo, uiOrderDto);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

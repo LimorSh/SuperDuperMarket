@@ -107,4 +107,12 @@ public class OrderSummeryInfo {
         this.itemsCost += cost;
         this.totalCost += cost;
     }
+
+    public Collection<Integer> getStoresIds() {
+        Collection<Integer> storesIds = new ArrayList<>();
+        for (OrderSummerySingleStoreInfo orderSummerySingleStoreInfo : singleStoresInfo) {
+            storesIds.add(orderSummerySingleStoreInfo.getId());
+        }
+        return storesIds;
+    }
 }
