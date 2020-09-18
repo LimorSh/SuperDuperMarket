@@ -14,6 +14,8 @@ public class StoreData {
     protected SimpleIntegerProperty ppk;
     protected SimpleFloatProperty totalDeliveryRevenue;
 
+    protected static final String NO_ORDERS_LABEL_TEXT = "No orders in the store";
+
     public StoreData() {
         this.id = new SimpleIntegerProperty(SuperDuperMarketConstants.INIT_INT);
         this.name = new SimpleStringProperty(SuperDuperMarketConstants.INIT_STRING);

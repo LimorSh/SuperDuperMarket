@@ -81,9 +81,6 @@ public class SingleStoreController extends StoreData {
 
             itemsTableView.setItems(data);
         }
-        else {
-            // show no store items component!
-        }
     }
 
     public void setOrdersTableView(Collection<OrderDto> ordersDto, int storeId) {
@@ -115,7 +112,7 @@ public class SingleStoreController extends StoreData {
             ordersTableView.setItems(data);
         }
         else {
-            // show no store orders component!
+            ordersTableView.setPlaceholder(new Label(NO_ORDERS_LABEL_TEXT));
         }
     }
 

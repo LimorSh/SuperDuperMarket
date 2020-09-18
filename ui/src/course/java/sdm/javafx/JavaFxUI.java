@@ -4,6 +4,7 @@ import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.javafx.components.main.SuperDuperMarketController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -12,8 +13,8 @@ import java.net.URL;
 
 public class JavaFxUI extends Application{
     private static final String PRIMARY_STAGE_NAME = "Super Duper Market";
-    private static final int SCENE_WIDTH = 1050;
-    private static final int SCENE_HEIGHT = 600;
+    private static final int SCENE_WIDTH = 1052;
+    private static final int SCENE_HEIGHT = 602;
 
 
     public static void main(String[] args) {
@@ -27,7 +28,7 @@ public class JavaFxUI extends Application{
         // load main fxml
         URL mainFXML = getClass().getResource(SuperDuperMarketConstants.MAIN_FXML_RESOURCE_IDENTIFIER);
         loader.setLocation(mainFXML);
-        BorderPane root = loader.load();
+        Parent root = loader.load();
 
         // wire up controller
         SuperDuperMarketController superDuperMarketController = loader.getController();

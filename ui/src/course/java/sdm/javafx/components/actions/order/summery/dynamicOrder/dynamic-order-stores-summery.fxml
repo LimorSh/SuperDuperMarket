@@ -14,7 +14,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <ScrollPane layoutY="48.0" prefHeight="362.0" prefWidth="731.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="48.0" prefHeight="362.0" prefWidth="731.0">
          <content>
             <FlowPane fx:id="flowPane" prefHeight="353.0" prefWidth="722.0" />
          </content>
