@@ -24,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
@@ -50,6 +51,9 @@ public class SuperDuperMarketController {
     private LoadFileController loadFileController;
     private  Node loadFile;
 
+    private static final String SELECTED_DATA_BUTTON_CSS_CLASS = "data-button-selected";
+
+
     public SuperDuperMarketController() {
         isFileSelected = new SimpleBooleanProperty(false);
     }
@@ -72,8 +76,21 @@ public class SuperDuperMarketController {
         addOrderButton.disableProperty().bind(isFileSelected.not());
     }
 
+    private void clearSelectedDataButton() {
+        customersButton.getStyleClass().remove(SELECTED_DATA_BUTTON_CSS_CLASS);
+        itemsButton.getStyleClass().remove(SELECTED_DATA_BUTTON_CSS_CLASS);
+        storesButton.getStyleClass().remove(SELECTED_DATA_BUTTON_CSS_CLASS);
+        ordersButton.getStyleClass().remove(SELECTED_DATA_BUTTON_CSS_CLASS);
+    }
+
+    private void selectedDataButton (Button dataButton) {
+        dataButton.getStyleClass().add(SELECTED_DATA_BUTTON_CSS_CLASS);
+    }
+
     @FXML
     void loadFileButtonAction() {
+        clearSelectedDataButton();
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select system data file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files", "*.xml"));
@@ -110,6 +127,8 @@ public class SuperDuperMarketController {
 
     @FXML
     void updateItemButtonAction(ActionEvent event) {
+        clearSelectedDataButton();
+
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.UPDATE_ITEM_FXML_RESOURCE);
@@ -127,6 +146,8 @@ public class SuperDuperMarketController {
 
     @FXML
     void addOrderButtonAction(ActionEvent event) {
+        clearSelectedDataButton();
+
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.ORDER_FXML_RESOURCE);
@@ -243,10 +264,9 @@ public class SuperDuperMarketController {
 
     @FXML
     void customersButtonAction(ActionEvent event) {
+        clearSelectedDataButton();
+        selectedDataButton(customersButton);
         try {
-//            customersButton.setEffect(new InnerShadow());
-//            customersButton.setStyle("-fx-text-fill: #0c33ba;");
-
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.CUSTOMERS_FXML_RESOURCE);
             Node customers = loader.load();
@@ -262,24 +282,9 @@ public class SuperDuperMarketController {
     }
 
     @FXML
-    void storesButtonAction(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SuperDuperMarketConstants.STORES_FXML_RESOURCE);
-            Node stores = loader.load();
-            StoresController storesController = loader.getController();
-
-            Collection<StoreDto> storesDto = businessLogic.getStoresDto();
-            storesController.createAllStores(storesDto);
-
-            superDuperMarketBorderPane.setCenter(stores);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     void itemsButtonAction(ActionEvent event) {
+        clearSelectedDataButton();
+        selectedDataButton(itemsButton);
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.ITEMS_FXML_RESOURCE);
@@ -296,7 +301,28 @@ public class SuperDuperMarketController {
     }
 
     @FXML
+    void storesButtonAction(ActionEvent event) {
+        clearSelectedDataButton();
+        selectedDataButton(storesButton);
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.STORES_FXML_RESOURCE);
+            Node stores = loader.load();
+            StoresController storesController = loader.getController();
+
+            Collection<StoreDto> storesDto = businessLogic.getStoresDto();
+            storesController.createAllStores(storesDto);
+
+            superDuperMarketBorderPane.setCenter(stores);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     void ordersButtonAction(ActionEvent event) {
+        clearSelectedDataButton();
+        selectedDataButton(ordersButton);
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.ORDERS_FXML_RESOURCE);
