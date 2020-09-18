@@ -22,10 +22,12 @@ public class StoreOrder {
         this.orderLines = orderLines;
     }
 
-    public void SetValues(Location customerLocation) {
+    public void SetValues(Location customerLocation, Map<String, ArrayList<Offer>> appliedOffers) {
+        this.appliedOffers = appliedOffers;
         setItemsCost();
         setDeliveryCost(customerLocation);
         setTotalCost();
+        setItemsCostAndTotalCostOfAppliedOffers();
         setTotalItems();
         setDistanceFromCustomer(customerLocation);
     }
@@ -45,8 +47,31 @@ public class StoreOrder {
     }
 
     private void setTotalItems() {
+        ArrayList<Integer> itemIds = new ArrayList<>();
         for (OrderLine orderline : orderLines.values()) {
-            this.totalItems += orderline.calcTotalItems();
+            Item item = orderline.getItem();
+            float quantity = orderline.getQuantity();
+            calcTotalItems(itemIds, item, quantity);
+        }
+        appliedOffers.forEach((discountName, offers) -> {
+            for (Offer offer : offers) {
+                Item item = offer.getItem();
+                float quantity = (float) offer.getQuantity();
+                calcTotalItems(itemIds, item, quantity);
+            }
+        });
+    }
+
+    public void calcTotalItems(ArrayList<Integer> itemIds, Item item, float quantity) {
+        if (item.getPurchaseCategory().getPurchaseCategoryStr()
+                .equals(Item.PurchaseCategory.PER_WEIGHT.getPurchaseCategoryStr())) {
+            if (!itemIds.contains(item.getId())) {
+                itemIds.add(item.getId());
+                this.totalItems += 1;
+            }
+        }
+        else {
+            this.totalItems += (int) quantity;
         }
     }
 
@@ -54,8 +79,7 @@ public class StoreOrder {
         this.distanceFromCustomer = store.getDistance(customerLocation);
     }
 
-    public void setAppliedOffers(Map<String, ArrayList<Offer>> appliedOffers) {
-        this.appliedOffers = appliedOffers;
+    public void setItemsCostAndTotalCostOfAppliedOffers() {
         appliedOffers.forEach((discountName,offers) -> {
             for (Offer offer : offers) {
                 float cost = offer.getTotalCost();

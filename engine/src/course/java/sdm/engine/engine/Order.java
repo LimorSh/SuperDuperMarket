@@ -128,8 +128,7 @@ public class Order {
         });
 
         StoreOrder storeOrder = new StoreOrder(date, store, orderLines);
-        storeOrder.SetValues(customer.getLocation());
-        storeOrder.setAppliedOffers(appliedOffers);
+        storeOrder.SetValues(customer.getLocation(), appliedOffers);
         storesOrder.put(store.getId(), storeOrder);
         setValues(storeOrder);
     }
