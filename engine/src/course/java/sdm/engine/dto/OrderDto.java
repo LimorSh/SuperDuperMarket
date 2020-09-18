@@ -11,7 +11,6 @@ public class OrderDto {
     private final Map<Integer, StoreOrderDto> storesOrderDto;   // The key is store id
     private final float itemsCost;
     private final float deliveryCost;
-    private final int totalItems;
     private final String orderCategory;
 
 
@@ -23,7 +22,6 @@ public class OrderDto {
         copyStoreOrdersDto(order);
         this.itemsCost = order.getItemsCost();
         this.deliveryCost = order.getDeliveryCost();
-        this.totalItems = order.getTotalItems();
         this.orderCategory = order.getOrderCategory().getOrderCategoryStr();
     }
 
@@ -60,10 +58,6 @@ public class OrderDto {
 
     public float getTotalCost() {
         return (itemsCost + deliveryCost);
-    }
-
-    public int getTotalItems() {
-        return totalItems;
     }
 
     public String getOrderCategory() {

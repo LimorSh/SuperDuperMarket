@@ -28,7 +28,6 @@ public class Order {
     private final Map<Integer, StoreOrder> storesOrder;     //The key is store id
     private float itemsCost;
     private float deliveryCost;
-    private int totalItems;
     private final OrderCategory orderCategory;
 
     public Order(Customer customer, Date date, String orderCategory) {
@@ -77,10 +76,6 @@ public class Order {
 
     public float getTotalCost() {
         return (itemsCost + deliveryCost);
-    }
-
-    public int getTotalItems() {
-        return totalItems;
     }
 
     public boolean isItemInTheOrder(int id) {
@@ -136,7 +131,6 @@ public class Order {
     private void setValues(StoreOrder storeOrder) {
         itemsCost += storeOrder.getItemsCost();
         deliveryCost += storeOrder.getDeliveryCost();
-        totalItems += storeOrder.getTotalItems();
     }
 
     public void addStoresOrder(Collection<DynamicOrderStoreData> dynamicOrderStoresData) {
@@ -167,7 +161,6 @@ public class Order {
                 ", storesOrder=" + storesOrder +
                 ", itemsCost=" + itemsCost +
                 ", deliveryCost=" + deliveryCost +
-                ", totalItems=" + totalItems +
                 '}';
     }
 
