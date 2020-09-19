@@ -24,28 +24,29 @@
                         <Insets top="15.0" />
                      </padding>
                   </Label>
-                  <VBox prefWidth="100.0">
+                  <VBox prefHeight="145.0" prefWidth="129.0">
                      <children>
                         <Button fx:id="customersButton" mnemonicParsing="false" onAction="#customersButtonAction" styleClass="data-button" text="Customers">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="itemsButton" mnemonicParsing="false" onAction="#itemsButtonAction" prefWidth="73.0" styleClass="data-button" text="Items">
+                        <Button fx:id="itemsButton" mnemonicParsing="false" onAction="#itemsButtonAction" styleClass="data-button" text="Items">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="storesButton" mnemonicParsing="false" onAction="#storesButtonAction" prefWidth="73.0" styleClass="data-button" text="Stores">
+                        <Button fx:id="storesButton" mnemonicParsing="false" onAction="#storesButtonAction" styleClass="data-button" text="Stores">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="ordersButton" mnemonicParsing="false" onAction="#ordersButtonAction" prefWidth="73.0" styleClass="data-button" text="Orders">
+                        <Button fx:id="ordersButton" mnemonicParsing="false" onAction="#ordersButtonAction" styleClass="data-button" text="Orders">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Button>
+                        <Button fx:id="locationMapButton" mnemonicParsing="false" onAction="#locationMapButtonAction" prefWidth="130.0" styleClass="data-button" text="Locations Map" />
                      </children>
                   </VBox>
                </children>

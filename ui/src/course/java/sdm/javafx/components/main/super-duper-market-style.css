@@ -19,14 +19,13 @@
     -fx-alignment: top-left;
     -fx-background-color: transparent;
     -fx-font-size: 13px;
-    -fx-pref-width: 100px;
 }
 
 .data-button-selected {
     -fx-alignment: top-left;
     -fx-background-color: transparent;
     -fx-font-size: 13px;
-    -fx-pref-width: 100px;
+    -fx-pref-width: 130px;
     -fx-text-fill: #3057d9;
     -fx-font-weight: bold;
 }

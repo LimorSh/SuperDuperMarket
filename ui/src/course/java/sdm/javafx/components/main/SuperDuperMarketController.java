@@ -13,6 +13,7 @@ import course.java.sdm.javafx.components.actions.order.summery.dynamicOrder.Dyna
 import course.java.sdm.javafx.components.actions.updateItem.UpdateItemController;
 import course.java.sdm.javafx.components.sdmData.customers.CustomersController;
 import course.java.sdm.javafx.components.sdmData.items.ItemsController;
+import course.java.sdm.javafx.components.sdmData.locationMap.LocationMapController;
 import course.java.sdm.javafx.components.sdmData.orders.OrdersController;
 import course.java.sdm.javafx.components.sdmData.stores.StoresController;
 import course.java.sdm.javafx.dto.UIOrderDto;
@@ -28,6 +29,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -41,6 +43,7 @@ public class SuperDuperMarketController {
     @FXML private Button storesButton;
     @FXML private Button itemsButton;
     @FXML private Button ordersButton;
+    @FXML private Button locationMapButton;
     @FXML private Button loadFileButton;
     @FXML private Button updateItemButton;
     @FXML private Button addOrderButton;
@@ -77,6 +80,7 @@ public class SuperDuperMarketController {
         ordersButton.disableProperty().bind(isFileSelected.not());
         updateItemButton.disableProperty().bind(isFileSelected.not());
         addOrderButton.disableProperty().bind(isFileSelected.not());
+        locationMapButton.disableProperty().bind(isFileSelected.not());
     }
 
     private void clearSelectedDataButton() {
@@ -353,6 +357,28 @@ public class SuperDuperMarketController {
             e.printStackTrace();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    void locationMapButtonAction(ActionEvent event) {
+        clearSelectedDataButton();
+        selectedDataButton(locationMapButton);
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.LOCATION_MAP_FXML_RESOURCE);
+            Node locationMap = loader.load();
+            LocationMapController locationMapController = loader.getController();
+
+            Collection<StoreDto> storesDto = businessLogic.getStoresDto();
+            Collection<CustomerDto> customersDto = businessLogic.getCustomersDto();
+            ArrayList<Integer> minAndMaxLocations = businessLogic.getMinAndMaxLocations();
+            locationMapController.setValuesData(storesDto, customersDto, minAndMaxLocations);
+            locationMapController.createLocationMap();
+
+            superDuperMarketBorderPane.setCenter(locationMap);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

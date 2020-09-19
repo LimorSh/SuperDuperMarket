@@ -310,8 +310,14 @@ public class BusinessLogic {
         return storeItemsDtoAndQuantities;
     }
 
-
     public boolean isDiscountInStore(int storeId, String discountName) {
         return superDuperMarket.isDiscountInStore(storeId, discountName);
+    }
+
+    public ArrayList<Integer> getMinAndMaxLocations() {
+        ArrayList<Integer> minAndMaxLocations = new ArrayList<>(2);
+        minAndMaxLocations.add(Location.getMinLocationValue());
+        minAndMaxLocations.add(Location.getMaxLocationValue());
+        return minAndMaxLocations;
     }
 }
