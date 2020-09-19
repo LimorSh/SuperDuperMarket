@@ -77,8 +77,28 @@ public class SuperDuperMarketConstants {
     private static final String DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/dynamicOrder/dynamic-order-stores-summery.fxml";
     public static final URL DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE_IDENTIFIER);
 
-
-
-
+    public static void printURLs() {
+        System.out.println("1." + SINGLE_ITEM_FXML_RESOURCE.toExternalForm());
+        System.out.println("2." + ITEMS_FXML_RESOURCE.toExternalForm());
+        System.out.println("3." + CUSTOMERS_FXML_RESOURCE.toExternalForm());
+//        System.out.println("4." + SINGLE_ORDER_FXML_RESOURCE.toExternalForm());
+        System.out.println("5." + ORDERS_FXML_RESOURCE.toExternalForm());
+        System.out.println("6." + SINGLE_STORE_FXML_RESOURCE.toExternalForm());
+        System.out.println("7." + STORES_FXML_RESOURCE.toExternalForm());
+        System.out.println("8." + SINGLE_DISCOUNT_FXML_RESOURCE.toExternalForm());
+//        System.out.println("9." + SINGLE_STORE_IN_ORDER_FXML_RESOURCE.toExternalForm());
+//        System.out.println("10." + ALL_STORES_IN_ORDER_FXML_RESOURCE.toExternalForm());
+        System.out.println("11." + SINGLE_DISCOUNT_IN_ADD_ORDER_FXML_RESOURCE.toExternalForm());
+        System.out.println("12." + ALL_DISCOUNTS_IN_ADD_ORDER_FXML_RESOURCE.toExternalForm());
+        System.out.println("13." + ORDER_FXML_RESOURCE.toExternalForm());
+        System.out.println("14." + STORE_ITEMS_FXML_RESOURCE.toExternalForm());
+        System.out.println("15." + ORDER_SUMMERY_FXML_RESOURCE.toExternalForm());
+        System.out.println("16." + ORDER_SUMMERY_STORES_FXML_RESOURCE.toExternalForm());
+        System.out.println("17." + ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE.toExternalForm());
+        System.out.println("18." + UPDATE_ITEM_FXML_RESOURCE.toExternalForm());
+        System.out.println("19." + LOAD_FILE_FXML_RESOURCE.toExternalForm());
+        System.out.println("20." + DYNAMIC_ORDER_SINGLE_STORE_SUMMERY_FXML_RESOURCE.toExternalForm());
+        System.out.println("21." + DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE.toExternalForm());
+    }
 
 }

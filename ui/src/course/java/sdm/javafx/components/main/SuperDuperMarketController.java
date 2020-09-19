@@ -17,7 +17,6 @@ import course.java.sdm.javafx.components.sdmData.orders.OrdersController;
 import course.java.sdm.javafx.components.sdmData.stores.StoresController;
 import course.java.sdm.javafx.dto.UIOrderDto;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,7 +55,6 @@ public class SuperDuperMarketController {
 
     public SuperDuperMarketController() {
         isFileSelected = new SimpleBooleanProperty(SuperDuperMarketConstants.INIT_BOOLEAN);
-
     }
 
     public boolean getIsFileSelected() {
@@ -127,15 +125,6 @@ public class SuperDuperMarketController {
          catch (IOException e) {
             e.printStackTrace();
         }
-//        catch (Exception e) {
-//            if (isFileSelected.getValue()) {
-//                loadFileController.showMsg(false, false, e.getMessage());
-//            }
-//            else {
-//                loadFileController.showMsg(false, true, e.getMessage());
-//            }
-//            superDuperMarketBorderPane.setCenter(loadFile);
-//        }
     }
 
     public void setFileSelected(){
