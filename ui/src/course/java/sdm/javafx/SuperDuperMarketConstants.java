@@ -84,13 +84,13 @@ public class SuperDuperMarketConstants {
         System.out.println("1." + SINGLE_ITEM_FXML_RESOURCE.toExternalForm());
         System.out.println("2." + ITEMS_FXML_RESOURCE.toExternalForm());
         System.out.println("3." + CUSTOMERS_FXML_RESOURCE.toExternalForm());
-//        System.out.println("4." + SINGLE_ORDER_FXML_RESOURCE.toExternalForm());
+        System.out.println("4." + SINGLE_ORDER_FXML_RESOURCE.toExternalForm());
         System.out.println("5." + ORDERS_FXML_RESOURCE.toExternalForm());
         System.out.println("6." + SINGLE_STORE_FXML_RESOURCE.toExternalForm());
         System.out.println("7." + STORES_FXML_RESOURCE.toExternalForm());
         System.out.println("8." + SINGLE_DISCOUNT_FXML_RESOURCE.toExternalForm());
-//        System.out.println("9." + SINGLE_STORE_IN_ORDER_FXML_RESOURCE.toExternalForm());
-//        System.out.println("10." + ALL_STORES_IN_ORDER_FXML_RESOURCE.toExternalForm());
+        System.out.println("9." + SINGLE_STORE_IN_ORDER_FXML_RESOURCE.toExternalForm());
+        System.out.println("10." + ALL_STORES_IN_ORDER_FXML_RESOURCE.toExternalForm());
         System.out.println("11." + LOCATION_MAP_FXML_RESOURCE.toExternalForm());
         System.out.println("12." + SINGLE_DISCOUNT_IN_ADD_ORDER_FXML_RESOURCE.toExternalForm());
         System.out.println("13." + ALL_DISCOUNTS_IN_ADD_ORDER_FXML_RESOURCE.toExternalForm());
