@@ -55,32 +55,30 @@ public class SingleStoreController extends StoreData {
     }
 
     public void setItemsTableView(Collection<StoreItemDto> storeItemsDto) {
-        if (!storeItemsDto.isEmpty()) {
-            ArrayList<SingleStoreItemData> singleStoreItemsData = new ArrayList<>();
-            for (StoreItemDto storeItemDto : storeItemsDto) {
-                SingleStoreItemData singleStoreItemData = new SingleStoreItemData(storeItemDto);
-                singleStoreItemsData.add(singleStoreItemData);
-            }
-            final ObservableList<SingleStoreItemData> data = FXCollections.observableArrayList(singleStoreItemsData);
-
-            itemIdCol.setCellValueFactory(
-                    new PropertyValueFactory<>("id")
-            );
-            itemNameCol.setCellValueFactory(
-                    new PropertyValueFactory<>("name")
-            );
-            itemPurchaseCategoryCol.setCellValueFactory(
-                    new PropertyValueFactory<>("purchaseCategory")
-            );
-            itemPricePerUnitCol.setCellValueFactory(
-                    new PropertyValueFactory<>("pricePerUnit")
-            );
-            itemTotalSoldCol.setCellValueFactory(
-                    new PropertyValueFactory<>("totalSold")
-            );
-
-            itemsTableView.setItems(data);
+        ArrayList<SingleStoreItemData> singleStoreItemsData = new ArrayList<>();
+        for (StoreItemDto storeItemDto : storeItemsDto) {
+            SingleStoreItemData singleStoreItemData = new SingleStoreItemData(storeItemDto);
+            singleStoreItemsData.add(singleStoreItemData);
         }
+        final ObservableList<SingleStoreItemData> data = FXCollections.observableArrayList(singleStoreItemsData);
+
+        itemIdCol.setCellValueFactory(
+                new PropertyValueFactory<>("id")
+        );
+        itemNameCol.setCellValueFactory(
+                new PropertyValueFactory<>("name")
+        );
+        itemPurchaseCategoryCol.setCellValueFactory(
+                new PropertyValueFactory<>("purchaseCategory")
+        );
+        itemPricePerUnitCol.setCellValueFactory(
+                new PropertyValueFactory<>("pricePerUnit")
+        );
+        itemTotalSoldCol.setCellValueFactory(
+                new PropertyValueFactory<>("totalSold")
+        );
+
+        itemsTableView.setItems(data);
     }
 
     public void setOrdersTableView(Collection<OrderDto> ordersDto, int storeId) {

@@ -1,8 +1,8 @@
-package course.java.sdm.javafx.components.sdmData.SingleOrder;
+package course.java.sdm.javafx.components.sdmData.singleOrder;
 
 import course.java.sdm.engine.dto.StoreOrderDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
-import course.java.sdm.javafx.components.sdmData.SingleOrder.allStores.AllStoresController;
+import course.java.sdm.javafx.components.sdmData.singleOrder.allStores.AllStoresController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

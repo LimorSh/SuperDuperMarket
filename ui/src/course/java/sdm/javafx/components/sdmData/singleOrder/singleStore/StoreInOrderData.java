@@ -1,4 +1,4 @@
-package course.java.sdm.javafx.components.sdmData.SingleOrder.singleStore;
+package course.java.sdm.javafx.components.sdmData.singleOrder.singleStore;
 
 import course.java.sdm.engine.dto.StoreOrderDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;

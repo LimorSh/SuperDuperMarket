@@ -1,4 +1,4 @@
-package course.java.sdm.javafx.components.sdmData.SingleOrder;
+package course.java.sdm.javafx.components.sdmData.singleOrder;
 
 import course.java.sdm.engine.dto.BasicCustomerDto;
 import course.java.sdm.engine.dto.OrderDto;
