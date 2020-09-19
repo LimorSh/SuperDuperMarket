@@ -2,6 +2,7 @@ package course.java.sdm.javafx.components.main;
 
 import course.java.sdm.engine.dto.*;
 import course.java.sdm.engine.engine.BusinessLogic;
+import course.java.sdm.intermediate.task.TaskLogic;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.loadFile.LoadFileController;
 import course.java.sdm.javafx.components.actions.order.OrderController;
@@ -16,6 +17,7 @@ import course.java.sdm.javafx.components.sdmData.orders.OrdersController;
 import course.java.sdm.javafx.components.sdmData.stores.StoresController;
 import course.java.sdm.javafx.dto.UIOrderDto;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,14 +48,19 @@ public class SuperDuperMarketController {
     @FXML private Label titleVBox;
 
     private SimpleBooleanProperty isFileSelected;
+
     private LoadFileController loadFileController;
     private  Node loadFile;
 
     private static final String SELECTED_DATA_BUTTON_CSS_CLASS = "data-button-selected";
 
-
     public SuperDuperMarketController() {
-        isFileSelected = new SimpleBooleanProperty(false);
+        isFileSelected = new SimpleBooleanProperty(SuperDuperMarketConstants.INIT_BOOLEAN);
+
+    }
+
+    public boolean getIsFileSelected() {
+        return isFileSelected.get();
     }
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -104,23 +111,36 @@ public class SuperDuperMarketController {
             LoadFileController loadFileController = loader.getController();
             this.loadFileController = loadFileController;
             this.loadFile = loadFile;
+            loadFileController.setSuperDuperMarketController(this);
+            loadFileController.setBusinessLogic(businessLogic);
 
             String absolutePath = selectedFile.getAbsolutePath();
-            businessLogic.loadSystemData(absolutePath);
-            isFileSelected.set(true);
-            titleVBox.setDisable(false);
-            loadFileController.showMsg(true, true, "");
+
+            //tasks
+            loadFileController.setValuesData(absolutePath);
+            TaskLogic taskLogic = new TaskLogic(loadFileController);
+            loadFileController.setTaskLogic(taskLogic);
+            // end tasks
+
             superDuperMarketBorderPane.setCenter(loadFile);
         }
-        catch (Exception e) {
-            if (isFileSelected.getValue()) {
-                loadFileController.showMsg(false, false, e.getMessage());
-            }
-            else {
-                loadFileController.showMsg(false, true, e.getMessage());
-            }
-            superDuperMarketBorderPane.setCenter(loadFile);
+         catch (IOException e) {
+            e.printStackTrace();
         }
+//        catch (Exception e) {
+//            if (isFileSelected.getValue()) {
+//                loadFileController.showMsg(false, false, e.getMessage());
+//            }
+//            else {
+//                loadFileController.showMsg(false, true, e.getMessage());
+//            }
+//            superDuperMarketBorderPane.setCenter(loadFile);
+//        }
+    }
+
+    public void setFileSelected(){
+        isFileSelected.set(true);
+        titleVBox.setDisable(false);
     }
 
     @FXML
