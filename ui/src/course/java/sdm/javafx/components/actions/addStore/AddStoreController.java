@@ -11,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
@@ -25,25 +26,26 @@ public class AddStoreController extends  AddStoreData {
     @FXML private Label locationXMsgLabel;
     @FXML private Label locationYMsgLabel;
     @FXML private Label ppkMsgLabel;
+    @FXML private Label selectItemsLabel;
+    @FXML private Label enterPriceLabel;
+    @FXML private Label priceMsgLabel;
+    @FXML private Label confirmMsgLabel;
 
     @FXML private TextField idTextField;
     @FXML private TextField nameTextField;
     @FXML private TextField locationXTextField;
     @FXML private TextField locationYTextField;
     @FXML private TextField ppkTextField;
-
     @FXML private TextField priceTextField;
+
+    @FXML private Button setNewStoreInfoButton;
     @FXML private Button addItemButton;
-    @FXML private Label priceMsgLabel;
+    @FXML private Button confirmButton;
 
     @FXML private TableView<ItemData> tableView;
     @FXML private TableColumn<ItemData, Integer> itemIdCol;
     @FXML private TableColumn<ItemData, String> nameCol;
     @FXML private TableColumn<ItemData, String> purchaseCategoryCol;
-
-    @FXML private Button confirmButton;
-    @FXML private Label confirmMsgLabel;
-
 
     @FXML
     private void initialize() {
@@ -55,8 +57,37 @@ public class AddStoreController extends  AddStoreData {
     }
 
     private void itemWasChosen() {
-        addItemButton.setDisable(false);
+        enterPriceLabel.setDisable(false);
         priceTextField.setDisable(false);
+        addItemButton.setDisable(false);
+    }
+
+    @FXML
+    void setNewStoreInfoButtonAction(ActionEvent event) {
+        boolean isAllInfoValid = true;
+
+        try {
+            storeId = getEnteredId();
+            idMsgLabel.setText("");
+        }
+        catch(Exception e) {
+            isAllInfoValid = false;
+            idMsgLabel.setText(e.getMessage());
+        }
+
+        name = nameTextField.getText();
+        locationX = getEnteredLocationX();
+        locationY = getEnteredLocationY();
+        ppk = getEnteredPPK();
+
+        if (isAllInfoValid) {
+            setContinueControls();
+        }
+    }
+
+    private void setContinueControls() {
+        selectItemsLabel.setDisable(false);
+        tableView.setDisable(false);
     }
 
     @FXML
@@ -71,12 +102,6 @@ public class AddStoreController extends  AddStoreData {
 
     @FXML
     void confirmButtonAction(ActionEvent event) {
-        int storeId = getEnteredId();
-        String name = nameTextField.getText();
-        int locationX = getEnteredLocationX();
-        int locationY = getEnteredLocationY();
-        int ppk = getEnteredPPK();
-
         businessLogic.createNewStore(storeId,name, locationX, locationY, ppk, itemIdsAndPrices);
         finish(true, ADD_STORE_SUCCESS);
     }
@@ -94,13 +119,15 @@ public class AddStoreController extends  AddStoreData {
 
     private int getEnteredId() {
         try {
-            return Integer.parseInt(idTextField.getText());
+            int storeId = Integer.parseInt(idTextField.getText());
+            businessLogic.validateStoreId(storeId);
+            return storeId;
         }
-//        catch (Exception e) {
-//            throw new IllegalArgumentException(ID_MSG_LABEL_TEXT);
-//        }
-        catch (Exception ignore) {
-            return 0;
+        catch (NumberFormatException e) {
+            throw new IllegalArgumentException(ID_MSG_LABEL_TEXT);
+        }
+        catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 

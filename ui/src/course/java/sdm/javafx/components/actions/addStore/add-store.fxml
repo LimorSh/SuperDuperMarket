@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@add-store-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.addStore.AddStoreController">
+<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" stylesheets="@add-store-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.addStore.AddStoreController">
    <top>
       <Label text="Add Store" BorderPane.alignment="CENTER">
          <font>
@@ -39,6 +39,7 @@
           <RowConstraints maxHeight="142.0" minHeight="7.0" prefHeight="35.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="142.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="142.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="142.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="199.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="225.0" minHeight="23.0" prefHeight="60.0" vgrow="ALWAYS" />
             <RowConstraints maxHeight="225.0" minHeight="42.0" prefHeight="42.0" vgrow="ALWAYS" />
@@ -46,16 +47,16 @@
          <children>
             <Label text="Enter name:" GridPane.rowIndex="1" />
             <Label text="Enter ID:" />
-            <Label text="Select items:" GridPane.rowIndex="5">
+            <Label fx:id="selectItemsLabel" disable="true" text="Select items:" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets bottom="180.0" />
                </GridPane.margin>
             </Label>
-            <VBox GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6">
+            <VBox GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7">
                <children>
                   <HBox prefHeight="27.0" prefWidth="443.0" spacing="3.0">
                      <children>
-                        <Label prefHeight="24.0" prefWidth="69.0" text="Enter price:" />
+                        <Label fx:id="enterPriceLabel" disable="true" prefHeight="24.0" prefWidth="69.0" text="Enter price:" />
                         <TextField fx:id="priceTextField" disable="true" />
                         <Button fx:id="addItemButton" disable="true" minWidth="89.0" mnemonicParsing="false" onAction="#addItemButtonAction" prefHeight="25.0" prefWidth="89.0" text="Add Item">
                            <HBox.margin>
@@ -78,7 +79,7 @@
                   </HBox>
                </children>
             </VBox>
-            <TableView fx:id="tableView" prefHeight="210.0" prefWidth="483.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5">
+            <TableView fx:id="tableView" disable="true" prefHeight="210.0" prefWidth="483.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6">
                <columns>
                   <TableColumn fx:id="itemIdCol" prefWidth="126.0" text="Item ID" />
                   <TableColumn fx:id="nameCol" prefWidth="189.0" text="Name" />
@@ -93,41 +94,45 @@
             <TextField fx:id="locationYTextField" prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="ppkTextField" prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label text="PPK:" GridPane.rowIndex="4" />
-            <HBox alignment="BOTTOM_RIGHT" GridPane.columnIndex="3" GridPane.rowIndex="7">
+            <HBox alignment="BOTTOM_RIGHT" GridPane.columnIndex="3" GridPane.rowIndex="8">
                <children>
                   <Button fx:id="confirmButton" disable="true" mnemonicParsing="false" onAction="#confirmButtonAction" prefHeight="25.0" prefWidth="81.0" text="Confirn" />
                </children>
             </HBox>
-            <HBox GridPane.columnIndex="2" GridPane.rowIndex="7">
+            <HBox GridPane.columnIndex="2" GridPane.rowIndex="8">
                <children>
-                  <Label fx:id="confirmMsgLabel" wrapText="true" />
+                  <Label fx:id="confirmMsgLabel" style="-fx-text-fill: blue;" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
                </children>
             </HBox>
-            <Label fx:id="idMsgLabel" GridPane.columnIndex="2">
+            <Label fx:id="idMsgLabel" style="-fx-text-fill: red;" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="nameMsgLabel" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Label fx:id="nameMsgLabel" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="locationXMsgLabel" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Label fx:id="locationXMsgLabel" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="locationYMsgLabel" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <Label fx:id="locationYMsgLabel" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="ppkMsgLabel" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <Label fx:id="ppkMsgLabel" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
+            <Button fx:id="setNewStoreInfoButton" mnemonicParsing="false" onAction="#setNewStoreInfoButtonAction" prefHeight="25.0" prefWidth="127.0" text="Set New Store Info" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
          <BorderPane.margin>
             <Insets top="3.0" />

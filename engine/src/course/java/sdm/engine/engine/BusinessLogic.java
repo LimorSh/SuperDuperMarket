@@ -1,6 +1,8 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.dto.*;
+import course.java.sdm.engine.exception.DuplicateElementIdException;
+
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -323,5 +325,14 @@ public class BusinessLogic {
 
     public void createNewStore(int id, String name, int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
         superDuperMarket.addStore(id, name, locationX, locationY, ppk, itemIdsAndPrices);
+    }
+
+    public void validateStoreId(int id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("The store ID " + id + " is not a positive integer number.");
+        }
+        if (superDuperMarket.isStoreExists(id)) {
+            throw new IllegalArgumentException("This store ID already exists.");
+        }
     }
 }
