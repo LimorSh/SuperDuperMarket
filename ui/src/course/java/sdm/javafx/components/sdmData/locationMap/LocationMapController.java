@@ -28,12 +28,15 @@ public class LocationMapController extends LocationMapData {
 
     private GridPane gridPane;
 
-    private static final int LOCATION_MAP_WIDTH = 40;
-    private static final int LOCATION_MAP_HEIGHT = 40;
-    private static final int STORE_IMG_WIDTH = 30;
-    private static final int STORE_IMG_HEIGHT = 30;
     private static final String LOCATION_MAP_CORNER_TITLE = "Y / X";
+    private static final int LOCATION_MAP_CELL_WIDTH = 40;
+    private static final int LOCATION_MAP_CELL_HEIGHT = 40;
+    private static final int STORE_IMG_WIDTH = 35;
+    private static final int STORE_IMG_HEIGHT = 35;
+    private static final int CUSTOMER_IMG_WIDTH = 30;
+    private static final int CUSTOMER_IMG_HEIGHT = 30;
     private static final String STORE_IMG_URL_STR = "course/java/sdm/javafx/components/sdmData/locationMap/images/store-orange-icon.png";
+    private static final String CUSTOMER_IMG_URL_STR = "course/java/sdm/javafx/components/sdmData/locationMap/images/customer-green-icon.png";
 
 
     public void createLocationMap() {
@@ -45,9 +48,7 @@ public class LocationMapController extends LocationMapData {
         createLocationMapGridPaneTitles();
         gridPane.setGridLinesVisible(true);
         setStoresInLocationMap();
-
-
-
+        setCustomersInLocationMap();
         scrollPane.setContent(gridPane);
     }
 
@@ -76,6 +77,31 @@ public class LocationMapController extends LocationMapData {
         }
     }
 
+    private void setCustomersInLocationMap() {
+        int customerXLocation, customerYLocation;
+        int col, row;
+        for (CustomerDto customer : customers) {
+            customerXLocation = customer.getXLocation();
+            customerYLocation = customer.getYLocation();
+            row = customerYLocation - minY;
+            col = customerXLocation - minX;
+
+            Image image = new Image(CUSTOMER_IMG_URL_STR);
+            ImageView imageView = new ImageView(image);
+            imageView.setFitHeight(CUSTOMER_IMG_HEIGHT);
+            imageView.setFitWidth(CUSTOMER_IMG_WIDTH);
+
+            imageView.setPreserveRatio(true);
+            Label label = new Label();
+            label.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+            label.setGraphic(imageView);
+            label.setTooltip(new Tooltip(getCustomerInfoForTooltip(customer)));
+
+            gridPane.add(label, col, row);
+            GridPane.setHalignment(label, HPos.CENTER);
+        }
+    }
+
     private String getStoreInfoForTooltip(StoreDto storeDto) {
         int id = storeDto.getId();
         String name = storeDto.getName();
@@ -86,6 +112,15 @@ public class LocationMapController extends LocationMapData {
                 "ID: %d\nName: %s\nPPK: %d", xLocation, yLocation, id, name, ppk);
     }
 
+    private String getCustomerInfoForTooltip(CustomerDto customerDto) {
+        int id = customerDto.getId();
+        String name = customerDto.getName();
+        int xLocation = customerDto.getXLocation();
+        int yLocation = customerDto.getYLocation();
+        return String.format("(X = %d, Y = %d)\n" +
+                "ID: %d\nName: %s", xLocation, yLocation, id, name);
+    }
+
     private void calcNumberOfRowsAndCols() {
         numberOfRows = maxY - minY + 1;
         numberOfColumns = maxX - minX + 1;
@@ -93,11 +128,11 @@ public class LocationMapController extends LocationMapData {
 
     private void createLocationMapGridPaneTitles() {
         for (int i = 0; i < numberOfColumns; i++) {
-            ColumnConstraints column = new ColumnConstraints(LOCATION_MAP_WIDTH);
+            ColumnConstraints column = new ColumnConstraints(LOCATION_MAP_CELL_WIDTH);
             gridPane.getColumnConstraints().add(column);
         }
         for (int i = 0; i < numberOfRows; i++) {
-            RowConstraints row = new RowConstraints(LOCATION_MAP_HEIGHT);
+            RowConstraints row = new RowConstraints(LOCATION_MAP_CELL_HEIGHT);
             gridPane.getRowConstraints().add(row);
         }
         Label cornerTitleLabel = new Label(LOCATION_MAP_CORNER_TITLE);
