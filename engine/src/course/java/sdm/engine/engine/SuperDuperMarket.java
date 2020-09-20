@@ -98,6 +98,17 @@ public class SuperDuperMarket {
         }
     }
 
+    public void addStore(int id, String name, int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
+        Location location = new Location(locationX, locationY);
+        Store store = new Store(id, name, ppk, location);
+        addStore(store);
+
+        itemIdsAndPrices.forEach((itemId, price) -> {
+            Item item = getItem(itemId);
+            store.addItem(item, price);
+        });
+    }
+
     private void validateLocation(Object object, Location location) {
         if (isLocationAlreadyExists(location)) {
             Object existentObject = getObjectByLocation(location);

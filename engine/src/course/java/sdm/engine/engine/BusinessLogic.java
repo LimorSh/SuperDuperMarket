@@ -320,4 +320,8 @@ public class BusinessLogic {
         minAndMaxLocations.add(Location.getMaxLocationValue());
         return minAndMaxLocations;
     }
+
+    public void createNewStore(int id, String name, int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
+        superDuperMarket.addStore(id, name, locationX, locationY, ppk, itemIdsAndPrices);
+    }
 }

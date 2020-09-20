@@ -56,17 +56,29 @@ public class AddStoreController extends  AddStoreData {
 
     private void itemWasChosen() {
         addItemButton.setDisable(false);
-        confirmButton.setDisable(false);
+        priceTextField.setDisable(false);
     }
 
     @FXML
     void addItemButtonAction(ActionEvent event) {
+        int itemId = getSelectedItemId();
+        float price = getEnteredPrice();
 
+        itemIdsAndPrices.put(itemId, price);
+        // after validation
+        confirmButton.setDisable(false);
     }
 
     @FXML
     void confirmButtonAction(ActionEvent event) {
+        int storeId = getEnteredId();
+        String name = nameTextField.getText();
+        int locationX = getEnteredLocationX();
+        int locationY = getEnteredLocationY();
+        int ppk = getEnteredPPK();
 
+        businessLogic.createNewStore(storeId,name, locationX, locationY, ppk, itemIdsAndPrices);
+        finish(true, ADD_STORE_SUCCESS);
     }
 
     private void finish(boolean error, String msg) {
@@ -80,14 +92,66 @@ public class AddStoreController extends  AddStoreData {
         confirmMsgLabel.setText(msg);
     }
 
+    private int getEnteredId() {
+        try {
+            return Integer.parseInt(idTextField.getText());
+        }
+//        catch (Exception e) {
+//            throw new IllegalArgumentException(ID_MSG_LABEL_TEXT);
+//        }
+        catch (Exception ignore) {
+            return 0;
+        }
+    }
+
+    private int getEnteredLocationX() {
+        try {
+            return Integer.parseInt(locationXTextField.getText());
+        }
+//        catch (Exception e) {
+//            throw new IllegalArgumentException(LOCATION_COORDINATE_MSG_LABEL_TEXT);
+//        }
+        catch (Exception ignore) {
+            return 0;
+        }
+    }
+
+    private int getEnteredLocationY() {
+        try {
+            return Integer.parseInt(locationYTextField.getText());
+        }
+//        catch (Exception e) {
+//            throw new IllegalArgumentException(LOCATION_COORDINATE_MSG_LABEL_TEXT);
+//        }
+        catch (Exception ignore) {
+            return 0;
+        }
+    }
+
+    private int getEnteredPPK() {
+        try {
+            return Integer.parseInt(ppkTextField.getText());
+        }
+//        catch (Exception e) {
+//            throw new IllegalArgumentException(PPK_MSG_LABEL_TEXT);
+//        }
+        catch (Exception ignore) {
+            return 0;
+        }
+    }
+
     private float getEnteredPrice() {
         try {
             return Float.parseFloat(priceTextField.getText());
         }
-        catch (Exception e) {
-            throw new IllegalArgumentException(ADD_ITEM_PRICE_FAILURE);
+//        catch (Exception e) {
+//            throw new IllegalArgumentException(ITEM_PRICE_MSG_LABEL_TEXT);
+//        }
+        catch (Exception ignore) {
+            return 0;
         }
     }
+
 
     private int getSelectedItemId() {
         ItemData ItemData = tableView.getSelectionModel().getSelectedItem();
