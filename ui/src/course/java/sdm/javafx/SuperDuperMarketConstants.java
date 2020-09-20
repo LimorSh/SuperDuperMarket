@@ -81,6 +81,7 @@ public class SuperDuperMarketConstants {
     public static final URL DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE_IDENTIFIER);
 
     public static void printURLs() {
+        // for checking the URLs
         System.out.println("1." + SINGLE_ITEM_FXML_RESOURCE.toExternalForm());
         System.out.println("2." + ITEMS_FXML_RESOURCE.toExternalForm());
         System.out.println("3." + CUSTOMERS_FXML_RESOURCE.toExternalForm());
@@ -104,5 +105,4 @@ public class SuperDuperMarketConstants {
         System.out.println("21." + DYNAMIC_ORDER_SINGLE_STORE_SUMMERY_FXML_RESOURCE.toExternalForm());
         System.out.println("22." + DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE.toExternalForm());
     }
-
 }

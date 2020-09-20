@@ -348,21 +348,12 @@ public class SuperDuperMarketController {
         selectedDataButton(ordersButton);
         try {
             FXMLLoader loader = new FXMLLoader();
-            System.out.println("about to load resource from: "
-                    + SuperDuperMarketConstants.ORDERS_FXML_RESOURCE.toExternalForm());
             loader.setLocation(SuperDuperMarketConstants.ORDERS_FXML_RESOURCE);
-
             Node orders = loader.load();
-            System.out.println("successfully loaded data from: "
-                    + SuperDuperMarketConstants.ORDERS_FXML_RESOURCE);
-
             OrdersController ordersController = loader.getController();
-            System.out.println("Extracted controller");
 
             Collection<OrderDto> ordersDto = businessLogic.getOrdersDto();
-            System.out.println("data extracted from engine");
             ordersController.createAllOrders(ordersDto);
-            System.out.println("data updated in controller: " + "SuperMarket" + "Controller");
 
             superDuperMarketBorderPane.setCenter(orders);
         } catch (IOException e) {
