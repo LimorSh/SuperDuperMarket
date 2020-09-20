@@ -119,23 +119,21 @@ public class AddStoreController extends  AddStoreData {
         float price = getEnteredPrice();
 
         itemIdsAndPrices.put(itemId, price);
-        // after validation
+        ItemData ItemData = tableView.getSelectionModel().getSelectedItem();
+        tableView.getItems().remove(ItemData);
+
         confirmButton.setDisable(false);
     }
 
     @FXML
     void confirmButtonAction(ActionEvent event) {
         businessLogic.createNewStore(storeId,name, locationX, locationY, ppk, itemIdsAndPrices);
-        finish(true, ADD_STORE_SUCCESS);
+        finish(ADD_STORE_SUCCESS);
     }
 
-    private void finish(boolean error, String msg) {
+    private void finish(String msg) {
         confirmButton.setDisable(true);
         addItemButton.setDisable(true);
-
-        if (error) {
-            confirmMsgLabel.setStyle("-fx-text-fill: #ff0000;");
-        }
         confirmMsgLabel.setVisible(true);
         confirmMsgLabel.setText(msg);
     }
