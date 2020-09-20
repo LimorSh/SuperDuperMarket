@@ -111,26 +111,41 @@
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </Label>
             <Label fx:id="nameMsgLabel" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </Label>
             <Label fx:id="locationXMsgLabel" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </Label>
             <Label fx:id="locationYMsgLabel" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </Label>
             <Label fx:id="ppkMsgLabel" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </Label>
             <Button fx:id="setNewStoreInfoButton" mnemonicParsing="false" onAction="#setNewStoreInfoButtonAction" prefHeight="25.0" prefWidth="127.0" text="Set New Store Info" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>

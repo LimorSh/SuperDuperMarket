@@ -22,7 +22,13 @@ public class Location {
     }
 
     public static boolean isValidLocation(int x, int y) {
-        return (x >= MIN_LOCATION_VALUE && x <= MAX_LOCATION_VALUE) && (y >= MIN_LOCATION_VALUE && y <= MAX_LOCATION_VALUE);
+        boolean isValidLocationX = isValidCoordinate(x);
+        boolean isValidLocationY = isValidCoordinate(y);
+        return (isValidLocationX && isValidLocationY);
+    }
+
+    public static boolean isValidCoordinate(int coordinate) {
+        return (coordinate >= MIN_LOCATION_VALUE && coordinate <= MAX_LOCATION_VALUE);
     }
 
     public Point getCoordinate() {

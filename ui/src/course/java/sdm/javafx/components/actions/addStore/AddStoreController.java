@@ -11,7 +11,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
@@ -76,9 +75,33 @@ public class AddStoreController extends  AddStoreData {
         }
 
         name = nameTextField.getText();
-        locationX = getEnteredLocationX();
-        locationY = getEnteredLocationY();
-        ppk = getEnteredPPK();
+
+        try {
+            locationX = getEnteredLocationCoordinate(locationXTextField);
+            locationXMsgLabel.setText("");
+        }
+        catch(Exception e) {
+            isAllInfoValid = false;
+            locationXMsgLabel.setText(e.getMessage());
+        }
+
+        try {
+            locationY = getEnteredLocationCoordinate(locationYTextField);
+            locationYMsgLabel.setText("");
+        }
+        catch(Exception e) {
+            isAllInfoValid = false;
+            locationYMsgLabel.setText(e.getMessage());
+        }
+
+        try {
+            ppk = getEnteredPPK();
+            ppkMsgLabel.setText("");
+        }
+        catch(Exception e) {
+            isAllInfoValid = false;
+            ppkMsgLabel.setText(e.getMessage());
+        }
 
         if (isAllInfoValid) {
             setContinueControls();
@@ -131,39 +154,31 @@ public class AddStoreController extends  AddStoreData {
         }
     }
 
-    private int getEnteredLocationX() {
+    private int getEnteredLocationCoordinate(TextField textField) {
         try {
-            return Integer.parseInt(locationXTextField.getText());
+            int coordinate = Integer.parseInt(textField.getText());
+            businessLogic.validateCoordinate(coordinate);
+            return coordinate;
         }
-//        catch (Exception e) {
-//            throw new IllegalArgumentException(LOCATION_COORDINATE_MSG_LABEL_TEXT);
-//        }
-        catch (Exception ignore) {
-            return 0;
+        catch (NumberFormatException e) {
+            throw new IllegalArgumentException(LOCATION_COORDINATE_MSG_LABEL_TEXT);
         }
-    }
-
-    private int getEnteredLocationY() {
-        try {
-            return Integer.parseInt(locationYTextField.getText());
-        }
-//        catch (Exception e) {
-//            throw new IllegalArgumentException(LOCATION_COORDINATE_MSG_LABEL_TEXT);
-//        }
-        catch (Exception ignore) {
-            return 0;
+        catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
     private int getEnteredPPK() {
         try {
-            return Integer.parseInt(ppkTextField.getText());
+            int ppk = Integer.parseInt(ppkTextField.getText());
+            businessLogic.validateStorePpk(ppk);
+            return ppk;
         }
-//        catch (Exception e) {
-//            throw new IllegalArgumentException(PPK_MSG_LABEL_TEXT);
-//        }
-        catch (Exception ignore) {
-            return 0;
+        catch (NumberFormatException e) {
+            throw new IllegalArgumentException(PPK_MSG_LABEL_TEXT);
+        }
+        catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -171,14 +186,10 @@ public class AddStoreController extends  AddStoreData {
         try {
             return Float.parseFloat(priceTextField.getText());
         }
-//        catch (Exception e) {
-//            throw new IllegalArgumentException(ITEM_PRICE_MSG_LABEL_TEXT);
-//        }
-        catch (Exception ignore) {
-            return 0;
+        catch (NumberFormatException e) {
+            throw new IllegalArgumentException(ITEM_PRICE_MSG_LABEL_TEXT);
         }
     }
-
 
     private int getSelectedItemId() {
         ItemData ItemData = tableView.getSelectionModel().getSelectedItem();

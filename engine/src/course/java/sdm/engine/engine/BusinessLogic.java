@@ -335,4 +335,18 @@ public class BusinessLogic {
             throw new IllegalArgumentException("This store ID already exists.");
         }
     }
+
+    public void validateCoordinate(int coordinate) {
+        if (!Location.isValidCoordinate(coordinate)) {
+            throw new IllegalArgumentException("A coordinate should be between: "
+                    + Location.getMinLocationValue() + " and " + Location.getMaxLocationValue() + ".");
+        }
+    }
+
+    public void validateStorePpk(int ppk) {
+        if (ppk < 0) {
+            throw new IllegalArgumentException("The store PPK " + ppk + " is not a non-negative integer number.");
+        }
+    }
+
 }
