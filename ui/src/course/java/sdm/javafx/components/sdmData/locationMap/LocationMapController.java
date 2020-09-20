@@ -4,9 +4,12 @@ import course.java.sdm.engine.dto.CustomerDto;
 import course.java.sdm.engine.dto.StoreDto;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -20,31 +23,75 @@ public class LocationMapController extends LocationMapData {
     private int minY = maxLocation;
     private int maxY = minLocation;
 
+    int numberOfRows;
+    int numberOfColumns;
+
     private GridPane gridPane;
 
     private static final int LOCATION_MAP_WIDTH = 40;
     private static final int LOCATION_MAP_HEIGHT = 40;
-    private static final String LOCATION_MAP_CORNER_TITLE = "X / Y";
+    private static final int STORE_IMG_WIDTH = 30;
+    private static final int STORE_IMG_HEIGHT = 30;
+    private static final String LOCATION_MAP_CORNER_TITLE = "Y / X";
+    private static final String STORE_IMG_URL_STR = "course/java/sdm/javafx/components/sdmData/locationMap/images/store-orange-icon.png";
 
 
     public void createLocationMap() {
         calcMinAndMaxLocations();
         minAndMaxPadding();
         gridPane = new GridPane();
+        gridPane.setStyle("-fx-background-color: white;");
+        calcNumberOfRowsAndCols();
         createLocationMapGridPaneTitles();
         gridPane.setGridLinesVisible(true);
-
-
-
+        setStoresInLocationMap();
 
 
 
         scrollPane.setContent(gridPane);
     }
 
+    private void setStoresInLocationMap() {
+        int storeXLocation, storeYLocation;
+        int col, row;
+        for (StoreDto store : stores) {
+            storeXLocation = store.getXLocation();
+            storeYLocation = store.getYLocation();
+            row = storeYLocation - minY;
+            col = storeXLocation - minX;
+
+            Image image = new Image(STORE_IMG_URL_STR);
+            ImageView imageView = new ImageView(image);
+            imageView.setFitHeight(STORE_IMG_HEIGHT);
+            imageView.setFitWidth(STORE_IMG_WIDTH);
+
+            imageView.setPreserveRatio(true);
+            Label label = new Label();
+            label.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+            label.setGraphic(imageView);
+            label.setTooltip(new Tooltip(getStoreInfoForTooltip(store)));
+
+            gridPane.add(label, col, row);
+            GridPane.setHalignment(label, HPos.CENTER);
+        }
+    }
+
+    private String getStoreInfoForTooltip(StoreDto storeDto) {
+        int id = storeDto.getId();
+        String name = storeDto.getName();
+        int ppk = storeDto.getPpk();
+        int xLocation = storeDto.getXLocation();
+        int yLocation = storeDto.getYLocation();
+        return String.format("(X = %d, Y = %d)\n" +
+                "ID: %d\nName: %s\nPPK: %d", xLocation, yLocation, id, name, ppk);
+    }
+
+    private void calcNumberOfRowsAndCols() {
+        numberOfRows = maxY - minY + 1;
+        numberOfColumns = maxX - minX + 1;
+    }
+
     private void createLocationMapGridPaneTitles() {
-        int numberOfRows = maxY - minY + 1;
-        int numberOfColumns = maxX - minX + 1;
         for (int i = 0; i < numberOfColumns; i++) {
             ColumnConstraints column = new ColumnConstraints(LOCATION_MAP_WIDTH);
             gridPane.getColumnConstraints().add(column);
@@ -129,4 +176,5 @@ public class LocationMapController extends LocationMapData {
             maxY += 1;
         }
     }
+
 }
