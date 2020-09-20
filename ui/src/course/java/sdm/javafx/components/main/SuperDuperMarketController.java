@@ -2,6 +2,7 @@ package course.java.sdm.javafx.components.main;
 
 import course.java.sdm.engine.dto.*;
 import course.java.sdm.engine.engine.BusinessLogic;
+import course.java.sdm.javafx.components.actions.addStore.AddStoreController;
 import course.java.sdm.javafx.components.actions.loadFile.task.TaskLogic;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.loadFile.LoadFileController;
@@ -183,7 +184,21 @@ public class SuperDuperMarketController {
 
     @FXML
     void addStoreButtonAction(ActionEvent event) {
+        clearSelectedDataButton();
 
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.ADD_STORE_FXML_RESOURCE);
+            Node addStore = loader.load();
+            AddStoreController addStoreController = loader.getController();
+
+            addStoreController.setBusinessLogic(businessLogic);
+            addStoreController.setTableViewData();
+
+            superDuperMarketBorderPane.setCenter(addStore);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
