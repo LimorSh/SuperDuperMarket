@@ -1,17 +1,11 @@
 package course.java.sdm.javafx.components.actions.loadFile;
 
-import course.java.sdm.intermediate.task.TaskLogic;
-import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.main.SuperDuperMarketController;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-
-import java.util.Optional;
 
 public class LoadFileController extends LoadFileData{
 

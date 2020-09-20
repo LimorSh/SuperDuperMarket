@@ -2,7 +2,7 @@ package course.java.sdm.javafx.components.main;
 
 import course.java.sdm.engine.dto.*;
 import course.java.sdm.engine.engine.BusinessLogic;
-import course.java.sdm.intermediate.task.TaskLogic;
+import course.java.sdm.javafx.components.actions.loadFile.task.TaskLogic;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.loadFile.LoadFileController;
 import course.java.sdm.javafx.components.actions.order.OrderController;
@@ -45,8 +45,9 @@ public class SuperDuperMarketController {
     @FXML private Button ordersButton;
     @FXML private Button locationMapButton;
     @FXML private Button loadFileButton;
-    @FXML private Button updateItemButton;
     @FXML private Button addOrderButton;
+    @FXML private Button updateItemButton;
+    @FXML private Button addStoreButton;
     @FXML private Label titleVBox;
 
     private SimpleBooleanProperty isFileSelected;
@@ -74,13 +75,17 @@ public class SuperDuperMarketController {
 
     @FXML
     private void initialize() {
+        // data buttons
         customersButton.disableProperty().bind(isFileSelected.not());
-        storesButton.disableProperty().bind(isFileSelected.not());
         itemsButton.disableProperty().bind(isFileSelected.not());
+        storesButton.disableProperty().bind(isFileSelected.not());
         ordersButton.disableProperty().bind(isFileSelected.not());
-        updateItemButton.disableProperty().bind(isFileSelected.not());
-        addOrderButton.disableProperty().bind(isFileSelected.not());
         locationMapButton.disableProperty().bind(isFileSelected.not());
+
+        // action buttons
+        addOrderButton.disableProperty().bind(isFileSelected.not());
+        updateItemButton.disableProperty().bind(isFileSelected.not());
+        addStoreButton.disableProperty().bind(isFileSelected.not());
     }
 
     private void clearSelectedDataButton() {
@@ -138,6 +143,26 @@ public class SuperDuperMarketController {
     }
 
     @FXML
+    void addOrderButtonAction(ActionEvent event) {
+        clearSelectedDataButton();
+
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(SuperDuperMarketConstants.ORDER_FXML_RESOURCE);
+            Node order = loader.load();
+            OrderController orderController = loader.getController();
+
+            orderController.setSuperDuperMarketController(this);
+            orderController.setBusinessLogic(businessLogic);
+            orderController.createOrder();
+
+            superDuperMarketBorderPane.setCenter(order);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     void updateItemButtonAction(ActionEvent event) {
         clearSelectedDataButton();
 
@@ -157,23 +182,9 @@ public class SuperDuperMarketController {
     }
 
     @FXML
-    void addOrderButtonAction(ActionEvent event) {
-        clearSelectedDataButton();
+    void addStoreButtonAction(ActionEvent event) {
 
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SuperDuperMarketConstants.ORDER_FXML_RESOURCE);
-            Node order = loader.load();
-            OrderController orderController = loader.getController();
 
-            orderController.setSuperDuperMarketController(this);
-            orderController.setBusinessLogic(businessLogic);
-            orderController.createOrder();
-
-            superDuperMarketBorderPane.setCenter(order);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void showOrderSummery(OrderSummeryInfo orderSummeryInfo, UIOrderDto uiOrderDto) {

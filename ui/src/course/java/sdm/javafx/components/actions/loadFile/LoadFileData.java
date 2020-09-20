@@ -1,7 +1,7 @@
 package course.java.sdm.javafx.components.actions.loadFile;
 
 import course.java.sdm.engine.engine.BusinessLogic;
-import course.java.sdm.intermediate.task.TaskLogic;
+import course.java.sdm.javafx.components.actions.loadFile.task.TaskLogic;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import javafx.beans.property.SimpleStringProperty;
 
