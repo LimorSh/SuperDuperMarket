@@ -23,7 +23,7 @@ public class JavaFxUI extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        SuperDuperMarketConstants.printURLs(); //for checking URLs only
+//        SuperDuperMarketConstants.printURLs(); //for checking URLs only
         FXMLLoader loader = new FXMLLoader();
 
         // load main fxml

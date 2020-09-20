@@ -3,6 +3,8 @@ package course.java.sdm.javafx.components.sdmData.locationMap;
 import course.java.sdm.engine.dto.CustomerDto;
 import course.java.sdm.engine.dto.StoreDto;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -18,37 +20,18 @@ public class LocationMapController extends LocationMapData {
     private int minY = maxLocation;
     private int maxY = minLocation;
 
+    private GridPane gridPane;
+
+    private static final int LOCATION_MAP_WIDTH = 40;
+    private static final int LOCATION_MAP_HEIGHT = 40;
+    private static final String LOCATION_MAP_CORNER_TITLE = "X / Y";
+
+
     public void createLocationMap() {
         calcMinAndMaxLocations();
         minAndMaxPadding();
-
-        GridPane gridPane = new GridPane();
-        int numberOfRows = maxY - minY + 1;
-        int numberOfColumns = maxX - minX + 1;
-        for (int i = 0; i < numberOfColumns; i++) {
-            ColumnConstraints column = new ColumnConstraints(30);
-            gridPane.getColumnConstraints().add(column);
-        }
-        for (int i = 0; i < numberOfRows; i++) {
-            RowConstraints row = new RowConstraints(30);
-            gridPane.getRowConstraints().add(row);
-        }
-        Label titlesLabel = new Label("X / Y");
-        gridPane.add(titlesLabel, 0, 0);
-        for (int i = 0; i < numberOfRows; i++) {
-            for (int j = 0; j < numberOfColumns; j++) {
-                if (i == 0 && j != 0) {
-                    String str = String.format("%d", minY + j);
-                    Label titleLabel = new Label(str);
-                    gridPane.add(titleLabel, j, 0);
-                }
-                if (j == 0 && i != 0) {
-                    String str = String.format("%d", minX + i);
-                    Label titleLabel = new Label(str);
-                    gridPane.add(titleLabel, 0, i);
-                }
-            }
-        }
+        gridPane = new GridPane();
+        createLocationMapGridPaneTitles();
         gridPane.setGridLinesVisible(true);
 
 
@@ -57,6 +40,39 @@ public class LocationMapController extends LocationMapData {
 
 
         scrollPane.setContent(gridPane);
+    }
+
+    private void createLocationMapGridPaneTitles() {
+        int numberOfRows = maxY - minY + 1;
+        int numberOfColumns = maxX - minX + 1;
+        for (int i = 0; i < numberOfColumns; i++) {
+            ColumnConstraints column = new ColumnConstraints(LOCATION_MAP_WIDTH);
+            gridPane.getColumnConstraints().add(column);
+        }
+        for (int i = 0; i < numberOfRows; i++) {
+            RowConstraints row = new RowConstraints(LOCATION_MAP_HEIGHT);
+            gridPane.getRowConstraints().add(row);
+        }
+        Label cornerTitleLabel = new Label(LOCATION_MAP_CORNER_TITLE);
+        gridPane.add(cornerTitleLabel, 0, 0);
+        GridPane.setHalignment(cornerTitleLabel, HPos.CENTER);
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j < numberOfColumns; j++) {
+                if (i == 0 && j != 0) {
+                    addTitleToLocationMapGridPane(minY + j, j, 0);
+                }
+                if (j == 0 && i != 0) {
+                    addTitleToLocationMapGridPane(minX + i, 0, i);
+                }
+            }
+        }
+    }
+
+    private void addTitleToLocationMapGridPane(int titleNumber, int column, int row) {
+        String str = String.format("%d", titleNumber);
+        Label titleLabel = new Label(str);
+        gridPane.add(titleLabel, column, row);
+        GridPane.setHalignment(titleLabel, HPos.CENTER);
     }
 
     private void calcMinAndMaxLocations() {

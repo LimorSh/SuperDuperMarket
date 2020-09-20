@@ -88,6 +88,7 @@ public class SuperDuperMarketController {
         itemsButton.getStyleClass().remove(SELECTED_DATA_BUTTON_CSS_CLASS);
         storesButton.getStyleClass().remove(SELECTED_DATA_BUTTON_CSS_CLASS);
         ordersButton.getStyleClass().remove(SELECTED_DATA_BUTTON_CSS_CLASS);
+        locationMapButton.getStyleClass().remove(SELECTED_DATA_BUTTON_CSS_CLASS);
     }
 
     private void selectedDataButton (Button dataButton) {
