@@ -1,4 +1,4 @@
-package course.java.sdm.javafx.components.actions.info;
+package course.java.sdm.javafx.components.info;
 
 import course.java.sdm.engine.dto.StoreDto;
 

@@ -1,4 +1,4 @@
-package course.java.sdm.javafx.components.actions.addOrder;
+package course.java.sdm.javafx.components.info;
 
 import course.java.sdm.engine.dto.CustomerDto;
 

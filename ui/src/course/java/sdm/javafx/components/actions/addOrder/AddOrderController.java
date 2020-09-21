@@ -2,7 +2,8 @@ package course.java.sdm.javafx.components.actions.addOrder;
 
 import course.java.sdm.engine.dto.*;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
-import course.java.sdm.javafx.components.actions.info.StoreInfo;
+import course.java.sdm.javafx.components.info.CustomerInfo;
+import course.java.sdm.javafx.components.info.StoreInfo;
 import course.java.sdm.javafx.components.actions.addOrder.storeItems.StoreItemsController;
 import course.java.sdm.javafx.components.actions.addOrder.summery.singleStore.OrderSummerySingleStoreInfo;
 import course.java.sdm.javafx.components.actions.addOrder.summery.singleStore.OrderSummerySingleStoreItemInfo;
@@ -20,8 +21,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 public class AddOrderController extends AddOrderData {
 
@@ -147,31 +150,31 @@ public class AddOrderController extends AddOrderData {
     }
 
     public void setCustomers(Collection<CustomerDto> customersDto) {
-        if (!customersDto.isEmpty()) {
-            ArrayList<CustomerInfo> customersInfo = new ArrayList<>();
-            for (CustomerDto customerDto : customersDto) {
-                CustomerInfo customerInfo = new CustomerInfo(customerDto);
-                customersInfo.add(customerInfo);
-            }
-            chooseCustomerComboBox.setItems(FXCollections.observableArrayList(customersInfo));
+        ArrayList<CustomerInfo> customersInfo = new ArrayList<>();
+
+        Collection<CustomerDto> customersDtoSortedById = customersDto.stream()
+                .sorted(Comparator.comparing(CustomerDto::getId))
+                .collect(Collectors.toList());
+
+        for (CustomerDto customerDto : customersDtoSortedById) {
+            CustomerInfo customerInfo = new CustomerInfo(customerDto);
+            customersInfo.add(customerInfo);
         }
-        else {
-            // show no customers component!
-        }
+        chooseCustomerComboBox.setItems(FXCollections.observableArrayList(customersInfo));
     }
 
     public void setStores(Collection<StoreDto> storesDto) {
-        if (!storesDto.isEmpty()) {
-            ArrayList<StoreInfo> storesInfo = new ArrayList<>();
-            for (StoreDto storeDto : storesDto) {
-                StoreInfo storeInfo = new StoreInfo(storeDto);
-                storesInfo.add(storeInfo);
-            }
-            chooseStoreComboBox.setItems(FXCollections.observableArrayList(storesInfo));
+        ArrayList<StoreInfo> storesInfo = new ArrayList<>();
+
+        Collection<StoreDto> storesDtoSortedById = storesDto.stream()
+                .sorted(Comparator.comparing(StoreDto::getId))
+                .collect(Collectors.toList());
+
+        for (StoreDto storeDto : storesDtoSortedById) {
+            StoreInfo storeInfo = new StoreInfo(storeDto);
+            storesInfo.add(storeInfo);
         }
-        else {
-            // show no customers component!
-        }
+        chooseStoreComboBox.setItems(FXCollections.observableArrayList(storesInfo));
     }
 
     public void updateUiOrderDto() {

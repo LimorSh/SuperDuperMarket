@@ -10,20 +10,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.addOrder.discounts.DiscountsController">
+<BorderPane prefHeight="500.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.addOrder.discounts.DiscountsController">
    <center>
       <ScrollPane fitToHeight="true" fitToWidth="true" stylesheets="@discounts-style.css">
          <content>
-            <FlowPane fx:id="flowPane" hgap="7.0" prefHeight="600.0" prefWidth="900.0" vgap="20.0">
+            <FlowPane fx:id="flowPane" vgap="20.0">
                <padding>
-                  <Insets bottom="5.0" left="150.0" right="5.0" top="5.0" />
+                  <Insets left="150.0" />
                </padding>
             </FlowPane>
          </content>
       </ScrollPane>
    </center>
    <top>
-      <VBox alignment="CENTER" prefHeight="62.0" prefWidth="826.0" spacing="5.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="66.0" prefWidth="626.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Special Offers!" textFill="#a60dab">
                <font>

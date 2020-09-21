@@ -371,7 +371,7 @@ public class SuperDuperMarketController {
             StoresController storesController = loader.getController();
 
             Collection<StoreDto> storesDto = businessLogic.getStoresDto();
-            storesController.createAllStores(storesDto);
+            storesController.showStores(storesDto);
 
             superDuperMarketBorderPane.setCenter(stores);
         } catch (IOException e) {

@@ -13,7 +13,7 @@
    <content>
       <BorderPane fx:id="superDuperMarketBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1050.0" stylesheets="@super-duper-market-style.css">
          <left>
-            <VBox spacing="10.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="530.0" prefWidth="135.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
                   <Label id="data-label" fx:id="titleVBox" disable="true" layoutX="50.0" text="Data">
                      <VBox.margin>
@@ -50,7 +50,7 @@
                   </VBox>
                </children>
                <padding>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                  <Insets bottom="15.0" left="15.0" right="3.0" top="15.0" />
                </padding>
             </VBox>
          </left>
