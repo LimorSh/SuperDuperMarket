@@ -7,11 +7,11 @@ import course.java.sdm.javafx.components.actions.addStore.AddStoreController;
 import course.java.sdm.javafx.components.actions.loadFile.task.TaskLogic;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.loadFile.LoadFileController;
-import course.java.sdm.javafx.components.actions.order.OrderController;
-import course.java.sdm.javafx.components.actions.order.discounts.DiscountsController;
-import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryController;
-import course.java.sdm.javafx.components.actions.order.summery.OrderSummeryInfo;
-import course.java.sdm.javafx.components.actions.order.summery.dynamicOrder.DynamicOrderStoresSummeryController;
+import course.java.sdm.javafx.components.actions.addOrder.AddOrderController;
+import course.java.sdm.javafx.components.actions.addOrder.discounts.DiscountsController;
+import course.java.sdm.javafx.components.actions.addOrder.summery.OrderSummeryController;
+import course.java.sdm.javafx.components.actions.addOrder.summery.OrderSummeryInfo;
+import course.java.sdm.javafx.components.actions.addOrder.summery.dynamicOrder.DynamicOrderStoresSummeryController;
 import course.java.sdm.javafx.components.actions.updateItem.UpdateItemController;
 import course.java.sdm.javafx.components.sdmData.customers.CustomersController;
 import course.java.sdm.javafx.components.sdmData.items.ItemsController;
@@ -152,9 +152,9 @@ public class SuperDuperMarketController {
 
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SuperDuperMarketConstants.ORDER_FXML_RESOURCE);
+            loader.setLocation(SuperDuperMarketConstants.ADD_ORDER_FXML_RESOURCE);
             Node order = loader.load();
-            OrderController orderController = loader.getController();
+            AddOrderController orderController = loader.getController();
 
             orderController.setSuperDuperMarketController(this);
             orderController.setBusinessLogic(businessLogic);

@@ -18,6 +18,7 @@ public class SuperDuperMarketConstants {
 
     public static final String MAIN_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/main/super-duper-market.fxml";
 
+    // show data
     private static final String SINGLE_ITEM_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/sdmData/singleItem/single-item.fxml";
     public static final URL SINGLE_ITEM_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.SINGLE_ITEM_FXML_RESOURCE_IDENTIFIER);
     private static final String ITEMS_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/sdmData/items/items.fxml";
@@ -49,42 +50,49 @@ public class SuperDuperMarketConstants {
     private static final String LOCATION_MAP_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/sdmData/locationMap/location-map.fxml";
     public static final URL LOCATION_MAP_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.LOCATION_MAP_FXML_RESOURCE_IDENTIFIER);
 
-    private static final String SINGLE_DISCOUNT_IN_ADD_ORDER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/discounts/singleDiscount/single-discount.fxml";
+    // actions
+
+    // add order
+    private static final String SINGLE_DISCOUNT_IN_ADD_ORDER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/addOrder/discounts/singleDiscount/single-discount.fxml";
     public static final URL SINGLE_DISCOUNT_IN_ADD_ORDER_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.SINGLE_DISCOUNT_IN_ADD_ORDER_FXML_RESOURCE_IDENTIFIER);
-    private static final String ALL_DISCOUNTS_IN_ADD_ORDER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/discounts/discounts.fxml";
+    private static final String ALL_DISCOUNTS_IN_ADD_ORDER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/addOrder/discounts/discounts.fxml";
     public static final URL ALL_DISCOUNTS_IN_ADD_ORDER_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ALL_DISCOUNTS_IN_ADD_ORDER_FXML_RESOURCE_IDENTIFIER);
 
-    private static final String ORDER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/order.fxml";
-    public static final URL ORDER_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ORDER_FXML_RESOURCE_IDENTIFIER);
+    private static final String ADD_ORDER_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/addOrder/add-order.fxml";
+    public static final URL ADD_ORDER_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ADD_ORDER_FXML_RESOURCE_IDENTIFIER);
 
-    private static final String STORE_ITEMS_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/storeItems/store-items.fxml";
+    private static final String STORE_ITEMS_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/addOrder/storeItems/store-items.fxml";
     public static final URL STORE_ITEMS_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.STORE_ITEMS_FXML_RESOURCE_IDENTIFIER);
 
-    private static final String ORDER_SUMMERY_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/order-summery.fxml";
+    private static final String ORDER_SUMMERY_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/addOrder/summery/order-summery.fxml";
     public static final URL ORDER_SUMMERY_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ORDER_SUMMERY_FXML_RESOURCE_IDENTIFIER);
 
-    private static final String ORDER_SUMMERY_STORES_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/stores/order-summery-stores.fxml";
+    private static final String ORDER_SUMMERY_STORES_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/addOrder/summery/stores/order-summery-stores.fxml";
     public static final URL ORDER_SUMMERY_STORES_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ORDER_SUMMERY_STORES_FXML_RESOURCE_IDENTIFIER);
 
-    private static final String ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/singleStore/order-summery-single-store.fxml";
+    private static final String ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/addOrder/summery/singleStore/order-summery-single-store.fxml";
     public static final URL ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ORDER_SUMMERY_SINGLE_STORE_FXML_RESOURCE_IDENTIFIER);
 
+    private static final String DYNAMIC_ORDER_SINGLE_STORE_SUMMERY_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/addOrder/summery/dynamicOrder/singleStore/dynamic-order-single-store-summery.fxml";
+    public static final URL DYNAMIC_ORDER_SINGLE_STORE_SUMMERY_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.DYNAMIC_ORDER_SINGLE_STORE_SUMMERY_FXML_RESOURCE_IDENTIFIER);
+    private static final String DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/addOrder/summery/dynamicOrder/dynamic-order-stores-summery.fxml";
+    public static final URL DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE_IDENTIFIER);
+
+    // update item
     private static final String UPDATE_ITEM_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/updateItem/update-item.fxml";
     public static final URL UPDATE_ITEM_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.UPDATE_ITEM_FXML_RESOURCE_IDENTIFIER);
 
+    // add store
     private static final String ADD_STORE_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/addStore/add-store.fxml";
     public static final URL ADD_STORE_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ADD_STORE_FXML_RESOURCE_IDENTIFIER);
 
+    // add item
     private static final String ADD_ITEM_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/addItem/add-item.fxml";
     public static final URL ADD_ITEM_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ADD_ITEM_FXML_RESOURCE_IDENTIFIER);
 
+    // load file
     private static final String LOAD_FILE_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/loadFile/load-file.fxml";
     public static final URL LOAD_FILE_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.LOAD_FILE_FXML_RESOURCE_IDENTIFIER);
-
-    private static final String DYNAMIC_ORDER_SINGLE_STORE_SUMMERY_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/dynamicOrder/singleStore/dynamic-order-single-store-summery.fxml";
-    public static final URL DYNAMIC_ORDER_SINGLE_STORE_SUMMERY_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.DYNAMIC_ORDER_SINGLE_STORE_SUMMERY_FXML_RESOURCE_IDENTIFIER);
-    private static final String DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/order/summery/dynamicOrder/dynamic-order-stores-summery.fxml";
-    public static final URL DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.DYNAMIC_ORDER_STORES_SUMMERY_FXML_RESOURCE_IDENTIFIER);
 
     public static void printURLs() {
         // for checking the URLs
@@ -101,7 +109,7 @@ public class SuperDuperMarketConstants {
         System.out.println("11." + LOCATION_MAP_FXML_RESOURCE.toExternalForm());
         System.out.println("12." + SINGLE_DISCOUNT_IN_ADD_ORDER_FXML_RESOURCE.toExternalForm());
         System.out.println("13." + ALL_DISCOUNTS_IN_ADD_ORDER_FXML_RESOURCE.toExternalForm());
-        System.out.println("14." + ORDER_FXML_RESOURCE.toExternalForm());
+        System.out.println("14." + ADD_ORDER_FXML_RESOURCE.toExternalForm());
         System.out.println("15." + STORE_ITEMS_FXML_RESOURCE.toExternalForm());
         System.out.println("16." + ORDER_SUMMERY_FXML_RESOURCE.toExternalForm());
         System.out.println("17." + ORDER_SUMMERY_STORES_FXML_RESOURCE.toExternalForm());

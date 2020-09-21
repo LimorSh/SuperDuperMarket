@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -12,11 +13,11 @@
       <GridPane>
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="130.0" prefWidth="130.0" />
+          <ColumnConstraints hgrow="ALWAYS" minWidth="130.0" prefWidth="130.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="ALWAYS" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -26,7 +27,11 @@
             <Label styleClass="field-label" text="ID:" />
             <Label fx:id="idLabel" styleClass="value-label" GridPane.columnIndex="1" />
             <Label styleClass="field-label" text="Name:" GridPane.rowIndex="1" />
-            <Label fx:id="nameLabel" layoutX="125.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ScrollPane fitToHeight="true" fitToWidth="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <content>
+                  <Label fx:id="nameLabel" prefHeight="42.0" prefWidth="141.0" styleClass="value-label" wrapText="true" />
+               </content>
+            </ScrollPane>
             <Label styleClass="field-label" text="Purchase category:" GridPane.rowIndex="2" />
             <Label fx:id="purchaseCategoryLabel" layoutX="125.0" layoutY="47.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label styleClass="field-label" text="Availability:" GridPane.rowIndex="3" />
