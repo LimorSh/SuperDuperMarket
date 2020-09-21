@@ -15,7 +15,7 @@ public class OrderSummerySinglePurchasedItemData {
     protected SimpleStringProperty discount;
 
     private static final String IN_DISCOUNT_STR = "YES";
-    private static final String NOT_IN_DISCOUNT_STR = "";
+    private static final String NOT_IN_DISCOUNT_STR = "NO";
 
     public OrderSummerySinglePurchasedItemData(OrderSummerySingleStoreItemInfo orderSummerySingleStoreItemInfo) {
         this.id = new SimpleIntegerProperty(orderSummerySingleStoreItemInfo.getId());

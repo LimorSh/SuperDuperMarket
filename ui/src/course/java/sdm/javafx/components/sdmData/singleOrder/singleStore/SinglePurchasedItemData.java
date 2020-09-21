@@ -18,7 +18,7 @@ public class SinglePurchasedItemData {
     protected SimpleStringProperty discount;
 
     private static final String IN_DISCOUNT_STR = "YES";
-    private static final String NOT_IN_DISCOUNT_STR = "";
+    private static final String NOT_IN_DISCOUNT_STR = "NO";
 
     public SinglePurchasedItemData(OrderLineDto orderLineDto) {
         BasicItemDto basicItemDto = orderLineDto.getBasicItemDto();
