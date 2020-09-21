@@ -55,11 +55,14 @@
             <Label text="Choose action:" GridPane.rowIndex="1" />
             <Label text="Choose store:" />
             <ComboBox fx:id="chooseStoreComboBox" onAction="#chooseStoreComboBoxAction" prefHeight="25.0" prefWidth="250.0" GridPane.columnIndex="1" />
-            <Label fx:id="selectItemLabel" text="Select an item:" visible="false" GridPane.rowIndex="3">
+            <VBox prefHeight="224.0" prefWidth="113.0" GridPane.rowIndex="3">
                <GridPane.margin>
-                  <Insets bottom="180.0" />
+                  <Insets />
                </GridPane.margin>
-            </Label>
+               <children>
+                  <Label fx:id="selectItemLabel" text="Select an item:" visible="false" />
+               </children>
+            </VBox>
             <VBox GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
                   <HBox prefHeight="25.0" prefWidth="463.0" spacing="10.0">

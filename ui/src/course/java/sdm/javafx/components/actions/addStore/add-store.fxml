@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" stylesheets="@add-store-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.addStore.AddStoreController">
+<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@add-store-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.addStore.AddStoreController">
    <top>
       <Label text="Add Store" BorderPane.alignment="CENTER">
          <font>
@@ -40,18 +40,21 @@
             <RowConstraints maxHeight="142.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="142.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="142.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="199.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="180.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="225.0" minHeight="23.0" prefHeight="60.0" vgrow="ALWAYS" />
             <RowConstraints maxHeight="225.0" minHeight="42.0" prefHeight="42.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
             <Label text="Enter name:" GridPane.rowIndex="1" />
             <Label text="Enter ID:" />
-            <Label fx:id="selectItemsLabel" disable="true" text="Select items:" GridPane.rowIndex="6">
+            <VBox GridPane.rowIndex="6">
                <GridPane.margin>
-                  <Insets bottom="180.0" />
+                  <Insets />
                </GridPane.margin>
-            </Label>
+               <children>
+                  <Label fx:id="selectItemsLabel" disable="true" text="Select items:" />
+               </children>
+            </VBox>
             <VBox GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7">
                <children>
                   <HBox prefHeight="27.0" prefWidth="443.0" spacing="3.0">
@@ -94,7 +97,7 @@
             <TextField fx:id="locationYTextField" prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="ppkTextField" prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label text="PPK:" GridPane.rowIndex="4" />
-            <HBox alignment="BOTTOM_RIGHT" GridPane.columnIndex="3" GridPane.rowIndex="8">
+            <HBox alignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="8">
                <children>
                   <Button fx:id="confirmButton" disable="true" mnemonicParsing="false" onAction="#confirmButtonAction" prefHeight="25.0" prefWidth="81.0" text="Confirn" />
                </children>
