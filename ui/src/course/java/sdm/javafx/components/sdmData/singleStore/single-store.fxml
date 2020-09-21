@@ -30,13 +30,13 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </HBox>
-      <TableView fx:id="itemsTableView" layoutY="106.0" prefHeight="174.0" prefWidth="404.0">
+      <TableView id="items-table-view" fx:id="itemsTableView" layoutY="106.0" prefHeight="174.0" prefWidth="404.0">
         <columns>
-          <TableColumn fx:id="itemIdCol" prefWidth="43.0" text="ID" />
-          <TableColumn fx:id="itemNameCol" prefWidth="79.0" text="Name" />
+          <TableColumn fx:id="itemIdCol" prefWidth="37.0" text="ID" />
+          <TableColumn fx:id="itemNameCol" prefWidth="92.0" text="Name" />
             <TableColumn fx:id="itemPurchaseCategoryCol" prefWidth="115.0" text="Purchase Category" />
-            <TableColumn fx:id="itemPricePerUnitCol" prefWidth="92.0" text="Price Per Unit" />
-            <TableColumn fx:id="itemTotalSoldCol" editable="false" prefWidth="75.0" text="Total Sells" />
+            <TableColumn fx:id="itemPricePerUnitCol" prefWidth="90.0" text="Price Per Unit" />
+            <TableColumn fx:id="itemTotalSoldCol" editable="false" prefWidth="70.0" text="Total Sells" />
         </columns>
       </TableView>
       <Label layoutX="180.0" layoutY="81.0" styleClass="subtitle-label" text="Items:">
@@ -49,7 +49,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <TableView fx:id="ordersTableView" layoutX="423.0" layoutY="106.0" prefHeight="174.0" prefWidth="456.0">
+      <TableView id="orders-table-view" fx:id="ordersTableView" layoutX="423.0" layoutY="106.0" prefHeight="174.0" prefWidth="456.0">
          <columns>
             <TableColumn fx:id="orderDateCol" prefWidth="96.0" text="Date" />
             <TableColumn fx:id="orderTotalItemsCol" prefWidth="78.0" text="Total Items" />

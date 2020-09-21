@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="650.0" stylesheets="@single-order-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.singleOrder.SingleOrderController">
@@ -38,47 +37,43 @@
             </HBox>
          </top>
          <bottom>
-            <Pane prefHeight="59.0" prefWidth="726.0" BorderPane.alignment="CENTER">
+            <HBox prefHeight="38.0" prefWidth="726.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="38.0" prefWidth="726.0" spacing="20.0">
-                     <children>
-                        <Label text="Items Cost:">
-                           <HBox.margin>
-                              <Insets top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label fx:id="itemsCostValueLabel" minWidth="60.0">
-                           <HBox.margin>
-                              <Insets top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label text="Delivery Cost:">
-                           <HBox.margin>
-                              <Insets top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label fx:id="deliveryCostValueLabel" minWidth="60.0">
-                           <HBox.margin>
-                              <Insets top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label text="Total Cost:">
-                           <HBox.margin>
-                              <Insets top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label fx:id="totalCostValueLabel" minWidth="60.0">
-                           <HBox.margin>
-                              <Insets top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                     <padding>
+                  <Label text="Items Cost:">
+                     <HBox.margin>
                         <Insets top="5.0" />
-                     </padding>
-                  </HBox>
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="itemsCostValueLabel" minWidth="60.0">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label text="Delivery Cost:">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="deliveryCostValueLabel" minWidth="60.0">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label text="Total Cost:">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="totalCostValueLabel" minWidth="60.0">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
                </children>
-            </Pane>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </HBox>
          </bottom>
       </BorderPane>
    </center>

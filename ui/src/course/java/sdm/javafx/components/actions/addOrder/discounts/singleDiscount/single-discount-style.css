@@ -3,3 +3,7 @@
     /*-fx-background-color: transparent;*/
     -fx-border-width: 1px;
 }
+
+#table-view .table-column{
+    -fx-alignment: CENTER;
+}

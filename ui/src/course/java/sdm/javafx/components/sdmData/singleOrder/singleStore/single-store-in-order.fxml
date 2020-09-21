@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane prefHeight="280.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.singleOrder.singleStore.SingleStoreInOrderController">
+<BorderPane prefHeight="280.0" prefWidth="601.0" stylesheets="@single-store-in-order-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.singleOrder.singleStore.SingleStoreInOrderController">
    <top>
       <HBox prefHeight="37.0" prefWidth="726.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
@@ -29,7 +28,7 @@
       </HBox>
    </top>
    <bottom>
-      <TableView fx:id="purchasedItemsTableView" prefHeight="174.0" prefWidth="590.0" BorderPane.alignment="CENTER">
+      <TableView id="table-view" fx:id="purchasedItemsTableView" prefHeight="174.0" prefWidth="590.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="itemIdCol" prefWidth="43.0" text="ID" />
           <TableColumn fx:id="itemNameCol" prefWidth="79.0" text="Name" />

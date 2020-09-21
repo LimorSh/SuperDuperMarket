@@ -1,4 +1,8 @@
 #border-pane {
-    -fx-border-color: black;
-    -fx-border-width: 2px;
+    /*-fx-border-color: black;*/
+    /*-fx-border-width: 2px;*/
+}
+
+#table-view .table-column{
+    -fx-alignment: CENTER;
 }

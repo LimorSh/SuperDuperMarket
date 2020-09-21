@@ -82,7 +82,7 @@
                   </HBox>
                </children>
             </VBox>
-            <TableView fx:id="tableView" disable="true" prefHeight="210.0" prefWidth="483.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6">
+            <TableView id="table-view" fx:id="tableView" disable="true" prefHeight="210.0" prefWidth="483.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6">
                <columns>
                   <TableColumn fx:id="itemIdCol" prefWidth="126.0" text="Item ID" />
                   <TableColumn fx:id="nameCol" prefWidth="189.0" text="Name" />
