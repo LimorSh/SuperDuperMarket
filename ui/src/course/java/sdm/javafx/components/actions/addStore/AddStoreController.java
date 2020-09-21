@@ -29,6 +29,7 @@ public class AddStoreController extends  AddStoreData {
     @FXML private Label enterPriceLabel;
     @FXML private Label priceMsgLabel;
     @FXML private Label confirmMsgLabel;
+    @FXML private Label storeInfoMsgLabel;
 
     @FXML private TextField idTextField;
     @FXML private TextField nameTextField;
@@ -103,12 +104,31 @@ public class AddStoreController extends  AddStoreData {
             ppkMsgLabel.setText(e.getMessage());
         }
 
+        try {
+            businessLogic.validateFreeLocation(locationX, locationY);
+            storeInfoMsgLabel.setText("");
+        }
+        catch(Exception e) {
+            isAllInfoValid = false;
+            storeInfoMsgLabel.setStyle("-fx-text-fill: #ff0000;");
+            storeInfoMsgLabel.setText(e.getMessage());
+        }
+
+
         if (isAllInfoValid) {
+            storeInfoMsgLabel.setStyle("-fx-text-fill: #0000ff;");
+            storeInfoMsgLabel.setText("The store info is valid. Now please select the items:");
             setContinueControls();
         }
     }
 
     private void setContinueControls() {
+        idTextField.setDisable(true);
+        nameTextField.setDisable(true);
+        locationXTextField.setDisable(true);
+        locationYTextField.setDisable(true);
+        ppkTextField.setDisable(true);
+        setNewStoreInfoButton.setDisable(true);
         selectItemsLabel.setDisable(false);
         tableView.setDisable(false);
     }
@@ -116,13 +136,21 @@ public class AddStoreController extends  AddStoreData {
     @FXML
     void addItemButtonAction(ActionEvent event) {
         int itemId = getSelectedItemId();
-        float price = getEnteredPrice();
+        try {
+            float price = getEnteredPrice();
 
-        itemIdsAndPrices.put(itemId, price);
-        ItemData ItemData = tableView.getSelectionModel().getSelectedItem();
-        tableView.getItems().remove(ItemData);
+            itemIdsAndPrices.put(itemId, price);
+            ItemData itemData = tableView.getSelectionModel().getSelectedItem();
+            tableView.getItems().remove(itemData);
 
-        confirmButton.setDisable(false);
+            priceMsgLabel.setStyle("-fx-text-fill: #0000ff;");
+            priceMsgLabel.setText("The item " + itemData.getName() + " was added successfully!");
+            confirmButton.setDisable(false);
+        }
+        catch(Exception e) {
+            priceMsgLabel.setStyle("-fx-text-fill: #ff0000;");
+            priceMsgLabel.setText(e.getMessage());
+        }
     }
 
     @FXML
@@ -132,6 +160,8 @@ public class AddStoreController extends  AddStoreData {
     }
 
     private void finish(String msg) {
+        priceMsgLabel.setText("");
+        storeInfoMsgLabel.setText("");
         confirmButton.setDisable(true);
         addItemButton.setDisable(true);
         confirmMsgLabel.setVisible(true);
@@ -215,6 +245,4 @@ public class AddStoreController extends  AddStoreData {
 
         tableView.setItems(data);
     }
-
-
 }

@@ -8,7 +8,7 @@ import java.util.Map;
 public class AddStoreData {
 
     protected static final String ADD_STORE_SUCCESS = "\nThe store was added successfully!";
-    protected static final String ADD_STORE_FAILURE = "The store could not be added for the following reason: ";
+//    protected static final String ADD_ITEM_SUCCESS = "The item was added successfully!";
 
     protected static final String ITEM_PRICE_MSG_LABEL_TEXT = "A price should be a decimal number.";
     protected static final String ID_MSG_LABEL_TEXT = "An ID should be an integer number.";

@@ -349,4 +349,10 @@ public class BusinessLogic {
         }
     }
 
+    public void validateFreeLocation(int x, int y) {
+        if (superDuperMarket.isLocationAlreadyExists(x, y)) {
+            throw new IllegalArgumentException(String.format("The location (%d, %d) already exists", x, y));
+        }
+    }
+
 }
