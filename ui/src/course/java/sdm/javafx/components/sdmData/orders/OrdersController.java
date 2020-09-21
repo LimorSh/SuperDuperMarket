@@ -1,5 +1,6 @@
 package course.java.sdm.javafx.components.sdmData.orders;
 
+import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.engine.dto.OrderDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.sdmData.singleOrder.SingleOrderController;
@@ -10,6 +11,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.control.Label;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class OrdersController {
 
@@ -18,8 +21,13 @@ public class OrdersController {
 
     public void createAllOrders(Collection<OrderDto> ordersDto) {
         if (!ordersDto.isEmpty()) {
+
+            Collection<OrderDto> ordersDtoSortedById = ordersDto.stream()
+                    .sorted(Comparator.comparing(OrderDto::getId))
+                    .collect(Collectors.toList());
+
             flowPane.getChildren().removeAll(noOrdersLabel);
-            for (OrderDto orderDto : ordersDto) {
+            for (OrderDto orderDto : ordersDtoSortedById) {
                 createOrder(orderDto);
             }
         }

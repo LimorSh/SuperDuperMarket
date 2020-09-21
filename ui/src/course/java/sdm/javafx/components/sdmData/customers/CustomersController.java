@@ -2,6 +2,7 @@ package course.java.sdm.javafx.components.sdmData.customers;
 
 import course.java.sdm.engine.dto.CustomerDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
+import course.java.sdm.javafx.components.actions.addOrder.summery.singleStore.OrderSummerySingleStoreInfo;
 import course.java.sdm.javafx.components.sdmData.singleCustomer.SingleCustomerController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,19 +10,21 @@ import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class CustomersController {
 
     @FXML private FlowPane flowPane;
 
     public void createAllCustomers(Collection<CustomerDto> customersDto) {
-        if (!customersDto.isEmpty()) {
-            for (CustomerDto customerDto : customersDto) {
-                createCustomer(customerDto);
-            }
-        }
-        else {
-            // show no customer component!
+
+        Collection<CustomerDto> customersDtoSortedById = customersDto.stream()
+                .sorted(Comparator.comparing(CustomerDto::getId))
+                .collect(Collectors.toList());
+
+        for (CustomerDto customerDto : customersDtoSortedById) {
+            createCustomer(customerDto);
         }
     }
 

@@ -31,13 +31,8 @@ public class DynamicOrderStoresSummeryController extends DynamicOrderStoresData 
                 .sorted(Comparator.comparing(OrderSummerySingleStoreInfo::getId))
                 .collect(Collectors.toList());
 
-        if (!storesInfoSortedById.isEmpty()) {
-            for (OrderSummerySingleStoreInfo singleStoreInfo : storesInfoSortedById) {
-                createStore(singleStoreInfo);
-            }
-        }
-        else {
-            // show no items component!
+        for (OrderSummerySingleStoreInfo singleStoreInfo : storesInfoSortedById) {
+            createStore(singleStoreInfo);
         }
     }
 

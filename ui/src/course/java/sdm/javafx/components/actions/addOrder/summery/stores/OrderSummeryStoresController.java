@@ -19,16 +19,11 @@ public class OrderSummeryStoresController {
     public void createAllStores(Collection<OrderSummerySingleStoreInfo> singleStoresInfo) {
 
         Collection<OrderSummerySingleStoreInfo> storesInfoSortedById = singleStoresInfo.stream()
-        .sorted(Comparator.comparing(OrderSummerySingleStoreInfo::getId))
-        .collect(Collectors.toList());
+                .sorted(Comparator.comparing(OrderSummerySingleStoreInfo::getId))
+                .collect(Collectors.toList());
 
-        if (!storesInfoSortedById.isEmpty()) {
-            for (OrderSummerySingleStoreInfo orderSummerySingleStoreInfo : storesInfoSortedById) {
-                createSingleStore(orderSummerySingleStoreInfo);
-            }
-        }
-        else {
-            // show no items component!
+        for (OrderSummerySingleStoreInfo orderSummerySingleStoreInfo : storesInfoSortedById) {
+            createSingleStore(orderSummerySingleStoreInfo);
         }
     }
 

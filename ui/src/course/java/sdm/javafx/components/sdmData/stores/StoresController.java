@@ -1,5 +1,6 @@
 package course.java.sdm.javafx.components.sdmData.stores;
 
+import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.engine.dto.StoreDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.sdmData.singleStore.SingleStoreController;
@@ -9,19 +10,21 @@ import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class StoresController {
 
     @FXML private FlowPane flowPane;
 
     public void createAllStores(Collection<StoreDto> storesDto) {
-        if (!storesDto.isEmpty()) {
-            for (StoreDto storeDto : storesDto) {
-                createStore(storeDto);
-            }
-        }
-        else {
-            // show no stores component!
+
+        Collection<StoreDto> storesDtoSortedById = storesDto.stream()
+                .sorted(Comparator.comparing(StoreDto::getId))
+                .collect(Collectors.toList());
+
+        for (StoreDto storeDto : storesDtoSortedById) {
+            createStore(storeDto);
         }
     }
 
