@@ -61,6 +61,7 @@
                   <Button fx:id="addOrderButton" mnemonicParsing="false" onAction="#addOrderButtonAction" prefWidth="85.0" text="Add Order" />
                   <Button fx:id="updateItemButton" mnemonicParsing="false" onAction="#updateItemButtonAction" prefWidth="85.0" text="Update Item" />
                   <Button fx:id="addStoreButton" mnemonicParsing="false" onAction="#addStoreButtonAction" prefWidth="85.0" text="Add Store" />
+                  <Button fx:id="addItemButton" mnemonicParsing="false" onAction="#addItemButtonAction" prefWidth="85.0" text="Add Item" />
                </children>
                <opaqueInsets>
                   <Insets />

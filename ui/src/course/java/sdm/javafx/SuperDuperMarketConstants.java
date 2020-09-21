@@ -75,6 +75,9 @@ public class SuperDuperMarketConstants {
     private static final String ADD_STORE_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/addStore/add-store.fxml";
     public static final URL ADD_STORE_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ADD_STORE_FXML_RESOURCE_IDENTIFIER);
 
+    private static final String ADD_ITEM_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/addItem/add-item.fxml";
+    public static final URL ADD_ITEM_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.ADD_ITEM_FXML_RESOURCE_IDENTIFIER);
+
     private static final String LOAD_FILE_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/actions/loadFile/load-file.fxml";
     public static final URL LOAD_FILE_FXML_RESOURCE = SuperDuperMarketConstants.class.getResource(SuperDuperMarketConstants.LOAD_FILE_FXML_RESOURCE_IDENTIFIER);
 

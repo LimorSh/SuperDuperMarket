@@ -158,6 +158,12 @@ public class SuperDuperMarket {
         }
     }
 
+    public void addItem(int itemId, String itemName, String purchasedCategory) {
+        Item.PurchaseCategory purchaseCategory = Item.convertStringToPurchaseCategory(purchasedCategory);
+        Item item = new Item(itemId, itemName, purchaseCategory);
+        addItem(item);
+    }
+
     public void addOrder(Order order) {
         int id = order.getId();
         if (!orders.containsKey(id)) {
@@ -213,6 +219,14 @@ public class SuperDuperMarket {
     public void addItemToStore(int itemId, float itemPrice, int storeId) {
         Store store = stores.get(storeId);
         addItemToStore(itemId, itemPrice, store);
+    }
+
+    public void addItem(int itemId, String itemName, String purchasedCategory,
+                                Map<Integer, Float> storeIdsAndPrices) {
+        addItem(itemId, itemName, purchasedCategory);
+        storeIdsAndPrices.forEach((storeId, itemPrice) -> {
+            addItemToStore(itemId, itemPrice, storeId);
+        });
     }
 
     public void addDiscountToStore(Discount discount, Store store) {

@@ -38,7 +38,7 @@ public class Item {
         this(sdmItem.getId(), sdmItem.getName(), convertStringToPurchaseCategory(sdmItem.getPurchaseCategory()));
     }
 
-    private static PurchaseCategory convertStringToPurchaseCategory(String purchaseCategory) {
+    public static PurchaseCategory convertStringToPurchaseCategory(String purchaseCategory) {
         if (purchaseCategory.toLowerCase().contains(Constants.ITEM_PURCHASE_CATEGORY_PER_UNIT_STR)) {
             return PurchaseCategory.PER_UNIT;
         }

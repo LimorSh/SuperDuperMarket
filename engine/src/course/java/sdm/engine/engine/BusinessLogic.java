@@ -355,4 +355,25 @@ public class BusinessLogic {
         }
     }
 
+    public void validateItemId(int id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("The item ID " + id + " is not a positive integer number.");
+        }
+        if (superDuperMarket.isItemExists(id)) {
+            throw new IllegalArgumentException("This item ID already exists.");
+        }
+    }
+
+    public String getPurchaseCategoryPerUnitStr() {
+        return Item.PurchaseCategory.PER_UNIT.getPurchaseCategoryStr();
+    }
+
+    public String getPurchaseCategoryPerWeightStr() {
+        return Item.PurchaseCategory.PER_WEIGHT.getPurchaseCategoryStr();
+    }
+
+    public void createNewItem(int itemId, String itemName, String purchasedCategory,
+                              Map<Integer, Float> storeIdsAndPrices) {
+        superDuperMarket.addItem(itemId, itemName, purchasedCategory, storeIdsAndPrices);
+    }
 }

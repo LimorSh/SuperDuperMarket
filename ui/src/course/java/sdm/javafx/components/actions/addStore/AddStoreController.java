@@ -114,7 +114,6 @@ public class AddStoreController extends  AddStoreData {
             storeInfoMsgLabel.setText(e.getMessage());
         }
 
-
         if (isAllInfoValid) {
             storeInfoMsgLabel.setStyle("-fx-text-fill: #0000ff;");
             storeInfoMsgLabel.setText("The store info is valid. Now please select the items:");
@@ -220,8 +219,8 @@ public class AddStoreController extends  AddStoreData {
     }
 
     private int getSelectedItemId() {
-        ItemData ItemData = tableView.getSelectionModel().getSelectedItem();
-        return ItemData.getId();
+        ItemData itemData = tableView.getSelectionModel().getSelectedItem();
+        return itemData.getId();
     }
 
     public void setTableViewData() {
