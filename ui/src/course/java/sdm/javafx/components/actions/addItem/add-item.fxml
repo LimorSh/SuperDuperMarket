@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@add-item-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.addItem.AddItemController">
+   <top>
+      <Label id="header-title" text="Add Item" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </top>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <center>
+      <GridPane fx:id="gridPane" vgap="5.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="153.0" minWidth="10.0" prefWidth="101.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="177.0" minWidth="10.0" prefWidth="141.0" />
+          <ColumnConstraints hgrow="NEVER" maxWidth="490.0" minWidth="260.0" prefWidth="359.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="173.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="142.0" minHeight="7.0" prefHeight="35.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="142.0" minHeight="7.0" prefHeight="41.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="142.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="166.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="225.0" minHeight="23.0" prefHeight="60.0" vgrow="ALWAYS" />
+            <RowConstraints maxHeight="225.0" minHeight="42.0" prefHeight="42.0" vgrow="ALWAYS" />
+        </rowConstraints>
+         <children>
+            <Label text="Enter name:" GridPane.rowIndex="1" />
+            <Label text="Enter ID:" />
+            <VBox GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               <children>
+                  <Label fx:id="selectStoresLabel" disable="true" text="Select stores:" />
+               </children>
+            </VBox>
+            <VBox GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5">
+               <children>
+                  <HBox prefHeight="27.0" prefWidth="443.0" spacing="3.0">
+                     <children>
+                        <Label fx:id="enterPriceLabel" disable="true" prefHeight="24.0" prefWidth="69.0" text="Enter price:" />
+                        <TextField fx:id="priceTextField" disable="true" />
+                        <Button fx:id="addItemToStoreButton" disable="true" minWidth="89.0" mnemonicParsing="false" onAction="#addItemToStoreButtonAction" prefHeight="25.0" prefWidth="135.0" text="Add Item To Store">
+                           <HBox.margin>
+                              <Insets left="140.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label fx:id="priceMsgLabel">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <TableView id="table-view" fx:id="tableView" disable="true" prefHeight="210.0" prefWidth="483.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
+               <columns>
+                  <TableColumn fx:id="storeIdCol" prefWidth="77.0" text="Store ID" />
+                  <TableColumn fx:id="nameCol" prefWidth="193.0" text="Name" />
+                  <TableColumn fx:id="ppkCol" prefWidth="116.0" text="PPK" />
+                  <TableColumn fx:id="locationCol" prefWidth="113.0" text="Location" />
+               </columns>
+            </TableView>
+            <TextField fx:id="idTextField" prefHeight="25.0" prefWidth="117.0" GridPane.columnIndex="1" />
+            <TextField fx:id="nameTextField" prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <HBox alignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="6">
+               <children>
+                  <Button fx:id="confirmButton" disable="true" mnemonicParsing="false" onAction="#confirmButtonAction" prefHeight="25.0" prefWidth="81.0" text="Confirn" />
+               </children>
+            </HBox>
+            <HBox GridPane.columnIndex="2" GridPane.rowIndex="6">
+               <children>
+                  <Label fx:id="confirmMsgLabel" style="-fx-text-fill: blue;" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+               </children>
+            </HBox>
+            <Label fx:id="idMsgLabel" style="-fx-text-fill: red;" GridPane.columnIndex="2">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="nameMsgLabel" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Button fx:id="setNewItemInfoButton" mnemonicParsing="false" onAction="#setNewItemInfoButtonAction" prefHeight="25.0" prefWidth="142.0" text="Set New Item Info" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="itemInfoMsgLabel" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <RadioButton fx:id="perUnitRadioButton" mnemonicParsing="false" text="Per Unit" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <RadioButton fx:id="perWeightRadioButton" mnemonicParsing="false" text="Per Weight" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label text="Choose purchase category:" wrapText="true" GridPane.rowIndex="2" />
+         </children>
+         <BorderPane.margin>
+            <Insets top="3.0" />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+         </padding>
+      </GridPane>
+   </center>
+</BorderPane>

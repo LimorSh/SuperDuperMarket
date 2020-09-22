@@ -1,0 +1,34 @@
+#hbox {
+    -fx-background-color: #fdaefd;
+}
+
+#vbox {
+    -fx-background-color: #ffdbff;
+}
+
+#data-label {
+    -fx-font-size: 20px;
+    -fx-font-family: Arial;
+    -fx-font-weight: bold;
+}
+
+.data-button {
+    -fx-alignment: top-left;
+    -fx-background-color: transparent;
+    -fx-font-size: 13px;
+}
+
+.data-button-selected {
+    -fx-alignment: top-left;
+    -fx-background-color: transparent;
+    -fx-font-size: 13px;
+    -fx-pref-width: 130px;
+    -fx-font-weight: bold;
+}
+
+.action-button {
+    -fx-background-color: white;
+    -fx-font-weight: bold;
+    -fx-pref-width: 90;
+}
+

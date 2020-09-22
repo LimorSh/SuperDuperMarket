@@ -2,7 +2,7 @@ package course.java.sdm.javafx.components.actions.updateItem;
 
 import course.java.sdm.engine.dto.ItemWithPriceDto;
 import course.java.sdm.engine.dto.StoreDto;
-import course.java.sdm.javafx.components.actions.info.StoreInfo;
+import course.java.sdm.javafx.components.info.StoreInfo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Collection;

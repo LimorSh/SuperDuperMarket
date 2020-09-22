@@ -89,11 +89,16 @@ public class Discount {
         return offers.containsKey(itemId);
     }
 
-    public boolean isGreaterOrEqualToStoreItemQuantity(double storeItemQuantity) {
-        return (storeItemQuantity >= this.storeItemQuantity);
+    @Override
+    public String toString() {
+        return "Discount{" +
+                "name='" + name + '\'' +
+                ", storeItemId=" + storeItemId +
+                ", storeItemQuantity=" + storeItemQuantity +
+                ", category=" + category +
+                ", offers=" + offers +
+                '}';
     }
-
-
 
     @Override
     public boolean equals(Object o) {

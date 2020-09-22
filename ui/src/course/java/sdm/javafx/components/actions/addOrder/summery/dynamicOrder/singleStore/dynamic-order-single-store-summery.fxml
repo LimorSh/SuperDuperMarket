@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.addOrder.summery.dynamicOrder.singleStore.DynamicOrderSingleStoreSummeryController">
+   <top>
+      <Label fx:id="nameLabel" text="Label" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets bottom="10.0" />
+         </BorderPane.margin>
+      </Label>
+   </top>
+   <center>
+      <VBox prefWidth="720.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="27.0" prefWidth="722.0" spacing="20.0">
+               <children>
+                  <Label text="Distance:" />
+                  <Label fx:id="distanceValueLabel" minWidth="60.0" />
+                  <Label text="Delivery Cost:" />
+                  <Label fx:id="deliveryCostValueLabel" minWidth="60.0" />
+                  <Label text="Number Of Purchased Items:" />
+                  <Label fx:id="numberOfPurchasedItemsValueLabel" minWidth="40.0" />
+                  <Label text="Total Items Cost:" />
+                  <Label fx:id="totalItemsCostValueLabel" />
+               </children>
+            </HBox>
+            <HBox prefHeight="27.0" prefWidth="722.0" spacing="25.0">
+               <children>
+                  <Label text="ID:" />
+                  <Label fx:id="idValueLabel" minWidth="83.0" />
+                  <Label text="Location:" />
+                  <Label fx:id="locationValueLabel" minWidth="75.0" />
+                  <Label text="ppk:" />
+                  <Label fx:id="ppkValueLabel" />
+               </children>
+            </HBox>
+            <Separator />
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

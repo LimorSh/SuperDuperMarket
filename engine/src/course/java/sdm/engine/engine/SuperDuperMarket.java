@@ -98,6 +98,17 @@ public class SuperDuperMarket {
         }
     }
 
+    public void addStore(int id, String name, int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
+        Location location = new Location(locationX, locationY);
+        Store store = new Store(id, name, ppk, location);
+        addStore(store);
+
+        itemIdsAndPrices.forEach((itemId, price) -> {
+            Item item = getItem(itemId);
+            store.addItem(item, price);
+        });
+    }
+
     private void validateLocation(Object object, Location location) {
         if (isLocationAlreadyExists(location)) {
             Object existentObject = getObjectByLocation(location);
@@ -145,6 +156,12 @@ public class SuperDuperMarket {
             Item existentItem = getItem(id);
             throw new DuplicateElementIdException(item, existentItem);
         }
+    }
+
+    public void addItem(int itemId, String itemName, String purchasedCategory) {
+        Item.PurchaseCategory purchaseCategory = Item.convertStringToPurchaseCategory(purchasedCategory);
+        Item item = new Item(itemId, itemName, purchaseCategory);
+        addItem(item);
     }
 
     public void addOrder(Order order) {
@@ -204,28 +221,42 @@ public class SuperDuperMarket {
         addItemToStore(itemId, itemPrice, store);
     }
 
+    public void addItem(int itemId, String itemName, String purchasedCategory,
+                                Map<Integer, Float> storeIdsAndPrices) {
+        addItem(itemId, itemName, purchasedCategory);
+        storeIdsAndPrices.forEach((storeId, itemPrice) -> {
+            addItemToStore(itemId, itemPrice, storeId);
+        });
+    }
+
     public void addDiscountToStore(Discount discount, Store store) {
         validateDiscount(discount, store);
         store.addDiscount(discount);
     }
 
-    private void validateItemIsInSuperAndStore(int itemId, Store store) {
+    public void validateItemIsInSuperAndStore(int itemId, Store store, String discountName) {
         if (!isItemExists(itemId)) {
-            throw new ItemDoesNotExistInTheSuperException(itemId);
+            String msg = String.format("The discount '%s' is not valid: " +
+                    "item ID %d does not exist in the super market.", discountName, itemId);
+            throw new IllegalArgumentException(msg);
         }
         if (!isItemInTheStore(store.getId(), itemId)) {
             String itemName = getItemName(itemId);
-            throw new ItemDoesNotExistInTheStoreException(store.getName(), itemName, itemId);
+            String msg = String.format("The discount '%s' is not valid: " +
+                            "The item %s (ID %d) does not exist in the store %s.",
+                    discountName,itemName, itemId, store.getName());
+            throw new IllegalArgumentException(msg);
         }
     }
 
     private void validateDiscount(Discount discount, Store store) {
         int discountItemId = discount.getStoreItemId();
-        validateItemIsInSuperAndStore(discountItemId, store);
+        String discountName = discount.getName();
+        validateItemIsInSuperAndStore(discountItemId, store, discountName);
 
         for (Offer offer : discount.getOffers()) {
             int offerItemId = offer.getItem().getId();
-            validateItemIsInSuperAndStore(offerItemId, store);
+            validateItemIsInSuperAndStore(offerItemId, store, discountName);
         }
     }
 
@@ -355,6 +386,7 @@ public class SuperDuperMarket {
 
         storesToItemsAndQuantities.forEach((store,itemsAndQuantities) -> {
             DynamicOrderStoreData dynamicOrderStoreData = new DynamicOrderStoreData(store, itemsAndQuantities);
+            dynamicOrderStoresData.add(dynamicOrderStoreData);
             Map<String, ArrayList<Offer>> appliedOffersInStore = new HashMap<>();
 
             appliedOffers.forEach((discountName, offers) -> {
@@ -409,5 +441,8 @@ public class SuperDuperMarket {
     }
 
 
-
+    public boolean isDiscountInStore(int storeId, String discountName) {
+        Store store = getStore(storeId);
+        return store.isDiscountExist(discountName);
+    }
 }

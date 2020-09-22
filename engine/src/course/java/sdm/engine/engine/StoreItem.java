@@ -40,15 +40,6 @@ public class StoreItem extends Item{
         this.totalSold += quantity;
     }
 
-    public Collection<Discount> getRelevantDiscounts(double purchasedQuantity) {
-
-        //didn't check this:
-        return discounts.stream()
-                .filter (discount ->
-                        discount.isGreaterOrEqualToStoreItemQuantity(purchasedQuantity))
-                .collect(Collectors.toList());
-    }
-
     public boolean hasDiscounts() {
         return !discounts.isEmpty();
     }

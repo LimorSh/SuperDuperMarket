@@ -6,9 +6,10 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" stylesheets="@orders-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.orders.OrdersController">
+
+<ScrollPane fitToHeight="true" fitToWidth="true" maxWidth="703.0" prefHeight="482.0" prefWidth="703.0" stylesheets="@orders-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.orders.OrdersController">
    <content>
-      <FlowPane fx:id="flowPane" hgap="7.0" prefHeight="500.0" prefWidth="750.0" vgap="7.0">
+      <FlowPane fx:id="flowPane" hgap="7.0" maxWidth="700.0" prefHeight="480.0" prefWidth="700.0" vgap="7.0">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>

@@ -28,7 +28,6 @@ public class Order {
     private final Map<Integer, StoreOrder> storesOrder;     //The key is store id
     private float itemsCost;
     private float deliveryCost;
-    private int totalItems;
     private final OrderCategory orderCategory;
 
     public Order(Customer customer, Date date, String orderCategory) {
@@ -79,8 +78,8 @@ public class Order {
         return (itemsCost + deliveryCost);
     }
 
-    public int getTotalItems() {
-        return totalItems;
+    public static void initNumOrders() {
+        numOrders = 1;
     }
 
     public boolean isItemInTheOrder(int id) {
@@ -128,18 +127,14 @@ public class Order {
         });
 
         StoreOrder storeOrder = new StoreOrder(date, store, orderLines);
-        storeOrder.SetValues(customer.getLocation());
-        storeOrder.setAppliedOffers(appliedOffers);
+        storeOrder.SetValues(customer.getLocation(), appliedOffers);
         storesOrder.put(store.getId(), storeOrder);
-        setValues();
+        setValues(storeOrder);
     }
 
-    private void setValues() {
-        for (StoreOrder storeOrder : this.storesOrder.values()) {
-            itemsCost += storeOrder.getItemsCost();
-            deliveryCost += storeOrder.getDeliveryCost();
-            totalItems += storeOrder.getTotalItems();
-        }
+    private void setValues(StoreOrder storeOrder) {
+        itemsCost += storeOrder.getItemsCost();
+        deliveryCost += storeOrder.getDeliveryCost();
     }
 
     public void addStoresOrder(Collection<DynamicOrderStoreData> dynamicOrderStoresData) {
@@ -170,7 +165,6 @@ public class Order {
                 ", storesOrder=" + storesOrder +
                 ", itemsCost=" + itemsCost +
                 ", deliveryCost=" + deliveryCost +
-                ", totalItems=" + totalItems +
                 '}';
     }
 

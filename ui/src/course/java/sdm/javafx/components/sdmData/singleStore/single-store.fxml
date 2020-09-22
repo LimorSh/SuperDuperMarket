@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="495.0" prefWidth="895.0" stylesheets="@single-store-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.singleStore.SingleStoreController">
+<Pane prefHeight="495.0" prefWidth="878.0" stylesheets="@single-store-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.singleStore.SingleStoreController">
    <children>
       <Label fx:id="nameValueLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="291.0" layoutY="14.0" prefHeight="27.0" prefWidth="227.0">
          <font>
@@ -30,13 +30,13 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </HBox>
-      <TableView fx:id="itemsTableView" layoutY="106.0" prefHeight="174.0" prefWidth="404.0">
+      <TableView id="items-table-view" fx:id="itemsTableView" layoutY="106.0" prefHeight="174.0" prefWidth="404.0">
         <columns>
-          <TableColumn fx:id="itemIdCol" prefWidth="43.0" text="ID" />
-          <TableColumn fx:id="itemNameCol" prefWidth="79.0" text="Name" />
+          <TableColumn fx:id="itemIdCol" prefWidth="37.0" text="ID" />
+          <TableColumn fx:id="itemNameCol" prefWidth="92.0" text="Name" />
             <TableColumn fx:id="itemPurchaseCategoryCol" prefWidth="115.0" text="Purchase Category" />
-            <TableColumn fx:id="itemPricePerUnitCol" prefWidth="92.0" text="Price Per Unit" />
-            <TableColumn fx:id="itemTotalSoldCol" editable="false" prefWidth="75.0" text="Total Sells" />
+            <TableColumn fx:id="itemPricePerUnitCol" prefWidth="90.0" text="Price Per Unit" />
+            <TableColumn fx:id="itemTotalSoldCol" editable="false" prefWidth="70.0" text="Total Sells" />
         </columns>
       </TableView>
       <Label layoutX="180.0" layoutY="81.0" styleClass="subtitle-label" text="Items:">
@@ -44,25 +44,25 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="646.0" layoutY="81.0" styleClass="subtitle-label" text="Orders:">
+      <Label layoutX="622.0" layoutY="81.0" styleClass="subtitle-label" text="Orders:">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <TableView fx:id="ordersTableView" layoutX="449.0" layoutY="106.0" prefHeight="174.0" prefWidth="446.0">
+      <TableView id="orders-table-view" fx:id="ordersTableView" layoutX="423.0" layoutY="106.0" prefHeight="174.0" prefWidth="456.0">
          <columns>
             <TableColumn fx:id="orderDateCol" prefWidth="96.0" text="Date" />
             <TableColumn fx:id="orderTotalItemsCol" prefWidth="78.0" text="Total Items" />
             <TableColumn fx:id="orderItemsCostCol" prefWidth="100.0" text="Items Cost" />
-            <TableColumn fx:id="orderDeliveryCostCol" prefWidth="86.0" text="Delivery Cost" />
+            <TableColumn fx:id="orderDeliveryCostCol" prefWidth="96.0" text="Delivery Cost" />
             <TableColumn fx:id="orderTotalCostCol" prefWidth="83.0" text="Total Cost" />
          </columns>
       </TableView>
-      <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="300.0" prefHeight="200.0" prefWidth="895.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="300.0" prefHeight="200.0" prefWidth="878.0">
          <content>
-            <FlowPane fx:id="discountsFlowPane" prefHeight="191.0" prefWidth="888.0" vgap="20.0">
+            <FlowPane fx:id="discountsFlowPane" prefHeight="198.0" prefWidth="876.0" vgap="20.0">
                <children>
-                  <HBox fx:id="discountsHbox" prefHeight="32.0" prefWidth="892.0" spacing="15.0">
+                  <HBox fx:id="discountsHbox" prefHeight="32.0" prefWidth="876.0" spacing="15.0">
                      <children>
                         <Label styleClass="subtitle-label" text="Discounts:">
                            <font>
