@@ -7,15 +7,17 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.net.URL;
+
+import static course.java.sdm.javafx.SuperDuperMarketConstants.BASE_PACKAGE;
 
 public class JavaFxUI extends Application{
     private static final String PRIMARY_STAGE_NAME = "Super Duper Market";
     private static final int SCENE_WIDTH = 1052;
     private static final int SCENE_HEIGHT = 602;
-
 
     public static void main(String[] args) {
         launch(args);
@@ -38,6 +40,7 @@ public class JavaFxUI extends Application{
 
         // set stage
         primaryStage.setTitle(PRIMARY_STAGE_NAME);
+        primaryStage.getIcons().add(new Image(SuperDuperMarketConstants.CART_ICON_IDENTIFIER));
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
         primaryStage.setScene(scene);
         primaryStage.show();

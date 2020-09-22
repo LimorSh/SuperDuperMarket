@@ -6,6 +6,8 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -97,6 +99,39 @@
                      </font></Label>
                </children>
             </VBox>
+            <VBox prefHeight="258.0" prefWidth="43.0" spacing="10.0" GridPane.columnIndex="4" GridPane.rowIndex="5">
+               <children>
+                  <HBox fx:id="newItemImageHbox" alignment="TOP_RIGHT" prefHeight="95.0">
+                     <children>
+                        <ImageView fx:id="newItemImage" fitHeight="95.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@images/new-icon.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox alignment="BOTTOM_CENTER" prefHeight="210.0" prefWidth="152.0">
+                     <children>
+                        <ImageView fx:id="cartImage" fitHeight="210.0" fitWidth="157.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@images/cart-icon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" GridPane.columnIndex="4" GridPane.rowIndex="4">
+               <children>
+                  <Button fx:id="stopAnimationButton" disable="true" mnemonicParsing="false" onAction="#stopAnimationButtonAction" text="Stop Animation" visible="false" />
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
@@ -111,6 +146,9 @@
          <children>
             <Button fx:id="finishButton" disable="true" minWidth="101.0" mnemonicParsing="false" onAction="#finishButtonAction" prefHeight="25.0" prefWidth="101.0" text="Finish Shopping" />
          </children>
+         <BorderPane.margin>
+            <Insets top="5.0" />
+         </BorderPane.margin>
       </HBox>
    </bottom>
 </BorderPane>

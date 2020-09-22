@@ -32,7 +32,7 @@ public class StoreItemsController extends StoreItemsData {
     @FXML private Label quantityLabel;
     @FXML private Label msgLabel;
 
-    private AddOrderController orderController;
+    private AddOrderController addOrderController;
 
     @FXML
     private void initialize() {
@@ -46,7 +46,7 @@ public class StoreItemsController extends StoreItemsData {
     @FXML
     void addItemButtonAction(ActionEvent event) {
         if (isItemsIdsAndQuantitiesEmpty()) {
-            orderController.setFinishButton(false);
+            addOrderController.setFinishButton(false);
         }
 
         StoreItemData storeItemData = tableView.getSelectionModel().getSelectedItem();
@@ -65,7 +65,7 @@ public class StoreItemsController extends StoreItemsData {
             return;
         }
 
-        if (orderController.isStaticOrder()) {
+        if (addOrderController.isStaticOrder()) {
             try {
                 validateItemIsInTheStoreForStaticOrder(itemId);
             }
@@ -78,15 +78,18 @@ public class StoreItemsController extends StoreItemsData {
         msgLabel.setText("");
         updateItemsAndQuantities(itemId, quantity);
         setDataForStaticOrder(itemId, quantity);
+        if (activateAnimation) {
+            addOrderController.startAddItemToCartAnimation();
+        }
     }
 
     private void validateItemIsInTheStoreForStaticOrder(int itemId) {
-        businessLogic.validateItemIdExistsInStore(orderController.getSelectedStoreId(), itemId);
+        businessLogic.validateItemIdExistsInStore(addOrderController.getSelectedStoreId(), itemId);
     }
 
     private void setDataForStaticOrder(int storeItemId, float quantity) {
-        if (orderController.isStaticOrder()) {
-            int storeId = orderController.getSelectedStoreId();
+        if (addOrderController.isStaticOrder()) {
+            int storeId = addOrderController.getSelectedStoreId();
             float price = businessLogic.getItemPriceInStoreByIds(storeId, storeItemId);
 
             float cost = quantity * price;
@@ -146,7 +149,7 @@ public class StoreItemsController extends StoreItemsData {
         tableView.setItems(data);
     }
 
-    public void setOrderController(AddOrderController orderController) {
-        this.orderController = orderController;
+    public void setAddOrderController(AddOrderController addOrderController) {
+        this.addOrderController = addOrderController;
     }
 }

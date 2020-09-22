@@ -8,6 +8,8 @@ import course.java.sdm.javafx.components.actions.addOrder.storeItems.StoreItemsC
 import course.java.sdm.javafx.components.actions.addOrder.summery.singleStore.OrderSummerySingleStoreInfo;
 import course.java.sdm.javafx.components.actions.addOrder.summery.singleStore.OrderSummerySingleStoreItemInfo;
 import course.java.sdm.javafx.components.main.controller.SuperDuperMarketController;
+import javafx.animation.Animation;
+import javafx.animation.PathTransition;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +17,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.HLineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.VLineTo;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -39,6 +49,11 @@ public class AddOrderController extends AddOrderData {
     @FXML private Label deliveryCostFieldLabel;
     @FXML private Label deliveryCostValueLabel;
     @FXML private Label selectItemsLabel;
+
+    @FXML private HBox newItemImageHbox;
+    @FXML private Button stopAnimationButton;
+    @FXML private ImageView newItemImage;
+    @FXML private ImageView cartImage;
 
     private final Collection<Node> storeItemsNodes;
     private final ToggleGroup orderTypeRadioButtonsGroup;
@@ -80,6 +95,14 @@ public class AddOrderController extends AddOrderData {
         int customerId = getSelectedCustomerId();
         setDeliveryCost(storeId, customerId);
         chooseItems(storeId);
+    }
+
+    @FXML
+    void stopAnimationButtonAction(ActionEvent event) {
+        storeItemsController.setActivateAnimation(false);
+        newItemImage.setVisible(false);
+        cartImage.setVisible(false);
+        stopAnimationButton.setDisable(true);
     }
 
     @FXML
@@ -298,11 +321,26 @@ public class AddOrderController extends AddOrderData {
     }
 
     public void setStoreItemsController(StoreItemsController storeItemsController) {
-        storeItemsController.setOrderController(this);
+        storeItemsController.setAddOrderController(this);
         this.storeItemsController = storeItemsController;
     }
 
     public void setSuperDuperMarketController(SuperDuperMarketController superDuperMarketController) {
         this.superDuperMarketController = superDuperMarketController;
+    }
+
+    public void startAddItemToCartAnimation() {
+        newItemImage.setVisible(true);
+        cartImage.setVisible(true);
+        stopAnimationButton.setVisible(true);
+        stopAnimationButton.setDisable(false);
+
+        Path path = new Path();
+        path.getElements().addAll(new MoveTo(50, 50), new VLineTo(200));
+        path.setStroke(Color.TRANSPARENT);
+        newItemImageHbox.getChildren().add(path);
+
+        PathTransition pt = new PathTransition(Duration.millis(1700), path, newItemImage);
+        pt.play();
     }
 }

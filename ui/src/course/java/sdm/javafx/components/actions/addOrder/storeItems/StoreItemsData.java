@@ -12,10 +12,12 @@ public class StoreItemsData {
     protected float itemsCost;
     protected static final int PRICE_COLUMN_INDEX = 3;
     protected static final String INVALID_QUANTITY_INPUT_MSG = "Invalid quantity: The quantity should be a number.";
+    protected boolean activateAnimation;
 
     public StoreItemsData() {
         itemsIdsAndQuantities = new HashMap<>();
         itemsCost = 0;
+        activateAnimation = true;
     }
 
     protected void updateItemsAndQuantities(int itemId, float quantity) {
@@ -31,6 +33,10 @@ public class StoreItemsData {
 
     public void setBusinessLogic(BusinessLogic businessLogic) {
         this.businessLogic = businessLogic;
+    }
+
+    public void setActivateAnimation(boolean activateAnimation) {
+        this.activateAnimation = activateAnimation;
     }
 
     public float getItemsCost() {
