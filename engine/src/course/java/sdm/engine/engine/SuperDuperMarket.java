@@ -234,23 +234,29 @@ public class SuperDuperMarket {
         store.addDiscount(discount);
     }
 
-    private void validateItemIsInSuperAndStore(int itemId, Store store) {
+    public void validateItemIsInSuperAndStore(int itemId, Store store, String discountName) {
         if (!isItemExists(itemId)) {
-            throw new ItemDoesNotExistInTheSuperException(itemId);
+            String msg = String.format("The discount '%s' is not valid: " +
+                    "item ID %d does not exist in the super market.", discountName, itemId);
+            throw new IllegalArgumentException(msg);
         }
         if (!isItemInTheStore(store.getId(), itemId)) {
             String itemName = getItemName(itemId);
-            throw new ItemDoesNotExistInTheStoreException(store.getName(), itemName, itemId);
+            String msg = String.format("The discount '%s' is not valid: " +
+                            "The item %s (ID %d) does not exist in the store %s.",
+                    discountName,itemName, itemId, store.getName());
+            throw new IllegalArgumentException(msg);
         }
     }
 
     private void validateDiscount(Discount discount, Store store) {
         int discountItemId = discount.getStoreItemId();
-        validateItemIsInSuperAndStore(discountItemId, store);
+        String discountName = discount.getName();
+        validateItemIsInSuperAndStore(discountItemId, store, discountName);
 
         for (Offer offer : discount.getOffers()) {
             int offerItemId = offer.getItem().getId();
-            validateItemIsInSuperAndStore(offerItemId, store);
+            validateItemIsInSuperAndStore(offerItemId, store, discountName);
         }
     }
 
