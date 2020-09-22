@@ -78,6 +78,10 @@ public class Order {
         return (itemsCost + deliveryCost);
     }
 
+    public static void initNumOrders() {
+        numOrders = 1;
+    }
+
     public boolean isItemInTheOrder(int id) {
         for (StoreOrder storeOrder : storesOrder.values()) {
             if (storeOrder.isContainItem(id)) {

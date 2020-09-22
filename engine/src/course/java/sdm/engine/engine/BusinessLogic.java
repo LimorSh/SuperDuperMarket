@@ -13,6 +13,7 @@ public class BusinessLogic {
 
     public void loadSystemData(String dataPath) throws JAXBException, FileNotFoundException {
         superDuperMarket = DataLoader.loadFromXmlFile(dataPath);
+        Order.initNumOrders();
     }
 
     public Collection<StoreDto> getStoresDto() {
