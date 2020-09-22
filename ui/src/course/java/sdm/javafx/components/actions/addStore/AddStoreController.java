@@ -74,9 +74,14 @@ public class AddStoreController extends  AddStoreData {
             isAllInfoValid = false;
             idMsgLabel.setText(e.getMessage());
         }
-
-        name = nameTextField.getText();
-
+        try {
+            name = getEnteredName();
+            nameMsgLabel.setText("");
+        }
+        catch(Exception e) {
+            isAllInfoValid = false;
+            nameMsgLabel.setText(e.getMessage());
+        }
         try {
             locationX = getEnteredLocationCoordinate(locationXTextField);
             locationXMsgLabel.setText("");
@@ -179,6 +184,14 @@ public class AddStoreController extends  AddStoreData {
         catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
         }
+    }
+
+    private String getEnteredName() {
+        String name = nameTextField.getText();
+        if (name.equals("") || name.chars().allMatch(Character::isWhitespace)) {
+            throw new IllegalArgumentException(NAME_MSG_LABEL_TEXT);
+        }
+        return name;
     }
 
     private int getEnteredLocationCoordinate(TextField textField) {

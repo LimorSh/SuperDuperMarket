@@ -11,6 +11,7 @@ public class AddItemData {
 
     protected static final String ITEM_PRICE_MSG_LABEL_TEXT = "A price should be a decimal number.";
     protected static final String ID_MSG_LABEL_TEXT = "An ID should be an integer number.";
+    protected static final String NAME_MSG_LABEL_TEXT = "A name should have at least one English letter.";
     protected static final String EMPTY_PURCHASE_CATEGORY_LABEL_TEXT = "You must choose purchase category.";
 
     protected int itemId;

@@ -11,6 +11,7 @@ public class AddStoreData {
 
     protected static final String ITEM_PRICE_MSG_LABEL_TEXT = "A price should be a decimal number.";
     protected static final String ID_MSG_LABEL_TEXT = "An ID should be an integer number.";
+    protected static final String NAME_MSG_LABEL_TEXT = "A name should have at least one English letter.";
     protected static final String LOCATION_COORDINATE_MSG_LABEL_TEXT = "A coordinate value should be an integer number.";
     protected static final String PPK_MSG_LABEL_TEXT = "A PPK should be an integer number.";
 
