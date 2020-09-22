@@ -16,7 +16,8 @@ public class SuperDuperMarketConstants {
 
     private static final String BASE_PACKAGE = "/course/java/sdm/javafx";
 
-    public static final String MAIN_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/main/super-duper-market.fxml";
+    // main controller
+    public static final String MAIN_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/main/controller/super-duper-market.fxml";
 
     // show data
     private static final String SINGLE_ITEM_FXML_RESOURCE_IDENTIFIER = BASE_PACKAGE + "/components/sdmData/singleItem/single-item.fxml";

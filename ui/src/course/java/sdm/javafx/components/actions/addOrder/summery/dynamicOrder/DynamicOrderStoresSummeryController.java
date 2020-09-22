@@ -4,7 +4,7 @@ import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.addOrder.summery.dynamicOrder.singleStore.DynamicOrderSingleStoreSummeryController;
 import course.java.sdm.javafx.components.actions.addOrder.summery.dynamicOrder.singleStore.DynamicOrderStoresData;
 import course.java.sdm.javafx.components.actions.addOrder.summery.singleStore.OrderSummerySingleStoreInfo;
-import course.java.sdm.javafx.components.main.SuperDuperMarketController;
+import course.java.sdm.javafx.components.main.controller.SuperDuperMarketController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -4,7 +4,7 @@ import course.java.sdm.engine.dto.DiscountDto;
 import course.java.sdm.engine.dto.StoreItemDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.actions.addOrder.discounts.singleDiscount.SingleDiscountController;
-import course.java.sdm.javafx.components.main.SuperDuperMarketController;
+import course.java.sdm.javafx.components.main.controller.SuperDuperMarketController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

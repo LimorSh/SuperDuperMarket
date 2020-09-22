@@ -1,12 +1,12 @@
-package course.java.sdm.javafx;
+package course.java.sdm.javafx.components.main;
 
 import course.java.sdm.engine.engine.BusinessLogic;
-import course.java.sdm.javafx.components.main.SuperDuperMarketController;
+import course.java.sdm.javafx.SuperDuperMarketConstants;
+import course.java.sdm.javafx.components.main.controller.SuperDuperMarketController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.net.URL;

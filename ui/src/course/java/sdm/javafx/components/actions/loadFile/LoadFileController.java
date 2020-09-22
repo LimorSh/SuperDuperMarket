@@ -1,6 +1,6 @@
 package course.java.sdm.javafx.components.actions.loadFile;
 
-import course.java.sdm.javafx.components.main.SuperDuperMarketController;
+import course.java.sdm.javafx.components.main.controller.SuperDuperMarketController;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;

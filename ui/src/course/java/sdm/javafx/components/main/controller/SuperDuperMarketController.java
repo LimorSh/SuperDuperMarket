@@ -1,7 +1,6 @@
-package course.java.sdm.javafx.components.main;
+package course.java.sdm.javafx.components.main.controller;
 
 import course.java.sdm.engine.dto.*;
-import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.javafx.components.actions.addItem.AddItemController;
 import course.java.sdm.javafx.components.actions.addStore.AddStoreController;
 import course.java.sdm.javafx.components.actions.loadFile.task.TaskLogic;
@@ -19,7 +18,6 @@ import course.java.sdm.javafx.components.sdmData.locationMap.LocationMapControll
 import course.java.sdm.javafx.components.sdmData.orders.OrdersController;
 import course.java.sdm.javafx.components.sdmData.stores.StoresController;
 import course.java.sdm.javafx.dto.UIOrderDto;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,9 +33,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-public class SuperDuperMarketController {
+public class SuperDuperMarketController extends SuperDuperMarketData{
 
-    private BusinessLogic businessLogic;
     private Stage primaryStage;
 
     @FXML private BorderPane superDuperMarketBorderPane;
@@ -53,27 +50,13 @@ public class SuperDuperMarketController {
     @FXML private Button addItemButton;
     @FXML private Label titleVBox;
 
-    private SimpleBooleanProperty isFileSelected;
-
     private LoadFileController loadFileController;
     private  Node loadFile;
 
     private static final String SELECTED_DATA_BUTTON_CSS_CLASS = "data-button-selected";
 
-    public SuperDuperMarketController() {
-        isFileSelected = new SimpleBooleanProperty(SuperDuperMarketConstants.INIT_BOOLEAN);
-    }
-
-    public boolean getIsFileSelected() {
-        return isFileSelected.get();
-    }
-
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
-    }
-
-    public void setBusinessLogic(BusinessLogic businessLogic) {
-        this.businessLogic = businessLogic;
     }
 
     @FXML
