@@ -136,6 +136,7 @@ public class LocationMapController extends LocationMapData {
             gridPane.getRowConstraints().add(row);
         }
         Label cornerTitleLabel = new Label(LOCATION_MAP_CORNER_TITLE);
+        cornerTitleLabel.setId("corner-title-label");
         gridPane.add(cornerTitleLabel, 0, 0);
         GridPane.setHalignment(cornerTitleLabel, HPos.CENTER);
         for (int i = 0; i < numberOfRows; i++) {
@@ -153,6 +154,8 @@ public class LocationMapController extends LocationMapData {
     private void addTitleToLocationMapGridPane(int titleNumber, int column, int row) {
         String str = String.format("%d", titleNumber);
         Label titleLabel = new Label(str);
+        titleLabel.getStyleClass().add("title-label");
+//        titleLabel.setId("title-label");
         gridPane.add(titleLabel, column, row);
         GridPane.setHalignment(titleLabel, HPos.CENTER);
     }

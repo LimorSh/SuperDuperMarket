@@ -13,7 +13,7 @@
    <content>
       <BorderPane fx:id="superDuperMarketBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1050.0" stylesheets="@super-duper-market-style.css">
          <left>
-            <VBox prefHeight="530.0" prefWidth="135.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <VBox id="vbox" prefHeight="530.0" prefWidth="135.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
                   <Label id="data-label" fx:id="titleVBox" disable="true" layoutX="50.0" text="Data">
                      <VBox.margin>
@@ -55,13 +55,13 @@
             </VBox>
          </left>
          <top>
-            <HBox id="h-box" alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
+            <HBox id="hbox" alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="loadFileButton" mnemonicParsing="false" onAction="#loadFileButtonAction" prefWidth="85.0" text="Load File" />
-                  <Button fx:id="addOrderButton" mnemonicParsing="false" onAction="#addOrderButtonAction" prefWidth="85.0" text="Add Order" />
-                  <Button fx:id="updateItemButton" mnemonicParsing="false" onAction="#updateItemButtonAction" prefWidth="85.0" text="Update Item" />
-                  <Button fx:id="addStoreButton" mnemonicParsing="false" onAction="#addStoreButtonAction" prefWidth="85.0" text="Add Store" />
-                  <Button fx:id="addItemButton" mnemonicParsing="false" onAction="#addItemButtonAction" prefWidth="85.0" text="Add Item" />
+                  <Button fx:id="loadFileButton" mnemonicParsing="false" onAction="#loadFileButtonAction" prefWidth="85.0" styleClass="action-button" text="Load File" />
+                  <Button fx:id="addOrderButton" mnemonicParsing="false" onAction="#addOrderButtonAction" prefWidth="85.0" styleClass="action-button" text="Add Order" />
+                  <Button fx:id="updateItemButton" mnemonicParsing="false" onAction="#updateItemButtonAction" prefWidth="85.0" styleClass="action-button" text="Update Item" />
+                  <Button fx:id="addStoreButton" mnemonicParsing="false" onAction="#addStoreButtonAction" prefWidth="85.0" styleClass="action-button" text="Add Store" />
+                  <Button fx:id="addItemButton" mnemonicParsing="false" onAction="#addItemButtonAction" prefWidth="85.0" styleClass="action-button" text="Add Item" />
                </children>
                <opaqueInsets>
                   <Insets />
