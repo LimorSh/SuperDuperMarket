@@ -4,6 +4,7 @@ import course.java.sdm.javafx.components.main.controller.SuperDuperMarketControl
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
@@ -16,6 +17,7 @@ public class LoadFileController extends LoadFileData{
     @FXML private Label taskMessageLabel;
     @FXML private Label msgLabel;
     @FXML private Label FinalMsgLabel;
+    @FXML private Button collectMetadataButton;
 
     private SuperDuperMarketController superDuperMarketController;
 
@@ -62,6 +64,9 @@ public class LoadFileController extends LoadFileData{
         catch (Exception e) {
             boolean firstTime = !superDuperMarketController.getIsFileSelected();
             showMsg(false, firstTime, e.getMessage());
+        }
+        finally {
+            collectMetadataButton.setDisable(true);
         }
     }
 

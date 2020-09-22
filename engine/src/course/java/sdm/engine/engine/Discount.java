@@ -90,6 +90,17 @@ public class Discount {
     }
 
     @Override
+    public String toString() {
+        return "Discount{" +
+                "name='" + name + '\'' +
+                ", storeItemId=" + storeItemId +
+                ", storeItemQuantity=" + storeItemQuantity +
+                ", category=" + category +
+                ", offers=" + offers +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

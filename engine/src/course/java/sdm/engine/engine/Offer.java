@@ -36,6 +36,16 @@ public class Offer {
     }
 
     @Override
+    public String toString() {
+        return "Offer{" +
+                "item=" + item +
+                ", quantity=" + quantity +
+                ", additionalPrice=" + additionalPrice +
+                ", totalCost=" + totalCost +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
