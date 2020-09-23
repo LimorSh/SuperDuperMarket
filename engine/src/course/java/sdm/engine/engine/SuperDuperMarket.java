@@ -308,13 +308,20 @@ public class SuperDuperMarket {
     }
 
     public void deleteItemFromStore(int storeItemId, int storeId) {
-        if (getNumberOfStoresSellingTheItem(storeItemId) == 1) {
-            throw new IllegalArgumentException("The item is currently being sold by this store only." +
-                    "\nItem must be sell in at least one store in the super market.");
+        if (isItemExistsInStore(storeId, storeItemId)) {
+            if (getNumberOfStoresSellingTheItem(storeItemId) == 1) {
+                throw new IllegalArgumentException("The item is currently being sold by this store only." +
+                        "\nItem must be sell in at least one store in the super market.");
+            }
+            else {
+                Store store = stores.get(storeId);
+                store.deleteItem(storeItemId);
+            }
         }
         else {
-            Store store = stores.get(storeId);
-            store.deleteItem(storeItemId);
+            Item item = getItem(storeItemId);
+            Store store = getStore(storeId);
+            throw new ItemDoesNotExistInTheStoreException(store.getName(), item.getName(), storeItemId);
         }
     }
 
