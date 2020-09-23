@@ -1,6 +1,5 @@
 package course.java.sdm.javafx.components.sdmData.stores;
 
-import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.engine.dto.StoreDto;
 import course.java.sdm.javafx.SuperDuperMarketConstants;
 import course.java.sdm.javafx.components.info.StoreInfo;
@@ -11,7 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.FlowPane;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,8 +21,10 @@ import java.util.stream.Collectors;
 
 public class StoresController extends StoresData {
 
-    @FXML private ScrollPane scrollPane;
+    @FXML private FlowPane flowPane;
     @FXML private ComboBox<StoreInfo> comboBox;
+
+    private ArrayList<Node> nodes = new ArrayList<>();
 
     @FXML
     void comboBoxAction(ActionEvent event) {
@@ -56,9 +58,12 @@ public class StoresController extends StoresData {
 
     private void createStore(StoreDto storeDto) {
         try {
+            flowPane.getChildren().removeAll(nodes);
+
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SuperDuperMarketConstants.SINGLE_STORE_FXML_RESOURCE);
             Node singleStore = loader.load();
+            nodes.add(singleStore);
 
             SingleStoreController singleStoreController = loader.getController();
             singleStoreController.setStoreDataValues(storeDto);
@@ -66,7 +71,7 @@ public class StoresController extends StoresData {
             singleStoreController.setOrdersTableView(storeDto.getOrdersDto(), storeDto.getId());
             singleStoreController.setDiscountsFlowPane(storeDto);
 
-            scrollPane.setContent(singleStore);
+            flowPane.getChildren().add(singleStore);
         } catch (IOException e) {
             e.printStackTrace();
         }

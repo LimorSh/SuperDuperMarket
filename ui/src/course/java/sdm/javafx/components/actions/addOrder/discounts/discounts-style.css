@@ -2,5 +2,9 @@
     -fx-font-weight: bold;
     -fx-font-family: Georgia;
     -fx-font-size: 24px;
-    -fx-text-fill: #a60dab;
+    -fx-text-fill: #772a77;
+}
+
+#flow-pane {
+    -fx-background-color: #fff4de;
 }

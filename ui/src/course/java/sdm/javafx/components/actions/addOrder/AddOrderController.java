@@ -336,7 +336,7 @@ public class AddOrderController extends AddOrderData {
         stopAnimationButton.setDisable(false);
 
         Path path = new Path();
-        path.getElements().addAll(new MoveTo(50, 50), new VLineTo(200));
+        path.getElements().addAll(new MoveTo(50, 50), new VLineTo(180));
         path.setStroke(Color.TRANSPARENT);
         newItemImageHbox.getChildren().add(path);
 

@@ -17,27 +17,45 @@
                <children>
                   <Label fx:id="nameLabel">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
             <HBox prefHeight="15.0" prefWidth="600.0" spacing="3.0">
                <children>
-                  <Label text="If you buy" />
-                  <Label fx:id="itemDetailsLabel" />
+                  <Label text="If you buy">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label fx:id="itemDetailsLabel">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
                   <Label text="of total quantity">
                      <HBox.margin>
                         <Insets bottom="3.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Label>
-                  <Label fx:id="itemQuantityLabel" />
+                  <Label fx:id="itemQuantityLabel">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Then you get" />
-                  <Label fx:id="categoryLabel" />
+                  <Label text="Then you get">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label fx:id="categoryLabel">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
                </children>
                <VBox.margin>
                   <Insets />
@@ -50,7 +68,7 @@
       </VBox>
    </top>
    <center>
-      <TableView id="table-view" fx:id="tableView" prefHeight="100.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <TableView id="table-view" fx:id="tableView" prefHeight="141.0" prefWidth="598.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="nameCol" prefWidth="147.0" text="Name" />
@@ -58,6 +76,9 @@
             <TableColumn fx:id="quantityCol" prefWidth="90.0" text="Quantity" />
             <TableColumn fx:id="additionalPriceCol" prefWidth="108.0" text="Additional Price" />
         </columns>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
       </TableView>
    </center>
 </BorderPane>

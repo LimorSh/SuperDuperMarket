@@ -10,20 +10,29 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="495.0" prefWidth="878.0" stylesheets="@single-store-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.singleStore.SingleStoreController">
+<Pane prefHeight="495.0" prefWidth="878.0" style="-fx-background-color: #fff4de;" stylesheets="@single-store-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.singleStore.SingleStoreController">
    <children>
-      <Label fx:id="nameValueLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="291.0" layoutY="14.0" prefHeight="27.0" prefWidth="227.0">
+      <Label fx:id="nameValueLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="291.0" layoutY="14.0" prefHeight="27.0" prefWidth="227.0" textFill="#a60dab">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <HBox layoutY="44.0" prefHeight="37.0" prefWidth="726.0" spacing="10.0">
          <children>
-            <Label text="ID:" />
+            <Label text="ID:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
             <Label fx:id="idValueLabel" minWidth="60.0" />
-            <Label text="PPK:" />
+            <Label text="PPK:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
             <Label fx:id="ppkValueLabel" minWidth="60.0" />
-            <Label text="Total delivery revenue:" />
+            <Label text="Total delivery revenue:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
             <Label fx:id="totalDeliveryRevenueValueLabel" minWidth="60.0" />
          </children>
          <padding>
@@ -41,12 +50,12 @@
       </TableView>
       <Label layoutX="180.0" layoutY="81.0" styleClass="subtitle-label" text="Items:">
          <font>
-            <Font size="15.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
       </Label>
       <Label layoutX="622.0" layoutY="81.0" styleClass="subtitle-label" text="Orders:">
          <font>
-            <Font size="15.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
       </Label>
       <TableView id="orders-table-view" fx:id="ordersTableView" layoutX="423.0" layoutY="106.0" prefHeight="174.0" prefWidth="456.0">
@@ -60,13 +69,13 @@
       </TableView>
       <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="300.0" prefHeight="200.0" prefWidth="878.0">
          <content>
-            <FlowPane fx:id="discountsFlowPane" prefHeight="198.0" prefWidth="876.0" vgap="20.0">
+            <FlowPane fx:id="discountsFlowPane" prefHeight="198.0" prefWidth="876.0" style="-fx-background-color: #fff4de;" vgap="20.0">
                <children>
                   <HBox fx:id="discountsHbox" prefHeight="32.0" prefWidth="876.0" spacing="15.0">
                      <children>
                         <Label styleClass="subtitle-label" text="Discounts:">
                            <font>
-                              <Font size="15.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
                         <Label fx:id="noDiscountsLabel" text="There are no discounts in the store.">

@@ -15,12 +15,18 @@
          <font>
             <Font size="24.0" />
          </font>
+         <BorderPane.margin>
+            <Insets bottom="20.0" top="10.0" />
+         </BorderPane.margin>
       </Label>
    </top>
    <bottom>
       <HBox alignment="BOTTOM_RIGHT" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="nextButton" minWidth="80.0" mnemonicParsing="false" onAction="#nextButtonAction" text="Next" />
+            <Button fx:id="nextButton" minWidth="80.0" mnemonicParsing="false" onAction="#nextButtonAction" style="-fx-background-color: #3b10d7;" text="Next" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -30,7 +36,7 @@
    <center>
       <ScrollPane fitToHeight="true" fitToWidth="true" maxWidth="724.0" BorderPane.alignment="CENTER">
          <content>
-            <FlowPane fx:id="flowPane" maxWidth="722.0" prefHeight="353.0" prefWidth="722.0" />
+            <FlowPane fx:id="flowPane" maxWidth="722.0" prefHeight="353.0" prefWidth="722.0" style="-fx-background-color: #fff4de;" />
          </content>
       </ScrollPane>
    </center>

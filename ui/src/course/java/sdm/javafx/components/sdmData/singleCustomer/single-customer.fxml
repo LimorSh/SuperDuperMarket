@@ -6,13 +6,14 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox id="vbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@single-customer-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.singleCustomer.SingleCustomerController">
+<VBox id="vbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="204.0" prefWidth="350.0" stylesheets="@single-customer-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.sdmData.singleCustomer.SingleCustomerController">
     <children>
         <GridPane>
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="124.0" prefWidth="124.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="124.0" prefWidth="173.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="119.0" minWidth="53.0" prefWidth="53.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -23,18 +24,54 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label styleClass="field-label" text="ID:" />
-                <Label fx:id="idValueLabel" styleClass="value-label" GridPane.columnIndex="1" />
-                <Label styleClass="field-label" text="Name:" GridPane.rowIndex="1" />
-                <Label fx:id="nameValueLabel" layoutX="125.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <Label styleClass="field-label" text="Location:" GridPane.rowIndex="2" />
-                <Label fx:id="locationValueLabel" layoutX="125.0" layoutY="47.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <Label styleClass="field-label" text="Number of orders:" GridPane.rowIndex="3" />
-                <Label fx:id="numberOfOrdersValueLabel" layoutX="10.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <Label styleClass="field-label" text="Average items cost:" GridPane.rowIndex="4" />
-                <Label fx:id="averageItemsCostValueLabel" layoutX="10.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <Label styleClass="field-label" text="Average deliveries cost:" GridPane.rowIndex="5" />
-                <Label fx:id="averageDeliveriesCostValueLabel" layoutX="10.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Label styleClass="field-label" text="ID:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+                <Label fx:id="idValueLabel" styleClass="value-label" GridPane.columnIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+                <Label styleClass="field-label" text="Name:" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+                <Label fx:id="nameValueLabel" layoutX="125.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+                <Label styleClass="field-label" text="Location:" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+                <Label fx:id="locationValueLabel" layoutX="125.0" layoutY="47.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+                <Label styleClass="field-label" text="Number of Orders:" GridPane.rowIndex="3">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+                <Label fx:id="numberOfOrdersValueLabel" layoutX="10.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+                <Label styleClass="field-label" text="Average Items Cost:" GridPane.rowIndex="4">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+                <Label fx:id="averageItemsCostValueLabel" layoutX="10.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+                <Label styleClass="field-label" text="Average Deliveries Cost:" GridPane.rowIndex="5">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+                <Label fx:id="averageDeliveriesCostValueLabel" layoutX="10.0" layoutY="17.0" styleClass="value-label" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
             </children>
         </GridPane>
     </children>

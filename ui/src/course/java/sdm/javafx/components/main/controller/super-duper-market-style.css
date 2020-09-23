@@ -1,3 +1,7 @@
+#border-pane {
+    -fx-background-color: #fff4de;
+}
+
 #hbox {
     -fx-background-color: #fdaefd;
 }

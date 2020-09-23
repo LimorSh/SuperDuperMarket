@@ -10,41 +10,44 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxWidth="750.0" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.addOrder.discounts.DiscountsController">
+<BorderPane maxWidth="750.0" prefHeight="500.0" prefWidth="750.0" stylesheets="@discounts-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.addOrder.discounts.DiscountsController">
    <center>
       <ScrollPane fitToHeight="true" fitToWidth="true" maxWidth="621.0" stylesheets="@discounts-style.css">
          <content>
-            <FlowPane fx:id="flowPane" prefWidth="618.0" vgap="20.0" />
+            <FlowPane id="flow-pane" fx:id="flowPane" prefWidth="618.0" vgap="20.0" />
          </content>
       </ScrollPane>
    </center>
    <top>
       <VBox alignment="CENTER" maxWidth="750.0" prefHeight="66.0" prefWidth="750.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Special Offers!" textFill="#a60dab">
+            <Label id="header-title" text="Special Offers!" textFill="#a60dab">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
             <Label text="You can get the following discounts:">
                <font>
-                  <Font size="17.0" />
+                  <Font name="System Bold" size="17.0" />
                </font>
             </Label>
          </children>
       </VBox>
    </top>
    <bottom>
-      <HBox alignment="CENTER_RIGHT" maxWidth="750.0" prefHeight="41.0" prefWidth="750.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_RIGHT" maxWidth="750.0" prefHeight="41.0" prefWidth="698.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextButtonAction" prefHeight="25.0" prefWidth="114.0" text="Next">
+            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextButtonAction" prefHeight="25.0" prefWidth="114.0" style="-fx-background-color: #3b10d7;" text="Next" textFill="WHITE">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
             </Button>
          </children>
          <BorderPane.margin>
-            <Insets right="72.0" />
+            <Insets right="65.0" />
          </BorderPane.margin>
       </HBox>
    </bottom>

@@ -11,8 +11,8 @@ public class SuperDuperMarketConstants {
     public static final boolean INIT_BOOLEAN = false;
     public static final int NO_STORE_ID = -1;
 
-    public static final String STATIC_ORDER_CATEGORY = "one store";
-    public static final String DYNAMIC_ORDER_CATEGORY = "best cart";
+    public static final String STATIC_ORDER_CATEGORY = "One Store";
+    public static final String DYNAMIC_ORDER_CATEGORY = "Best Cart";
 
     public static final String BASE_PACKAGE = "/course/java/sdm/javafx";
 

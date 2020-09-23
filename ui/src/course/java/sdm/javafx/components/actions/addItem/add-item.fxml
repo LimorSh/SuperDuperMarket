@@ -29,36 +29,48 @@
    <center>
       <GridPane fx:id="gridPane" vgap="5.0" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="153.0" minWidth="10.0" prefWidth="101.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="177.0" minWidth="10.0" prefWidth="141.0" />
-          <ColumnConstraints hgrow="NEVER" maxWidth="490.0" minWidth="260.0" prefWidth="359.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="173.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="153.0" minWidth="10.0" prefWidth="125.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="177.0" minWidth="10.0" prefWidth="117.0" />
+          <ColumnConstraints hgrow="NEVER" maxWidth="490.0" minWidth="260.0" prefWidth="396.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="136.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="142.0" minHeight="7.0" prefHeight="35.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="142.0" minHeight="7.0" prefHeight="41.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="142.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="166.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="142.0" minHeight="7.0" prefHeight="53.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="142.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="139.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="225.0" minHeight="23.0" prefHeight="60.0" vgrow="ALWAYS" />
             <RowConstraints maxHeight="225.0" minHeight="42.0" prefHeight="42.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
-            <Label text="Enter name:" GridPane.rowIndex="1" />
-            <Label text="Enter ID:" />
+            <Label text="Enter name:" GridPane.rowIndex="1">
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font></Label>
+            <Label text="Enter ID:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
             <VBox GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
                <children>
-                  <Label fx:id="selectStoresLabel" disable="true" text="Select stores:" />
+                  <Label fx:id="selectStoresLabel" disable="true" text="Select stores:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                </children>
             </VBox>
             <VBox GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5">
                <children>
                   <HBox prefHeight="27.0" prefWidth="443.0" spacing="3.0">
                      <children>
-                        <Label fx:id="enterPriceLabel" disable="true" prefHeight="24.0" prefWidth="69.0" text="Enter price:" />
+                        <Label fx:id="enterPriceLabel" disable="true" prefHeight="24.0" prefWidth="105.0" text="Enter price:">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
                         <TextField fx:id="priceTextField" disable="true" />
                         <Button fx:id="addItemToStoreButton" disable="true" minWidth="89.0" mnemonicParsing="false" onAction="#addItemToStoreButtonAction" prefHeight="25.0" prefWidth="135.0" text="Add Item To Store">
                            <HBox.margin>
@@ -93,14 +105,17 @@
             <TextField fx:id="nameTextField" prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <HBox alignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="6">
                <children>
-                  <Button fx:id="confirmButton" disable="true" mnemonicParsing="false" onAction="#confirmButtonAction" prefHeight="25.0" prefWidth="81.0" text="Confirn" />
+                  <Button fx:id="confirmButton" disable="true" mnemonicParsing="false" onAction="#confirmButtonAction" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: #3b10d7;" text="Confirn" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Button>
                </children>
             </HBox>
             <HBox GridPane.columnIndex="2" GridPane.rowIndex="6">
                <children>
                   <Label fx:id="confirmMsgLabel" style="-fx-text-fill: blue;" wrapText="true">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="15.0" />
                      </font></Label>
                </children>
             </HBox>
@@ -129,9 +144,18 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <RadioButton fx:id="perUnitRadioButton" mnemonicParsing="false" text="Per Unit" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <RadioButton fx:id="perWeightRadioButton" mnemonicParsing="false" text="Per Weight" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Label text="Choose purchase category:" wrapText="true" GridPane.rowIndex="2" />
+            <RadioButton fx:id="perUnitRadioButton" mnemonicParsing="false" text="Per Unit" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="perWeightRadioButton" mnemonicParsing="false" text="Per Weight" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font></RadioButton>
+            <Label text="Choose purchase category:" wrapText="true" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
          </children>
          <BorderPane.margin>
             <Insets top="3.0" />

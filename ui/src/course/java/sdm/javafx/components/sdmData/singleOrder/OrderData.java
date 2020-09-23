@@ -42,7 +42,12 @@ public class OrderData {
     }
 
     private void setOrderCategory(String orderCategory) {
-        this.orderCategory.set(orderCategory);
+        if (orderCategory.equalsIgnoreCase(SuperDuperMarketConstants.STATIC_ORDER_CATEGORY)) {
+            this.orderCategory.set(SuperDuperMarketConstants.STATIC_ORDER_CATEGORY);
+        }
+        else {
+            this.orderCategory.set(SuperDuperMarketConstants.DYNAMIC_ORDER_CATEGORY);
+        }
     }
 
     private void setItemsCost(float itemsCost) {
