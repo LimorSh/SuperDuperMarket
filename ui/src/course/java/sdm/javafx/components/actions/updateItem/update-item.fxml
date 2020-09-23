@@ -44,30 +44,51 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <RadioButton fx:id="deleteItemRadioButton" disable="true" mnemonicParsing="false" text="Delete Item" />
-                  <RadioButton fx:id="addItemRadioButton" disable="true" mnemonicParsing="false" text="Add Item" />
-                  <RadioButton fx:id="updateItemPriceRadioButton" disable="true" mnemonicParsing="false" text="Update Item Price" />
+                  <RadioButton fx:id="deleteItemRadioButton" disable="true" mnemonicParsing="false" text="Delete Item">
+                     <font>
+                        <Font size="14.0" />
+                     </font></RadioButton>
+                  <RadioButton fx:id="addItemRadioButton" disable="true" mnemonicParsing="false" text="Add Item">
+                     <font>
+                        <Font size="14.0" />
+                     </font></RadioButton>
+                  <RadioButton fx:id="updateItemPriceRadioButton" disable="true" mnemonicParsing="false" text="Update Item Price">
+                     <font>
+                        <Font size="14.0" />
+                     </font></RadioButton>
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </HBox>
-            <Label text="Choose action:" GridPane.rowIndex="1" />
-            <Label text="Choose store:" />
+            <Label text="Choose action:" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Label text="Choose store:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
             <ComboBox fx:id="chooseStoreComboBox" onAction="#chooseStoreComboBoxAction" prefHeight="25.0" prefWidth="250.0" GridPane.columnIndex="1" />
             <VBox prefHeight="224.0" prefWidth="113.0" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
                <children>
-                  <Label fx:id="selectItemLabel" text="Select an item:" visible="false" />
+                  <Label fx:id="selectItemLabel" text="Select an item:" visible="false">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                </children>
             </VBox>
             <VBox GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
                   <HBox prefHeight="25.0" prefWidth="463.0" spacing="10.0">
                      <children>
-                        <Label fx:id="enterPriceLabel" disable="true" prefHeight="24.0" prefWidth="69.0" text="Enter price:" visible="false" />
+                        <Label fx:id="enterPriceLabel" disable="true" prefHeight="24.0" prefWidth="83.0" text="Enter price:" visible="false">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
                         <TextField fx:id="priceTextField" disable="true" visible="false" />
                         <Button fx:id="confirmButton" disable="true" minWidth="120.0" mnemonicParsing="false" onAction="#confirmButtonAction" prefHeight="25.0" prefWidth="150.0" visible="false">
                            <HBox.margin>
@@ -79,14 +100,17 @@
                         <Insets top="10.0" />
                      </padding>
                   </HBox>
-                  <HBox>
+                  <HBox prefHeight="40.0" prefWidth="466.0">
                      <children>
                         <Label fx:id="msgLabel" style="-fx-text-fill: blue;">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="15.0" />
                            </font>
                         </Label>
                      </children>
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
                   </HBox>
                </children>
             </VBox>

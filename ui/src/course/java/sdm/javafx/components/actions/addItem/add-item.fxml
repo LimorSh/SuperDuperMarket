@@ -141,8 +141,14 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <RadioButton fx:id="perUnitRadioButton" mnemonicParsing="false" text="Per Unit" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <RadioButton fx:id="perWeightRadioButton" mnemonicParsing="false" text="Per Weight" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <RadioButton fx:id="perUnitRadioButton" mnemonicParsing="false" text="Per Unit" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="perWeightRadioButton" mnemonicParsing="false" text="Per Weight" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font></RadioButton>
             <Label text="Choose purchase category:" wrapText="true" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="14.0" />
