@@ -90,10 +90,13 @@
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
                         <TextField fx:id="priceTextField" disable="true" visible="false" />
-                        <Button fx:id="confirmButton" disable="true" minWidth="120.0" mnemonicParsing="false" onAction="#confirmButtonAction" prefHeight="25.0" prefWidth="150.0" visible="false">
+                        <Button fx:id="confirmButton" disable="true" minWidth="120.0" mnemonicParsing="false" onAction="#confirmButtonAction" prefHeight="30.0" prefWidth="160.0" style="-fx-background-color: #3b10d7;" textFill="WHITE" visible="false">
                            <HBox.margin>
-                              <Insets left="80.0" />
+                              <Insets left="70.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
                         </Button>
                      </children>
                      <padding>

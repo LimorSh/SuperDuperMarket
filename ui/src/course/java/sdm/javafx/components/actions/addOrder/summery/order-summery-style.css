@@ -1,6 +1,9 @@
 #border-pane {
-    /*-fx-border-color: black;*/
-    /*-fx-border-width: 2px;*/
+    -fx-background-color: #fff4de;
+}
+
+#inner-border-pane {
+    -fx-background-color: #fff4de;
 }
 
 #table-view .table-column{

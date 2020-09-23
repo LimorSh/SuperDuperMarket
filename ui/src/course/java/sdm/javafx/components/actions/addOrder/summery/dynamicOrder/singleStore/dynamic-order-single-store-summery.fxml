@@ -8,10 +8,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.addOrder.summery.dynamicOrder.singleStore.DynamicOrderSingleStoreSummeryController">
+<BorderPane prefHeight="118.0" prefWidth="720.0" style="-fx-background-color: #fff4de;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.addOrder.summery.dynamicOrder.singleStore.DynamicOrderSingleStoreSummeryController">
    <top>
-      <Label fx:id="nameLabel" text="Label" BorderPane.alignment="CENTER">
+      <Label fx:id="nameLabel" text="Label" textFill="#a60dab" BorderPane.alignment="CENTER">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -23,30 +22,86 @@
    <center>
       <VBox prefWidth="720.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="27.0" prefWidth="722.0" spacing="20.0">
+            <HBox prefHeight="40.0" prefWidth="720.0" spacing="15.0">
                <children>
-                  <Label text="Distance:" />
-                  <Label fx:id="distanceValueLabel" minWidth="60.0" />
-                  <Label text="Delivery Cost:" />
-                  <Label fx:id="deliveryCostValueLabel" minWidth="60.0" />
-                  <Label text="Number Of Purchased Items:" />
-                  <Label fx:id="numberOfPurchasedItemsValueLabel" minWidth="40.0" />
-                  <Label text="Total Items Cost:" />
-                  <Label fx:id="totalItemsCostValueLabel" />
+                  <Label text="ID:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="idValueLabel" minWidth="45.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label text="Location:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="locationValueLabel" minWidth="74.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label text="PPK:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="ppkValueLabel">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="40.0" prefWidth="720.0" spacing="15.0">
+               <children>
+                  <Label text="Distance (KM):" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="distanceValueLabel" minWidth="60.0" prefHeight="20.0" prefWidth="188.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label text="Delivery Cost:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="deliveryCostValueLabel" minWidth="60.0" prefHeight="17.0" prefWidth="133.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
                </children>
             </HBox>
-            <HBox prefHeight="27.0" prefWidth="722.0" spacing="25.0">
+            <HBox prefHeight="40.0" prefWidth="722.0" spacing="15.0">
                <children>
-                  <Label text="ID:" />
-                  <Label fx:id="idValueLabel" minWidth="83.0" />
-                  <Label text="Location:" />
-                  <Label fx:id="locationValueLabel" minWidth="75.0" />
-                  <Label text="ppk:" />
-                  <Label fx:id="ppkValueLabel" />
+                  <Label text="Number of Purchased Items:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="numberOfPurchasedItemsValueLabel" minWidth="40.0" prefHeight="20.0" prefWidth="95.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label text="Total Items Cost:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="totalItemsCostValueLabel">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </HBox>
             <Separator />
          </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
       </VBox>
    </center>
 </BorderPane>

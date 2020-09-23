@@ -120,7 +120,10 @@
                </font></Label>
             <HBox alignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="8">
                <children>
-                  <Button fx:id="confirmButton" disable="true" mnemonicParsing="false" onAction="#confirmButtonAction" prefHeight="25.0" prefWidth="81.0" text="Confirn" />
+                  <Button fx:id="confirmButton" disable="true" mnemonicParsing="false" onAction="#confirmButtonAction" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: #3b10d7;" text="Confirn" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Button>
                </children>
             </HBox>
             <HBox GridPane.columnIndex="2" GridPane.rowIndex="8">

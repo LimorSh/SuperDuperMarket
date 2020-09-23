@@ -25,16 +25,34 @@
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
    <center>
-      <BorderPane fx:id="innerBorderPane" prefHeight="409.0" prefWidth="730.0" BorderPane.alignment="CENTER">
+      <BorderPane id="inner-border-pane" fx:id="innerBorderPane" prefHeight="409.0" prefWidth="730.0" BorderPane.alignment="CENTER">
          <top>
             <HBox prefHeight="25.0" prefWidth="730.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="Date:" />
-                  <Label fx:id="dateValueLabel" minWidth="100.0" />
-                  <Label text="Customer Details:" />
-                  <Label fx:id="customerDetailsValuesLabel" minWidth="200.0" />
-                  <Label text="Order Category:" />
-                  <Label fx:id="orderCategoryValueLabel" />
+                  <Label text="Date:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="dateValueLabel" minWidth="100.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label text="Customer Details:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="customerDetailsValuesLabel" minWidth="187.0" prefHeight="20.0" prefWidth="187.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label text="Order Category:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="orderCategoryValueLabel">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
                </children>
                <BorderPane.margin>
                   <Insets />
@@ -44,44 +62,68 @@
          <bottom>
             <Pane prefHeight="59.0" prefWidth="726.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="38.0" prefWidth="726.0" spacing="20.0">
+                  <HBox prefHeight="38.0" prefWidth="733.0" spacing="10.0">
                      <children>
-                        <Label text="Items Cost:">
+                        <Label prefHeight="20.0" prefWidth="81.0" text="Items Cost:">
                            <HBox.margin>
                               <Insets top="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
                         </Label>
-                        <Label fx:id="itemsCostValueLabel" minWidth="60.0">
+                        <Label fx:id="itemsCostValueLabel" minWidth="60.0" prefHeight="20.0" prefWidth="69.0">
                            <HBox.margin>
                               <Insets top="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Label>
-                        <Label text="Delivery Cost:">
+                        <Label prefHeight="20.0" prefWidth="101.0" text="Delivery Cost:">
                            <HBox.margin>
                               <Insets top="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
                         </Label>
-                        <Label fx:id="deliveryCostValueLabel" minWidth="60.0">
+                        <Label fx:id="deliveryCostValueLabel" minWidth="60.0" prefHeight="20.0" prefWidth="80.0">
                            <HBox.margin>
                               <Insets top="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Label>
-                        <Label text="Total Cost:">
+                        <Label prefHeight="20.0" prefWidth="77.0" text="Total Cost:">
                            <HBox.margin>
                               <Insets top="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
                         </Label>
-                        <Label fx:id="totalCostValueLabel" minWidth="60.0">
+                        <Label fx:id="totalCostValueLabel" minWidth="60.0" prefHeight="20.0" prefWidth="77.0">
                            <HBox.margin>
                               <Insets top="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Label>
-                        <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonAction" text="Cancel">
+                        <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonAction" style="-fx-background-color: #3b10d7;" text="Cancel" textFill="WHITE">
                            <HBox.margin>
-                              <Insets left="100.0" />
+                              <Insets left="39.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
                         </Button>
-                        <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#confirmButtonAction" text="Confirm" />
+                        <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#confirmButtonAction" style="-fx-background-color: #3b10d7;" text="Confirm" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Button>
                      </children>
                      <padding>
                         <Insets top="5.0" />
@@ -89,7 +131,7 @@
                   </HBox>
                   <Label fx:id="finalActionLabel" layoutX="495.0" layoutY="39.0" style="-fx-text-fill: blue;" visible="false">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="15.0" />
                      </font>
                   </Label>
                </children>

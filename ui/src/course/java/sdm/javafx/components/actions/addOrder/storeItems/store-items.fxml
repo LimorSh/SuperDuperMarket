@@ -20,10 +20,10 @@
         </columns>
       </TableView>
       <TextField fx:id="quantityTextField" layoutX="70.0" layoutY="155.0" prefHeight="25.0" prefWidth="87.0" visible="false" />
-      <Button fx:id="addItemButton" disable="true" layoutX="189.0" layoutY="155.0" mnemonicParsing="false" onAction="#addItemButtonAction" text="Add Item To Cart" visible="false" />
+      <Button fx:id="addItemButton" disable="true" layoutX="171.0" layoutY="155.0" mnemonicParsing="false" onAction="#addItemButtonAction" text="Add Item To Cart" visible="false" />
       <Label fx:id="quantityLabel" layoutX="4.0" layoutY="159.0" text="Quantity:" visible="false">
          <font>
-            <Font size="14.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </Label>
       <Label fx:id="msgLabel" layoutX="4.0" layoutY="183.0" style="-fx-text-fill: red;" wrapText="true">

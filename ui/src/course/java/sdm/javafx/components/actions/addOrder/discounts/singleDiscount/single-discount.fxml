@@ -10,38 +10,56 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="600.0" stylesheets="@single-discount-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.addOrder.discounts.singleDiscount.SingleDiscountController">
+<BorderPane id="border-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="265.0" prefWidth="600.0" stylesheets="@single-discount-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="course.java.sdm.javafx.components.actions.addOrder.discounts.singleDiscount.SingleDiscountController">
    <top>
-      <VBox prefHeight="66.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="66.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER" prefHeight="33.0" prefWidth="600.0">
                <children>
-                  <Label fx:id="nameLabel">
+                  <Label fx:id="nameLabel" textFill="#a60dab">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
             <HBox prefHeight="15.0" prefWidth="600.0" spacing="3.0">
                <children>
-                  <Label text="If you buy" />
-                  <Label fx:id="itemDetailsLabel" />
+                  <Label text="If you buy">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="itemDetailsLabel">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
                   <Label text="of total quantity">
                      <HBox.margin>
                         <Insets bottom="3.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Label>
-                  <Label fx:id="itemQuantityLabel" />
+                  <Label fx:id="itemQuantityLabel">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="20.0" prefWidth="488.0">
                <children>
-                  <Label text="Then you get" />
-                  <Label fx:id="categoryLabel" />
+                  <Label text="Then you get">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="categoryLabel">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets bottom="10.0" />
                </VBox.margin>
             </HBox>
          </children>
@@ -51,7 +69,7 @@
       </VBox>
    </top>
    <center>
-      <TableView id="table-view" fx:id="tableView" prefHeight="168.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <TableView id="table-view" fx:id="tableView" prefHeight="103.0" prefWidth="598.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="nameCol" prefWidth="147.0" text="Name" />
@@ -68,6 +86,9 @@
                <HBox.margin>
                   <Insets />
                </HBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </Label>
             <Button fx:id="applyDiscountButton" disable="true" mnemonicParsing="false" onAction="#applyDiscountButtonAction" text="Apply Discount" />
          </children>
