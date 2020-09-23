@@ -1,9 +1,7 @@
 #vbox {
     -fx-border-color: black;
-    -fx-background-color: transparent;
+    -fx-background-color:  #fffcd3;
     -fx-border-width: 2px;
-    /*-fx-end-margin: 20px;*/
-    /*-fx-start-margin: 20px;*/
 }
 
 .value-label {

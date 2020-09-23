@@ -12,6 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.FlowPane;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 
 public class StoresController extends StoresData {
 
+    @FXML private FlowPane flowPane;
     @FXML private ScrollPane scrollPane;
     @FXML private ComboBox<StoreInfo> comboBox;
 
@@ -66,7 +69,8 @@ public class StoresController extends StoresData {
             singleStoreController.setOrdersTableView(storeDto.getOrdersDto(), storeDto.getId());
             singleStoreController.setDiscountsFlowPane(storeDto);
 
-            scrollPane.setContent(singleStore);
+            flowPane.getChildren().add(singleStore);
+//            scrollPane.setContent(singleStore);
         } catch (IOException e) {
             e.printStackTrace();
         }
