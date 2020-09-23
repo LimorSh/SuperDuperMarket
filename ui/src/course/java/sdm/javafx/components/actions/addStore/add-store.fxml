@@ -28,9 +28,9 @@
    <center>
       <GridPane fx:id="gridPane" vgap="5.0" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="113.0" minWidth="10.0" prefWidth="94.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="10.0" prefWidth="124.0" />
-          <ColumnConstraints hgrow="NEVER" maxWidth="490.0" minWidth="260.0" prefWidth="380.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.0" minWidth="10.0" prefWidth="115.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="10.0" prefWidth="126.0" />
+          <ColumnConstraints hgrow="NEVER" maxWidth="490.0" minWidth="260.0" prefWidth="360.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="173.0" />
         </columnConstraints>
         <rowConstraints>
@@ -45,21 +45,33 @@
             <RowConstraints maxHeight="225.0" minHeight="42.0" prefHeight="42.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
-            <Label text="Enter name:" GridPane.rowIndex="1" />
-            <Label text="Enter ID:" />
+            <Label text="Enter name:" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Label text="Enter ID:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
             <VBox GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
                <children>
-                  <Label fx:id="selectItemsLabel" disable="true" text="Select items:" />
+                  <Label fx:id="selectItemsLabel" disable="true" text="Select items:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                </children>
             </VBox>
             <VBox GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7">
                <children>
                   <HBox prefHeight="27.0" prefWidth="443.0" spacing="3.0">
                      <children>
-                        <Label fx:id="enterPriceLabel" disable="true" prefHeight="24.0" prefWidth="69.0" text="Enter price:" />
+                        <Label fx:id="enterPriceLabel" disable="true" prefHeight="24.0" prefWidth="99.0" text="Enter price:">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
                         <TextField fx:id="priceTextField" disable="true" />
                         <Button fx:id="addItemButton" disable="true" minWidth="89.0" mnemonicParsing="false" onAction="#addItemButtonAction" prefHeight="25.0" prefWidth="89.0" text="Add Item">
                            <HBox.margin>
@@ -91,12 +103,21 @@
             </TableView>
             <TextField fx:id="idTextField" prefHeight="25.0" prefWidth="117.0" GridPane.columnIndex="1" />
             <TextField fx:id="nameTextField" prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="Location X value:" GridPane.rowIndex="2" />
-            <Label text="Location Y value:" GridPane.rowIndex="3" />
+            <Label text="Location X value:" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Label text="Location Y value:" textAlignment="CENTER" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
             <TextField fx:id="locationXTextField" prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="locationYTextField" prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="ppkTextField" prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label text="PPK:" GridPane.rowIndex="4" />
+            <Label text="PPK:" GridPane.rowIndex="4">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
             <HBox alignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="8">
                <children>
                   <Button fx:id="confirmButton" disable="true" mnemonicParsing="false" onAction="#confirmButtonAction" prefHeight="25.0" prefWidth="81.0" text="Confirn" />
@@ -106,7 +127,7 @@
                <children>
                   <Label fx:id="confirmMsgLabel" style="-fx-text-fill: blue;" wrapText="true">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="15.0" />
                      </font></Label>
                </children>
             </HBox>

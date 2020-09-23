@@ -64,6 +64,7 @@ public class AddStoreController extends  AddStoreData {
 
     @FXML
     void setNewStoreInfoButtonAction(ActionEvent event) {
+        storeInfoMsgLabel.setText("");
         boolean isAllInfoValid = true;
 
         try {
