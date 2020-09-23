@@ -68,14 +68,14 @@
                <children>
                   <HBox prefHeight="27.0" prefWidth="443.0" spacing="3.0">
                      <children>
-                        <Label fx:id="enterPriceLabel" disable="true" prefHeight="24.0" prefWidth="99.0" text="Enter price:">
+                        <Label fx:id="enterPriceLabel" disable="true" prefHeight="24.0" prefWidth="131.0" text="Enter price:">
                            <font>
-                              <Font size="14.0" />
+                              <Font name="System Bold" size="14.0" />
                            </font></Label>
                         <TextField fx:id="priceTextField" disable="true" />
                         <Button fx:id="addItemButton" disable="true" minWidth="89.0" mnemonicParsing="false" onAction="#addItemButtonAction" prefHeight="25.0" prefWidth="89.0" text="Add Item">
                            <HBox.margin>
-                              <Insets left="191.0" />
+                              <Insets left="180.0" />
                            </HBox.margin>
                         </Button>
                      </children>
