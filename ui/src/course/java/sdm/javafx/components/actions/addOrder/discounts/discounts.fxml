@@ -21,7 +21,7 @@
    <top>
       <VBox alignment="CENTER" maxWidth="750.0" prefHeight="66.0" prefWidth="750.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Special Offers!" textFill="#a60dab">
+            <Label id="header-title" text="Special Offers!" textFill="#a60dab">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
