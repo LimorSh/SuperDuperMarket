@@ -7,5 +7,11 @@
 }
 
 .value-label {
-    -fx-padding: 0 0 0 30;
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 0 20;
+}
+
+.field-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
 }
