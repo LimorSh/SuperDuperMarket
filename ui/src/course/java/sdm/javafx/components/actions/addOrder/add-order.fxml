@@ -60,12 +60,12 @@
                </font></Label>
             <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.rowSpan="2">
                <children>
-                  <RadioButton fx:id="staticOrderRadioButton" mnemonicParsing="false" text="One store">
+                  <RadioButton fx:id="staticOrderRadioButton" mnemonicParsing="false" text="One Store">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="dynamicOrderRadioButton" mnemonicParsing="false" text="Best cart">
+                  <RadioButton fx:id="dynamicOrderRadioButton" mnemonicParsing="false" text="Best Cart">
                      <font>
                         <Font size="14.0" />
                      </font>
