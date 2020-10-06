@@ -1,31 +1,38 @@
 package course.java.sdm.web.servlets;
 
 import course.java.sdm.web.utils.ServletUtils;
-import com.google.gson.Gson;
+import course.java.sdm.web.utils.SessionUtils;
 import course.java.sdm.engine.engine.users.UserManager;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Set;
 
-//@WebServlet(name = "UsersListServlet", urlPatterns = {"/userslist"})
-public class UsersListServlet extends HttpServlet {
+@WebServlet(name = "LogoutServlet", urlPatterns = {"/sdm/logout"})
+public class LogoutServlet extends HttpServlet {
+
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //returning JSON objects, not HTML
-        response.setContentType("application/json");
-        try (PrintWriter out = response.getWriter()) {
-            Gson gson = new Gson();
-            UserManager userManager = ServletUtils.getUserManager(getServletContext());
-            Set<String> usersList = userManager.getUsers();
-            String json = gson.toJson(usersList);
-            out.println(json);
-            out.flush();
+        String usernameFromSession = SessionUtils.getUsername(request);
+        UserManager userManager = ServletUtils.getUserManager(getServletContext());
+
+        if (usernameFromSession != null) {
+            System.out.println("Clearing session for " + usernameFromSession);
+            userManager.removeUser(usernameFromSession);
+            SessionUtils.clearSession(request);
+
+            /*
+            when sending redirect, tomcat has a shitty logic how to calculate the URL given, weather its relative or not
+            you can read about it here:
+            https://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpServletResponse.html#sendRedirect(java.lang.String)
+            the best way (IMO) is to fetch the context path dynamically and build the redirection from it and on
+             */
+
+            response.sendRedirect(request.getContextPath() + "/index.html");
         }
     }
 

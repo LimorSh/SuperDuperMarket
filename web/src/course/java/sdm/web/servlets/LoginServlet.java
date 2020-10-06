@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import static course.java.sdm.web.constants.Constants.USERNAME;
 
+//@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
 
     // urls that starts with forward slash '/' are considered absolute
@@ -21,9 +22,8 @@ public class LoginServlet extends HttpServlet {
     // you can use absolute paths, but then you need to build them from scratch, starting from the context path
     // ( can be fetched from request.getContextPath() ) and then the 'absolute' path from it.
     // Each method with it's pros and cons...
-    private final String SDM_URL = "../sdm/sdm.html";
+    private final String SDM_URL = "../sdm/main.html";
     private final String SIGN_UP_URL = "../signup/signup.html";
-    private final String LOGIN_ERROR_URL = "/pages/loginerror/login_attempt_after_error.jsp";  // must start with '/' since will be used in request dispatcher...
      /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,10 +42,8 @@ public class LoginServlet extends HttpServlet {
             //user is not logged in yet
             String usernameFromParameter = request.getParameter(USERNAME);
             if (usernameFromParameter == null || usernameFromParameter.isEmpty()) {
-                //no username in session and no username in parameter -
-                //redirect back to the index page
-                //this return an HTTP code back to the browser telling it to load
-                response.sendRedirect(SIGN_UP_URL);
+                String errorMessage = "Username must contains at least one letter.";
+                response.getWriter().print(errorMessage);
             } else {
                 //normalize the username value
                 usernameFromParameter = usernameFromParameter.trim();
@@ -65,14 +63,7 @@ public class LoginServlet extends HttpServlet {
                 synchronized (this) {
                     if (userManager.isUserExists(usernameFromParameter)) {
                         String errorMessage = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
-                        // username already exists, forward the request back to index.jsp
-                        // with a parameter that indicates that an error should be displayed
-                        // the request dispatcher obtained from the servlet context is one that MUST get an absolute path (starting with'/')
-                        // and is relative to the web app root
-                        // see this link for more details:
-                        // http://timjansen.github.io/jarfiller/guide/servlet25/requestdispatcher.xhtml
-                        request.setAttribute(Constants.USER_NAME_ERROR, errorMessage);
-                        getServletContext().getRequestDispatcher(LOGIN_ERROR_URL).forward(request, response);
+                        response.getWriter().print(errorMessage);
                     } else {
                         //add the new user to the users list
                         userManager.addUser(usernameFromParameter);

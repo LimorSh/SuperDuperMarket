@@ -1,8 +1,5 @@
 package course.java.sdm.web.utils;
-
-
 import course.java.sdm.engine.engine.users.UserManager;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 

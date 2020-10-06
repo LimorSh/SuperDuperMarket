@@ -13,7 +13,7 @@ public class SessionUtils {
         return sessionAttribute != null ? sessionAttribute.toString() : null;
     }
 
-//    public static void clearSession (HttpServletRequest request) {
-//        request.getSession().invalidate();
-//    }
+    public static void clearSession (HttpServletRequest request) {
+        request.getSession().invalidate();
+    }
 }

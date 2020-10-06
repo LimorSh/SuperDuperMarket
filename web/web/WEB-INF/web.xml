@@ -3,21 +3,31 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UsersListServlet</servlet-name>
-        <servlet-class>chat.servlets.UsersListServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.UsersListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.LogoutServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/pages/signup/login</url-pattern>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UsersListServlet</servlet-name>
         <url-pattern>/userslist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/sdm/logout</url-pattern>
     </servlet-mapping>
 
 </web-app>
