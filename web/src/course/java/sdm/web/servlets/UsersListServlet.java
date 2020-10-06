@@ -1,5 +1,6 @@
 package course.java.sdm.web.servlets;
 
+import course.java.sdm.engine.engine.users.User;
 import course.java.sdm.engine.engine.users.UserManager;
 import course.java.sdm.web.utils.ServletUtils;
 import com.google.gson.Gson;
@@ -22,7 +23,7 @@ public class UsersListServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
             UserManager userManager = ServletUtils.getUserManager(getServletContext());
-            Set<String> usersList = userManager.getUsers();
+            Set<User> usersList = userManager.getUsers();
             String json = gson.toJson(usersList);
             out.println(json);
             out.flush();

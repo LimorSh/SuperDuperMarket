@@ -1,5 +1,6 @@
 package course.java.sdm.engine.engine.users;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,25 +12,31 @@ of the user of this class to handle the synchronization of isUserExists with oth
  */
 public class UserManager {
 
-    private final Set<String> usersSet;
+    private final Set<User> users;
 
     public UserManager() {
-        usersSet = new HashSet<>();
+        users = new HashSet<>();
     }
 
-    public synchronized void addUser(String username) {
-        usersSet.add(username);
+    public synchronized void addUser(String username, String userType) {
+        User user = new User(username, userType);
+        users.add(user);
     }
 
     public synchronized void removeUser(String username) {
-        usersSet.remove(username);
+        users.removeIf(user -> user.getName().equals(username));
     }
 
-    public synchronized Set<String> getUsers() {
-        return Collections.unmodifiableSet(usersSet);
+    public synchronized Set<User> getUsers() {
+        return Collections.unmodifiableSet(users);
     }
 
     public boolean isUserExists(String username) {
-        return usersSet.contains(username);
+        for (User user : users) {
+            if (user.getName().equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

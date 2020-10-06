@@ -21,6 +21,7 @@ public class LoginServlet extends HttpServlet {
         UserManager userManager = ServletUtils.getUserManager(getServletContext());
         if (usernameFromSession == null) {
             String usernameFromParameter = request.getParameter(Constants.USERNAME);
+            String userTypeFromParameter = request.getParameter(Constants.USERTYPE);
             if (usernameFromParameter == null || usernameFromParameter.isEmpty()) {
                 String errorMessage = "Username must contains at least one letter.";
                 response.getWriter().print(errorMessage);
@@ -32,13 +33,14 @@ public class LoginServlet extends HttpServlet {
                         String errorMessage = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
                         response.getWriter().print(errorMessage);
                     } else {
-                        userManager.addUser(usernameFromParameter);
+                        userManager.addUser(usernameFromParameter, userTypeFromParameter);
                         request.getSession(true).setAttribute(Constants.USERNAME, usernameFromParameter);
                         response.getWriter().print("");
                     }
                 }
             }
         } else {
+            // user already logged in
             response.getWriter().print("");
         }
     }

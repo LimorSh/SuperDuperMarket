@@ -20,7 +20,8 @@
     </div>
     <p id="username-label">Please enter a username:</p>
     <form id="login-form" method="GET" action="login">
-        <input type="text" name="username" class=""/>
+        <input id="user-type-input" type="hidden" name="user-type"/>
+        <input type="text" name="username"/>
         <input id="login" disabled="disabled" type="submit" value="Login"/>
     </form>
     <label id="error-msg"></label>

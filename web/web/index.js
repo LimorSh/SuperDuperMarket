@@ -1,16 +1,19 @@
+let userType = "";
+
+
 function pageRedirect() {
     window.location.replace("pages/main/main.html");
 }
 
-function configUserTypeRadioButtons() {
-    let userType = "";
 
+function configUserTypeRadioButtons() {
     let radios = document.getElementsByClassName("user-type-radio-button");
     for (let i = 0; i < radios.length; i++) {
         let radio = radios[i];
         radio.onchange = function() {
             document.getElementById("login").disabled = false;
             userType = radio.value;
+            document.getElementById("user-type-input").value = userType;
         }
     }
 }

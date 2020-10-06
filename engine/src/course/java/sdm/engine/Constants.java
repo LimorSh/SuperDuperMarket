@@ -9,4 +9,6 @@ public class Constants {
     public final static String DISCOUNT_CATEGORY_ALL_OR_NOTHING = "all-or-nothing";
     public final static String ORDER_CATEGORY_STATIC_STR = "one store";
     public final static String ORDER_CATEGORY_DYNAMIC_STR = "best cart";
+    public final static String USER_TYPE_CUSTOMER_STR = "customer";
+    public final static String USER_TYPE_SELLER_STR = "seller";
 }
