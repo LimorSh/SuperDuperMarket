@@ -8,13 +8,20 @@
     <title>SDM</title>
 </head>
 <body>
-<div class="container">
+<div id="container">
     <h1 id="header">Welcome to Super Duper Market!</h1>
     <br/>
-    <label id="username-label">Please enter a username:</label>
+    <div id="user-type-buttons-container">
+        <p id="user-type-label">I'm a:</p>
+        <input type="radio" id="customer-radio-button" class="user-type-radio-button" name="user-type" value="customer">
+        <label for="customer-radio-button">Customer</label><br>
+        <input type="radio" id="seller-radio-button" class="user-type-radio-button" name="user-type" value="seller">
+        <label for="seller-radio-button">Seller</label><br>
+    </div>
+    <p id="username-label">Please enter a username:</p>
     <form id="login-form" method="GET" action="login">
         <input type="text" name="username" class=""/>
-        <input type="submit" value="Login"/>
+        <input id="login" disabled="disabled" type="submit" value="Login"/>
     </form>
     <label id="error-msg"></label>
 </div>
