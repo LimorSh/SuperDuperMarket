@@ -2,7 +2,6 @@ package course.java.sdm.web.servlets;
 
 import course.java.sdm.web.utils.ServletUtils;
 import com.google.gson.Gson;
-import course.java.sdm.engine.engine.users.UserManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

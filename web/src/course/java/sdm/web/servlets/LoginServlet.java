@@ -1,7 +1,6 @@
 package course.java.sdm.web.servlets;
 
 
-import course.java.sdm.engine.engine.users.UserManager;
 import course.java.sdm.web.constants.Constants;
 import course.java.sdm.web.utils.ServletUtils;
 import course.java.sdm.web.utils.SessionUtils;
@@ -12,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static course.java.sdm.web.constants.Constants.USERNAME;
+//import static course.java.sdm.web.constants.Constants.USERNAME;
 
 //@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
@@ -22,25 +21,22 @@ public class LoginServlet extends HttpServlet {
     // you can use absolute paths, but then you need to build them from scratch, starting from the context path
     // ( can be fetched from request.getContextPath() ) and then the 'absolute' path from it.
     // Each method with it's pros and cons...
-    private final String SDM_URL = "../sdm/main.html";
-    private final String SIGN_UP_URL = "../signup/signup.html";
      /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
         response.setContentType("text/html;charset=UTF-8");
         String usernameFromSession = SessionUtils.getUsername(request);
         UserManager userManager = ServletUtils.getUserManager(getServletContext());
         if (usernameFromSession == null) {
             //user is not logged in yet
-            String usernameFromParameter = request.getParameter(USERNAME);
+            String usernameFromParameter = request.getParameter(Constants.USERNAME);
             if (usernameFromParameter == null || usernameFromParameter.isEmpty()) {
                 String errorMessage = "Username must contains at least one letter.";
                 response.getWriter().print(errorMessage);
@@ -73,14 +69,16 @@ public class LoginServlet extends HttpServlet {
                         request.getSession(true).setAttribute(Constants.USERNAME, usernameFromParameter);
 
                         //redirect the request to the chat room - in order to actually change the URL
-                        System.out.println("On login, request URI is: " + request.getRequestURI());
-                        response.sendRedirect(SDM_URL);
+//                        System.out.println("On login, request URI is: " + request.getRequestURI());
+                        response.getWriter().print("");
+//                        response.sendRedirect(SDM_URL);
                     }
                 }
             }
         } else {
             //user is already logged in
-            response.sendRedirect(SDM_URL);
+            response.getWriter().print("");
+//            response.sendRedirect(SDM_URL);
         }
     }
 

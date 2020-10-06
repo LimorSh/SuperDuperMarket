@@ -1,5 +1,7 @@
 package course.java.sdm.web.utils;
-import course.java.sdm.engine.engine.users.UserManager;
+
+import course.java.sdm.web.servlets.UserManager;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,10 +23,19 @@ public class ServletUtils {
 
 		synchronized (userManagerLock) {
 			if (servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME) == null) {
-				servletContext.setAttribute(USER_MANAGER_ATTRIBUTE_NAME, new UserManager());
+				try {
+					UserManager userManager = new UserManager();
+					servletContext.setAttribute(USER_MANAGER_ATTRIBUTE_NAME, userManager);
+				}
+				catch(Exception e) {
+					System.out.println("in exception");
+				}
+//				servletContext.setAttribute(USER_MANAGER_ATTRIBUTE_NAME, new UserManager());
 			}
 		}
-		return (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
+		UserManager userManager = (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
+		return userManager;
+//		return (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
 	}
 //
 //	public static ChatManager getChatManager(ServletContext servletContext) {

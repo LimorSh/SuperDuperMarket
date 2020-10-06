@@ -2,7 +2,6 @@ package course.java.sdm.web.servlets;
 
 import course.java.sdm.web.utils.ServletUtils;
 import course.java.sdm.web.utils.SessionUtils;
-import course.java.sdm.engine.engine.users.UserManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
