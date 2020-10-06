@@ -22,12 +22,16 @@ public class User {
         }
     }
 
+    private static int numUsers = 1;
+    private final int id;
     private final String name;
     private final UserType userType;
 
     public User(String name, String userType) {
+        this.id = numUsers;
         this.name = name;
         this.userType = convertStringToUserType(userType);
+        numUsers++;
     }
 
     public static User.UserType convertStringToUserType(String userType) {
@@ -35,6 +39,10 @@ public class User {
             return UserType.CUSTOMER;
         }
         return UserType.SELLER;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
