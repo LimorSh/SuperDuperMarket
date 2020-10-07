@@ -11,6 +11,7 @@ import java.util.*;
 
 public class SuperDuperMarket {
 
+    private String zoneName;
     private final Map<Integer, Customer> customers;
     private final Map<Integer, Store> stores;
     private final Map<Integer, Item> items;
@@ -30,6 +31,14 @@ public class SuperDuperMarket {
     private void initializeLocationGrid() {
         int maxLocation = Location.getMaxLocationValue();
         locationGrid = new Object[maxLocation][maxLocation];
+    }
+
+    public String getZoneName() {
+        return zoneName;
+    }
+
+    public void setZoneName(String zoneName) {
+        this.zoneName = zoneName.trim();
     }
 
     public Collection<Customer> getCustomers() {

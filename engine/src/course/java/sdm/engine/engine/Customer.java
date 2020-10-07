@@ -1,6 +1,5 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.exception.LocationOutOfRangeException;
-import course.java.sdm.engine.jaxb.schema.generated.SDMCustomer;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,11 +23,6 @@ public class Customer {
         setLocation(xLocation, yLocation);
         orders = new HashMap<>();
         numCustomers++;
-    }
-
-    public Customer(SDMCustomer sdmCustomer) {
-        this(sdmCustomer.getId(), sdmCustomer.getName(),
-                sdmCustomer.getLocation().getX(), sdmCustomer.getLocation().getY());
     }
 
     private void setLocation(int x, int y) {

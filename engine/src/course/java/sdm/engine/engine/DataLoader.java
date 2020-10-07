@@ -33,7 +33,7 @@ public class DataLoader {
             Set<Item> missingItems = superDuperMarket.getItemsThatAreNotBeingSoldByAtLeastOneStore();
             throw new NotAllItemsAreBeingSoldException(missingItems);
         }
-        loadCustomers(superDuperMarketDescriptor, superDuperMarket);
+        loadZoneName(superDuperMarketDescriptor, superDuperMarket);
 
         return superDuperMarket;
     }
@@ -103,17 +103,9 @@ public class DataLoader {
         }
     }
 
-    private static void loadCustomers(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
-        List<SDMCustomer> sdmCustomers = superDuperMarketDescriptor.getSDMCustomers().getSDMCustomer();
-        for (SDMCustomer sdmCustomer : sdmCustomers) {
-            Customer customer = new Customer(sdmCustomer);
-            try {
-                superDuperMarket.addCustomer(customer);
-            }
-            catch (DuplicateLocationException e) {
-                throw new IllegalArgumentException("Could not add the customer " + customer.getName() + ":\n" + e.getMessage());
-            }
-        }
+    private static void loadZoneName(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
+        String zoneName = superDuperMarketDescriptor.getSDMZone().getName();
+        superDuperMarket.setZoneName(zoneName);
     }
 
     private static SuperDuperMarketDescriptor deserializeFrom(InputStream in) throws JAXBException {
