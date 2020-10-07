@@ -2,18 +2,16 @@ let refreshRate = 2000; //milli seconds
 let USER_LIST_URL = buildUrlWithContextPath("userslist");
 
 
-//users = a list of usernames, essentially an array of javascript strings:
-// ["moshe","nachum","nachche"...]
+//users = a list of user, essentially an array of javascript strings:
+//[{"id":1,"name":"david","userType":"CUSTOMER"},{"id":2,"name":"rachel","userType":"SELLER"}]
 function refreshUsersList(users) {
     //clear all current users
     $("#users-list").empty();
 
     // rebuild the list of users: scan all users and add them to the list of users
-    $.each(users || [], function(index, username) {
-        console.log("Adding user #" + index + ": " + username);
-        //create a new <option> tag with a value in it and
-        //appeand it to the #userslist (div with id=userslist) element
-        $('<li>' + username + '</li>').appendTo($("#users-list"));
+    $.each(users || [], function(index, user) {
+        let userStr = `id: ${user["id"]}, name: ${user["name"]}, type: ${user["userType"]}`;
+        $('<li>' + userStr + '</li>').appendTo($("#users-list"));
     });
 }
 
