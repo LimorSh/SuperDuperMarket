@@ -56,9 +56,4 @@ public class LoginServlet extends HttpServlet {
             throws IOException {
         processRequest(request, response);
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 }

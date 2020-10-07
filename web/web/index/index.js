@@ -2,7 +2,7 @@ let userType = "";
 
 
 function pageRedirect() {
-    window.location.replace("pages/main/main.html");
+    window.location.replace(DASHBOARD_URL);
 }
 
 
@@ -28,11 +28,9 @@ $(function() {
     $("#login-form").submit(function() {
         let parameters = $(this).serialize();
 
-        let form = this;
-
         $.ajax({
             data: parameters,
-            url: form.action,
+            url: this.action,
             timeout: 2000,
             error: function() {
                 console.error("Failed to submit");

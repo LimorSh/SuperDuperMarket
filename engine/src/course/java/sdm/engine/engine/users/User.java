@@ -54,17 +54,28 @@ public class User {
     }
 
     @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", userType=" + userType +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         User user = (User) o;
 
-        return Objects.equals(name, user.name);
+        if (id != user.id) return false;
+        return name != null ? name.equals(user.name) : user.name == null;
     }
 
     @Override
     public int hashCode() {
-        return name != null ? name.hashCode() : 0;
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
     }
 }

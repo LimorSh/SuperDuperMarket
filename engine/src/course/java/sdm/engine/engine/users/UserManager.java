@@ -1,6 +1,5 @@
 package course.java.sdm.engine.engine.users;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
