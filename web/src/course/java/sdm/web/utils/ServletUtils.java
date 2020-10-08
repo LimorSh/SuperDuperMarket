@@ -1,5 +1,6 @@
 package course.java.sdm.web.utils;
 
+import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.engine.engine.users.UserManager;
 
 import javax.servlet.ServletContext;
@@ -10,42 +11,29 @@ import static course.java.sdm.web.constants.Constants.INT_PARAMETER_ERROR;
 public class ServletUtils {
 
 	private static final String USER_MANAGER_ATTRIBUTE_NAME = "userManager";
-//	private static final String CHAT_MANAGER_ATTRIBUTE_NAME = "chatManager";
+	private static final String BUSINESS_LOGIC_ATTRIBUTE_NAME = "businessLogic";
 
-	/*
-	Note how the synchronization is done only on the question and\or creation of the relevant managers and once they exists -
-	the actual fetch of them is remained un-synchronized for performance POV
-	 */
 	private static final Object userManagerLock = new Object();
-//	private static final Object chatManagerLock = new Object();
+	private static final Object businessLogicLock = new Object();
 
 	public static UserManager getUserManager(ServletContext servletContext) {
 
 		synchronized (userManagerLock) {
 			if (servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME) == null) {
-				try {
-					UserManager userManager = new UserManager();
-					servletContext.setAttribute(USER_MANAGER_ATTRIBUTE_NAME, userManager);
-				}
-				catch(Exception e) {
-					System.out.println("in exception");
-				}
-//				servletContext.setAttribute(USER_MANAGER_ATTRIBUTE_NAME, new UserManager());
+				servletContext.setAttribute(USER_MANAGER_ATTRIBUTE_NAME, new UserManager());
 			}
 		}
-		UserManager userManager = (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
-		return userManager;
-//		return (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
+		return (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
 	}
-//
-//	public static ChatManager getChatManager(ServletContext servletContext) {
-//		synchronized (chatManagerLock) {
-//			if (servletContext.getAttribute(CHAT_MANAGER_ATTRIBUTE_NAME) == null) {
-//				servletContext.setAttribute(CHAT_MANAGER_ATTRIBUTE_NAME, new ChatManager());
-//			}
-//		}
-//		return (ChatManager) servletContext.getAttribute(CHAT_MANAGER_ATTRIBUTE_NAME);
-//	}
+	public static BusinessLogic getBusinessLogic(ServletContext servletContext) {
+
+		synchronized (businessLogicLock) {
+			if (servletContext.getAttribute(BUSINESS_LOGIC_ATTRIBUTE_NAME) == null) {
+				servletContext.setAttribute(BUSINESS_LOGIC_ATTRIBUTE_NAME, new BusinessLogic());
+			}
+		}
+		return (BusinessLogic) servletContext.getAttribute(BUSINESS_LOGIC_ATTRIBUTE_NAME);
+	}
 
 	public static int getIntParameter(HttpServletRequest request, String name) {
 		String value = request.getParameter(name);

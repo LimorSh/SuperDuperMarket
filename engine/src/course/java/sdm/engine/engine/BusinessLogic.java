@@ -1,18 +1,18 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.dto.*;
-import course.java.sdm.engine.exception.DuplicateElementIdException;
 
 import javax.xml.bind.JAXBException;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.*;
 
 public class BusinessLogic {
 
     private SuperDuperMarket superDuperMarket;
 
-    public void loadSystemData(String dataPath) throws JAXBException, FileNotFoundException {
-        superDuperMarket = DataLoader.loadFromXmlFile(dataPath);
+
+    public void loadSystemData(InputStream fileDataInputStream) throws JAXBException {
+        superDuperMarket = DataLoader.loadFromXmlFileDataInputStream(fileDataInputStream);
         Order.initNumOrders();
     }
 

@@ -2,8 +2,6 @@ package course.java.sdm.engine.engine.users;
 
 import course.java.sdm.engine.Constants;
 
-import java.util.Objects;
-
 public class User {
 
     public enum UserType {
@@ -49,8 +47,8 @@ public class User {
         return name;
     }
 
-    public UserType getUserType() {
-        return userType;
+    public String getUserType() {
+        return userType.userTypeStr;
     }
 
     @Override

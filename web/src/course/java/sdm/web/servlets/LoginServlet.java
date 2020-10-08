@@ -1,6 +1,5 @@
 package course.java.sdm.web.servlets;
 
-
 import course.java.sdm.engine.engine.users.UserManager;
 import course.java.sdm.web.constants.Constants;
 import course.java.sdm.web.utils.ServletUtils;
@@ -14,7 +13,7 @@ import java.io.IOException;
 //@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         response.setContentType("text/html;charset=UTF-8");
         String usernameFromSession = SessionUtils.getUsername(request);

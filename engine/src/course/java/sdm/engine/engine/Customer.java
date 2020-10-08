@@ -9,7 +9,7 @@ public class Customer {
 
     private static int numCustomers = 1;
     private final int id;
-    private String name;
+    private final String name;
     private Location location;
     private final Map<Integer, Order> orders;
 

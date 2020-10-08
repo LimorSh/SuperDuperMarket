@@ -16,6 +16,10 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FileUploadServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.FileUploadServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -29,5 +33,8 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/sdm/logout</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>FileUploadServlet</servlet-name>
+        <url-pattern>/pages/dashboard/uploadFile</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -17,15 +17,10 @@ import java.util.Set;
 public class DataLoader {
 
     private static final String JAXB_XML_PACKAGE_NAME = Constants.JAXB_XML_PACKAGE_NAME;
-    private static final String FILE_EXTENSION = ".xml";
 
-    public static SuperDuperMarket loadFromXmlFile(String xmlFilePath) throws JAXBException, FileNotFoundException {
-        if (!xmlFilePath.toLowerCase().endsWith(FILE_EXTENSION)) {
-            throw new IllegalArgumentException("The file type is not xml!");
-        }
+    public static SuperDuperMarket loadFromXmlFileDataInputStream(InputStream inputStream) throws JAXBException {
         SuperDuperMarket superDuperMarket;
         superDuperMarket = new SuperDuperMarket();
-        InputStream inputStream = new FileInputStream(new File(xmlFilePath));
         SuperDuperMarketDescriptor superDuperMarketDescriptor = deserializeFrom(inputStream);
         loadItems(superDuperMarketDescriptor, superDuperMarket);
         loadStores(superDuperMarketDescriptor, superDuperMarket);
