@@ -2,6 +2,15 @@
     /*visibility: hidden;*/
 }
 
+#upload-zone-file-p{
+    color: blue;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#upload-file-msg-label{
+}
+
 #sell-zones-table {
     /*align-content: center;*/
     width: 80%;
@@ -16,6 +25,24 @@
 }
 
 .sell-zones-table-cell{
+    /*position: center;*/
+    text-align: center;
+}
+
+#account-table {
+    /*align-content: center;*/
+    width: 80%;
+    border: 1px solid black;
+    border-collapse: collapse;
+    /*padding: 15px;*/
+}
+
+.account-table-col{
+    text-align: center;
+    /*word-wrap: break-word;*/
+}
+
+.account-table-cell{
     /*position: center;*/
     text-align: center;
 }

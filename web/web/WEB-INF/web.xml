@@ -24,6 +24,10 @@
         <servlet-name>SellZonesTableServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.SellZonesTableServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChargeCreditServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.ChargeCreditServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -44,5 +48,9 @@
     <servlet-mapping>
         <servlet-name>SellZonesTableServlet</servlet-name>
         <url-pattern>/sellZonesTable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChargeCreditServlet</servlet-name>
+        <url-pattern>/pages/dashboard/chargeCredit</url-pattern>
     </servlet-mapping>
 </web-app>

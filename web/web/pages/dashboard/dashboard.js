@@ -1,15 +1,18 @@
-const SELL_ZONES_TABLE_ID = "sell-zones-table";
 const SELL_ZONES_TABLE_BODY_ID = "sell-zones-table-body";
-const SELL_ZONES_TABLE_CELL_ID = "sell-zones-table-cell"
+const SELL_ZONES_TABLE_CELL_ID = "sell-zones-table-cell";
+const ACCOUNT_TABLE_BODY_ID = "account-table-body";
+const ACCOUNT_TABLE_CELL_ID = "account-table-cell";
 const USER_LIST_URL_RESOURCE = "userslist";
 const SELL_ZONES_TABLE_URL_RESOURCE = "sellZonesTable";
+const ACCOUNT_TABLE_URL_RESOURCE = "accountTable";
 
 let refreshRate = 2000; //milli seconds
 let USER_LIST_URL = buildUrlWithContextPath(USER_LIST_URL_RESOURCE);
 let SELL_ZONES_TABLE_URL = buildUrlWithContextPath(SELL_ZONES_TABLE_URL_RESOURCE);
+let ACCOUNT_TABLE_URL = buildUrlWithContextPath(ACCOUNT_TABLE_URL_RESOURCE);
 
 
-//users = a list of user, essentially an array of javascript strings:
+//users = a list of users, essentially an array of javascript strings:
 //[{"id":1,"name":"david","userType":"CUSTOMER"},{"id":2,"name":"rachel","userType":"SELLER"}]
 function refreshUsersList(users) {
     //clear all current users
@@ -23,24 +26,36 @@ function refreshUsersList(users) {
 }
 
 
-function addZoneToSellZonesTable(zone) {
-    let tableBody = document.getElementById(SELL_ZONES_TABLE_BODY_ID);
+function addElemToTable(elem, tableBodyId) {
+    let tableBody = document.getElementById(tableBodyId);
     let row = tableBody.insertRow();
-    Object.keys(zone).forEach(function(key) {
+    Object.keys(elem).forEach(function(key) {
         let cell = row.insertCell();
         cell.classList.add(SELL_ZONES_TABLE_CELL_ID);
-        cell.textContent = zone[key];
+        cell.textContent = elem[key];
     })
 }
 
-
+//zones = a list of zones, essentially an array of javascript strings:
+//[{"id":1,"name":"david","userType":"CUSTOMER"},{"id":2,"name":"rachel","userType":"SELLER"}]
 function refreshSellZoneTable(zones) {
     //clear all current table
     $("#sell-zones-table-body").empty();
 
     // rebuild the table of sell zones: scan all zones and add them to the table of sell zones
     $.each(zones || [], function(index, zone) {
-        addZoneToSellZonesTable(zone);
+        addElemToTable(zone, SELL_ZONES_TABLE_BODY_ID);
+    });
+}
+
+
+function refreshAccountTable(zones) {
+    //clear all current table
+    $("#account-table-body").empty();
+
+    // rebuild the table of sell zones: scan all zones and add them to the table of sell zones
+    $.each(zones || [], function(index, account) {
+        addElemToTable(account, ACCOUNT_TABLE_BODY_ID);
     });
 }
 
@@ -54,6 +69,7 @@ function ajaxUsersList() {
     });
 }
 
+
 function ajaxSellZonesTable() {
     $.ajax({
         url: SELL_ZONES_TABLE_URL,
@@ -64,6 +80,15 @@ function ajaxSellZonesTable() {
 }
 
 
+function ajaxAccountTable() {
+    $.ajax({
+        url: ACCOUNT_TABLE_URL,
+        success: function(account) {
+            refreshAccountTable(account);
+        }
+    });
+}
+
 //activate the timer calls after the page is loaded
 $(function() {
 
@@ -72,6 +97,9 @@ $(function() {
 
     //The sell zones table content is refreshed automatically every second
     setInterval(ajaxSellZonesTable, refreshRate);
+
+    //The account table content is refreshed automatically every second
+    setInterval(ajaxAccountTable, refreshRate);
 });
 
 
@@ -91,10 +119,34 @@ $(function() {
             timeout: 4000,
             error: function(r) {
                 // console.error("Failed to submit");
-                $("#error-msg").text("Failed to get result from server " + r);
+                $("#upload-file-msg-label").text("Failed to get result from server " + r);
             },
             success: function(r) {
-                $("#error-msg").text(r);
+                $("#upload-file-msg-label").text(r);
+            }
+        });
+
+        // return value of the submit operation
+        // by default - we'll always return false so it doesn't redirect the user.
+        return false;
+    })
+})
+
+
+$(function() {
+    $("#login-form").submit(function() {
+        let parameters = $(this).serialize();
+
+        $.ajax({
+            data: parameters,
+            url: this.action,
+            timeout: 2000,
+            error: function() {
+                console.error("Failed to submit");
+                $("#charge-credit-msg").text("Failed to get result from server");
+            },
+            success: function(r) {
+                $("#charge-credit-msg").text(r);
             }
         });
 

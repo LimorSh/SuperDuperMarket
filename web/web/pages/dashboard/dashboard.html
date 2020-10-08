@@ -21,15 +21,16 @@
         </ul>
     </div>
     <div id="upload-file-container">
-        <p>Upload Zone File</p>
+        <p id="upload-zone-file-p">Upload Zone File</p>
         <form id="upload-file" action="uploadFile" enctype="multipart/form-data" method="POST">
-            <input id="file-chooser" type="file" name="file" accept=".xml"><br>
+            <input id="file-chooser" type="file" name="file" accept=".xml"><br><br>
             <input id="upload-file-form-submit" type="Submit" value="Upload File"><br>
         </form>
-        <label id="error-msg"></label>
+        <label id="upload-file-msg-label"></label>
     </div>
     <br/>
     <br/>
+    <h2>Sell Zones:</h2>
     <div id="sell-zones-table-container">
         <table id="sell-zones-table">
             <thead>
@@ -41,6 +42,34 @@
                 <th class="sell-zones-table-col">Total Orders Cost Average (Without Delivery)</th>
             </thead>
             <tbody id="sell-zones-table-body">
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <br/>
+    <h2>My Account:</h2>
+    <br/>
+    <div id="charge-credit-container">
+        <form id="charge-credit-form" method="GET" action="chargeCredit">
+            <label>
+                Charge Credit:
+                <input type="number" name="credit"/>
+            </label>
+<!--            <input id="charge" disabled="disabled" type="submit" value="Charge"/>-->
+            <input id="charge" type="submit" value="Charge"/>
+        </form>
+        <label id="charge-credit-msg"></label>
+    </div>
+    <div id="account-table-container">
+        <table id="account-table">
+            <thead>
+            <th class="account-table-col">Transaction Type</th>
+            <th class="account-table-col">Date</th>
+            <th class="account-table-col">Total Sum</th>
+            <th class="account-table-col">Balance Before Action</th>
+            <th class="account-table-col">Balance After Action</th>
+            </thead>
+            <tbody id="account-table-body">
             </tbody>
         </table>
     </div>

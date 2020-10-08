@@ -15,18 +15,25 @@
         <h1 id="header">Welcome to Super Duper Market!</h1>
         <br/>
     </div>
-    <div id="user-type-buttons-container">
-        <p id="user-type-label">I'm a:</p>
-        <input type="radio" id="customer-radio-button" class="user-type-radio-button" name="user-type" value="customer">
-        <label for="customer-radio-button">Customer</label><br>
-        <input type="radio" id="seller-radio-button" class="user-type-radio-button" name="user-type" value="seller">
-        <label for="seller-radio-button">Seller</label><br>
+    <div id="user-type-radio-buttons-container">
+        <div id="user-type-label-container">
+            <label id="user-type-label">I'm a:</label>
+        </div>
+        <div id="user-type-radio-buttons">
+            <input type="radio" id="customer-radio-button" class="user-type-radio-button" name="user-type" value="customer">
+            <label for="customer-radio-button">Customer</label><br>
+            <input type="radio" id="seller-radio-button" class="user-type-radio-button" name="user-type" value="seller">
+            <label for="seller-radio-button">Seller</label><br>
+        </div>
     </div>
+    <br/>
     <div id="form-container">
-        <p id="username-label">Please enter a username:</p>
         <form id="login-form" method="GET" action="login">
             <input id="user-type-input" type="hidden" name="user-type"/>
-            <input type="text" name="username"/>
+            <label id="username-label">
+                Please enter a username:
+                <input type="text" name="username"/>
+            </label>
             <input id="login" disabled="disabled" type="submit" value="Login"/>
         </form>
         <label id="error-msg"></label>

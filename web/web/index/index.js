@@ -25,7 +25,7 @@ $(function () {
 
 
 $(function() {
-    $("#login-form").submit(function() {
+    $("#charge-credit-form").submit(function() {
         let parameters = $(this).serialize();
 
         $.ajax({
