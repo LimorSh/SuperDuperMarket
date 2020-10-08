@@ -27,7 +27,7 @@ public class User {
 
     public User(String name, String userType) {
         this.id = numUsers;
-        this.name = name;
+        this.name = name.trim();
         this.userType = convertStringToUserType(userType);
         numUsers++;
     }

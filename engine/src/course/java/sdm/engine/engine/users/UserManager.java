@@ -23,7 +23,7 @@ public class UserManager {
     }
 
     public synchronized void removeUser(String username) {
-        users.removeIf(user -> user.getName().equals(username));
+        users.removeIf(user -> user.getName().equalsIgnoreCase(username));
     }
 
     public synchronized Set<User> getUsers() {
@@ -32,7 +32,7 @@ public class UserManager {
 
     public boolean isUserExists(String username) {
         for (User user : users) {
-            if (user.getName().equals(username)) {
+            if (user.getName().equalsIgnoreCase(username)) {
                 return true;
             }
         }

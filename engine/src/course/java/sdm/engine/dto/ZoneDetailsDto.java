@@ -1,6 +1,7 @@
 package course.java.sdm.engine.dto;
 
 public class ZoneDetailsDto {
+
     private final String ownerName;
     private final String zoneName;
     private final int totalDifferentItems;

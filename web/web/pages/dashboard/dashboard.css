@@ -2,19 +2,20 @@
     /*visibility: hidden;*/
 }
 
-/*#sell-zones-table-container{*/
-/*    width: 100%;*/
-/*    border: 1px solid black;*/
-/*    border-collapse: collapse;*/
-/*    padding: 10px;*/
-/*}*/
-
 #sell-zones-table {
-    width: 100%;
+    /*align-content: center;*/
+    width: 80%;
     border: 1px solid black;
     border-collapse: collapse;
+    /*padding: 15px;*/
 }
 
 .sell-zones-table-col{
+    text-align: center;
+    /*word-wrap: break-word;*/
+}
+
+.sell-zones-table-cell{
+    /*position: center;*/
     text-align: center;
 }

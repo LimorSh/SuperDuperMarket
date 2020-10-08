@@ -12,8 +12,6 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 
-import static course.java.sdm.javafx.SuperDuperMarketConstants.BASE_PACKAGE;
-
 public class JavaFxUI extends Application{
     private static final String PRIMARY_STAGE_NAME = "Super Duper Market";
     private static final int SCENE_WIDTH = 1052;
