@@ -1,6 +1,7 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.dto.OfferDto;
+import course.java.sdm.engine.engine.users.User;
 import course.java.sdm.engine.exception.DuplicateElementIdException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheStoreException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheSuperException;
@@ -12,6 +13,7 @@ import java.util.*;
 public class SuperDuperMarket {
 
     private String zoneName;
+    private String zoneOwnerName;
     private final Map<Integer, Customer> customers;
     private final Map<Integer, Store> stores;
     private final Map<Integer, Item> items;
@@ -41,6 +43,14 @@ public class SuperDuperMarket {
         this.zoneName = zoneName.trim();
     }
 
+    public String getZoneOwnerName() {
+        return zoneOwnerName;
+    }
+
+    public void setZoneOwnerName(String zoneOwnerName) {
+        this.zoneOwnerName = zoneOwnerName.trim();
+    }
+
     public Collection<Customer> getCustomers() {
         return customers.values();
     }
@@ -55,6 +65,31 @@ public class SuperDuperMarket {
 
     public Collection<Order> getOrders() {
         return orders.values();
+    }
+
+    public int getTotalDifferentItems() {
+        return items.keySet().size();
+    }
+
+    public int getTotalStores() {
+        return stores.keySet().size();
+    }
+
+    public int getTotalOrders() {
+        return orders.keySet().size();
+    }
+
+    public float getTotalOrdersCostAverageWithoutDelivery() {
+        float avg = 0f;
+        int totalOrders = getTotalOrders();
+        if (totalOrders != 0) {
+            float sum = 0f;
+            for (Order order : orders.values()) {
+                sum += order.getItemsCost();
+            }
+            avg = (sum / totalOrders);
+        }
+        return avg;
     }
 
     public boolean isItemInTheStore(int storeId, int itemId) {

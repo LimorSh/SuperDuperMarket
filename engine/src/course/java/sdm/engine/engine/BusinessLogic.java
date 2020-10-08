@@ -377,4 +377,25 @@ public class BusinessLogic {
                               Map<Integer, Float> storeIdsAndPrices) {
         superDuperMarket.addItem(itemId, itemName, purchasedCategory, storeIdsAndPrices);
     }
+
+    public void setZoneOwnerName(String name) {
+        superDuperMarket.setZoneOwnerName(name);
+    }
+
+    public ZoneDetailsDto getZoneDetailsDto() {
+        String zoneOwnerName = superDuperMarket.getZoneOwnerName();
+        String zoneName = superDuperMarket.getZoneName();
+        int totalDifferentItems = superDuperMarket.getTotalDifferentItems();
+        int totalStores = superDuperMarket.getTotalStores();
+        int totalOrders = superDuperMarket.getTotalOrders();
+        float totalOrdersCostAverageWithoutDelivery = superDuperMarket.getTotalOrdersCostAverageWithoutDelivery();
+        return new ZoneDetailsDto(zoneOwnerName, zoneName, totalDifferentItems,
+                        totalStores, totalOrders, totalOrdersCostAverageWithoutDelivery
+                );
+    }
+
+
+
+
+
 }

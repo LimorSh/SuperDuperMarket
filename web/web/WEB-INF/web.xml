@@ -20,6 +20,10 @@
         <servlet-name>FileUploadServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.FileUploadServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SellZonesTableServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.SellZonesTableServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -36,5 +40,9 @@
     <servlet-mapping>
         <servlet-name>FileUploadServlet</servlet-name>
         <url-pattern>/pages/dashboard/uploadFile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellZonesTableServlet</servlet-name>
+        <url-pattern>/sellZonesTable</url-pattern>
     </servlet-mapping>
 </web-app>

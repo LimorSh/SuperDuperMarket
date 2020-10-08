@@ -1,3 +1,20 @@
 #upload-file-form-submit{
     /*visibility: hidden;*/
 }
+
+/*#sell-zones-table-container{*/
+/*    width: 100%;*/
+/*    border: 1px solid black;*/
+/*    border-collapse: collapse;*/
+/*    padding: 10px;*/
+/*}*/
+
+#sell-zones-table {
+    width: 100%;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.sell-zones-table-col{
+    text-align: center;
+}
