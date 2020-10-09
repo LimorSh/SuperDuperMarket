@@ -6,13 +6,19 @@
     <script src="../../common/context-path-helper.js"></script>
     <script src="../../constants/constants.js"></script>
     <script src="dashboard.js"></script>
+    <link rel="stylesheet" href="../../common/w3_style.css">
     <link rel="stylesheet" href="dashboard.css">
     <title>Dashboard</title>
 </head>
 <body>
 <div id="container">
+    <div id="bar-container">
+        <div id="bar" class="w3-bar w3-black">
+            <a href="logout" id="logout-button" class="w3-bar-item w3-button w3-right">Logout</a>
+        </div>
+    </div>
     <div id="header-container">
-        <h1>Dashboard</h1>
+        <h1 id="header">Dashboard</h1>
         <br/>
         <br/>
     </div>
@@ -40,6 +46,7 @@
                 <th class="sell-zones-table-col">Total Stores</th>
                 <th class="sell-zones-table-col">Total Orders</th>
                 <th class="sell-zones-table-col">Total Orders Cost Average (Without Delivery)</th>
+                <th id="sell-zone-link-col" class="sell-zones-table-col">Sell Zone Link</th>
             </thead>
             <tbody id="sell-zones-table-body">
             </tbody>

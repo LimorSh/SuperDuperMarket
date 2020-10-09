@@ -1,4 +1,4 @@
-package course.java.sdm.web.servlets;
+package course.java.sdm.web.servlets.dashboard;
 
 import course.java.sdm.engine.dto.ZoneDetailsDto;
 import course.java.sdm.engine.engine.users.User;

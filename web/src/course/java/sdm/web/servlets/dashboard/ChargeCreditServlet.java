@@ -1,4 +1,4 @@
-package course.java.sdm.web.servlets;
+package course.java.sdm.web.servlets.dashboard;
 
 import course.java.sdm.engine.engine.accounts.AccountManager;
 import course.java.sdm.engine.engine.users.UserManager;
@@ -22,13 +22,15 @@ public class ChargeCreditServlet extends HttpServlet {
         String usernameFromSession = SessionUtils.getUsername(request);
         AccountManager accountManager = ServletUtils.getAccountManager(getServletContext());
 
-        String creditStr = request.getParameter(Constants.CREDIT);
-        int credit = Integer.parseInt(creditStr);
+        if (usernameFromSession != null) {
+            String creditStr = request.getParameter(Constants.CREDIT);
+            int credit = Integer.parseInt(creditStr);
 
-        Date date = new Date();
-        accountManager.addCreditForUser(usernameFromSession, date, credit);
-        String msg = String.format("$%d were added to your account successfully.", credit);
-        response.getWriter().print(msg);
+            Date date = new Date();
+            accountManager.addCreditForUser(usernameFromSession, date, credit);
+            String msg = String.format("$%d were added to your account successfully.", credit);
+            response.getWriter().print(msg);
+        }
     }
 
     @Override

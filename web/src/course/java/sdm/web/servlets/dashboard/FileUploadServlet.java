@@ -1,4 +1,4 @@
-package course.java.sdm.web.servlets;
+package course.java.sdm.web.servlets.dashboard;
 
 import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.web.utils.ServletUtils;

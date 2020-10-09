@@ -5,11 +5,16 @@ const ACCOUNT_TABLE_CELL_ID = "account-table-cell";
 const USER_LIST_URL_RESOURCE = "userslist";
 const SELL_ZONES_TABLE_URL_RESOURCE = "sellZonesTable";
 const ACCOUNT_TABLE_URL_RESOURCE = "accountTable";
+const SELL_ZONE_URL_RESOURCE = "pages/sellZone/sell-zone.html";
+const SELL_ZONE_CHOSEN_URL_RESOURCE = "sellZoneChosen";
 
 let refreshRate = 2000; //milli seconds
 let USER_LIST_URL = buildUrlWithContextPath(USER_LIST_URL_RESOURCE);
 let SELL_ZONES_TABLE_URL = buildUrlWithContextPath(SELL_ZONES_TABLE_URL_RESOURCE);
 let ACCOUNT_TABLE_URL = buildUrlWithContextPath(ACCOUNT_TABLE_URL_RESOURCE);
+let SELL_ZONE_URL = buildUrlWithContextPath(SELL_ZONE_URL_RESOURCE);
+let SELL_ZONE_CHOSEN_URL = buildUrlWithContextPath(SELL_ZONE_CHOSEN_URL_RESOURCE);
+
 
 
 //users = a list of users, essentially an array of javascript strings:
@@ -36,6 +41,44 @@ function addElemToTable(elem, tableBodyId, tableCellId) {
     })
 }
 
+function zoneWasChosen(zoneName) {
+    $.ajax({
+        data: {
+            "zoneName": zoneName,
+        },
+        url: SELL_ZONE_CHOSEN_URL,
+        success: function(r) {
+            console.log(r);
+        }
+    });
+}
+
+function addZoneLinksToTable(zone) {
+    let zoneName = zone["zoneName"];
+    let link = document.createElement("a");
+    link.setAttribute("href", SELL_ZONE_URL);
+    // let linkIcon = document.createElement("i");
+    // linkIcon.setAttribute("class", "fas fa-bars");
+    // let linkIcon = document.createElement("img");
+    // linkIcon.setAttribute("src", "../../common/images/cart-icon.jpg");
+    // link.append('<i class="fas fa-bars"></i>');
+    link.className = "sell-zone-link-cell-class";
+
+    let linkText = document.createTextNode(zoneName);
+    link.appendChild(linkText);
+    link.addEventListener("click", () => {
+        zoneWasChosen(zoneName);
+    });
+
+    let tableBody = document.getElementById(SELL_ZONES_TABLE_BODY_ID);
+    for (let i = 0; i < tableBody.rows.length; i++) {
+        let row = tableBody.rows[i];
+        let cell = row.insertCell();
+        cell.classList.add(SELL_ZONES_TABLE_CELL_ID);
+        cell.appendChild(link);
+    }
+}
+
 //zones = a list of zones, essentially an array of javascript strings:
 //[{"ownerName":"shalom","zoneName":"Galil Maarvi","totalDifferentItems":5,"totalStores":2,"totalOrders":0,"totalOrdersCostAverageWithoutDelivery":0.0},{"ownerName":"shalom","zoneName":"Haifa","totalDifferentItems":8,"totalStores":4,"totalOrders":0,"totalOrdersCostAverageWithoutDelivery":0.0},{"ownerName":"shalom","zoneName":"Hasharon","totalDifferentItems":10,"totalStores":4,"totalOrders":0,"totalOrdersCostAverageWithoutDelivery":0.0}]
 function refreshSellZoneTable(zones) {
@@ -45,6 +88,7 @@ function refreshSellZoneTable(zones) {
     // rebuild the table of sell zones: scan all zones and add them to the table of sell zones
     $.each(zones || [], function(index, zone) {
         addElemToTable(zone, SELL_ZONES_TABLE_BODY_ID, SELL_ZONES_TABLE_CELL_ID);
+        addZoneLinksToTable(zone);
     });
 }
 

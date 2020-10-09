@@ -1,5 +1,6 @@
 package course.java.sdm.web.servlets;
 
+import course.java.sdm.engine.engine.accounts.AccountManager;
 import course.java.sdm.engine.engine.users.UserManager;
 import course.java.sdm.web.utils.ServletUtils;
 import course.java.sdm.web.utils.SessionUtils;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "LogoutServlet", urlPatterns = {"/sdm/logout"})
+//@WebServlet(name = "LogoutServlet", urlPatterns = {"/pages/dashboard/logout"})
 public class LogoutServlet extends HttpServlet {
 
 
@@ -19,10 +20,12 @@ public class LogoutServlet extends HttpServlet {
             throws ServletException, IOException {
         String usernameFromSession = SessionUtils.getUsername(request);
         UserManager userManager = ServletUtils.getUserManager(getServletContext());
+        AccountManager accountManager = ServletUtils.getAccountManager(getServletContext());
 
         if (usernameFromSession != null) {
-            System.out.println("Clearing session for " + usernameFromSession);
+//            System.out.println("Clearing session for " + usernameFromSession);
             userManager.removeUser(usernameFromSession);
+            accountManager.removeAccount(usernameFromSession);
             SessionUtils.clearSession(request);
 
             /*

@@ -6,11 +6,11 @@
 
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.LoginServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.index.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UsersListServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.UsersListServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.dashboard.UsersListServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
@@ -18,19 +18,27 @@
     </servlet>
     <servlet>
         <servlet-name>FileUploadServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.FileUploadServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.dashboard.FileUploadServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SellZonesTableServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.SellZonesTableServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.dashboard.SellZonesTableServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ChargeCreditServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.ChargeCreditServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.dashboard.ChargeCreditServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AccountTransactionsTableServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.AccountTransactionsTableServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.dashboard.AccountTransactionsTableServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SellZoneItemsTableServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.SellZoneItemsTableServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SellZoneWasChosenServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.dashboard.SellZoneWasChosenServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -43,7 +51,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
-        <url-pattern>/sdm/logout</url-pattern>
+        <url-pattern>/pages/dashboard/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FileUploadServlet</servlet-name>
@@ -60,5 +68,13 @@
     <servlet-mapping>
         <servlet-name>AccountTransactionsTableServlet</servlet-name>
         <url-pattern>/accountTable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellZoneItemsTableServlet</servlet-name>
+        <url-pattern>/itemsTable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellZoneWasChosenServlet</servlet-name>
+        <url-pattern>/sellZoneChosen</url-pattern>
     </servlet-mapping>
 </web-app>
