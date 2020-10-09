@@ -1,8 +1,10 @@
 package course.java.sdm.web.servlets;
 
+import com.google.gson.Gson;
+import course.java.sdm.engine.dto.ZoneDetailsDto;
+import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.engine.engine.accounts.AccountManager;
-import course.java.sdm.engine.engine.users.UserManager;
-import course.java.sdm.web.constants.Constants;
+import course.java.sdm.engine.engine.accounts.Transaction;
 import course.java.sdm.web.utils.ServletUtils;
 import course.java.sdm.web.utils.SessionUtils;
 
@@ -10,25 +12,31 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Date;
+import java.io.PrintWriter;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-//@WebServlet(name = "ChargeCreditServlet", urlPatterns = {"/pages/dashboard/chargeCredit"})
-public class ChargeCreditServlet extends HttpServlet {
+//@WebServlet(name = "AccountTransactionsTableServlet", urlPatterns = {"/accountTable"})
+public class AccountTransactionsTableServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        //returning JSON objects, not HTML
+        response.setContentType("application/json");
+
         String usernameFromSession = SessionUtils.getUsername(request);
         AccountManager accountManager = ServletUtils.getAccountManager(getServletContext());
 
-        String creditStr = request.getParameter(Constants.CREDIT);
-        int credit = Integer.parseInt(creditStr);
-
-        Date date = new Date();
-        accountManager.addCreditForUser(usernameFromSession, date, credit);
-        String msg = String.format("$%d were added to your account successfully.", credit);
-        response.getWriter().print(msg);
+        try (PrintWriter out = response.getWriter()) {
+            Gson gson = new Gson();
+            List<Transaction> transactions = accountManager.getUserTransactions(usernameFromSession);
+            String json = gson.toJson(transactions);
+            System.out.println(json);
+            out.println(json);
+            out.flush();
+        }
     }
 
     @Override

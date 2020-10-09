@@ -26,12 +26,12 @@ function refreshUsersList(users) {
 }
 
 
-function addElemToTable(elem, tableBodyId) {
+function addElemToTable(elem, tableBodyId, tableCellId) {
     let tableBody = document.getElementById(tableBodyId);
     let row = tableBody.insertRow();
     Object.keys(elem).forEach(function(key) {
         let cell = row.insertCell();
-        cell.classList.add(SELL_ZONES_TABLE_CELL_ID);
+        cell.classList.add(tableCellId);
         cell.textContent = elem[key];
     })
 }
@@ -44,18 +44,20 @@ function refreshSellZoneTable(zones) {
 
     // rebuild the table of sell zones: scan all zones and add them to the table of sell zones
     $.each(zones || [], function(index, zone) {
-        addElemToTable(zone, SELL_ZONES_TABLE_BODY_ID);
+        addElemToTable(zone, SELL_ZONES_TABLE_BODY_ID, SELL_ZONES_TABLE_CELL_ID);
     });
 }
 
 
-function refreshAccountTable(zones) {
+//transactions = a list of transactions, essentially an array of javascript strings:
+//[{"type":"CHARGE","date":"Oct 9, 2020 11:42:58 AM","amount":30.0,"balanceBefore":0.0,"balanceAfter":30.0},{"type":"CHARGE","date":"Oct 9, 2020 11:43:36 AM","amount":46.0,"balanceBefore":30.0,"balanceAfter":76.0},{"type":"CHARGE","date":"Oct 9, 2020 11:44:02 AM","amount":42.0,"balanceBefore":76.0,"balanceAfter":118.0}]
+function refreshAccountTable(transactions) {
     //clear all current table
     $("#account-table-body").empty();
 
     // rebuild the table of sell zones: scan all zones and add them to the table of sell zones
-    $.each(zones || [], function(index, account) {
-        addElemToTable(account, ACCOUNT_TABLE_BODY_ID);
+    $.each(transactions || [], function(index, transaction) {
+        addElemToTable(transaction, ACCOUNT_TABLE_BODY_ID, ACCOUNT_TABLE_CELL_ID);
     });
 }
 
@@ -98,7 +100,7 @@ $(function() {
     //The sell zones table content is refreshed automatically every second
     setInterval(ajaxSellZonesTable, refreshRate);
 
-    //The account table content is refreshed automatically every second
+    //The account transactions table content is refreshed automatically every second
     setInterval(ajaxAccountTable, refreshRate);
 });
 

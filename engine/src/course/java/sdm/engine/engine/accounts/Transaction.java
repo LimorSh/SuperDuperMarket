@@ -1,7 +1,7 @@
 package course.java.sdm.engine.engine.accounts;
 
 import course.java.sdm.engine.Constants;
-import java.time.LocalDate;
+import java.util.Date;
 
 public class Transaction {
 
@@ -32,12 +32,12 @@ public class Transaction {
     }
 
     private final TransactionType type;
-    private final LocalDate date;
+    private final Date date;
     private final float amount;
     private final float balanceBefore;
     private float balanceAfter;
 
-    public Transaction(String type, LocalDate date, float amount, float balanceBefore) {
+    public Transaction(String type, Date date, float amount, float balanceBefore) {
         TransactionType transactionType = TransactionType.getTransactionType(type);
         this.type = transactionType;
         this.date = date;
@@ -69,7 +69,7 @@ public class Transaction {
         return type.getTransactionTypeStr();
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 

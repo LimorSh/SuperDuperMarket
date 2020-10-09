@@ -1,10 +1,6 @@
 package course.java.sdm.engine.engine.accounts;
 
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 // Adding and retrieving accounts is synchronized and in that manner - these actions are thread safe
 public class AccountManager {
@@ -24,8 +20,17 @@ public class AccountManager {
         accounts.remove(username);
     }
 
-    public synchronized void addCreditForUser(String username, LocalDate date, int credit) {
-        Account account = accounts.get(username);
+    public synchronized void addCreditForUser(String username, Date date, int credit) {
+        Account account = getUserAccount(username);
         account.addCredit(date, credit);
+    }
+
+    public synchronized List<Transaction> getUserTransactions(String username) {
+        Account account = getUserAccount(username);
+        return account.getTransactions();
+    }
+
+    private Account getUserAccount(String username) {
+        return accounts.get(username);
     }
 }

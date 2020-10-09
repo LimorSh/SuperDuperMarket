@@ -28,6 +28,10 @@
         <servlet-name>ChargeCreditServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.ChargeCreditServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AccountTransactionsTableServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.AccountTransactionsTableServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -52,5 +56,9 @@
     <servlet-mapping>
         <servlet-name>ChargeCreditServlet</servlet-name>
         <url-pattern>/pages/dashboard/chargeCredit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountTransactionsTableServlet</servlet-name>
+        <url-pattern>/accountTable</url-pattern>
     </servlet-mapping>
 </web-app>

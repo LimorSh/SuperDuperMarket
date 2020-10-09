@@ -2,8 +2,8 @@ package course.java.sdm.engine.engine.accounts;
 
 import course.java.sdm.engine.Constants;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Account {
@@ -23,7 +23,7 @@ public class Account {
         return transactions;
     }
 
-    public void addCredit(LocalDate date, int credit) {
+    public void addCredit(Date date, int credit) {
         float balanceBefore = getBalanceBefore();
         Transaction transaction = new Transaction(Constants.TRANSACTION_TYPE_CHARGE_STR,
                 date, (float) credit, balanceBefore);
