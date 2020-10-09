@@ -1,5 +1,6 @@
 package course.java.sdm.web.servlets;
 
+import course.java.sdm.engine.engine.accounts.AccountManager;
 import course.java.sdm.engine.engine.users.UserManager;
 import course.java.sdm.web.constants.Constants;
 import course.java.sdm.web.utils.ServletUtils;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 
 //@WebServlet(name = "ChargeCreditServlet", urlPatterns = {"/pages/dashboard/chargeCredit"})
 public class ChargeCreditServlet extends HttpServlet {
@@ -17,25 +19,15 @@ public class ChargeCreditServlet extends HttpServlet {
             throws IOException {
         response.setContentType("text/html;charset=UTF-8");
         String usernameFromSession = SessionUtils.getUsername(request);
-        UserManager userManager = ServletUtils.getUserManager(getServletContext());
+        AccountManager accountManager = ServletUtils.getAccountManager(getServletContext());
 
         String creditStr = request.getParameter(Constants.CREDIT);
-        float credit = Float.parseFloat(creditStr);
+        int credit = Integer.parseInt(creditStr);
 
-        synchronized (this) {
-
-        }
-
-//        synchronized (this) {
-//            if (userManager.isUserExists(usernameFromParameter)) {
-//                String errorMessage = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
-//                response.getWriter().print(errorMessage);
-//            } else {
-//                userManager.addUser(usernameFromParameter, userTypeFromParameter);
-//                request.getSession(true).setAttribute(Constants.USERNAME, usernameFromParameter);
-//                response.getWriter().print("");
-//            }
-//        }
+        LocalDate date = LocalDate.now();
+        accountManager.addCreditForUser(usernameFromSession, date, credit);
+        String msg = String.format("$%d were added to your account successfully.", credit);
+        response.getWriter().print(msg);
     }
 
     @Override

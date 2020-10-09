@@ -53,21 +53,22 @@
         <form id="charge-credit-form" method="GET" action="chargeCredit">
             <label>
                 Charge Credit:
-                <input type="number" name="credit"/>
+                <input type="number" min="1" max="100000" name="credit"/>
             </label>
 <!--            <input id="charge" disabled="disabled" type="submit" value="Charge"/>-->
             <input id="charge" type="submit" value="Charge"/>
+            <label id="charge-credit-msg-label"></label>
         </form>
-        <label id="charge-credit-msg"></label>
     </div>
+    <br/>
     <div id="account-table-container">
         <table id="account-table">
             <thead>
             <th class="account-table-col">Transaction Type</th>
             <th class="account-table-col">Date</th>
-            <th class="account-table-col">Total Sum</th>
-            <th class="account-table-col">Balance Before Action</th>
-            <th class="account-table-col">Balance After Action</th>
+            <th class="account-table-col">Amount</th>
+            <th class="account-table-col">Balance Before</th>
+            <th class="account-table-col">Balance After</th>
             </thead>
             <tbody id="account-table-body">
             </tbody>

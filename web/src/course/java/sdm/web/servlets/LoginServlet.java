@@ -1,5 +1,6 @@
 package course.java.sdm.web.servlets;
 
+import course.java.sdm.engine.engine.accounts.AccountManager;
 import course.java.sdm.engine.engine.users.UserManager;
 import course.java.sdm.web.constants.Constants;
 import course.java.sdm.web.utils.ServletUtils;
@@ -18,6 +19,7 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String usernameFromSession = SessionUtils.getUsername(request);
         UserManager userManager = ServletUtils.getUserManager(getServletContext());
+        AccountManager accountManager = ServletUtils.getAccountManager(getServletContext());
         if (usernameFromSession == null) {
             String usernameFromParameter = request.getParameter(Constants.USERNAME);
             String userTypeFromParameter = request.getParameter(Constants.USERTYPE);
@@ -34,6 +36,7 @@ public class LoginServlet extends HttpServlet {
                     } else {
                         userManager.addUser(usernameFromParameter, userTypeFromParameter);
                         request.getSession(true).setAttribute(Constants.USERNAME, usernameFromParameter);
+                        accountManager.addAccount(usernameFromParameter);
                         response.getWriter().print("");
                     }
                 }

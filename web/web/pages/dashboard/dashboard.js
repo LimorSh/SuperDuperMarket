@@ -37,7 +37,7 @@ function addElemToTable(elem, tableBodyId) {
 }
 
 //zones = a list of zones, essentially an array of javascript strings:
-//[{"id":1,"name":"david","userType":"CUSTOMER"},{"id":2,"name":"rachel","userType":"SELLER"}]
+//[{"ownerName":"shalom","zoneName":"Galil Maarvi","totalDifferentItems":5,"totalStores":2,"totalOrders":0,"totalOrdersCostAverageWithoutDelivery":0.0},{"ownerName":"shalom","zoneName":"Haifa","totalDifferentItems":8,"totalStores":4,"totalOrders":0,"totalOrdersCostAverageWithoutDelivery":0.0},{"ownerName":"shalom","zoneName":"Hasharon","totalDifferentItems":10,"totalStores":4,"totalOrders":0,"totalOrdersCostAverageWithoutDelivery":0.0}]
 function refreshSellZoneTable(zones) {
     //clear all current table
     $("#sell-zones-table-body").empty();
@@ -134,7 +134,7 @@ $(function() {
 
 
 $(function() {
-    $("#login-form").submit(function() {
+    $("#charge-credit-form").submit(function() {
         let parameters = $(this).serialize();
 
         $.ajax({
@@ -143,10 +143,10 @@ $(function() {
             timeout: 2000,
             error: function() {
                 console.error("Failed to submit");
-                $("#charge-credit-msg").text("Failed to get result from server");
+                $("#charge-credit-msg-label").text("Failed to get result from server");
             },
             success: function(r) {
-                $("#charge-credit-msg").text(r);
+                $("#charge-credit-msg-label").text(r);
             }
         });
 
