@@ -14,8 +14,8 @@ public class SellZoneWasChosenServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String zoneName = request.getParameter(Constants.ZONE_NAME);
         request.getSession(false).setAttribute(Constants.ZONE_NAME, zoneName);
-        response.getWriter().print("success zone was chosen");
-        System.out.println("success zone was chosen");
+        response.getWriter().print("success - zone was chosen");
+        System.out.println("success - zone was chosen");
     }
 
     @Override
