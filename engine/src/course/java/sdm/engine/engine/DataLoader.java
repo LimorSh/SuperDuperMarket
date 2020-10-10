@@ -18,12 +18,13 @@ public class DataLoader {
 
     private static final String JAXB_XML_PACKAGE_NAME = Constants.JAXB_XML_PACKAGE_NAME;
 
-    public static SuperDuperMarket loadFromXmlFileDataInputStream(InputStream inputStream) throws JAXBException {
+    public static SuperDuperMarket loadFromXmlFileDataInputStream(InputStream inputStream, String zoneOwnerName)
+            throws JAXBException {
         SuperDuperMarket superDuperMarket;
         superDuperMarket = new SuperDuperMarket();
         SuperDuperMarketDescriptor superDuperMarketDescriptor = deserializeFrom(inputStream);
         loadItems(superDuperMarketDescriptor, superDuperMarket);
-        loadStores(superDuperMarketDescriptor, superDuperMarket);
+        loadStores(superDuperMarketDescriptor, superDuperMarket, zoneOwnerName);
         if (!superDuperMarket.isAllItemsAreBeingSoldByAtLeastOneStore()) {
             Set<Item> missingItems = superDuperMarket.getItemsThatAreNotBeingSoldByAtLeastOneStore();
             throw new NotAllItemsAreBeingSoldException(missingItems);
@@ -41,10 +42,11 @@ public class DataLoader {
         }
     }
 
-    private static void loadStores(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
+    private static void loadStores(SuperDuperMarketDescriptor superDuperMarketDescriptor,
+                                   SuperDuperMarket superDuperMarket, String zoneOwnerName) {
         List<SDMStore> sdmStores = superDuperMarketDescriptor.getSDMStores().getSDMStore();
         for (SDMStore sdmStore : sdmStores) {
-            Store store = new Store(sdmStore);
+            Store store = new Store(sdmStore, zoneOwnerName);
             try {
                 superDuperMarket.addStore(store);
             }

@@ -19,7 +19,7 @@ public class BusinessLogic {
 
     public synchronized void addSuperDuperMarket(InputStream fileDataInputStream,
                                                  String zoneOwnerName) throws JAXBException {
-        SuperDuperMarket superDuperMarket = loadSystemData(fileDataInputStream);
+        SuperDuperMarket superDuperMarket = loadSystemData(fileDataInputStream, zoneOwnerName);
         superDuperMarket.setZoneOwnerName(zoneOwnerName);
         String zoneName = superDuperMarket.getZoneName();
         if (!isZoneNameExists(zoneName)) {
@@ -39,9 +39,10 @@ public class BusinessLogic {
         return false;
     }
 
-    private SuperDuperMarket loadSystemData(InputStream fileDataInputStream) throws JAXBException {
+    private SuperDuperMarket loadSystemData(InputStream fileDataInputStream, String zoneOwnerName)
+            throws JAXBException {
         //        superDuperMarket.initNumOrders();
-        return DataLoader.loadFromXmlFileDataInputStream(fileDataInputStream);
+        return DataLoader.loadFromXmlFileDataInputStream(fileDataInputStream, zoneOwnerName);
     }
 
     public Collection<StoreDto> getStoresDto(String zoneName) {
@@ -388,9 +389,9 @@ public class BusinessLogic {
         return minAndMaxLocations;
     }
 
-    public void createNewStore(String zoneName, int id, String name, int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
+    public void createNewStore(String zoneName, int id, String name, String ownerName, int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.addStore(id, name, locationX, locationY, ppk, itemIdsAndPrices);
+        chosenSuperDuperMarket.addStore(id, name, ownerName, locationX, locationY, ppk, itemIdsAndPrices);
     }
 
     public void validateStoreId(String zoneName, int id) {

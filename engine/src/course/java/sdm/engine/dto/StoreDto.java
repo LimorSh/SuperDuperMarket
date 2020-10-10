@@ -9,10 +9,13 @@ public class StoreDto {
 
     private final int id;
     private final String name;
-    private final int ppk;
-    private final float totalDeliveriesRevenue;
+    private final String ownerName;
     private final int xLocation;
     private final int yLocation;
+    private final int ppk;
+    private final float totalDeliveriesRevenue;
+    private final int numberOfOrders;
+    private final float totalItemsCost;
     private final boolean hasDiscounts;
     private final Collection<StoreItemDto> storeItemsDto;
     private final Collection<OrderDto> ordersDto;
@@ -20,10 +23,13 @@ public class StoreDto {
     public StoreDto(Store store) {
         this.id = store.getId();
         this.name = store.getName();
-        this.ppk = store.getPpk();
-        this.totalDeliveriesRevenue = store.getTotalDeliveriesRevenue();
+        this.ownerName = store.getOwnerName();
         this.xLocation = store.getLocation().getCoordinate().x;
         this.yLocation = store.getLocation().getCoordinate().y;
+        this.ppk = store.getPpk();
+        this.totalDeliveriesRevenue = store.getTotalDeliveriesRevenue();
+        this.numberOfOrders = store.getNumberOfOrders();
+        this.totalItemsCost = store.getTotalItemsCost();
         this.hasDiscounts = store.hasDiscounts();
         storeItemsDto = new ArrayList<>();
         ordersDto = new ArrayList<>();
@@ -55,12 +61,24 @@ public class StoreDto {
         return name;
     }
 
+    public String getOwnerName() {
+        return ownerName;
+    }
+
     public int getPpk() {
         return ppk;
     }
 
     public float getTotalDeliveriesRevenue() {
         return totalDeliveriesRevenue;
+    }
+
+    public int getNumberOfOrders() {
+        return numberOfOrders;
+    }
+
+    public float getTotalItemsCost() {
+        return totalItemsCost;
     }
 
     public Collection<StoreItemDto> getStoreItemsDto() {

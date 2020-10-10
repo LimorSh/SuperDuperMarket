@@ -142,9 +142,9 @@ public class SuperDuperMarket {
         }
     }
 
-    public void addStore(int id, String name, int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
+    public void addStore(int id, String name, String ownerName, int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
         Location location = new Location(locationX, locationY);
-        Store store = new Store(id, name, ppk, location);
+        Store store = new Store(id, name, ownerName, ppk, location);
         addStore(store);
 
         itemIdsAndPrices.forEach((itemId, price) -> {

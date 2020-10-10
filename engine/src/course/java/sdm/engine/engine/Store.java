@@ -10,27 +10,29 @@ public class Store {
 
     private final int id;
     private final String name;
+    private final String ownerName;
     private final int ppk;
     private Location location;
     private final Map<Integer, StoreItem> storeItems;
     private final Map<Integer, Order> orders;
     private float totalDeliveriesRevenue;
 
-    public Store(int id, String name, int ppk, Location location) {
-        this(id, name, ppk, location.getCoordinate().x, location.getCoordinate().y);
+    public Store(int id, String name, String ownerName, int ppk, Location location) {
+        this(id, name, ownerName, ppk, location.getCoordinate().x, location.getCoordinate().y);
     }
 
-    public Store(int id, String name, int ppk, int xLocation, int yLocation) {
+    public Store(int id, String name, String ownerName, int ppk, int xLocation, int yLocation) {
         this.id = id;
         this.name = name.trim();
+        this.ownerName = ownerName.trim();
         this.ppk = ppk;
         setLocation(xLocation, yLocation);
         storeItems = new HashMap<>();
         orders = new HashMap<>();
     }
 
-    public Store(SDMStore sdmStore) {
-        this(sdmStore.getId(), sdmStore.getName(),
+    public Store(SDMStore sdmStore, String ownerName) {
+        this(sdmStore.getId(), sdmStore.getName(), ownerName,
                 sdmStore.getDeliveryPpk(), sdmStore.getLocation().getX(), sdmStore.getLocation().getY());
     }
 
@@ -47,6 +49,10 @@ public class Store {
 
     public String getName() {
         return name;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
     }
 
     public int getPpk() {
@@ -176,6 +182,18 @@ public class Store {
             }
         }
         return false;
+    }
+
+    public int getNumberOfOrders() {
+        return orders.keySet().size();
+    }
+
+    public float getTotalItemsCost() {
+        float cost = 0f;
+        for (Order order : orders.values()) {
+            cost += order.getItemsCost();
+        }
+        return cost;
     }
 
     @Override
