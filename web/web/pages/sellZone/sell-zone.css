@@ -5,15 +5,32 @@
     font-family: Georgia, cursive;
 }
 
+#items-table-container{
+    position:relative;
+}
+
+#items-table-scroll{
+    /*position: relative;*/
+    height:150px;
+    /*width: 82%;*/
+    overflow:auto;
+    /*margin-top:20px;*/
+    display: block;
+}
+
 #items-table {
-    /*align-content: center;*/
-    width: 60%;
+    width: 80%;
     border: 1px solid black;
     border-collapse: collapse;
     /*padding: 15px;*/
 }
 
-.items-table-col{
+#items-table-container table thead th .items-table-col{
+    position:absolute;
+    top:-20px;
+    height:20px;
+    /*width:35%;*/
+    /*border:1px solid red;*/
     text-align: center;
     /*word-wrap: break-word;*/
 }

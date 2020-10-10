@@ -21,7 +21,7 @@ public class Item {
     }
 
     private final int id;
-    private String name;
+    private final String name;
     private final PurchaseCategory purchaseCategory;
 
     public Item(int id, String name, PurchaseCategory purchaseCategory) {

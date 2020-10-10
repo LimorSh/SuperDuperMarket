@@ -40,6 +40,10 @@
         <servlet-name>SellZoneWasChosenServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.dashboard.SellZoneWasChosenServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomeServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.HomeServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -51,7 +55,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
-        <url-pattern>/pages/dashboard/logout</url-pattern>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FileUploadServlet</servlet-name>
@@ -76,5 +80,9 @@
     <servlet-mapping>
         <servlet-name>SellZoneWasChosenServlet</servlet-name>
         <url-pattern>/sellZoneChosen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeServlet</servlet-name>
+        <url-pattern>/pages/sellZone/home</url-pattern>
     </servlet-mapping>
 </web-app>

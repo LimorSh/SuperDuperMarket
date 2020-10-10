@@ -5,28 +5,39 @@
     <script type="text/javascript" src="../../common/jquery-3.5.1.min.js"></script>
     <script src="../../common/context-path-helper.js"></script>
     <script src="../../constants/constants.js"></script>
+    <script src="../../utils/utils.js"></script>
     <script src="sell-zone.js"></script>
     <link rel="stylesheet" href="../../common/w3_style.css">
     <link rel="stylesheet" href="sell-zone.css">
     <title>Sell Zone</title>
 </head>
 <body>
+<div id="container">
+    <div id="bar-container">
+        <div id="bar" class="w3-bar w3-black">
+            <a href="home" id="dashboard-button" class="w3-bar-item w3-button w3">Home</a>
+            <a href="/sdm/logout" id="logout-button" class="w3-bar-item w3-button w3-right">Logout</a>
+        </div>
+    </div>
     <h1 id="header">Sell Zone</h1>
     <h2>Items:</h2>
     <div id="items-table-container">
-        <table id="items-table">
-            <thead>
-            <th class="items-table-col">ID</th>
-            <th class="items-table-col">Name</th>
-            <th class="items-table-col">Purchase Category</th>
-            <th class="items-table-col">Number of Stores Selling The Item</th>
-            <th class="items-table-col">Average Price</th>
-            <th class="items-table-col">Total Sells</th>
-            </thead>
-            <tbody id="items-table-body">
-            </tbody>
-        </table>
+        <div id="items-table-scroll">
+            <table id="items-table">
+                <thead>
+                <th class="items-table-col">ID</th>
+                <th class="items-table-col">Name</th>
+                <th class="items-table-col">Purchase Category</th>
+                <th class="items-table-col">Number of Stores Selling The Item</th>
+                <th class="items-table-col">Average Price</th>
+                <th class="items-table-col">Total Sells</th>
+                </thead>
+                <tbody id="items-table-body">
+                </tbody>
+            </table>
+        </div>
     </div>
     <br/>
+</div>
 </body>
 </html>
