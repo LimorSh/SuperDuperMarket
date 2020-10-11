@@ -2,11 +2,9 @@ package course.java.sdm.web.servlets.sellZone;
 
 import com.google.gson.Gson;
 import course.java.sdm.engine.dto.ItemDto;
-import course.java.sdm.engine.dto.ZoneDetailsDto;
 import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.web.utils.ServletUtils;
 import course.java.sdm.web.utils.SessionUtils;
-import javafx.print.Collation;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +13,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-//@WebServlet(name = "SellZoneItemsTableServlet", urlPatterns = {"/itemsTable"})
 public class SellZoneItemsTableServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)

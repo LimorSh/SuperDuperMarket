@@ -37,12 +37,20 @@
         <servlet-class>course.java.sdm.web.servlets.sellZone.SellZoneItemsTableServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>SellZoneStoresServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.SellZoneStoresServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>SellZoneWasChosenServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.dashboard.SellZoneWasChosenServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.dashboard.SetChosenSellZoneServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.sellZone.HomeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetChosenSellZone</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.GetChosenSellZone</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -78,11 +86,19 @@
         <url-pattern>/itemsTable</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>SellZoneStoresServlet</servlet-name>
+        <url-pattern>/stores</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>SellZoneWasChosenServlet</servlet-name>
         <url-pattern>/sellZoneChosen</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/pages/sellZone/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetChosenSellZone</servlet-name>
+        <url-pattern>/setTitle</url-pattern>
     </servlet-mapping>
 </web-app>
