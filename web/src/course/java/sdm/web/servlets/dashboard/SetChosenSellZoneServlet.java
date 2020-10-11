@@ -11,8 +11,8 @@ import java.io.IOException;
 public class SetChosenSellZoneServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String zoneName = request.getParameter(Constants.ZONE_NAME);
-        request.getSession(false).setAttribute(Constants.ZONE_NAME, zoneName);
+        String zoneName = request.getParameter(Constants.ZONE_NAME_PARAM_KEY);
+        request.getSession(false).setAttribute(Constants.ZONE_NAME_PARAM_KEY, zoneName);
     }
 
     @Override

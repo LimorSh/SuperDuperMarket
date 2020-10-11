@@ -13,17 +13,23 @@
 </head>
 <body>
 <div id="container">
-    <div id="bar-container">
-        <div id="bar" class="w3-bar w3-black">
+    <div id="general-bar-container">
+        <div id="general-bar" class="w3-bar w3-black">
             <a href="home" id="dashboard-button" class="w3-bar-item w3-button w3">Home</a>
             <a href="/sdm/logout" id="logout-button" class="w3-bar-item w3-button w3-right">Logout</a>
         </div>
     </div>
+    <div id="actions-bar-container">
+        <div id="actions-bar" class="w3-bar w3-green">
+            <a href="addOrder" id="add-order-button" class="w3-bar-item w3-button w3">Add Order</a>
+        </div>
+    </div>
     <h1 id="header">Sell Zone</h1>
-    <h2>Items:</h2>
+<!--    <h2>Items</h2>-->
     <div id="items-table-container">
         <div id="items-table-scroll">
             <table id="items-table">
+                <caption id="items-table-caption">Items</caption>
                 <thead>
                 <th class="items-table-col">ID</th>
                 <th class="items-table-col">Name</th>
@@ -38,8 +44,45 @@
         </div>
     </div>
     <br/>
-    <h2>Stores:</h2>
+    <h2>Stores</h2>
     <div id="stores-container-accordion">
     </div>
+    <br/>
+    <br/>
+    <div id="add-order-container">
+        <h2>Add Order</h2>
+        <p>Please fill order details:</p>
+        <form  id="add-order-form" method="GET" action="addOrder">
+            <div id="date-container">
+                <label for="date" class="add-order-label">Date:</label>
+                <input type="date" id="date" name="date">
+            </div>
+            <br/>
+            <div id="locations-container">
+                <label class="add-order-label">Your Location:</label>
+                <br/>
+                <label for="location-x">X:</label>
+                <input type="number" min="1" max="50" id="location-x" name="location-x">
+                <label for="location-y">Y:</label>
+                <input type="number" min="1" max="50" id="location-y" name="location-y">
+            </div>
+            <br/>
+            <div id="order-category-radio-buttons-container">
+                <div id="order-category-label-container">
+                    <label id="order-category-label" class="add-order-label">Order Category:</label>
+                </div>
+                <div id="order-category-radio-buttons">
+                    <input type="radio" id="static-order-radio-button" class="order-category-radio-button" name="order-category" value="static">
+                    <label for="static-order-radio-button">One Store</label><br>
+                    <input type="radio" id="dynamic-order-radio-button" class="order-category-radio-button" name="order-category" value="dynamic">
+                    <label for="dynamic-order-radio-button">Best Cart</label><br>
+                </div>
+            </div>
+            <br/>
+<!--            <input id="add-order" disabled="disabled" type="submit" value="AddOrder">-->
+            <input id="add-order" type="submit" value="AddOrder">
+        </form>
+    </div>
+</div>
 </body>
 </html>

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@WebServlet(name = "GetChosenSellZone", urlPatterns = {"/pages/sellZone/setTitle"})
+//@WebServlet(name = "GetChosenSellZone", urlPatterns = {"/setTitle"})
 public class GetChosenSellZone extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {

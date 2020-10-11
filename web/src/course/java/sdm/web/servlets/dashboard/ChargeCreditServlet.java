@@ -1,7 +1,6 @@
 package course.java.sdm.web.servlets.dashboard;
 
 import course.java.sdm.engine.engine.accounts.AccountManager;
-import course.java.sdm.engine.engine.users.UserManager;
 import course.java.sdm.web.constants.Constants;
 import course.java.sdm.web.utils.ServletUtils;
 import course.java.sdm.web.utils.SessionUtils;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Date;
 
 //@WebServlet(name = "ChargeCreditServlet", urlPatterns = {"/pages/dashboard/chargeCredit"})
@@ -23,7 +21,7 @@ public class ChargeCreditServlet extends HttpServlet {
         AccountManager accountManager = ServletUtils.getAccountManager(getServletContext());
 
         if (usernameFromSession != null) {
-            String creditStr = request.getParameter(Constants.CREDIT);
+            String creditStr = request.getParameter(Constants.CREDIT_PARAM_KEY);
             int credit = Integer.parseInt(creditStr);
 
             Date date = new Date();

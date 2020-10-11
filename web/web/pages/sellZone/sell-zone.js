@@ -124,8 +124,6 @@ function refreshStores(stores) {
 
     // rebuild the stores accordion: scan all stores and add them to the accordion of stores
     $.each(stores || [], function(index, store) {
-        console.log(store)
-
         addStore(store);
     });
 
@@ -153,6 +151,36 @@ function ajaxStores() {
 }
 
 
+function ajaxAddOrder() {
+    $("#add-order-form").submit(function() {
+        let parameters = $(this).serialize();
+
+        $.ajax({
+            data: parameters,
+            url: this.action,
+            timeout: 2000,
+            error: function() {
+                console.error("Failed to submit");
+                $("#error-msg").text("Failed to get result from server");
+            },
+            success: function(r) {
+                console.log(r);
+                // if (r.length > 0) {
+                //     $("#error-msg").text(r);
+                // }
+                // else {
+                //     pageRedirect();
+                // }
+            }
+        });
+
+        // return value of the submit operation
+        // by default - we'll always return false so it doesn't redirect the user.
+        return false;
+    })
+}
+
+
 $(function() {
     ajaxSetTitle();
 
@@ -163,4 +191,6 @@ $(function() {
     //The stores content is refreshed automatically every second
     // setInterval(ajaxStores, refreshRate);
     ajaxStores();
+
+    ajaxAddOrder();
 });

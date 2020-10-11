@@ -21,8 +21,8 @@ public class LoginServlet extends HttpServlet {
         UserManager userManager = ServletUtils.getUserManager(getServletContext());
         AccountManager accountManager = ServletUtils.getAccountManager(getServletContext());
         if (usernameFromSession == null) {
-            String usernameFromParameter = request.getParameter(Constants.USERNAME);
-            String userTypeFromParameter = request.getParameter(Constants.USERTYPE);
+            String usernameFromParameter = request.getParameter(Constants.USERNAME_PARAM_KEY);
+            String userTypeFromParameter = request.getParameter(Constants.USERTYPE_PARAM_KEY);
             if (usernameFromParameter == null || usernameFromParameter.isEmpty()) {
                 String errorMessage = "Username must contains at least one letter.";
                 response.getWriter().print(errorMessage);
@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
                         response.getWriter().print(errorMessage);
                     } else {
                         userManager.addUser(usernameFromParameter, userTypeFromParameter);
-                        request.getSession(true).setAttribute(Constants.USERNAME, usernameFromParameter);
+                        request.getSession(true).setAttribute(Constants.USERNAME_PARAM_KEY, usernameFromParameter);
                         accountManager.addAccount(usernameFromParameter);
                         response.getWriter().print("");
                     }
