@@ -1,3 +1,7 @@
+const USER_TYPE_RADIO_BUTTON_CLASS_NAME = "user-type-radio-button";
+const LOGIN_FORM_SUBMIT_BUTTON_ID = "login";
+const LOGIN_FORM_USER_TYPE_INPUT_ID = "user-type-input";
+
 let userType = "";
 
 
@@ -7,13 +11,13 @@ function pageRedirect() {
 
 
 function configUserTypeRadioButtons() {
-    let radios = document.getElementsByClassName("user-type-radio-button");
+    let radios = document.getElementsByClassName(USER_TYPE_RADIO_BUTTON_CLASS_NAME);
     for (let i = 0; i < radios.length; i++) {
         let radio = radios[i];
         radio.onchange = function() {
-            document.getElementById("login").disabled = false;
+            document.getElementById(LOGIN_FORM_SUBMIT_BUTTON_ID).disabled = false;
             userType = radio.value;
-            document.getElementById("user-type-input").value = userType;
+            document.getElementById(LOGIN_FORM_USER_TYPE_INPUT_ID).value = userType;
         }
     }
 }

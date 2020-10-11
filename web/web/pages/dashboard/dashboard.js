@@ -1,7 +1,9 @@
 const SELL_ZONES_TABLE_BODY_ID = "sell-zones-table-body";
 const SELL_ZONES_TABLE_CELL_ID = "sell-zones-table-cell";
+const SELL_ZONE_TABLE_LINK_CELL_CLASS = "sell-zone-link-cell-class";
 const ACCOUNT_TABLE_BODY_ID = "account-table-body";
 const ACCOUNT_TABLE_CELL_ID = "account-table-cell";
+
 const USER_LIST_URL_RESOURCE = "userslist";
 const SELL_ZONES_TABLE_URL_RESOURCE = "sellZonesTable";
 const ACCOUNT_TABLE_URL_RESOURCE = "accountTable";
@@ -14,7 +16,6 @@ let SELL_ZONES_TABLE_URL = buildUrlWithContextPath(SELL_ZONES_TABLE_URL_RESOURCE
 let ACCOUNT_TABLE_URL = buildUrlWithContextPath(ACCOUNT_TABLE_URL_RESOURCE);
 let SELL_ZONE_URL = buildUrlWithContextPath(SELL_ZONE_URL_RESOURCE);
 let SELL_ZONE_CHOSEN_URL = buildUrlWithContextPath(SELL_ZONE_CHOSEN_URL_RESOURCE);
-
 
 
 //users = a list of users, essentially an array of javascript strings:
@@ -52,7 +53,7 @@ function addZoneLinksToTable(zone) {
     // let linkIcon = document.createElement("img");
     // linkIcon.setAttribute("src", "../../common/images/cart-icon.jpg");
     // link.append('<i class="fas fa-bars"></i>');
-    link.className = "sell-zone-link-cell-class";
+    link.className = SELL_ZONE_TABLE_LINK_CELL_CLASS;
 
     let linkText = document.createTextNode(zoneName);
     link.appendChild(linkText);
