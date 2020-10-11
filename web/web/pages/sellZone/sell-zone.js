@@ -198,9 +198,9 @@ function configOrderCategoryRadioButtons(stores) {
                 let storesValues = [];
                 let storeValues = "";
                 for (let j = 0; j < stores.length; j++) {
-                    let store = stores[i];
+                    let store = stores[j];
                     storeValues = `${store["id"]} | ${store["name"]} | (${store["xLocation"]},${store["yLocation"]})`;
-                    storesValues[i] = (storeValues);
+                    storesValues[j] = (storeValues);
                 }
 
                 let select = document.createElement("select");
@@ -215,8 +215,10 @@ function configOrderCategoryRadioButtons(stores) {
                 }
 
                 let label = document.createElement("label");
+                label.class = "add-order-label";
                 label.innerHTML = "Choose a store: ";
                 label.htmlFor = "stores-select";
+
 
                 document.getElementById("select-store-container").appendChild(label).appendChild(select);
             }
