@@ -16,6 +16,7 @@ let ITEMS_TABLE_URL = buildUrlWithContextPath(ITEMS_TABLE_URL_RESOURCE);
 const STORES_URL_RESOURCE = "stores";
 let STORES_URL = buildUrlWithContextPath(STORES_URL_RESOURCE);
 
+let orderCategory = "";
 
 function ajaxSetTitle() {
     $.ajax({
@@ -128,6 +129,7 @@ function refreshStores(stores) {
     });
 
     addToStoresEventListeners();
+    configOrderCategoryRadioButtons(stores);
 }
 
 
@@ -181,6 +183,48 @@ function ajaxAddOrder() {
 }
 
 
+function configOrderCategoryRadioButtons(stores) {
+    let radios = document.getElementsByClassName("order-category-radio-button");
+    for (let i = 0; i < radios.length; i++) {
+        let radio = radios[i];
+        radio.onchange = function() {
+            // document.getElementById("login").disabled = false;
+            orderCategory = radio.value;
+            document.getElementById("order-category-input").value = orderCategory;
+            if (radio.value === "static") {
+                let storesSelect = document.createElement("select");
+                storesSelect.id = "stores-select";
+
+                let storesValues = [];
+                let storeValues = "";
+                for (let j = 0; j < stores.length; j++) {
+                    let store = stores[i];
+                    storeValues = `${store["id"]} | ${store["name"]} | (${store["xLocation"]},${store["yLocation"]})`;
+                    storesValues[i] = (storeValues);
+                }
+
+                let select = document.createElement("select");
+                select.name = "stores-select";
+                select.id = "stores-select"
+
+                for (const val of storesValues) {
+                    let option = document.createElement("option");
+                    option.value = val;
+                    option.text = val;
+                    select.appendChild(option);
+                }
+
+                let label = document.createElement("label");
+                label.innerHTML = "Choose a store: ";
+                label.htmlFor = "stores-select";
+
+                document.getElementById("select-store-container").appendChild(label).appendChild(select);
+            }
+        }
+    }
+}
+
+
 $(function() {
     ajaxSetTitle();
 
@@ -192,5 +236,8 @@ $(function() {
     // setInterval(ajaxStores, refreshRate);
     ajaxStores();
 
+    // add order functions
     ajaxAddOrder();
 });
+
+

@@ -72,6 +72,7 @@
                     <label id="order-category-label" class="add-order-label">Order Category:</label>
                 </div>
                 <div id="order-category-radio-buttons">
+                    <input id="order-category-input" type="hidden" name="order-category"/>
                     <input type="radio" id="static-order-radio-button" class="order-category-radio-button" name="order-category" value="static">
                     <label for="static-order-radio-button">One Store</label><br>
                     <input type="radio" id="dynamic-order-radio-button" class="order-category-radio-button" name="order-category" value="dynamic">
@@ -79,7 +80,11 @@
                 </div>
             </div>
             <br/>
-<!--            <input id="add-order" disabled="disabled" type="submit" value="AddOrder">-->
+
+            <div id="select-store-container">
+            </div>
+
+            <!--            <input id="add-order" disabled="disabled" type="submit" value="AddOrder">-->
             <input id="add-order" type="submit" value="AddOrder">
         </form>
     </div>
