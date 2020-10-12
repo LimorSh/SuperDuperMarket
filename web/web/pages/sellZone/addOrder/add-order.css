@@ -1,4 +1,4 @@
-#header{
+#header {
     color: blue;
     margin-left: 20px;
     text-align: center;
@@ -9,15 +9,15 @@
 /*    visibility: hidden;*/
 /*}*/
 
-#stores-select-container, #items-table-container{
+#stores-select-container, #items-table-container, #items-table-price-th {
     visibility: hidden;
 }
 
-#items-table-container{
+#items-table-container {
     position:relative;
 }
 
-#items-table-scroll{
+#items-table-scroll {
     /*position: relative;*/
     height:150px;
     /*width: content-box;*/
@@ -27,13 +27,13 @@
 }
 
 #items-table {
-    width: 60%;
+    width: 70%;
     border: 1px solid black;
     border-collapse: collapse;
     /*padding: 15px;*/
 }
 
-#items-table-container table thead th .items-table-col{
+#items-table-container table thead th .items-table-col {
     position:absolute;
     top:-20px;
     height:20px;
@@ -43,12 +43,12 @@
     /*word-wrap: break-word;*/
 }
 
-.items-table-cell{
+.items-table-cell {
     /*position: center;*/
     text-align: center;
 }
 
-#items-table-caption{
+#items-table-caption {
     margin-bottom: 5px;
     font-size: 24px;
 }

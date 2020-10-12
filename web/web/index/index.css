@@ -1,18 +1,18 @@
-#header{
+#header {
     color: blue;
     margin-left: 20px;
     text-align: center;
     font-family: Georgia, cursive;
 }
 
-#username-label{
+#username-label {
     text-align: center;
     color: blue;
     font-weight: bold;
     font-size: 16px;
 }
 
-#user-type-label{
+#user-type-label {
     text-align: center;
     color: blue;
     font-weight: bold;

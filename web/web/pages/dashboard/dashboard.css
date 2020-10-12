@@ -1,21 +1,21 @@
-#header{
+#header {
     color: blue;
     margin-left: 20px;
     text-align: center;
     font-family: Georgia, cursive;
 }
 
-#upload-file-form-submit{
+#upload-file-form-submit {
     /*visibility: hidden;*/
 }
 
-#upload-zone-file-p{
+#upload-zone-file-p {
     color: blue;
     font-weight: bold;
     font-size: 16px;
 }
 
-#upload-file-msg-label{
+#upload-file-msg-label {
 }
 
 #sell-zones-table {
@@ -26,12 +26,12 @@
     /*padding: 15px;*/
 }
 
-.sell-zones-table-col{
+.sell-zones-table-col {
     text-align: center;
     /*word-wrap: break-word;*/
 }
 
-.sell-zones-table-cell{
+.sell-zones-table-cell {
     /*position: center;*/
     text-align: center;
 }
@@ -44,12 +44,12 @@
     /*padding: 15px;*/
 }
 
-.account-table-col{
+.account-table-col {
     text-align: center;
     /*word-wrap: break-word;*/
 }
 
-.account-table-cell{
+.account-table-cell {
     /*position: center;*/
     text-align: center;
 }

@@ -8,7 +8,7 @@ const STORES_CONTAINER_ACCORDION_ID = "stores-container-accordion";
 const STORE_ITEMS_TABLE_ID = "store-items-table";
 const STORE_ITEMS_TABLE_BODY_ID = "store-items-table-body";
 const STORE_ITEMS_TABLE_COL = "store-items-table-col";
-const STORE_ITEMS_TABLE_CELL_ID = "store-items-table-cell";
+const STORE_ITEMS_TABLE_CELL_CLASS = "store-items-table-cell";
 const STORE_ITEMS_TABLE_HEADERS = ["ID", "Name", "Purchase Category", "Price", "Total Sells"];
 const STORE_DETAILS_CONTAINER_ID = "store-details-container";
 const STORE_DETAILS_P_CLASS = "store-details-p";
@@ -55,7 +55,7 @@ function addItemsToItemsTable(items, itemsTableBody) {
         let row = itemsTableBody.insertRow();
         Object.keys(item).forEach(function(key) {
             let cell = row.insertCell();
-            cell.classList.add(STORE_ITEMS_TABLE_CELL_ID);
+            cell.classList.add(STORE_ITEMS_TABLE_CELL_CLASS);
             cell.textContent = item[key];
         })
         // addElemToTable(item, STORE_ITEMS_TABLE_BODY_ID, STORE_ITEMS_TABLE_CELL_ID);
