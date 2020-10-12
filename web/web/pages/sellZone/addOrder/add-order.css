@@ -27,10 +27,11 @@
 }
 
 #items-table {
-    width: 70%;
+    /*width: 70%;*/
     border: 1px solid black;
-    border-collapse: collapse;
+    border-collapse: inherit;
     /*padding: 15px;*/
+    /*border-spacing: 5px;*/
 }
 
 #items-table-container table thead th .items-table-col {

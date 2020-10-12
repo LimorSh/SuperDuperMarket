@@ -126,8 +126,7 @@ function configOrderCategoryRadioButtons() {
     let radios = document.getElementsByClassName(ORDER_CATEGORY_RADIO_BUTTON_CLASS);
     let storeDeliveryCostLabelContainer = document.getElementById(STORE_DELIVERY_COST_LABEL_CONTAINER_ID);
     let itemsTableContainer = document.getElementById(ITEMS_TABLE_CONTAINER_ID);
-    let itemsTableBody = document.getElementById(ITEMS_TABLE_BODY_ID);
-    let itemTablePriceCell = document.getElementsByClassName(ITEMS_TABLE_PRICE_CELL_CLASS);
+    let itemsTable = document.getElementById(ITEMS_TABLE_ID);
     let itemTablePriceHeader = document.getElementById(ITEMS_TABLE_PRICE_TH_ID);
     for (let i = 0; i < radios.length; i++) {
         let radio = radios[i];
@@ -139,24 +138,17 @@ function configOrderCategoryRadioButtons() {
             document.getElementById(ORDER_CATEGORY_INPUT_ID).value = orderCategory;
             if (radio.value === ORDER_CATEGORY_STATIC_STR) {
                 storesSelectContainer.style.visibility = "visible";
+                storeDeliveryCostLabelContainer.style.visibility = "visible";
                 itemTablePriceHeader.style.visibility = "visible";
-                itemTablePriceCell.style.visibility = "visible";
+                $(".items-table-price-cell").show();
+                itemsTable.style.width = "50%";
             }
             else {
                 storeDeliveryCostLabelContainer.style.visibility = "hidden";
                 storesSelectContainer.style.visibility = "hidden";
-                // itemTablePriceHeader.style.visibility = "hidden";
-                // itemTablePriceCell.style.display = "none";
-
-                let cols = itemsTableBody.columns;
-                let col = cols[cols.length - 1];
-                let cells = col.cells;
-                for (let cell of cells) {
-                    cell.textContent = "";
-                }
-                // col.style.display = "none";
-
-                // $("#items-table th:last-child, #items-table td:last-child").style.visibility = "hidden";
+                itemTablePriceHeader.style.visibility = "hidden";
+                $(".items-table-price-cell").hide();
+                itemsTable.style.width = "40%";
             }
         }
     }
