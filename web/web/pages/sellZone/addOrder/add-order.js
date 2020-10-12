@@ -3,15 +3,14 @@ const ORDER_CATEGORY_INPUT_ID = "order-category-input";
 const STORES_SELECT_CONTAINER_ID = "stores-select-container";
 const STORES_SELECT_ID = "stores-select";
 const ORDER_CATEGORY_STATIC_STR = "static";
+const ITEMS_TABLE_CONTAINER_ID = "items-table-container";
+const ITEMS_TABLE_BODY_ID = "items-table-body";
+const ITEMS_TABLE_CELL_ID = "items-table-cell";
 
-
-let stores;
-let storeItems;
-let orderCategory;
+let stores = [];
+let items = [];
+let orderCategory = "";
 let storesIds = [];
-
-const STORES_URL_RESOURCE = "stores";
-let STORES_URL = buildUrlWithContextPath(STORES_URL_RESOURCE);
 
 
 function ajaxSetStores() {
@@ -29,8 +28,42 @@ function ajaxSetStores() {
 }
 
 
+function setItemsArray(allItems) {
+    let id;
+    let name;
+    let purchaseCategory;
+    let newItem = {};
+    $.each(allItems || [], function(index, item) {
+        id = item["id"];
+        name = item["name"];
+        purchaseCategory = item["purchaseCategory"];
+        newItem = {
+            "id": id,
+            "name": name,
+            "purchaseCategory": purchaseCategory,
+        };
+        items.push(newItem);
+    });
+}
+
+
+function ajaxItemsTable() {
+    return $.ajax({
+        url: ITEMS_TABLE_URL,
+        timeout: 2000,
+        error: function() {
+            console.error("Failed to submit");
+            $("#error-msg").text("Failed to get result from server");
+        },
+        success: function(allItems) {
+            setItemsArray(allItems);
+        }
+    });
+}
+
+
 function ajaxAddOrder() {
-    $("#add-order-form").submit(function() {
+    return $("#add-order-form").submit(function() {
         let parameters = $(this).serialize();
 
         $.ajax({
@@ -66,7 +99,7 @@ function ajaxStoreItemsTable() {
 
 function configStoresSelectForStaticOrder() {
     let storesSelect = document.getElementById(STORES_SELECT_ID);
-    storesSelect.addEventListener('change', storeWasChosenForStaticOrder);
+    storesSelect.addEventListener("change", storeWasChosenForStaticOrder);
 }
 
 
@@ -82,28 +115,28 @@ function storeWasChosenForStaticOrder() {
                 break;
             }
         }
-        console.log(storeId);
         ajaxStoreItemsTable();
     }
 }
 
 
 function configOrderCategoryRadioButtons() {
-    console.log(stores);
-
     let radios = document.getElementsByClassName(ORDER_CATEGORY_RADIO_BUTTON_CLASS);
     for (let i = 0; i < radios.length; i++) {
         let radio = radios[i];
         radio.onchange = function() {
+            let itemsTableContainer = document.getElementById(ITEMS_TABLE_CONTAINER_ID);
+            itemsTableContainer.style.visibility = "visible";
+
             // document.getElementById("login").disabled = false;
             orderCategory = radio.value;
             document.getElementById(ORDER_CATEGORY_INPUT_ID).value = orderCategory;
-            let storesSelect = document.getElementById(STORES_SELECT_CONTAINER_ID);
+            let storesSelectContainer = document.getElementById(STORES_SELECT_CONTAINER_ID);
             if (radio.value === ORDER_CATEGORY_STATIC_STR) {
-                storesSelect.style.visibility = "visible";
+                storesSelectContainer.style.visibility = "visible";
             }
             else {
-                storesSelect.style.visibility = "hidden";
+                storesSelectContainer.style.visibility = "hidden";
             }
         }
     }
@@ -132,17 +165,21 @@ function addStoresToStoresSelect() {
 }
 
 
+function setItemsTableData() {
+    $.each(items || [], function(index, item) {
+        addElemToTable(item, ITEMS_TABLE_BODY_ID, ITEMS_TABLE_CELL_ID);
+    });
+}
+
+
 $(function() {
-    $.when(ajaxSetStores()).then(function( data, textStatus, jqXHR ) {
-        // alert( jqXHR.status ); // Alerts 200
+    $.when(ajaxSetStores(), ajaxItemsTable()).then(function() {
         configOrderCategoryRadioButtons();
         addStoresToStoresSelect();
         configStoresSelectForStaticOrder();
+        setItemsTableData();
     });
-    // ajaxSetStores();
 
-    $.when(ajaxAddOrder()).then(function( data, textStatus, jqXHR ) {
-        // alert( jqXHR.status ); // Alerts 200
+    $.when(ajaxAddOrder()).then(function() {
     });
-    // ajaxAddOrder();
 });

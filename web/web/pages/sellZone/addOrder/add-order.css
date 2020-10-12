@@ -5,6 +5,47 @@
     font-family: Georgia, cursive;
 }
 
-#stores-select-container{
+#stores-select-container, #items-table-container{
     visibility: hidden;
+}
+
+
+#items-table-container{
+    position:relative;
+}
+
+#items-table-scroll{
+    /*position: relative;*/
+    height:150px;
+    /*width: content-box;*/
+    overflow:auto;
+    /*margin-top:20px;*/
+    display: block;
+}
+
+#items-table {
+    width: 60%;
+    border: 1px solid black;
+    border-collapse: collapse;
+    /*padding: 15px;*/
+}
+
+#items-table-container table thead th .items-table-col{
+    position:absolute;
+    top:-20px;
+    height:20px;
+    /*width:35%;*/
+    /*border:1px solid red;*/
+    text-align: center;
+    /*word-wrap: break-word;*/
+}
+
+.items-table-cell{
+    /*position: center;*/
+    text-align: center;
+}
+
+#items-table-caption{
+    margin-bottom: 5px;
+    font-size: 24px;
 }

@@ -34,7 +34,7 @@
     </servlet>
     <servlet>
         <servlet-name>SellZoneItemsTableServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.sellZone.SellZoneItemsTableServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.SellZoneItemsTableServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SellZoneStoresServlet</servlet-name>

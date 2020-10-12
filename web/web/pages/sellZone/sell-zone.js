@@ -15,10 +15,6 @@ const STORE_DETAILS_P_CLASS = "store-details-p";
 
 const SET_TITLE_URL_RESOURCE = "setTitle";
 let SET_TITLE_TABLE_URL = buildUrlWithContextPath(SET_TITLE_URL_RESOURCE);
-const ITEMS_TABLE_URL_RESOURCE = "itemsTable";
-let ITEMS_TABLE_URL = buildUrlWithContextPath(ITEMS_TABLE_URL_RESOURCE);
-const STORES_URL_RESOURCE = "stores";
-let STORES_URL = buildUrlWithContextPath(STORES_URL_RESOURCE);
 
 
 function ajaxSetTitle() {
