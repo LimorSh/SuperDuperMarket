@@ -55,8 +55,7 @@ function addZoneLinksToTable(zone) {
     // link.append('<i class="fas fa-bars"></i>');
     link.className = SELL_ZONE_TABLE_LINK_CELL_CLASS;
 
-    let linkText = document.createTextNode(zoneName);
-    link.appendChild(linkText);
+    link.innerHTML = zoneName;
     link.addEventListener("click", () => {
         zoneWasChosen(zoneName);
     });

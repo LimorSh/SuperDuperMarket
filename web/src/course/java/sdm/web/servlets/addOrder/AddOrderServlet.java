@@ -1,4 +1,4 @@
-package course.java.sdm.web.servlets.sellZone;
+package course.java.sdm.web.servlets.addOrder;
 
 import course.java.sdm.web.constants.Constants;
 import course.java.sdm.web.utils.SessionUtils;
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@WebServlet(name = "AddOrderServlet", urlPatterns = {"/pages/sellZone/addOrder"})
+//@WebServlet(name = "AddOrderServlet", urlPatterns = {"/pages/sellZone/createNewOrder"})
 public class AddOrderServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -47,47 +47,6 @@
     <h2>Stores</h2>
     <div id="stores-container-accordion">
     </div>
-    <br/>
-    <br/>
-    <div id="add-order-container">
-        <h2>Add Order</h2>
-        <p>Please fill order details:</p>
-        <form  id="add-order-form" method="GET" action="addOrder">
-            <div id="date-container">
-                <label for="date" class="add-order-label">Date:</label>
-                <input type="date" id="date" name="date" required>
-            </div>
-            <br/>
-            <div id="locations-container">
-                <label class="add-order-label">Your Location:</label>
-                <br/>
-                <label for="location-x">X:</label>
-                <input type="number" min="1" max="50" id="location-x" name="location-x" required>
-                <label for="location-y">Y:</label>
-                <input type="number" min="1" max="50" id="location-y" name="location-y" required>
-            </div>
-            <br/>
-            <div id="order-category-radio-buttons-container">
-                <div id="order-category-label-container">
-                    <label id="order-category-label" class="add-order-label">Order Category:</label>
-                </div>
-                <div id="order-category-radio-buttons">
-                    <input id="order-category-input" type="hidden" name="order-category"/>
-                    <input type="radio" id="static-order-radio-button" class="order-category-radio-button" name="order-category" value="static">
-                    <label for="static-order-radio-button">One Store</label><br>
-                    <input type="radio" id="dynamic-order-radio-button" class="order-category-radio-button" name="order-category" value="dynamic">
-                    <label for="dynamic-order-radio-button">Best Cart</label><br>
-                </div>
-            </div>
-            <br/>
-
-            <div id="select-store-container">
-            </div>
-
-            <!--            <input id="add-order" disabled="disabled" type="submit" value="AddOrder">-->
-            <input id="add-order" type="submit" value="AddOrder">
-        </form>
-    </div>
 </div>
 </body>
 </html>

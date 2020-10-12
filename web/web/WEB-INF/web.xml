@@ -38,7 +38,7 @@
     </servlet>
     <servlet>
         <servlet-name>SellZoneStoresServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.sellZone.SellZoneStoresServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.SellZoneStoresServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SellZoneWasChosenServlet</servlet-name>
@@ -53,8 +53,12 @@
         <servlet-class>course.java.sdm.web.servlets.sellZone.GetChosenSellZone</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>RedirectAddOrderServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.RedirectAddOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AddOrderServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.sellZone.AddOrderServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.addOrder.AddOrderServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -106,7 +110,11 @@
         <url-pattern>/setTitle</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>AddOrderServlet</servlet-name>
+        <servlet-name>RedirectAddOrderServlet</servlet-name>
         <url-pattern>/pages/sellZone/addOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddOrderServlet</servlet-name>
+        <url-pattern>/pages/sellZone/addOrder/createNewOrder</url-pattern>
     </servlet-mapping>
 </web-app>

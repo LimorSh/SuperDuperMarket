@@ -50,7 +50,7 @@
     color: #444;
     cursor: pointer;
     padding: 10px;
-    width: 45%;
+    width: 50%;
     border: none;
     text-align: left;
     outline: none;
@@ -90,16 +90,26 @@
     /*padding: 15px;*/
 }
 
-.store-items-table-col{
+.store-items-table-col {
     text-align: center;
     /*word-wrap: break-word;*/
 }
 
-.store-items-table-cell{
+.store-items-table-cell {
     /*position: center;*/
     text-align: center;
 }
 
 .add-order-label {
     font-weight: bold;
+}
+
+#store-details-container{
+    background-color: #b9d8f3;
+    width: 50%;
+    /*font-weight: bold;*/
+}
+
+.store-details-p {
+    /*height: 300px;*/
 }
