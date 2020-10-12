@@ -369,10 +369,10 @@ public class SuperDuperMarket {
         }
     }
 
-    public float getDeliveryCost(int storeId, int customerId) {
+    public float getStoreDeliveryCost(int storeId, int locationX, int locationY) {
         Store store = getStore(storeId);
-        Customer customer = getCustomer(customerId);
-        return store.getDeliveryCost(customer.getLocation());
+        Location location = new Location(locationX, locationY);
+        return store.getDeliveryCost(location);
     }
 
     public double getDistanceBetweenCustomerAndStore(int storeId, int customerId) {

@@ -50,7 +50,7 @@
     </servlet>
     <servlet>
         <servlet-name>GetChosenSellZone</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.sellZone.GetChosenSellZone</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.GetChosenSellZoneServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RedirectAddOrderServlet</servlet-name>
@@ -59,6 +59,10 @@
     <servlet>
         <servlet-name>AddOrderServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.addOrder.AddOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetStoreDeliveryCostServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.addOrder.GetStoreDeliveryCostServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -116,5 +120,9 @@
     <servlet-mapping>
         <servlet-name>AddOrderServlet</servlet-name>
         <url-pattern>/pages/sellZone/addOrder/createNewOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetStoreDeliveryCostServlet</servlet-name>
+        <url-pattern>/setStoreDeliveryCost</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -5,10 +5,13 @@
     font-family: Georgia, cursive;
 }
 
+/*#stores-select-container, #items-table-container, #store-delivery-cost-label-container{*/
+/*    visibility: hidden;*/
+/*}*/
+
 #stores-select-container, #items-table-container{
     visibility: hidden;
 }
-
 
 #items-table-container{
     position:relative;

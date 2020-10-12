@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@WebServlet(name = "GetChosenSellZone", urlPatterns = {"/setTitle"})
-public class GetChosenSellZone extends HttpServlet {
+//@WebServlet(name = "GetChosenSellZoneServlet", urlPatterns = {"/setTitle"})
+public class GetChosenSellZoneServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");

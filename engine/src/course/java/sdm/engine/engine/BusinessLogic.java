@@ -271,9 +271,9 @@ public class BusinessLogic {
                 customerLocationX, customerLocationY);
     }
 
-    public float getDeliveryCost(String zoneName, int storeId, int customerId) {
+    public float getStoreDeliveryCost(String zoneName, int storeId, int locationX, int locationY) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        return chosenSuperDuperMarket.getDeliveryCost(storeId, customerId);
+        return chosenSuperDuperMarket.getStoreDeliveryCost(storeId, locationX, locationY);
     }
 
     public double getDistanceBetweenCustomerAndStore(String zoneName, int storeId, int customerId) {

@@ -1,16 +1,26 @@
+const X_LOCATION_INPUT_ID = "location-x";
+const Y_LOCATION_INPUT_ID = "location-y";
 const ORDER_CATEGORY_RADIO_BUTTON_CLASS = "order-category-radio-button";
 const ORDER_CATEGORY_INPUT_ID = "order-category-input";
 const STORES_SELECT_CONTAINER_ID = "stores-select-container";
 const STORES_SELECT_ID = "stores-select";
+const STORE_SELECT_DEFAULT_OPTION_ID = "stores-select-default-option";
 const ORDER_CATEGORY_STATIC_STR = "static";
+const STORE_DELIVERY_COST_LABEL_CONTAINER_ID = "store-delivery-cost-label-container";
+
 const ITEMS_TABLE_CONTAINER_ID = "items-table-container";
 const ITEMS_TABLE_BODY_ID = "items-table-body";
 const ITEMS_TABLE_CELL_ID = "items-table-cell";
+
+const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
+let SET_STORE_DELIVERY_COST_URL = buildUrlWithContextPath(SET_STORE_DELIVERY_COST_URL_RESOURCE);
 
 let stores = [];
 let items = [];
 let orderCategory = "";
 let storesIds = [];
+let xLocation;
+let yLocation;
 
 
 function ajaxSetStores() {
@@ -92,30 +102,15 @@ function ajaxAddOrder() {
 }
 
 
-function ajaxStoreItemsTable() {
+function configLocationInputs() {
+    let xLocationInput = document.getElementById(X_LOCATION_INPUT_ID);
+    let yLocationInput = document.getElementById(Y_LOCATION_INPUT_ID);
 
-}
-
-
-function configStoresSelectForStaticOrder() {
-    let storesSelect = document.getElementById(STORES_SELECT_ID);
-    storesSelect.addEventListener("change", storeWasChosenForStaticOrder);
-}
-
-
-function storeWasChosenForStaticOrder() {
-    let index;
-    if (this.selectedIndex) {
-        index = this.selectedIndex;
-
-        let storeId;
-        for (let i = 0; i < storesIds.length; i++) {
-            if (i === index) {
-                storeId = storesIds[i];
-                break;
-            }
-        }
-        ajaxStoreItemsTable();
+    xLocationInput.onchange = function() {
+        xLocation = xLocationInput.value;
+    }
+    yLocationInput.onchange = function() {
+        yLocation = yLocationInput.value;
     }
 }
 
@@ -136,6 +131,8 @@ function configOrderCategoryRadioButtons() {
                 storesSelectContainer.style.visibility = "visible";
             }
             else {
+                let storeDeliveryCostLabelContainer = document.getElementById(STORE_DELIVERY_COST_LABEL_CONTAINER_ID);
+                storeDeliveryCostLabelContainer.style.visibility = "hidden";
                 storesSelectContainer.style.visibility = "hidden";
             }
         }
@@ -148,20 +145,75 @@ function addStoresToStoresSelect() {
 
     let storesValues = [];
     let storeValues = "";
+    let currStore;
+    let currStoreId;
     for (let j = 0; j < stores.length; j++) {
-        let store = stores[j];
-        let storeId = store["id"];
-        storeValues = `${storeId} | ${store["name"]} | (${store["xLocation"]},${store["yLocation"]})`;
+        currStore = stores[j];
+        currStoreId = currStore["id"];
+        storeValues = `${currStoreId} | ${currStore["name"]} | (${currStore["xLocation"]},${currStore["yLocation"]})`;
         storesValues[j] = (storeValues);
-        storesIds[j] = storeId;
+        storesIds[j] = currStoreId;
     }
 
+    let option;
     for (const val of storesValues) {
-        let option = document.createElement("option");
+        option = document.createElement("option");
         option.value = val;
         option.text = val;
         storesSelect.appendChild(option);
     }
+}
+
+
+function ajaxGetStoreDeliveryCost(storeId) {
+    let parameters = {
+        "storeId": storeId,
+        "location-x": xLocation,
+        "location-y": yLocation,
+    };
+
+    return $.ajax({
+        data: parameters,
+        url: SET_STORE_DELIVERY_COST_URL,
+        timeout: 2000,
+        error: function() {
+            console.error("Failed to submit");
+            $("#error-msg").text("Failed to get result from server");
+        },
+        success: function(storeDeliveryCost) {
+            $("#store-delivery-cost-label").text("Delivery Cost: " + storeDeliveryCost);
+            $("#store-delivery-cost-label-container").visibility = "visible";
+        }
+    });
+}
+
+
+function ajaxAddPriceInItemsTable() {
+
+}
+
+
+function storeWasChosenForStaticOrder() {
+    let index;
+    let storeId;
+
+    document.getElementById(STORE_SELECT_DEFAULT_OPTION_ID).disabled = true;
+
+    index = this.selectedIndex - 1;
+    for (let i = 0; i < storesIds.length; i++) {
+        if (i === index) {
+            storeId = storesIds[i];
+            break;
+        }
+    }
+    ajaxGetStoreDeliveryCost(storeId);
+    ajaxAddPriceInItemsTable();
+}
+
+
+function configStoresSelectForStaticOrder() {
+    let storesSelect = document.getElementById(STORES_SELECT_ID);
+    storesSelect.addEventListener("change", storeWasChosenForStaticOrder);
 }
 
 
@@ -174,9 +226,10 @@ function setItemsTableData() {
 
 $(function() {
     $.when(ajaxSetStores(), ajaxItemsTable()).then(function() {
-        configOrderCategoryRadioButtons();
+        configLocationInputs();
         addStoresToStoresSelect();
         configStoresSelectForStaticOrder();
+        configOrderCategoryRadioButtons();
         setItemsTableData();
     });
 

@@ -59,4 +59,20 @@ public class ServletUtils {
 		}
 		return INT_PARAMETER_ERROR;
 	}
+
+	public static float roundNumberWithTwoDigitsAfterPoint(float number) {
+		try {
+			return Float.parseFloat(String.format("%.2f", number));
+		} catch (Exception ignore) {
+		}
+		return -1f;
+	}
+
+	public static double roundNumberWithTwoDigitsAfterPoint(double number) {
+		try {
+			return Double.parseDouble(String.format("%.2f", number));
+		} catch (Exception ignore) {
+		}
+		return -1f;
+	}
 }
