@@ -16,7 +16,8 @@ const ITEMS_TABLE_COL = "items-table-col";
 const ITEMS_TABLE_BODY_ID = "items-table-body";
 const ITEMS_TABLE_CELL_CLASS = "items-table-cell";
 const ITEMS_TABLE_PRICE_CELL_CLASS = "items-table-price-cell";
-const ITEMS_TABLE_QUANTITY_CELL_INPUT_ID = "items-table-quantity-cell-input";
+const ITEMS_TABLE_QUANTITY_CELL_CLASS = "items-table-quantity-cell";
+const ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS = "items-table-quantity-cell-input";
 
 const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
 let SET_STORE_DELIVERY_COST_URL = buildUrlWithContextPath(SET_STORE_DELIVERY_COST_URL_RESOURCE);
@@ -80,32 +81,69 @@ function ajaxItemsTable() {
 
 
 function ajaxAddOrder() {
-    return $("#add-order-form").submit(function() {
-        let parameters = $(this).serialize();
+    $("#add-order-form").submit(function() {
 
-        $.ajax({
-            data: parameters,
-            url: this.action,
-            timeout: 2000,
-            error: function() {
-                console.error("Failed to submit");
-                $("#error-msg").text("Failed to get result from server");
-            },
-            success: function(r) {
-                console.log(r);
-                // if (r.length > 0) {
-                //     $("#error-msg").text(r);
+            // let isAllQuantitiesInputAreEmpty = true;
+            // let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
+            // for (let input of itemsTableQuantityCellsInputs) {
+            //     if (!input.value.isEmptyObject()) {
+            //         isAllQuantitiesInputAreEmpty = false;
+            //     }
+            // }
+            // if (isAllQuantitiesInputAreEmpty) {
+            //     let addOrderMsgLabel = document.getElementById("add-order-msg-label");
+            //     addOrderMsgLabel.text = "To add order ....";
+            //     console.log(addOrderMsgLabel);
+            // }
+            // else {
+            //     let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
+
+                // itemsTableQuantityCellsInputs.appendTo("#add-order-form");
+
+                let parameters = $(this).serialize();
+
+                // let itemsQuantities = {};
+                // // for (let input of itemsTableQuantityCellsInputs) {
+                // let rows = document.getElementById(ITEMS_TABLE_ID).rows;
+                // for (let i = 0; i < itemsTableQuantityCellsInputs.length; i++) {
+                //     let row = rows[i];
+                //     let input = itemsTableQuantityCellsInputs[i];
+                //     let itemQuantity = input.value;
+                //     if (itemQuantity) {
+                //         let itemId = row.cells[row.cells.length -5];
+                //         itemsQuantities[itemId] = itemQuantity;
+                //     }
                 // }
-                // else {
-                //     pageRedirect();
-                // }
-            }
+                // let str = "&limor=panther";
+                // parameters.concat(str);
+                // = itemsQuantities;
+                console.log(parameters);
+
+                $.ajax({
+                    data: parameters,
+                    url: this.action,
+                    timeout: 2000,
+                    error: function() {
+                        console.error("Failed to submit");
+                        $("#error-msg").text("Failed to get result from server");
+                    },
+                    success: function(r) {
+                        console.log(r);
+                        // if (r.length > 0) {
+                        //     $("#error-msg").text(r);
+                        // }
+                        // else {
+                        //     pageRedirect();
+                        // }
+                    }
+                });
+            // }
+
+            // return value of the submit operation
+            // by default - we'll always return false so it doesn't redirect the user.
+            return false;
         });
-
-        // return value of the submit operation
-        // by default - we'll always return false so it doesn't redirect the user.
-        return false;
-    })
+    // }
 }
 
 
@@ -129,6 +167,7 @@ function configOrderCategoryRadioButtons() {
     let itemsTableContainer = document.getElementById(ITEMS_TABLE_CONTAINER_ID);
     let itemsTable = document.getElementById(ITEMS_TABLE_ID);
     let itemTablePriceHeader = document.getElementById(ITEMS_TABLE_PRICE_TH_ID);
+    let itemTableQuantityCells = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_CLASS);
     for (let i = 0; i < radios.length; i++) {
         let radio = radios[i];
         radio.onchange = function() {
@@ -144,6 +183,14 @@ function configOrderCategoryRadioButtons() {
                 $(".items-table-price-cell").show();
             }
             else {
+                for (let cell of itemTableQuantityCells) {
+                    if (cell.innerHTML === "") {
+                        let rowIndex = cell.closest('tr').rowIndex;
+                        let row = itemsTable.rows[rowIndex];
+                        let itemId = row.cells[0].textContent;
+                        setQuantityCellContentToInput(row, cell, itemId);
+                    }
+                }
                 storeDeliveryCostLabelContainer.style.display = "none";
                 storesSelectContainer.style.display = "none";
                 itemTablePriceHeader.style.display = "none";
@@ -202,10 +249,59 @@ function ajaxGetStoreDeliveryCost(storeId) {
 }
 
 
-function addPriceColumnToItemsTable(index) {
+function setQuantityCellContentToInput(row, quantityCell, itemId) {
+    quantityCell.innerHTML = `<input id=${itemId} 
+                                         class=${ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS} 
+                                         type="number" min="0.1" step=".01"
+                                         form="add-order-form">`;
+    let purchaseCategory = row.cells[row.cells.length-3].textContent;
+    if (purchaseCategory === "quantity") {
+        let input = document.getElementById(itemId);
+        input.removeAttribute("step");
+        input.setAttribute("min", "1");
+    }
+}
+
+
+function addCellsToPriceColumn(prices) {
+    const notAvailableStr = "Not Available";
     let itemsTableBody = document.getElementById(ITEMS_TABLE_BODY_ID);
     let priceCell;
+    let cellContent;
+    let itemId;
+    for (let row of itemsTableBody.rows) {
+        cellContent = notAvailableStr;
+        itemId = row.cells[0].textContent;
+        // if (isStrInJsonArrayKeys(prices, itemId)) {
+        //     cellContent = prices[itemId];
+        // }
+        // else {
+        //     let quantityCell = row.cells[row.cells.length-1];
+        //     quantityCell.innerHTML = "";
+        // }
+        let quantityCell = row.cells[row.cells.length-1];
+        let isItemInStore = false;
+        Object.keys(prices).forEach(function(key) {
+            if (itemId === key) {
+                cellContent = prices[key];
+                isItemInStore = true;
+                setQuantityCellContentToInput(row, quantityCell, itemId);
+            }
+        });
+        if (!isItemInStore) {
+            quantityCell.innerHTML = "";
+        }
 
+        priceCell = row.cells[row.cells.length-2];
+        if (!priceCell.classList.contains(ITEMS_TABLE_PRICE_CELL_CLASS)) {
+            priceCell.classList.add(ITEMS_TABLE_PRICE_CELL_CLASS);
+        }
+        priceCell.textContent = cellContent;
+    }
+}
+
+
+function addPriceColumnToItemsTable(index) {
     let prices = {};
     let store = stores[index];
     let items = store["storeItemsDto"];
@@ -217,23 +313,7 @@ function addPriceColumnToItemsTable(index) {
         prices[id] = price;
     }
 
-    let cellContent;
-    let itemId;
-    for (let row of itemsTableBody.rows) {
-        cellContent = "Not Available";
-        itemId = row.cells[0].textContent;
-        Object.keys(prices).forEach(function(key) {
-            if (itemId === key) {
-                cellContent = prices[key];
-            }
-        });
-
-        priceCell = row.cells[row.cells.length-2];
-        if (!priceCell.classList.contains(ITEMS_TABLE_PRICE_CELL_CLASS)) {
-            priceCell.classList.add(ITEMS_TABLE_PRICE_CELL_CLASS);
-        }
-        priceCell.textContent = cellContent;
-    }
+    addCellsToPriceColumn(prices);
 }
 
 
@@ -261,23 +341,24 @@ function configStoresSelectForStaticOrder() {
 }
 
 
+function addQuantityCellsInputs() {
+    let itemsTableBody = document.getElementById(ITEMS_TABLE_BODY_ID);
+    for (let row of itemsTableBody.rows) {
+        let quantityCell = row.insertCell();
+        quantityCell.classList.add(ITEMS_TABLE_CELL_CLASS);
+        quantityCell.classList.add(ITEMS_TABLE_QUANTITY_CELL_CLASS);
+        let itemId = row.cells[0].textContent;
+        setQuantityCellContentToInput(row, quantityCell, itemId);
+    }
+}
+
+
 function setItemsTableData() {
     $.each(items || [], function(index, item) {
         addElemToTable(item, ITEMS_TABLE_BODY_ID, ITEMS_TABLE_CELL_CLASS);
     });
 
-    let itemsTableBody = document.getElementById(ITEMS_TABLE_BODY_ID);
-    for (let row of itemsTableBody.rows) {
-        let quantityCell = row.insertCell();
-        quantityCell.classList.add(ITEMS_TABLE_CELL_CLASS);
-        quantityCell.innerHTML = `<input id=${ITEMS_TABLE_QUANTITY_CELL_INPUT_ID} type="number" min="0.1" step=".01">`;
-        let purchaseCategoryCell = row.cells[row.cells.length-3].textContent;
-        if (purchaseCategoryCell === "quantity") {
-            let input = document.getElementById(ITEMS_TABLE_QUANTITY_CELL_INPUT_ID);
-            input.removeAttribute("step");
-            input.setAttribute("min", "1");
-        }
-    }
+    addQuantityCellsInputs();
 }
 
 
@@ -285,11 +366,13 @@ $(function() {
     $.when(ajaxSetStores(), ajaxItemsTable()).then(function() {
         configLocationInputs();
         addStoresToStoresSelect();
+        setItemsTableData();
         configStoresSelectForStaticOrder();
         configOrderCategoryRadioButtons();
-        setItemsTableData();
     });
 
-    $.when(ajaxAddOrder()).then(function() {
-    });
+    ajaxAddOrder();
+
+    // $.when(ajaxAddOrder()).then(function() {
+    // });
 });

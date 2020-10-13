@@ -8,3 +8,13 @@ function addElemToTable(elem, tableBodyId, tableCellClass) {
         cell.textContent = elem[key];
     })
 }
+
+//
+// function isStrInJsonArrayKeys(json, str) {
+//     Object.keys(json).forEach(function(key) {
+//         if (str === key) {
+//             return true;
+//         }
+//     });
+//     return false;
+// }

@@ -15,7 +15,7 @@
 <div id="add-order-container">
     <h1 id="header">Add Order</h1>
     <p>Please fill order details:</p>
-    <form  id="add-order-form" method="GET" action="createNewOrder">
+    <form id="add-order-form" method="GET" action="createNewOrder">
         <div id="date-container">
             <label for="date" class="add-order-label">Date:</label>
             <input type="date" id="date" name="date" required>
@@ -52,29 +52,39 @@
             <label id="store-delivery-cost-label">
             </label>
         </div>
-        <br>
-        <div id="items-table-container">
-            <div id="items-table-scroll">
-                <table id="items-table">
-                    <caption id="items-table-caption">Choose Items:</caption>
-                    <thead id="items-table-thead">
-                    <th class="items-table-col">ID</th>
-                    <th class="items-table-col">Name</th>
-                    <th class="items-table-col">Purchase Category</th>
-                    <th id="items-table-price-th" class="items-table-col">Price</th>
-                    <th id="items-table-quantity-th" class="items-table-col">Quantity</th>
-                    </thead>
-                    <tbody id="items-table-body">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!--            <input id="add-order" disabled="disabled" type="submit" value="AddOrder">-->
-        <br>
-        <br>
-        <input id="add-order" type="submit" value="AddOrder">
     </form>
+
+    <br>
+    <div id="items-table-container">
+        <div id="items-table-scroll">
+            <table id="items-table">
+                <caption id="items-table-caption">Choose Items:</caption>
+                <thead id="items-table-thead">
+                <th class="items-table-col">ID</th>
+                <th class="items-table-col">Name</th>
+                <th class="items-table-col">Purchase Category</th>
+                <th id="items-table-price-th" class="items-table-col">Price</th>
+                <th id="items-table-quantity-th" class="items-table-col">Quantity</th>
+                </thead>
+                <tbody id="items-table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+<!--    <div>-->
+<!--        <label>-->
+<!--            Test:-->
+<!--            <input type="number" id="test" form="add-order-form">-->
+<!--        </label>-->
+<!--    </div>-->
+    <!--            <input id="add-order" disabled="disabled" type="submit" value="AddOrder">-->
+    <br>
+    <br>
+    <button id="add-order" form="add-order-form" type="submit" value="AddOrder">
+        Add Order
+    </button>
+    <label id="add-order-msg-label">
+    </label>
 </div>
 </body>
 </html>
