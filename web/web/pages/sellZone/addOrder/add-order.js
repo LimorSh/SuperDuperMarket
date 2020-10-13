@@ -16,6 +16,7 @@ const ITEMS_TABLE_COL = "items-table-col";
 const ITEMS_TABLE_BODY_ID = "items-table-body";
 const ITEMS_TABLE_CELL_CLASS = "items-table-cell";
 const ITEMS_TABLE_PRICE_CELL_CLASS = "items-table-price-cell";
+const ITEMS_TABLE_QUANTITY_CELL_INPUT_ID = "items-table-quantity-cell-input";
 
 const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
 let SET_STORE_DELIVERY_COST_URL = buildUrlWithContextPath(SET_STORE_DELIVERY_COST_URL_RESOURCE);
@@ -131,24 +132,22 @@ function configOrderCategoryRadioButtons() {
     for (let i = 0; i < radios.length; i++) {
         let radio = radios[i];
         radio.onchange = function() {
-            itemsTableContainer.style.visibility = "visible";
+            itemsTableContainer.style.display = "inline-block";
 
             // document.getElementById("login").disabled = false;
             orderCategory = radio.value;
             document.getElementById(ORDER_CATEGORY_INPUT_ID).value = orderCategory;
             if (radio.value === ORDER_CATEGORY_STATIC_STR) {
-                storesSelectContainer.style.visibility = "visible";
-                storeDeliveryCostLabelContainer.style.visibility = "visible";
-                itemTablePriceHeader.style.visibility = "visible";
+                storesSelectContainer.style.display = "inline-block";
+                storeDeliveryCostLabelContainer.style.display = "inline-block";
+                itemTablePriceHeader.style.display = "inline-block";
                 $(".items-table-price-cell").show();
-                itemsTable.style.width = "50%";
             }
             else {
-                storeDeliveryCostLabelContainer.style.visibility = "hidden";
-                storesSelectContainer.style.visibility = "hidden";
-                itemTablePriceHeader.style.visibility = "hidden";
+                storeDeliveryCostLabelContainer.style.display = "none";
+                storesSelectContainer.style.display = "none";
+                itemTablePriceHeader.style.display = "none";
                 $(".items-table-price-cell").hide();
-                itemsTable.style.width = "40%";
             }
         }
     }
@@ -205,10 +204,6 @@ function ajaxGetStoreDeliveryCost(storeId) {
 
 function addPriceColumnToItemsTable(index) {
     let itemsTableBody = document.getElementById(ITEMS_TABLE_BODY_ID);
-    // let priceHeader = document.getElementById(ITEMS_TABLE_PRICE_TH_ID);
-    // let priceCell = document.getElementsByClassName(ITEMS_TABLE_PRICE_CELL_CLASS);
-    // priceHeader.style.visibility = "visible";
-    // priceCell.style.visibility = "visible";
     let priceCell;
 
     let prices = {};
@@ -233,7 +228,7 @@ function addPriceColumnToItemsTable(index) {
             }
         });
 
-        priceCell = row.cells[row.cells.length-1];
+        priceCell = row.cells[row.cells.length-2];
         if (!priceCell.classList.contains(ITEMS_TABLE_PRICE_CELL_CLASS)) {
             priceCell.classList.add(ITEMS_TABLE_PRICE_CELL_CLASS);
         }
@@ -270,6 +265,19 @@ function setItemsTableData() {
     $.each(items || [], function(index, item) {
         addElemToTable(item, ITEMS_TABLE_BODY_ID, ITEMS_TABLE_CELL_CLASS);
     });
+
+    let itemsTableBody = document.getElementById(ITEMS_TABLE_BODY_ID);
+    for (let row of itemsTableBody.rows) {
+        let quantityCell = row.insertCell();
+        quantityCell.classList.add(ITEMS_TABLE_CELL_CLASS);
+        quantityCell.innerHTML = `<input id=${ITEMS_TABLE_QUANTITY_CELL_INPUT_ID} type="number" min="0.1" step=".01">`;
+        let purchaseCategoryCell = row.cells[row.cells.length-3].textContent;
+        if (purchaseCategoryCell === "quantity") {
+            let input = document.getElementById(ITEMS_TABLE_QUANTITY_CELL_INPUT_ID);
+            input.removeAttribute("step");
+            input.setAttribute("min", "1");
+        }
+    }
 }
 
 

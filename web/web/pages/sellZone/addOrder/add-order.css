@@ -5,29 +5,29 @@
     font-family: Georgia, cursive;
 }
 
-/*#stores-select-container, #items-table-container, #store-delivery-cost-label-container{*/
-/*    visibility: hidden;*/
-/*}*/
-
-#stores-select-container, #items-table-container, #items-table-price-th {
-    visibility: hidden;
+#stores-select-container, #items-table-container {
+    display: none;
 }
 
 #items-table-container {
     position:relative;
+    /*width: 200px;*/
 }
 
 #items-table-scroll {
+    /*width: 200px;*/
+    display: inline-block;
     /*position: relative;*/
     height:150px;
     /*width: content-box;*/
     overflow:auto;
     /*margin-top:20px;*/
-    display: block;
+    /*display: block;*/
 }
 
 #items-table {
-    /*width: 70%;*/
+    /*width: 100%;*/
+    /*width: 200px;*/
     border: 1px solid black;
     border-collapse: inherit;
     /*padding: 15px;*/
@@ -38,9 +38,10 @@
     position:absolute;
     top:-20px;
     height:20px;
-    /*width:35%;*/
+    /*width:80%;*/
     /*border:1px solid red;*/
     text-align: center;
+    /*align-items: center;*/
     /*word-wrap: break-word;*/
 }
 

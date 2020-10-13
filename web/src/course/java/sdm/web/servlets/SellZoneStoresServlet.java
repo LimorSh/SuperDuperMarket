@@ -1,7 +1,6 @@
 package course.java.sdm.web.servlets;
 
 import com.google.gson.Gson;
-import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.engine.dto.StoreDto;
 import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.web.utils.ServletUtils;

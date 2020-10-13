@@ -62,6 +62,7 @@ function addItemsToItemsTable(items, itemsTableBody) {
     }
 }
 
+
 function addItemsTableToStore(items) {
     let itemsTable = document.createElement("table");
     itemsTable.id = STORE_ITEMS_TABLE_ID;
@@ -74,6 +75,7 @@ function addItemsTableToStore(items) {
     addItemsToItemsTable(items, itemsTableBody);
     return itemsTable;
 }
+
 
 function addStoreDetails(store) {
     let id = store["id"];
@@ -98,6 +100,7 @@ function addStoreDetails(store) {
     return storeDetailsDiv;
 }
 
+
 function addStore(store) {
     let name = store["name"];
     let items = store["storeItemsDto"];
@@ -118,6 +121,7 @@ function addStore(store) {
     storesContainerAccordion.appendChild(button);
     storesContainerAccordion.appendChild(storeDiv);
 }
+
 
 function addToStoresEventListeners() {
     let acc = document.getElementsByClassName("accordion");
