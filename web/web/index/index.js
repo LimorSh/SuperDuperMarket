@@ -16,8 +16,6 @@ function configUserTypeRadioButtons() {
         let radio = radios[i];
         radio.onchange = function() {
             document.getElementById(LOGIN_FORM_SUBMIT_BUTTON_ID).disabled = false;
-            userType = radio.value;
-            document.getElementById(LOGIN_FORM_USER_TYPE_INPUT_ID).value = userType;
         }
     }
 }

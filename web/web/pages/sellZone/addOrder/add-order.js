@@ -1,7 +1,9 @@
 const X_LOCATION_INPUT_ID = "location-x";
 const Y_LOCATION_INPUT_ID = "location-y";
 const ORDER_CATEGORY_RADIO_BUTTON_CLASS = "order-category-radio-button";
-const ORDER_CATEGORY_INPUT_ID = "order-category-input";
+const CHOSEN_ORDER_CATEGORY_INPUT_ID = "chosen-order-category-input";
+const CHOSEN_STORE_INPUT_ID = "chosen-store-input";
+const DYNAMIC_ORDER_STORE_INPUT_ID = -1;
 const STORES_SELECT_CONTAINER_ID = "stores-select-container";
 const STORES_SELECT_ID = "stores-select";
 const STORE_SELECT_DEFAULT_OPTION_ID = "stores-select-default-option";
@@ -18,6 +20,8 @@ const ITEMS_TABLE_CELL_CLASS = "items-table-cell";
 const ITEMS_TABLE_PRICE_CELL_CLASS = "items-table-price-cell";
 const ITEMS_TABLE_QUANTITY_CELL_CLASS = "items-table-quantity-cell";
 const ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS = "items-table-quantity-cell-input";
+
+const ADD_ORDER_FORM_ID = "add-order-form";
 
 const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
 let SET_STORE_DELIVERY_COST_URL = buildUrlWithContextPath(SET_STORE_DELIVERY_COST_URL_RESOURCE);
@@ -86,7 +90,7 @@ function ajaxAddOrder() {
             // let isAllQuantitiesInputAreEmpty = true;
             // let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
             // for (let input of itemsTableQuantityCellsInputs) {
-            //     if (!input.value.isEmptyObject()) {
+            //     if (!input.value) {
             //         isAllQuantitiesInputAreEmpty = false;
             //     }
             // }
@@ -98,9 +102,33 @@ function ajaxAddOrder() {
             // else {
             //     let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
 
-                // itemsTableQuantityCellsInputs.appendTo("#add-order-form");
 
                 let parameters = $(this).serialize();
+
+                let paramArr = [];
+                let x = document.getElementById(ADD_ORDER_FORM_ID);
+                let arr = {};
+                for (let i = 0; i < x.length; i++) {
+                    // let param = x.elements[i].name + "=" + x.elements[i].value;
+                    // console.log(x.elements[i].name + ": " + x.elements[i].value);
+                    if (x.elements[i].name.startsWith("itemId")) {
+                        if (x.elements[i].value) {
+                            let itemId = x.elements[i].name.split("-")[1];
+                            arr[itemId] = x.elements[i].value;
+                        }
+                    }
+                    else {
+                        if (x.elements[i].name) {
+                            paramArr.push(x.elements[i].name + "=" + x.elements[i].value);
+                        }
+                    }
+                }
+                paramArr.push("itemsIdsAndQuantities=" + encodeURIComponent(JSON.stringify(arr)));
+                let ourParameters = paramArr.join("&");
+
+                console.log(parameters);
+                console.log(ourParameters);
+
 
                 // let itemsQuantities = {};
                 // // for (let input of itemsTableQuantityCellsInputs) {
@@ -117,13 +145,13 @@ function ajaxAddOrder() {
                 // let str = "&limor=panther";
                 // parameters.concat(str);
                 // = itemsQuantities;
-                console.log(parameters);
 
                 $.ajax({
-                    data: parameters,
+                    data: ourParameters,
                     url: this.action,
                     timeout: 2000,
-                    error: function() {
+                    error: function(e) {
+                        console.error(e);
                         console.error("Failed to submit");
                         $("#error-msg").text("Failed to get result from server");
                     },
@@ -175,14 +203,15 @@ function configOrderCategoryRadioButtons() {
 
             // document.getElementById("login").disabled = false;
             orderCategory = radio.value;
-            document.getElementById(ORDER_CATEGORY_INPUT_ID).value = orderCategory;
-            if (radio.value === ORDER_CATEGORY_STATIC_STR) {
+            document.getElementById(CHOSEN_ORDER_CATEGORY_INPUT_ID).value = orderCategory;
+            if (orderCategory === ORDER_CATEGORY_STATIC_STR) {
                 storesSelectContainer.style.display = "inline-block";
                 storeDeliveryCostLabelContainer.style.display = "inline-block";
-                itemTablePriceHeader.style.display = "inline-block";
+                itemTablePriceHeader.style.display = "block";
                 $(".items-table-price-cell").show();
             }
             else {
+                document.getElementById(CHOSEN_STORE_INPUT_ID).value = DYNAMIC_ORDER_STORE_INPUT_ID;
                 for (let cell of itemTableQuantityCells) {
                     if (cell.innerHTML === "") {
                         let rowIndex = cell.closest('tr').rowIndex;
@@ -250,10 +279,10 @@ function ajaxGetStoreDeliveryCost(storeId) {
 
 
 function setQuantityCellContentToInput(row, quantityCell, itemId) {
-    quantityCell.innerHTML = `<input id=${itemId} 
+    quantityCell.innerHTML = `<input id=${itemId} name="itemId-${itemId}" 
                                          class=${ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS} 
                                          type="number" min="0.1" step=".01"
-                                         form="add-order-form">`;
+                                         form=${ADD_ORDER_FORM_ID}>`;
     let purchaseCategory = row.cells[row.cells.length-3].textContent;
     if (purchaseCategory === "quantity") {
         let input = document.getElementById(itemId);
@@ -330,6 +359,7 @@ function storeWasChosenForStaticOrder() {
             break;
         }
     }
+    document.getElementById(CHOSEN_STORE_INPUT_ID).value = storeId;
     ajaxGetStoreDeliveryCost(storeId);
     addPriceColumnToItemsTable(index);
 }

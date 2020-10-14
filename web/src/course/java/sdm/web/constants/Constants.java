@@ -12,8 +12,10 @@ public class Constants {
     public static final String DATE_PARAM_KEY = "date";
     public static final String LOCATION_X_PARAM_KEY = "location-x";
     public static final String LOCATION_Y_PARAM_KEY = "location-y";
-    public static final String ORDER_CATEGORY_PARAM_KEY = "order-category";
+    public static final String CHOSEN_ORDER_CATEGORY_PARAM_KEY = "chosen-order-category";
     public static final String STORE_ID_PARAM_KEY = "storeId";
+    public static final String ITEMS_AND_QUANTITIES_PARAM_KEY = "itemsIdsAndQuantities";
+
     // servlet utils
     public static final int INT_PARAMETER_ERROR = Integer.MIN_VALUE;
 }

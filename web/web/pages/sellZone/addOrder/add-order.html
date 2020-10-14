@@ -35,7 +35,7 @@
                 <label id="order-category-label" class="add-order-label">Order Category:</label>
             </div>
             <div id="order-category-radio-buttons">
-                <input id="order-category-input" type="hidden" name="order-category"/>
+                <input id="chosen-order-category-input" type="hidden" name="chosen-order-category"/>
                 <input type="radio" id="static-order-radio-button" class="order-category-radio-button" name="order-category" value="static">
                 <label for="static-order-radio-button">One Store</label><br>
                 <input type="radio" id="dynamic-order-radio-button" class="order-category-radio-button" name="order-category" value="dynamic">
@@ -47,6 +47,7 @@
             <select id="stores-select">
                 <option id="stores-select-default-option">Choose Store</option>
             </select>
+            <input id="chosen-store-input" type="hidden" name="chosen-store"/>
         </div>
         <div id="store-delivery-cost-label-container">
             <label id="store-delivery-cost-label">
@@ -71,13 +72,6 @@
             </table>
         </div>
     </div>
-<!--    <div>-->
-<!--        <label>-->
-<!--            Test:-->
-<!--            <input type="number" id="test" form="add-order-form">-->
-<!--        </label>-->
-<!--    </div>-->
-    <!--            <input id="add-order" disabled="disabled" type="submit" value="AddOrder">-->
     <br>
     <br>
     <button id="add-order" form="add-order-form" type="submit" value="AddOrder">
