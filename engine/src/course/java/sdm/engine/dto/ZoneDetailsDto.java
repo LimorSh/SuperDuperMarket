@@ -1,5 +1,7 @@
 package course.java.sdm.engine.dto;
 
+import course.java.sdm.engine.Utils;
+
 public class ZoneDetailsDto {
 
     private final String ownerName;
@@ -16,7 +18,7 @@ public class ZoneDetailsDto {
         this.totalDifferentItems = totalDifferentItems;
         this.totalStores = totalStores;
         this.totalOrders = totalOrders;
-        this.totalOrdersCostAverageWithoutDelivery = totalOrdersCostAverageWithoutDelivery;
+        this.totalOrdersCostAverageWithoutDelivery = Utils.roundNumberWithTwoDigitsAfterPoint(totalOrdersCostAverageWithoutDelivery);
     }
 
     public String getOwnerName() {

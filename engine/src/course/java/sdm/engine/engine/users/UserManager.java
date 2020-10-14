@@ -11,6 +11,7 @@ of the user of this class to handle the synchronization of isUserExists with oth
  */
 public class UserManager {
 
+
     private final Set<User> users;
 
     public UserManager() {
@@ -37,5 +38,13 @@ public class UserManager {
             }
         }
         return false;
+    }
+
+    public String getCustomerUserTypeStr() {
+        return User.getCustomerUserTypeStr();
+    }
+
+    public String getSellerUserTypeStr() {
+        return User.getSellerUserTypeStr();
     }
 }

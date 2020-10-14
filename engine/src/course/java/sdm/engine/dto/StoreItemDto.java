@@ -1,4 +1,5 @@
 package course.java.sdm.engine.dto;
+import course.java.sdm.engine.Utils;
 import course.java.sdm.engine.engine.StoreItem;
 
 public class StoreItemDto {
@@ -14,8 +15,8 @@ public class StoreItemDto {
         this.id = storeItem.getId();
         this.name = storeItem.getName();
         this.purchaseCategory = storeItem.getPurchaseCategory().getPurchaseCategoryStr();
-        this.price = storeItem.getPrice();
-        this.totalSells = storeItem.getTotalSells();
+        this.price = Utils.roundNumberWithTwoDigitsAfterPoint(storeItem.getPrice());
+        this.totalSells = Utils.roundNumberWithTwoDigitsAfterPoint(storeItem.getTotalSells());
 //        discountsDto = new ArrayList<>();
 //        copyDiscountsDto(storeItem);
     }

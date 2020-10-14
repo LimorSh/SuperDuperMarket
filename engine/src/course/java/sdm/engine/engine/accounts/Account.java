@@ -23,10 +23,22 @@ public class Account {
         return transactions;
     }
 
-    public void addCredit(Date date, int credit) {
+    public void chargeCredit(Date date, int credit) {
+        addTransaction(date, (float) credit, Constants.TRANSACTION_TYPE_CHARGE_STR);
+    }
+
+    public void receiveCredit(Date date, float credit) {
+        addTransaction(date, credit, Constants.TRANSACTION_TYPE_RECEIVE_STR);
+    }
+
+    public void transferCredit(Date date, float credit) {
+        addTransaction(date, credit, Constants.TRANSACTION_TYPE_TRANSFER_STR);
+    }
+
+    public void addTransaction(Date date, float credit, String transactionType) {
         float balanceBefore = getBalanceBefore();
-        Transaction transaction = new Transaction(Constants.TRANSACTION_TYPE_CHARGE_STR,
-                date, (float) credit, balanceBefore);
+        Transaction transaction = new Transaction(transactionType,
+                date, credit, balanceBefore);
         transactions.add(transaction);
     }
 

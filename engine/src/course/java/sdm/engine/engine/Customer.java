@@ -10,26 +10,13 @@ public class Customer {
     private static int numCustomers = 1;
     private final int id;
     private final String name;
-    private Location location;
     private final Map<Integer, Order> orders;
 
-    public Customer(int id, String name, Location location) {
-        this(id, name, location.getCoordinate().x, location.getCoordinate().y);
-    }
-
-    public Customer(int id, String name, int xLocation, int yLocation) {
-        this.id = id;
+    public Customer(String name) {
+        this.id = numCustomers;
         this.name = name.trim();
-        setLocation(xLocation, yLocation);
         orders = new HashMap<>();
         numCustomers++;
-    }
-
-    private void setLocation(int x, int y) {
-        if (!Location.isValidLocation(x, y)) {
-            throw new LocationOutOfRangeException(this.getClass().getSimpleName(), name, x, y);
-        }
-        this.location = new Location(x, y);
     }
 
     public static int getNumCustomers() {
@@ -56,10 +43,6 @@ public class Customer {
 //        else {
 //            // throw exception
 //        }
-    }
-
-    public Location getLocation() {
-        return location;
     }
 
     public boolean isOrdersEmpty() {
@@ -103,7 +86,6 @@ public class Customer {
         return "Customer{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", location=" + location +
                 ", orders=" + orders +
                 '}';
     }

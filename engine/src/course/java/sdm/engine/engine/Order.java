@@ -25,14 +25,16 @@ public class Order {
     private final int id;
     private final Date date;
     private final Customer customer;
+    private final Location customerLocation;
     private final Map<Integer, StoreOrder> storesOrder;     //The key is store id
     private float itemsCost;
     private float deliveryCost;
     private final OrderCategory orderCategory;
 
-    public Order(Customer customer, Date date, String orderCategory) {
+    public Order(Customer customer, Date date, Location customerLocation, String orderCategory) {
         this.id = numOrders;
         this.customer = customer;
+        this.customerLocation = customerLocation;
         this.date = date;
         this.orderCategory = convertStringToOrderCategory(orderCategory);
         storesOrder = new HashMap<>();
@@ -58,8 +60,16 @@ public class Order {
         return customer;
     }
 
-    public Map<Integer, StoreOrder> getStoresOrder() {
-        return storesOrder;
+    public Location getCustomerLocation() {
+        return customerLocation;
+    }
+
+//    public Map<Integer, StoreOrder> getStoresOrder() {
+//        return storesOrder;
+//    }
+
+    public Collection<StoreOrder> getStoresOrder() {
+        return storesOrder.values();
     }
 
     public OrderCategory getOrderCategory() {
@@ -127,7 +137,7 @@ public class Order {
         });
 
         StoreOrder storeOrder = new StoreOrder(date, store, orderLines);
-        storeOrder.SetValues(customer.getLocation(), appliedOffers);
+        storeOrder.SetValues(customerLocation, appliedOffers);
         storesOrder.put(store.getId(), storeOrder);
         setValues(storeOrder);
     }
@@ -146,7 +156,7 @@ public class Order {
     }
 
     public void finish(Store store) {
-        store.updateTotalDeliveriesRevenue(customer.getLocation());
+        store.updateTotalDeliveriesRevenue(customerLocation);
         customer.addOrder(this);
     }
 
@@ -162,9 +172,11 @@ public class Order {
                 "id=" + id +
                 ", date=" + date +
                 ", customer=" + customer +
+                ", customerLocation=" + customerLocation +
                 ", storesOrder=" + storesOrder +
                 ", itemsCost=" + itemsCost +
                 ", deliveryCost=" + deliveryCost +
+                ", orderCategory=" + orderCategory +
                 '}';
     }
 

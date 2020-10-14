@@ -1,4 +1,5 @@
 package course.java.sdm.engine.dto;
+import course.java.sdm.engine.Utils;
 import course.java.sdm.engine.engine.*;
 
 import java.util.*;
@@ -20,8 +21,8 @@ public class OrderDto {
         this.basicCustomerDto = new BasicCustomerDto(order.getCustomer());
         this.storesOrderDto = new HashMap<>();
         copyStoreOrdersDto(order);
-        this.itemsCost = order.getItemsCost();
-        this.deliveryCost = order.getDeliveryCost();
+        this.itemsCost = Utils.roundNumberWithTwoDigitsAfterPoint(order.getItemsCost());
+        this.deliveryCost = Utils.roundNumberWithTwoDigitsAfterPoint(order.getDeliveryCost());
         this.orderCategory = order.getOrderCategory().getOrderCategoryStr();
     }
 

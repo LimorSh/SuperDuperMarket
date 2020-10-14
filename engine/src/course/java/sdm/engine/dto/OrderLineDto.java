@@ -1,5 +1,6 @@
 package course.java.sdm.engine.dto;
 
+import course.java.sdm.engine.Utils;
 import course.java.sdm.engine.engine.OrderLine;
 
 public class OrderLineDto {
@@ -12,9 +13,9 @@ public class OrderLineDto {
 
     public OrderLineDto(OrderLine orderLine) {
         this.basicItemDto = new BasicItemDto(orderLine.getItem());
-        this.quantity = orderLine.getQuantity();
-        this.cost = orderLine.getCost();
-        this.totalCost = orderLine.getTotalCost();
+        this.quantity = Utils.roundNumberWithTwoDigitsAfterPoint(orderLine.getQuantity());
+        this.cost = Utils.roundNumberWithTwoDigitsAfterPoint(orderLine.getCost());
+        this.totalCost = Utils.roundNumberWithTwoDigitsAfterPoint(orderLine.getTotalCost());
     }
 
     public BasicItemDto getBasicItemDto() {

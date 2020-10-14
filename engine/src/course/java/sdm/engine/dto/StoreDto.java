@@ -1,4 +1,5 @@
 package course.java.sdm.engine.dto;
+import course.java.sdm.engine.Utils;
 import course.java.sdm.engine.engine.Order;
 import course.java.sdm.engine.engine.Store;
 import course.java.sdm.engine.engine.StoreItem;
@@ -27,9 +28,9 @@ public class StoreDto {
         this.xLocation = store.getLocation().getCoordinate().x;
         this.yLocation = store.getLocation().getCoordinate().y;
         this.ppk = store.getPpk();
-        this.totalDeliveriesRevenue = store.getTotalDeliveriesRevenue();
+        this.totalDeliveriesRevenue = Utils.roundNumberWithTwoDigitsAfterPoint(store.getTotalDeliveriesRevenue());
         this.numberOfOrders = store.getNumberOfOrders();
-        this.totalItemsCost = store.getTotalItemsCost();
+        this.totalItemsCost = Utils.roundNumberWithTwoDigitsAfterPoint(store.getTotalItemsCost());
         this.hasDiscounts = store.hasDiscounts();
         storeItemsDto = new ArrayList<>();
         ordersDto = new ArrayList<>();

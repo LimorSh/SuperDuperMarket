@@ -25,7 +25,7 @@ public class ChargeCreditServlet extends HttpServlet {
             int credit = Integer.parseInt(creditStr);
 
             Date date = new Date();
-            accountManager.addCreditForUser(usernameFromSession, date, credit);
+            accountManager.chargeCreditForUser(usernameFromSession, date, credit);
             String msg = String.format("$%d were added to your account successfully.", credit);
             response.getWriter().print(msg);
         }

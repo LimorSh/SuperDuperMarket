@@ -1,4 +1,5 @@
 package course.java.sdm.engine.dto;
+import course.java.sdm.engine.Utils;
 import course.java.sdm.engine.engine.Offer;
 
 public class OfferDto {
@@ -14,9 +15,10 @@ public class OfferDto {
         this.storeItemId = offer.getItem().getId();
         this.storeItemName = offer.getItem().getName();
         this.storeItemPurchaseCategory = offer.getItem().getPurchaseCategory().getPurchaseCategoryStr();
-        this.quantity = offer.getQuantity();
+        this.quantity = Utils.roundNumberWithTwoDigitsAfterPoint(offer.getQuantity());
         this.additionalPrice = offer.getAdditionalPrice();
-        this.totalCost = (float) (offer.getQuantity() * offer.getAdditionalPrice());
+        this.totalCost = Utils.roundNumberWithTwoDigitsAfterPoint(
+                (float) (offer.getQuantity() * offer.getAdditionalPrice()));
     }
 
     public int getStoreItemId() {

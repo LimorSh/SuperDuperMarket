@@ -1,6 +1,7 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.dto.*;
+import course.java.sdm.engine.engine.accounts.AccountManager;
 
 import javax.xml.bind.JAXBException;
 import java.io.InputStream;
@@ -56,7 +57,7 @@ public class BusinessLogic {
 
         Collection<Customer> customers = chosenSuperDuperMarket.getCustomers();
         for (Customer customer : customers) {
-            CustomerDto customerDto = getCustomerDto(zoneName, customer.getId());
+            CustomerDto customerDto = getCustomerDto(zoneName, customer.getName());
             customersDto.add(customerDto);
         }
 
@@ -171,9 +172,9 @@ public class BusinessLogic {
         return itemWithPriceDto;
     }
 
-    public CustomerDto getCustomerDto(String zoneName, int id) {
+    public CustomerDto getCustomerDto(String zoneName, String name) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        Customer customer = chosenSuperDuperMarket.getCustomer(id);
+        Customer customer = chosenSuperDuperMarket.getCustomer(name);
         int numberOfOrders = customer.getNumberOfOrders();
         float averageItemsCost = customer.getAverageItemsCost();
         float averageDeliveriesCost = customer.getAverageDeliveriesCost();
@@ -276,22 +277,25 @@ public class BusinessLogic {
         return chosenSuperDuperMarket.getStoreDeliveryCost(storeId, locationX, locationY);
     }
 
-    public double getDistanceBetweenCustomerAndStore(String zoneName, int storeId, int customerId) {
+    public double getDistanceBetweenCustomerAndStore(String zoneName, int storeId,
+                                                     int customerLocationX, int customerLocationY) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        return chosenSuperDuperMarket.getDistanceBetweenCustomerAndStore(storeId, customerId);
+        return chosenSuperDuperMarket.getDistanceBetweenCustomerAndStore(storeId, customerLocationX, customerLocationY);
     }
 
-    public void createOrder(String zoneName, int customerId, Date date, int storeId, Map<Integer, Float> itemsIdsAndQuantities,
+    public void createOrder(AccountManager accountManager, String zoneName, String username, Date date, int locationX, int locationY,
+                            int storeId, Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, Collection<OfferDto>> appliedOffersDto) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.createOrder(customerId, date, storeId, itemsIdsAndQuantities,
+        chosenSuperDuperMarket.createOrder(accountManager, username, date, locationX, locationY, storeId, itemsIdsAndQuantities,
                 convertAppliedOffersDtoToOffers(zoneName, appliedOffersDto));
     }
 
-    public void createOrder(String zoneName, int customerId, Date date, Map<Integer, Float> itemsIdsAndQuantities,
+    public void createOrder(AccountManager accountManager, String zoneName, String username, Date date, int locationX, int locationY,
+                            Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, Collection<OfferDto>> appliedOffersDto) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.createOrder(customerId, date, itemsIdsAndQuantities,
+        chosenSuperDuperMarket.createOrder(accountManager, username, date, locationX, locationY, itemsIdsAndQuantities,
                 convertAppliedOffersDtoToOffers(zoneName, appliedOffersDto));
     }
 

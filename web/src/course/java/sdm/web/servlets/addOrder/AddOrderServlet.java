@@ -1,58 +1,88 @@
 package course.java.sdm.web.servlets.addOrder;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import course.java.sdm.engine.dto.OfferDto;
+import course.java.sdm.engine.engine.BusinessLogic;
+import course.java.sdm.engine.engine.accounts.Account;
+import course.java.sdm.engine.engine.accounts.AccountManager;
 import course.java.sdm.web.constants.Constants;
+import course.java.sdm.web.utils.ServletUtils;
+import course.java.sdm.web.utils.SessionUtils;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 //@WebServlet(name = "AddOrderServlet", urlPatterns = {"/pages/sellZone/addOrder/createNewOrder"})
 public class AddOrderServlet extends HttpServlet {
 
     public static final String STATIC_ORDER_CATEGORY_STR = "static";
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
-//        String zoneNameFromSession = SessionUtils.getZoneName(request);
-//        String usernameFromSession = SessionUtils.getUsername(request);
-//
-//        String dateFromParameter = request.getParameter(Constants.DATE_PARAM_KEY);
-//        String locationXFromParameter = request.getParameter(Constants.LOCATION_X_PARAM_KEY);
-//        String locationYFromParameter = request.getParameter(Constants.LOCATION_Y_PARAM_KEY);
+        String zoneNameFromSession = SessionUtils.getZoneName(request);
+        String usernameFromSession = SessionUtils.getUsername(request);
+        BusinessLogic businessLogic = ServletUtils.getBusinessLogic(getServletContext());
+        AccountManager accountManager = ServletUtils.getAccountManager(getServletContext());
+
+        String dateFromParameter = request.getParameter(Constants.DATE_PARAM_KEY);
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateFromParameter);
+        String locationXFromParameter = request.getParameter(Constants.LOCATION_X_PARAM_KEY);
+        String locationYFromParameter = request.getParameter(Constants.LOCATION_Y_PARAM_KEY);
+        int locationX = Integer.parseInt(locationXFromParameter);
+        int locationY = Integer.parseInt(locationYFromParameter);
         String itemsAndQuantitiesFromParameter = request.getParameter(Constants.ITEMS_AND_QUANTITIES_PARAM_KEY);
         JsonObject itemsAndQuantitiesJson = new JsonParser().parse(itemsAndQuantitiesFromParameter).getAsJsonObject();
         Map<Integer, Float> itemsIdsAndQuantities = new HashMap<>();
-        JsonArray itemsAndQuantitiesJsonArr = itemsAndQuantitiesJson.getAsJsonArray();
-//        for (int i = 0; i < itemsAndQuantitiesJsonArr.size(); i++) {
-//            String str = itemsAndQuantitiesJsonArr.getJ[i];
-//        }
+        itemsAndQuantitiesJson.entrySet().forEach( entry ->
+        {
+            int itemId = Integer.parseInt(entry.getKey());
+            float quantity = entry.getValue().getAsFloat();
+            itemsIdsAndQuantities.put(itemId, quantity);
+        });
 
+        Map<String, Collection<OfferDto>> appliedOffersDto = new HashMap<>();
 
-        //        String orderCategoryFromParameter = request.getParameter(Constants.CHOSEN_ORDER_CATEGORY_PARAM_KEY);
-//        if (orderCategoryFromParameter.equals(STATIC_ORDER_CATEGORY_STR)) {
-////            String storeIdFromParameter = request.getParameter(Constants.STORE_ID_PARAM_KEY);
-//        }
-//
-//        String storeIdFromParameter = request.getParameter(Constants.STORE_ID_PARAM_KEY);
-//        String res_str = "storeId: " + storeIdFromParameter + " date: " + dateFromParameter + " Location: (" + locationXFromParameter + ","
-//                + locationYFromParameter + ") Order Category: " +  orderCategoryFromParameter;
-////                " itemsAndQuantities: " + itemsAndQuantitiesFromParameter;
-//        response.getWriter().print(res_str);
-        response.getWriter().print("success: " + itemsAndQuantitiesFromParameter);
+        String orderCategoryFromParameter = request.getParameter(Constants.CHOSEN_ORDER_CATEGORY_PARAM_KEY);
+        if (orderCategoryFromParameter.equals(STATIC_ORDER_CATEGORY_STR)) {
+            String storeIdFromParameter = request.getParameter(Constants.STORE_ID_PARAM_KEY);
+            int storeId = Integer.parseInt(storeIdFromParameter);
+            synchronized (this) {
+                businessLogic.createOrder(accountManager, zoneNameFromSession, usernameFromSession, date, locationX, locationY,
+                        storeId, itemsIdsAndQuantities, appliedOffersDto);
+                response.getWriter().print("success");
+            }
+        }
+        else {
+            synchronized (this) {
+                businessLogic.createOrder(accountManager, zoneNameFromSession, usernameFromSession, date, locationX, locationY,
+                        itemsIdsAndQuantities, appliedOffersDto);
+                response.getWriter().print("success");
+            }
+        }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,20 +1,18 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
-import course.java.sdm.engine.dto.OfferDto;
-import course.java.sdm.engine.engine.users.User;
+import course.java.sdm.engine.engine.accounts.AccountManager;
 import course.java.sdm.engine.exception.DuplicateElementIdException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheStoreException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheSuperException;
 import course.java.sdm.engine.exception.DuplicateLocationException;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class SuperDuperMarket {
 
     private String zoneName;
     private String zoneOwnerName;
-    private final Map<Integer, Customer> customers;
+    private final Map<String, Customer> customers;
     private final Map<Integer, Store> stores;
     private final Map<Integer, Item> items;
     private final Map<Integer, Order> orders;
@@ -114,18 +112,10 @@ public class SuperDuperMarket {
         itemsSold.add(item);
     }
 
-    public void addCustomer(Customer customer) {
-        int id = customer.getId();
-        if (!isCustomerExists(id)) {
-            Location location = customer.getLocation();
-            validateLocation(customer, location);
-            addObjectToLocationGrid(customer, location);
-            customers.put(id, customer);
-        }
-        else {
-            Customer existentCustomer = getCustomer(id);
-            throw new DuplicateElementIdException(customer, existentCustomer);
-        }
+    public Customer createCustomer(String name) {
+        Customer customer = new Customer(name);
+        customers.put(name, customer);
+        return customer;
     }
 
     public void addStore(Store store) {
@@ -224,8 +214,8 @@ public class SuperDuperMarket {
         return store.isItemInTheStore(storeItemId);
     }
 
-    public Customer getCustomer(int id) {
-        return customers.get(id);
+    public Customer getCustomer(String name) {
+        return customers.get(name);
     }
 
     public StoreItem getStoreItem(int storeId, int itemId) {
@@ -347,8 +337,8 @@ public class SuperDuperMarket {
         return stores.containsKey(id);
     }
 
-    public boolean isCustomerExists(int id) {
-        return customers.containsKey(id);
+    public boolean isCustomerExists(String name) {
+        return customers.containsKey(name);
     }
 
     public void deleteItemFromStore(int storeItemId, int storeId) {
@@ -375,10 +365,9 @@ public class SuperDuperMarket {
         return store.getDeliveryCost(location);
     }
 
-    public double getDistanceBetweenCustomerAndStore(int storeId, int customerId) {
+    public double getDistanceBetweenCustomerAndStore(int storeId, int customerLocationX, int customerLocationY) {
         Store store = stores.get(storeId);
-        Customer customer = customers.get(customerId);
-        Location customerLocation = customer.getLocation();
+        Location customerLocation = new Location(customerLocationX, customerLocationY);
         return store.getDistance(customerLocation);
     }
 
@@ -452,38 +441,59 @@ public class SuperDuperMarket {
         return dynamicOrderStoresData;
     }
 
-    public void createOrder(int customerId, Date date, Map<Integer, Float> itemsIdsAndQuantities,
-                            Map<String, ArrayList<Offer>> appliedOffers) {
-        Map<Store, Map<Item, Float>> storesToItemsAndQuantities = getOptimalCartWithItems(itemsIdsAndQuantities);
-
-        Collection<DynamicOrderStoreData> dynamicOrderStoresData = getDynamicOrderStoresData(
-                storesToItemsAndQuantities, appliedOffers);
-
-        Customer customer = getCustomer(customerId);
-        Order order = new Order(customer, date, Constants.ORDER_CATEGORY_DYNAMIC_STR);
-        addOrder(order);
-
-        order.addStoresOrder(dynamicOrderStoresData);
-
-        order.finish(storesToItemsAndQuantities.keySet());
+    public Customer getCustomerForNewOrder(String customerName) {
+        Customer customer;
+        if (!isCustomerExists(customerName)) {
+            customer = createCustomer(customerName);
+        }
+        else {
+            customer = getCustomer(customerName);
+        }
+        return customer;
     }
 
-    public void createOrder(int customerId, Date date, int storeId, Map<Integer, Float> itemsIdsAndQuantities,
+    private void transferPaymentToStoresOwners(AccountManager accountManager,
+                                               Order order, String customerName) {
+        for (StoreOrder storeOrder : order.getStoresOrder()) {
+            float totalCost = storeOrder.getTotalCost();
+            String storeOwner = storeOrder.getStore().getOwnerName();
+            accountManager.transferCredit(order.getDate(), storeOwner, customerName, totalCost);
+        }
+    }
+
+    public void createOrder(AccountManager accountManager, String customerName, Date date,
+                            int locationX, int locationY,
+                            Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, ArrayList<Offer>> appliedOffers) {
-        Customer customer = getCustomer(customerId);
-        Order order = new Order(customer, date, Constants.ORDER_CATEGORY_STATIC_STR);
+        Map<Store, Map<Item, Float>> storesToItemsAndQuantities = getOptimalCartWithItems(itemsIdsAndQuantities);
+        Collection<DynamicOrderStoreData> dynamicOrderStoresData = getDynamicOrderStoresData(
+                storesToItemsAndQuantities, appliedOffers);
+        Customer customer = getCustomerForNewOrder(customerName);
+        Location location = new Location(locationX, locationY);
+        Order order = new Order(customer, date, location, Constants.ORDER_CATEGORY_DYNAMIC_STR);
         addOrder(order);
+        order.addStoresOrder(dynamicOrderStoresData);
+        order.finish(storesToItemsAndQuantities.keySet());
+        transferPaymentToStoresOwners(accountManager, order, customerName);
+    }
 
+    public void createOrder(AccountManager accountManager, String customerName, Date date,
+                            int locationX, int locationY,
+                            int storeId, Map<Integer, Float> itemsIdsAndQuantities,
+                            Map<String, ArrayList<Offer>> appliedOffers) {
+        Customer customer = getCustomerForNewOrder(customerName);
+        Location location = new Location(locationX, locationY);
+        Order order = new Order(customer, date, location, Constants.ORDER_CATEGORY_STATIC_STR);
+        addOrder(order);
         Store store = getStore(storeId);
-
         Map<Item, Float> itemsAndQuantities = new HashMap<>();
         itemsIdsAndQuantities.forEach((itemId,itemQuantity) -> {
             Item item = getItem(itemId);
             itemsAndQuantities.put(item, itemQuantity);
         });
         order.addStoreOrder(store, itemsAndQuantities, appliedOffers);
-
         order.finish(store);
+        transferPaymentToStoresOwners(accountManager, order, customerName);
     }
 
     public boolean isStoreHasDiscounts(int id) {

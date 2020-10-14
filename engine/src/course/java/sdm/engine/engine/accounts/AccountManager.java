@@ -20,9 +20,19 @@ public class AccountManager {
         accounts.remove(username);
     }
 
-    public synchronized void addCreditForUser(String username, Date date, int credit) {
+    public synchronized void chargeCreditForUser(String username, Date date, int credit) {
         Account account = getUserAccount(username);
-        account.addCredit(date, credit);
+        account.chargeCredit(date, credit);
+    }
+
+    public synchronized void receiveCreditForUser(String username, Date date, float credit) {
+        Account account = getUserAccount(username);
+        account.receiveCredit(date, credit);
+    }
+
+    public synchronized void transferCreditForUser(String username, Date date, float credit) {
+        Account account = getUserAccount(username);
+        account.transferCredit(date, credit);
     }
 
     public synchronized List<Transaction> getUserTransactions(String username) {
@@ -32,5 +42,10 @@ public class AccountManager {
 
     private Account getUserAccount(String username) {
         return accounts.get(username);
+    }
+
+    public void transferCredit(Date date, String receiver, String sender, float credit) {
+        receiveCreditForUser(receiver, date, credit);
+        transferCreditForUser(sender, date, credit);
     }
 }

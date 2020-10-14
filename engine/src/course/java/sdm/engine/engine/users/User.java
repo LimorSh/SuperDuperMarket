@@ -51,6 +51,14 @@ public class User {
         return userType.userTypeStr;
     }
 
+    public static String getCustomerUserTypeStr() {
+        return UserType.CUSTOMER.userTypeStr;
+    }
+
+    public static String getSellerUserTypeStr() {
+        return UserType.SELLER.userTypeStr;
+    }
+
     @Override
     public String toString() {
         return "User{" +
