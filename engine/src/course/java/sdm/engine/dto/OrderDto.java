@@ -27,7 +27,7 @@ public class OrderDto {
     }
 
     private void copyStoreOrdersDto(Order order) {
-        order.getStoresOrder().forEach((storeId,storeOrder) -> {
+        order.getStoresOrderMap().forEach((storeId,storeOrder) -> {
             StoreOrderDto storeOrderDto = new StoreOrderDto(storeOrder);
             storesOrderDto.put(storeId, storeOrderDto);
         });

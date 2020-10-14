@@ -4,7 +4,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import course.java.sdm.engine.dto.OfferDto;
 import course.java.sdm.engine.engine.BusinessLogic;
-import course.java.sdm.engine.engine.accounts.Account;
 import course.java.sdm.engine.engine.accounts.AccountManager;
 import course.java.sdm.web.constants.Constants;
 import course.java.sdm.web.utils.ServletUtils;
@@ -51,7 +50,7 @@ public class AddOrderServlet extends HttpServlet {
 
         String orderCategoryFromParameter = request.getParameter(Constants.CHOSEN_ORDER_CATEGORY_PARAM_KEY);
         if (orderCategoryFromParameter.equals(STATIC_ORDER_CATEGORY_STR)) {
-            String storeIdFromParameter = request.getParameter(Constants.STORE_ID_PARAM_KEY);
+            String storeIdFromParameter = request.getParameter(Constants.CHOSEN_STORE_ID_PARAM_KEY);
             int storeId = Integer.parseInt(storeIdFromParameter);
             synchronized (this) {
                 businessLogic.createOrder(accountManager, zoneNameFromSession, usernameFromSession, date, locationX, locationY,

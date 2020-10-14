@@ -13,7 +13,8 @@ public class Constants {
     public static final String LOCATION_X_PARAM_KEY = "location-x";
     public static final String LOCATION_Y_PARAM_KEY = "location-y";
     public static final String CHOSEN_ORDER_CATEGORY_PARAM_KEY = "chosen-order-category";
-    public static final String STORE_ID_PARAM_KEY = "chosen-store";
+    public static final String STORE_ID_PARAM_KEY = "storeId";
+    public static final String CHOSEN_STORE_ID_PARAM_KEY = "chosen-store";
     public static final String ITEMS_AND_QUANTITIES_PARAM_KEY = "itemsIdsAndQuantities";
 
     // servlet utils

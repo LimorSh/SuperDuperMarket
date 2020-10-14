@@ -64,9 +64,9 @@ public class Order {
         return customerLocation;
     }
 
-//    public Map<Integer, StoreOrder> getStoresOrder() {
-//        return storesOrder;
-//    }
+    public Map<Integer, StoreOrder> getStoresOrderMap() {
+        return storesOrder;
+    }
 
     public Collection<StoreOrder> getStoresOrder() {
         return storesOrder.values();
