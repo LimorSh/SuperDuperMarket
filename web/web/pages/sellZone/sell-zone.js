@@ -20,6 +20,9 @@ let SET_TITLE_TABLE_URL = buildUrlWithContextPath(SET_TITLE_URL_RESOURCE);
 function ajaxSetTitle() {
     $.ajax({
         url: SET_TITLE_TABLE_URL,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
         success: function(r) {
             $("#header").text(r + " - Sell Zone");
         }
@@ -156,6 +159,9 @@ function refreshStores(stores) {
 function ajaxItemsTable() {
     $.ajax({
         url: ITEMS_TABLE_URL,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
         success: function(items) {
             refreshItemsTable(items);
         }
@@ -166,6 +172,9 @@ function ajaxItemsTable() {
 function ajaxStores() {
     $.ajax({
         url: STORES_URL,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
         success: function(stores) {
             refreshStores(stores);
         }

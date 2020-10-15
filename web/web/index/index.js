@@ -34,6 +34,9 @@ $(function() {
             data: parameters,
             url: this.action,
             timeout: 2000,
+            headers: {
+                'cache-control': 'no-store,no-cache',
+            },
             error: function() {
                 console.error("Failed to submit");
                 $("#error-msg").text("Failed to get result from server");

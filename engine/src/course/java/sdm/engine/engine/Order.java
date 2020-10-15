@@ -165,20 +165,20 @@ public class Order {
             finish(store);
         }
     }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", date=" + date +
-                ", customer=" + customer +
-                ", customerLocation=" + customerLocation +
-                ", storesOrder=" + storesOrder +
-                ", itemsCost=" + itemsCost +
-                ", deliveryCost=" + deliveryCost +
-                ", orderCategory=" + orderCategory +
-                '}';
-    }
+//
+//    @Override
+//    public String toString() {
+//        return "Order{" +
+//                "id=" + id +
+//                ", date=" + date +
+//                ", customer=" + customer +
+//                ", customerLocation=" + customerLocation +
+//                ", storesOrder=" + storesOrder +
+//                ", itemsCost=" + itemsCost +
+//                ", deliveryCost=" + deliveryCost +
+//                ", orderCategory=" + orderCategory +
+//                '}';
+//    }
 
     @Override
     public boolean equals(Object o) {

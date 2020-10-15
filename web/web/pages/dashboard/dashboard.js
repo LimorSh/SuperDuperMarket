@@ -38,6 +38,9 @@ function zoneWasChosen(zoneName) {
             "zoneName": zoneName,
         },
         url: SELL_ZONE_CHOSEN_URL,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
         success: function(r) {
             console.log(r);
         }
@@ -99,6 +102,9 @@ function refreshAccountTable(transactions) {
 function ajaxUsersList() {
     $.ajax({
         url: USER_LIST_URL,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
         success: function(users) {
             refreshUsersList(users);
         }
@@ -109,6 +115,9 @@ function ajaxUsersList() {
 function ajaxSellZonesTable() {
     $.ajax({
         url: SELL_ZONES_TABLE_URL,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
         success: function(zones) {
             refreshSellZoneTable(zones);
         }
@@ -119,6 +128,9 @@ function ajaxSellZonesTable() {
 function ajaxAccountTable() {
     $.ajax({
         url: ACCOUNT_TABLE_URL,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
         success: function(account) {
             refreshAccountTable(account);
         }
@@ -153,6 +165,9 @@ $(function() {
             processData: false, // Don't process the files
             contentType: false, // Set content type to false as jQuery will tell the server its a query string request
             timeout: 4000,
+            headers: {
+                'cache-control': 'no-store,no-cache',
+            },
             error: function(r) {
                 // console.error("Failed to submit");
                 $("#upload-file-msg-label").text("Failed to get result from server " + r);
@@ -177,6 +192,9 @@ $(function() {
             data: parameters,
             url: this.action,
             timeout: 2000,
+            headers: {
+                'cache-control': 'no-store,no-cache',
+            },
             error: function() {
                 console.error("Failed to submit");
                 $("#charge-credit-msg-label").text("Failed to get result from server");

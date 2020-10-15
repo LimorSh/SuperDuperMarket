@@ -39,6 +39,9 @@ function ajaxSetStores() {
     return $.ajax({
         url: STORES_URL,
         timeout: 2000,
+        // headers: {
+        //     'cache-control': 'no-store,no-cache',
+        // },
         error: function() {
             console.error("Failed to submit");
             $("#error-msg").text("Failed to get result from server");
@@ -74,6 +77,9 @@ function ajaxItemsTable() {
     return $.ajax({
         url: ITEMS_TABLE_URL,
         timeout: 2000,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
         error: function() {
             console.error("Failed to submit");
             $("#error-msg").text("Failed to get result from server");
@@ -132,6 +138,9 @@ function ajaxAddOrder() {
                 data: parameters,
                 url: this.action,
                 timeout: 2000,
+                headers: {
+                    'cache-control': 'no-store,no-cache',
+                },
                 error: function(e) {
                     console.error(e);
                     console.error("Failed to submit");
@@ -150,11 +159,10 @@ function ajaxAddOrder() {
                 }
             });
         // }
+        // return value of the submit operation
+        // by default - we'll always return false so it doesn't redirect the user.
+        return false;
     });
-
-    // return value of the submit operation
-    // by default - we'll always return false so it doesn't redirect the user.
-    return false;
 }
 
 
@@ -249,6 +257,9 @@ function ajaxGetStoreDeliveryCost(storeId) {
         data: parameters,
         url: SET_STORE_DELIVERY_COST_URL,
         timeout: 2000,
+        // headers: {
+        //     'cache-control': 'no-store,no-cache',
+        // },
         error: function() {
             console.error("Failed to submit");
             $("#error-msg").text("Failed to get result from server");

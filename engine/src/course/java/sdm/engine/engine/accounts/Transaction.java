@@ -40,19 +40,20 @@ public class Transaction {
     private float balanceAfter;
 
     public Transaction(String type, Date date, float amount, float balanceBefore) {
+        float amountRounded = Utils.roundNumberWithTwoDigitsAfterPoint(amount);
         TransactionType transactionType = TransactionType.getTransactionType(type);
         this.type = transactionType;
         this.dateStr = Utils.convertDateToString(date);
-        this.amount = amount;
+        this.amount = amountRounded;
         this.balanceBefore = balanceBefore;
 
         switch (transactionType) {
             case CHARGE:
             case RECEIVE:
-                this.balanceAfter = balanceBefore + amount;
+                this.balanceAfter = balanceBefore + amountRounded;
                 break;
             case TRANSFER:
-                this.balanceAfter = balanceBefore - amount;
+                this.balanceAfter = balanceBefore - amountRounded;
                 break;
         }
     }
