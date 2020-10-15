@@ -20,4 +20,5 @@ public class Constants {
 
     // servlet utils
     public static final int INT_PARAMETER_ERROR = Integer.MIN_VALUE;
+    public static final String STATIC_ORDER_CATEGORY_STR = "static";
 }

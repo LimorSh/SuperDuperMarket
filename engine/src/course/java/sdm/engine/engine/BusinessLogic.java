@@ -318,20 +318,21 @@ public class BusinessLogic {
         return appliedOffers;
     }
 
-//    public Map<StoreDto, Map<Integer, Float>> getOptimalCart(String zoneName, Map<Integer, Float> itemsIdsAndQuantities) {
-//        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-//        Map<Store, Map<Integer, Float>> storesToItemIdsAndQuantities =
-//                chosenSuperDuperMarket.getOptimalCartWithItemIds(itemsIdsAndQuantities);
-//
-//        Map<StoreDto, Map<Integer, Float>> storesDtoToItemIdsAndQuantities = new HashMap<>();
-//
-//        storesToItemIdsAndQuantities.forEach((store,itemIdsAndQuantities) -> {
-//            StoreDto storeDto = new StoreDto(store);
-//            storesDtoToItemIdsAndQuantities.put(storeDto, itemIdsAndQuantities);
-//        });
-//
-//        return storesDtoToItemIdsAndQuantities;
-//    }
+    public Map<StoreDto, Map<Integer, Float>> getOptimalCart(String zoneName,
+                                                             Map<Integer, Float> itemsIdsAndQuantities) {
+        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
+        Map<Store, Map<Integer, Float>> storesToItemIdsAndQuantities =
+                chosenSuperDuperMarket.getOptimalCartWithItemIds(itemsIdsAndQuantities);
+
+        Map<StoreDto, Map<Integer, Float>> storesDtoToItemIdsAndQuantities = new HashMap<>();
+
+        storesToItemIdsAndQuantities.forEach((store,itemIdsAndQuantities) -> {
+            StoreDto storeDto = new StoreDto(store);
+            storesDtoToItemIdsAndQuantities.put(storeDto, itemIdsAndQuantities);
+        });
+
+        return storesDtoToItemIdsAndQuantities;
+    }
 
     public Collection<DynamicOrderStoreDetailsDto> getDynamicOrderStoresDetailsDto(
             String zoneName, Map<Integer, Float> itemsIdsAndQuantities,
@@ -498,5 +499,32 @@ public class BusinessLogic {
             zonesDetailsDto.add(zoneDetailsDto);
         }
         return zonesDetailsDto;
+    }
+
+    private Collection<DiscountDto> convertDiscountsToDiscountsDto(SuperDuperMarket superDuperMarket,
+                                           Collection<Discount> discounts) {
+        Collection<DiscountDto> discountsDto = new ArrayList<>();
+        for (Discount discount : discounts) {
+            int storeItemId = discount.getStoreItemId();
+            String storeItemName = superDuperMarket.getItemName(storeItemId);
+            DiscountDto discountDto = new DiscountDto(discount, storeItemName);
+            discountsDto.add(discountDto);
+        }
+        return discountsDto;
+    }
+
+    public Collection<DiscountDto> getRelevantDiscounts(String zoneName, Map<Integer, Float> itemsIdsAndQuantities) {
+        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
+        Collection<Discount> discounts =
+                chosenSuperDuperMarket.getRelevantDiscounts(itemsIdsAndQuantities);
+        return convertDiscountsToDiscountsDto(chosenSuperDuperMarket, discounts);
+    }
+
+    public Collection<DiscountDto> getRelevantDiscounts(String zoneName, int StoreId,
+                                                        Map<Integer, Float> itemsIdsAndQuantities) {
+        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
+        Collection<Discount> discounts =
+                chosenSuperDuperMarket.getRelevantDiscounts(StoreId, itemsIdsAndQuantities);
+        return convertDiscountsToDiscountsDto(chosenSuperDuperMarket, discounts);
     }
 }

@@ -1,5 +1,6 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
+import course.java.sdm.engine.dto.DiscountDto;
 import course.java.sdm.engine.engine.accounts.AccountManager;
 import course.java.sdm.engine.exception.DuplicateElementIdException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheStoreException;
@@ -505,5 +506,28 @@ public class SuperDuperMarket {
     public boolean isDiscountInStore(int storeId, String discountName) {
         Store store = getStore(storeId);
         return store.isDiscountExist(discountName);
+    }
+
+    public Collection<Discount> getRelevantDiscounts(Map<Integer, Float> itemsIdsAndQuantities) {
+        ArrayList<Discount> discounts = new ArrayList<>();
+        Map<Store, Map<Integer, Float>> optimalCart = getOptimalCartWithItemIds(itemsIdsAndQuantities);
+        optimalCart.forEach((store,optimalItemsIdsAndQuantities) -> {
+
+            optimalItemsIdsAndQuantities.forEach((itemId,itemQuantity) -> {
+                StoreItem storeItem = store.getStoreItem(itemId);
+                discounts.addAll(storeItem.getRelevantDiscounts(itemQuantity));
+            });
+        });
+        return  discounts;
+    }
+
+    public Collection<Discount> getRelevantDiscounts(int storeId, Map<Integer, Float> itemsIdsAndQuantities) {
+        ArrayList<Discount> discounts = new ArrayList<>();
+        Store store = getStore(storeId);
+        itemsIdsAndQuantities.forEach((itemId,itemQuantity) -> {
+            StoreItem storeItem = store.getStoreItem(itemId);
+            discounts.addAll(storeItem.getRelevantDiscounts(itemQuantity));
+        });
+        return  discounts;
     }
 }

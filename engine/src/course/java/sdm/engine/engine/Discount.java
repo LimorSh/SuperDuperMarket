@@ -85,6 +85,10 @@ public class Discount {
         }
     }
 
+    public boolean isGreaterOrEqualToStoreItemQuantity(float storeItemQuantity) {
+        return (storeItemQuantity >= this.storeItemQuantity);
+    }
+
     public boolean isItemInTheOffers(int itemId) {
         return offers.containsKey(itemId);
     }

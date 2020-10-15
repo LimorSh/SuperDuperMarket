@@ -68,6 +68,10 @@
         <servlet-name>GetDynamicOrderStoresDetailsServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.addOrder.GetDynamicOrderStoresDetailsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetDiscountsServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.addOrder.GetDiscountsServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -132,5 +136,9 @@
     <servlet-mapping>
         <servlet-name>GetDynamicOrderStoresDetailsServlet</servlet-name>
         <url-pattern>/setDynamicOrderStoresDetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetDiscountsServlet</servlet-name>
+        <url-pattern>/setDiscounts</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -43,6 +43,8 @@ const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
 let SET_STORE_DELIVERY_COST_URL = buildUrlWithContextPath(SET_STORE_DELIVERY_COST_URL_RESOURCE);
 const SET_STORE_DYNAMIC_ORDER_STORES_DETAILS_RESOURCE = "setDynamicOrderStoresDetails";
 let SET_STORE_DYNAMIC_ORDER_STORES_DETAILS_URL = buildUrlWithContextPath(SET_STORE_DYNAMIC_ORDER_STORES_DETAILS_RESOURCE);
+const SET_DISCOUNTS_RESOURCE = "setDiscounts";
+let SET_DISCOUNT_URL = buildUrlWithContextPath(SET_DISCOUNTS_RESOURCE);
 
 let stores = [];
 let items = [];
@@ -54,6 +56,7 @@ let orderCategory;
 let storeId;
 let itemsIdsAndQuantities = {};
 let dynamicOrderStoresDetails = {};
+let discounts = {};
 
 
 function ajaxSetStores() {
@@ -176,6 +179,33 @@ function isLocationAlreadyExistsForStore() {
 }
 
 
+function ajaxGetDiscounts() {
+    let parameters = getAddOrderFormInputsAsQueryParameters();
+    // parameters["chosen-order-category"] = orderCategory;
+    // parameters["itemsIdsAndQuantities"] = itemsIdsAndQuantities;
+    // if (orderCategory === ORDER_CATEGORY_STATIC_STR) {
+    //     parameters[ "chosen-store"] = storeId;
+    // }
+
+    $.ajax({
+        data: parameters,
+        url: SET_DISCOUNT_URL,
+        timeout: 2000,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
+        error: function(e) {
+            console.error(e);
+        },
+        success: function(relevantDiscounts) {
+            console.log(relevantDiscounts);
+            discounts = relevantDiscounts;
+            // showOrderSummery();
+        }
+    });
+}
+
+
 function ajaxGetDynamicOrderStoresDetails() {
     let parameters = getAddOrderFormInputsAsQueryParameters();
 
@@ -193,7 +223,7 @@ function ajaxGetDynamicOrderStoresDetails() {
             console.log(storesDetails);
             dynamicOrderStoresDetails = storesDetails;
             showStoresDetailsForDynamicOrder();
-            // showDiscounts();
+            showDiscounts();
         }
     });
 }
@@ -216,7 +246,7 @@ function showStoresDetailsForDynamicOrder() {
 
 
 function showDiscounts() {
-    showOrderSummery();
+    ajaxGetDiscounts();
 }
 
 

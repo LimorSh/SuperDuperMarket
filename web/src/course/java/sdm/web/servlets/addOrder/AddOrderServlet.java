@@ -20,8 +20,6 @@ import java.util.*;
 //@WebServlet(name = "AddOrderServlet", urlPatterns = {"/pages/sellZone/addOrder/createNewOrder"})
 public class AddOrderServlet extends HttpServlet {
 
-    public static final String STATIC_ORDER_CATEGORY_STR = "static";
-
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
@@ -49,7 +47,7 @@ public class AddOrderServlet extends HttpServlet {
         Map<String, Collection<OfferDto>> appliedOffersDto = new HashMap<>();
 
         String orderCategoryFromParameter = request.getParameter(Constants.CHOSEN_ORDER_CATEGORY_PARAM_KEY);
-        if (orderCategoryFromParameter.equals(STATIC_ORDER_CATEGORY_STR)) {
+        if (orderCategoryFromParameter.equals(Constants.STATIC_ORDER_CATEGORY_STR)) {
             String storeIdFromParameter = request.getParameter(Constants.CHOSEN_STORE_ID_PARAM_KEY);
             int storeId = Integer.parseInt(storeIdFromParameter);
             synchronized (this) {

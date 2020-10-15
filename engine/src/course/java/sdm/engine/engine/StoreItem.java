@@ -2,6 +2,7 @@ package course.java.sdm.engine.engine;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class StoreItem extends Item{
 
@@ -50,6 +51,13 @@ public class StoreItem extends Item{
             }
         }
         return false;
+    }
+
+    public Collection<Discount> getRelevantDiscounts(float purchasedQuantity) {
+        return discounts.stream()
+                .filter (discount ->
+                        discount.isGreaterOrEqualToStoreItemQuantity(purchasedQuantity))
+                .collect(Collectors.toList());
     }
 
     @Override
