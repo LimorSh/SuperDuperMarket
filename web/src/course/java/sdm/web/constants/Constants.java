@@ -8,8 +8,9 @@ public class Constants {
     // dashboard window
     public static final String CREDIT_PARAM_KEY = "credit";
     public static final String ZONE_NAME_PARAM_KEY = "zoneName";
-    // add order window
+    // add order + dashboard windows
     public static final String DATE_PARAM_KEY = "date";
+    // add order window
     public static final String LOCATION_X_PARAM_KEY = "location-x";
     public static final String LOCATION_Y_PARAM_KEY = "location-y";
     public static final String CHOSEN_ORDER_CATEGORY_PARAM_KEY = "chosen-order-category";

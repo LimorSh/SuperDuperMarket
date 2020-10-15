@@ -36,6 +36,14 @@
     text-align: center;
 }
 
+#charge-credit-header{
+    color: DodgerBlue;
+}
+
+.charge-credit-label {
+    font-weight: bold;
+}
+
 #account-table {
     /*align-content: center;*/
     width: 80%;

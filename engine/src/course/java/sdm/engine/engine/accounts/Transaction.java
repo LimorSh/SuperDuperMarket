@@ -1,6 +1,8 @@
 package course.java.sdm.engine.engine.accounts;
 
 import course.java.sdm.engine.Constants;
+import course.java.sdm.engine.Utils;
+
 import java.util.Date;
 
 public class Transaction {
@@ -32,7 +34,7 @@ public class Transaction {
     }
 
     private final TransactionType type;
-    private final Date date;
+    private final String dateStr;
     private final float amount;
     private final float balanceBefore;
     private float balanceAfter;
@@ -40,7 +42,7 @@ public class Transaction {
     public Transaction(String type, Date date, float amount, float balanceBefore) {
         TransactionType transactionType = TransactionType.getTransactionType(type);
         this.type = transactionType;
-        this.date = date;
+        this.dateStr = Utils.convertDateToString(date);
         this.amount = amount;
         this.balanceBefore = balanceBefore;
 
@@ -69,8 +71,8 @@ public class Transaction {
         return type.getTransactionTypeStr();
     }
 
-    public Date getDate() {
-        return date;
+    public String getDateStr() {
+        return dateStr;
     }
 
     public float getAmount() {

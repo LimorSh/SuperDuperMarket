@@ -22,6 +22,7 @@ const ITEMS_TABLE_QUANTITY_CELL_CLASS = "items-table-quantity-cell";
 const ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS = "items-table-quantity-cell-input";
 
 const ADD_ORDER_FORM_ID = "add-order-form";
+const ADD_ORDER_MSG_LABEL_ID = "add-order-msg-label";
 
 const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
 let SET_STORE_DELIVERY_COST_URL = buildUrlWithContextPath(SET_STORE_DELIVERY_COST_URL_RESOURCE);
@@ -84,94 +85,76 @@ function ajaxItemsTable() {
 }
 
 
+function getAddOrderFormInputsAsQueryParameters() {
+    let paramArr = [];
+    let addOrderForm = document.getElementById(ADD_ORDER_FORM_ID);
+    let itemsIdsAndQuantities = {};
+    for (let i = 0; i < addOrderForm.length; i++) {
+        let inputName = addOrderForm.elements[i].name;
+        let inputValue = addOrderForm.elements[i].value;
+        if (inputName.startsWith("itemId")) {
+            if (inputValue) {
+                let itemId = inputName.split("-")[1];
+                itemsIdsAndQuantities[itemId] = inputValue;
+            }
+        }
+        else {
+            if (inputName) {
+                paramArr.push(inputName + "=" + inputValue);
+            }
+        }
+    }
+    paramArr.push("itemsIdsAndQuantities=" + encodeURIComponent(JSON.stringify(itemsIdsAndQuantities)));
+    return paramArr.join("&");
+}
+
+
 function ajaxAddOrder() {
     $("#add-order-form").submit(function() {
 
-            // let isAllQuantitiesInputAreEmpty = true;
-            // let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
-            // for (let input of itemsTableQuantityCellsInputs) {
-            //     if (!input.value) {
-            //         isAllQuantitiesInputAreEmpty = false;
-            //     }
-            // }
-            // if (isAllQuantitiesInputAreEmpty) {
-            //     let addOrderMsgLabel = document.getElementById("add-order-msg-label");
-            //     addOrderMsgLabel.text = "To add order ....";
-            //     console.log(addOrderMsgLabel);
-            // }
-            // else {
-            //     let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
+        // let isAllQuantitiesInputAreEmpty = true;
+        // let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
+        // for (let input of itemsTableQuantityCellsInputs) {
+        //     if (input.value) {
+        //         isAllQuantitiesInputAreEmpty = false;
+        //     }
+        // }
+        //
+        // if (isAllQuantitiesInputAreEmpty) {
+        //     let addOrderMsgLabel = document.getElementById(ADD_ORDER_MSG_LABEL_ID);
+        //     addOrderMsgLabel.text = "EMPTY QUANTITIES!!!";
+        // }
+        // else {
+            let parameters = getAddOrderFormInputsAsQueryParameters();
+            console.log(parameters);
+
+            $.ajax({
+                data: parameters,
+                url: this.action,
+                timeout: 2000,
+                error: function(e) {
+                    console.error(e);
+                    console.error("Failed to submit");
+                    $("#error-msg").text("Failed to get result from server");
+                },
+                success: function(r) {
+                    console.log(r);
 
 
-                let parameters = $(this).serialize();
-
-                let paramArr = [];
-                let x = document.getElementById(ADD_ORDER_FORM_ID);
-                let arr = {};
-                for (let i = 0; i < x.length; i++) {
-                    // let param = x.elements[i].name + "=" + x.elements[i].value;
-                    // console.log(x.elements[i].name + ": " + x.elements[i].value);
-                    if (x.elements[i].name.startsWith("itemId")) {
-                        if (x.elements[i].value) {
-                            let itemId = x.elements[i].name.split("-")[1];
-                            arr[itemId] = x.elements[i].value;
-                        }
-                    }
-                    else {
-                        if (x.elements[i].name) {
-                            paramArr.push(x.elements[i].name + "=" + x.elements[i].value);
-                        }
-                    }
+                    // if (r.length > 0) {
+                    //     $("#error-msg").text(r);
+                    // }
+                    // else {
+                    //     pageRedirect();
+                    // }
                 }
-                paramArr.push("itemsIdsAndQuantities=" + encodeURIComponent(JSON.stringify(arr)));
-                let ourParameters = paramArr.join("&");
+            });
+        // }
+    });
 
-                console.log(parameters);
-                console.log(ourParameters);
-
-
-                // let itemsQuantities = {};
-                // // for (let input of itemsTableQuantityCellsInputs) {
-                // let rows = document.getElementById(ITEMS_TABLE_ID).rows;
-                // for (let i = 0; i < itemsTableQuantityCellsInputs.length; i++) {
-                //     let row = rows[i];
-                //     let input = itemsTableQuantityCellsInputs[i];
-                //     let itemQuantity = input.value;
-                //     if (itemQuantity) {
-                //         let itemId = row.cells[row.cells.length -5];
-                //         itemsQuantities[itemId] = itemQuantity;
-                //     }
-                // }
-                // let str = "&limor=panther";
-                // parameters.concat(str);
-                // = itemsQuantities;
-
-                $.ajax({
-                    data: ourParameters,
-                    url: this.action,
-                    timeout: 2000,
-                    error: function(e) {
-                        console.error(e);
-                        console.error("Failed to submit");
-                        $("#error-msg").text("Failed to get result from server");
-                    },
-                    success: function(r) {
-                        console.log(r);
-                        // if (r.length > 0) {
-                        //     $("#error-msg").text(r);
-                        // }
-                        // else {
-                        //     pageRedirect();
-                        // }
-                    }
-                });
-            // }
-
-            // return value of the submit operation
-            // by default - we'll always return false so it doesn't redirect the user.
-            return false;
-        });
-    // }
+    // return value of the submit operation
+    // by default - we'll always return false so it doesn't redirect the user.
+    return false;
 }
 
 

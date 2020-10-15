@@ -58,10 +58,12 @@
     <h2>My Account:</h2>
     <div id="charge-credit-container">
         <form id="charge-credit-form" method="GET" action="chargeCredit">
-            <label>
-                Charge Credit:
-                <input type="number" min="1" max="100000" name="credit" required/>
-            </label>
+            <h3 id="charge-credit-header">Charge Credit:</h3>
+            <br/>
+            <label for="date" class="charge-credit-label">Date:</label>
+            <input type="date" id="date" name="date" required>
+            <label for="credit" class="charge-credit-label">Credit:</label>
+            <input id="credit" type="number" min="1" max="100000" name="credit" required/>
 <!--            <input id="charge" disabled="disabled" type="submit" value="Charge"/>-->
             <input id="charge" type="submit" value="Charge"/>
             <label id="charge-credit-msg-label"></label>

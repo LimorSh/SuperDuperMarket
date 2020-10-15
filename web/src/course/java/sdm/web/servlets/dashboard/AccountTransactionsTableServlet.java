@@ -1,8 +1,6 @@
 package course.java.sdm.web.servlets.dashboard;
 
 import com.google.gson.Gson;
-import course.java.sdm.engine.dto.ZoneDetailsDto;
-import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.engine.engine.accounts.AccountManager;
 import course.java.sdm.engine.engine.accounts.Transaction;
 import course.java.sdm.web.utils.ServletUtils;
@@ -13,10 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+
 
 //@WebServlet(name = "AccountTransactionsTableServlet", urlPatterns = {"/accountTable"})
 public class AccountTransactionsTableServlet extends HttpServlet {
