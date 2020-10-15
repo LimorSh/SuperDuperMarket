@@ -1,3 +1,5 @@
+const TAB = "&emsp;&emsp;&emsp;"
+const NEW_LINE = "<br/>"
 const DASHBOARD_URL = "pages/dashboard/dashboard.html";
 const STORES_URL_RESOURCE = "stores";
 let STORES_URL = buildUrlWithContextPath(STORES_URL_RESOURCE);

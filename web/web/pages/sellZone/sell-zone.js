@@ -1,6 +1,3 @@
-const TAB = "&emsp;&emsp;&emsp;"
-const NEW_LINE = "<br/>"
-
 const ITEMS_TABLE_BODY_ID = "items-table-body";
 const ITEMS_TABLE_CELL_ID = "items-table-cell";
 

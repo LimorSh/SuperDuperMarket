@@ -75,11 +75,49 @@
     </div>
     <br>
     <br>
-    <button id="add-order" form="add-order-form" type="submit" value="AddOrder">
+    <button id="finish-order-button">
+        Finish Order
+    </button>
+    <label id="finish-order-msg-label">
+    </label>
+    <br>
+    <br>
+    <div id="dynamic-order-stores-details-container">
+        <h2>Stores Details:</h2>
+        <br>
+        <div id="dynamic-order-stores-details-list-container">
+            <ul id="dynamic-order-stores-details-list">
+            </ul>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div id="order-summery-container">
+        <h2>Order Summery</h2>
+        <div id="order-summery-basic-info">
+            <label id="order-summery-date-field-label" class="order-summery-field-label">Date: </label>
+            <label id="order-summery-date-value-label" class="order-summery-value-label"></label>
+            <label id="order-summery-location-field-label" class="order-summery-field-label">Location: </label>
+            <label id="order-summery-location-value-label" class="order-summery-value-label"></label>
+            <label id="order-summery-order-category-field-label" class="order-summery-field-label">Order Category: </label>
+            <label id="order-summery-order-category-value-label" class="order-summery-value-label"></label>
+        </div>
+        <div id="order-summery-stores-info">
+        </div>
+        <div id="order-summery-totals-info">
+            <label id="order-summery-total-items-cost-field-label" class="order-summery-field-label">Total Items Cost: </label>
+            <label id="order-summery-total-items-cost-value-label" class="order-summery-value-label"></label>
+            <label id="order-summery-total-delivery-cost-field-label" class="order-summery-field-label">Total Delivery Cost: </label>
+            <label id="order-summery-total-delivery-cost-value-label" class="order-summery-value-label"></label>
+            <label id="order-summery-total-order-cost-field-label" class="order-summery-field-label">Total Order Cost: </label>
+            <label id="order-summery-total-order-cost-value-label" class="order-summery-value-label"></label>
+        </div>
+    </div>
+    <br>
+    <br>
+    <button id="add-order-button" form="add-order-form" type="submit" value="AddOrder">
         Add Order
     </button>
-    <label id="add-order-msg-label">
-    </label>
 </div>
 </body>
 </html>

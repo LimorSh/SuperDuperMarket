@@ -1,3 +1,4 @@
+const DATE_PICKER_INPUT_ID = "date";
 const X_LOCATION_INPUT_ID = "location-x";
 const Y_LOCATION_INPUT_ID = "location-y";
 const ORDER_CATEGORY_RADIO_BUTTON_CLASS = "order-category-radio-button";
@@ -8,6 +9,7 @@ const STORES_SELECT_CONTAINER_ID = "stores-select-container";
 const STORES_SELECT_ID = "stores-select";
 const STORE_SELECT_DEFAULT_OPTION_ID = "stores-select-default-option";
 const ORDER_CATEGORY_STATIC_STR = "static";
+const ORDER_CATEGORY_DYNAMIC_STR = "dynamic";
 const STORE_DELIVERY_COST_LABEL_CONTAINER_ID = "store-delivery-cost-label-container";
 
 const ITEMS_TABLE_CONTAINER_ID = "items-table-container";
@@ -21,18 +23,37 @@ const ITEMS_TABLE_PRICE_CELL_CLASS = "items-table-price-cell";
 const ITEMS_TABLE_QUANTITY_CELL_CLASS = "items-table-quantity-cell";
 const ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS = "items-table-quantity-cell-input";
 
+const ORDER_SUMMERY_DATE_VALUE_LABEL_ID = "order-summery-date-value-label";
+const ORDER_SUMMERY_LOCATION_VALUE_LABEL_ID = "order-summery-location-value-label";
+const ORDER_SUMMERY_ORDER_CATEGORY_VALUE_LABEL_ID = "order-summery-order-category-value-label";
+const ORDER_SUMMERY_TOTAL_ITEMS_COST_VALUE_LABEL_ID = "order-summery-total-items-cost-value-label";
+const ORDER_SUMMERY_TOTAL_DELIVERY_COST_VALUE_LABEL_ID = "order-summery-total-delivery-cost-value-label";
+const ORDER_SUMMERY_TOTAL_ORDER_COST_VALUE_LABEL_ID = "order-summery-total-order-cost-value-label";
+
+const FINISH_ORDER_BUTTON_ID = "finish-order-button";
+const FINISH_ORDER_MSG_LABEL_ID = "finish-order-msg-label";
+const FINISH_ORDER_TAKEN_LOCATION_MSG = "The order location is a store location, please choose a different location.";
+const FINISH_ORDER_EMPTY_QUANTITIES_MSG = "Your cart is empty, please choose at least one item and fill its quantity.";
+const DYNAMIC_ORDER_STORES_DETAILS_CONTAINER_ID = "dynamic-order-stores-details-container";
+const DYNAMIC_ORDER_STORES_DETAILS_LIST_ID = "dynamic-order-stores-details-list";
+
 const ADD_ORDER_FORM_ID = "add-order-form";
-const ADD_ORDER_MSG_LABEL_ID = "add-order-msg-label";
 
 const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
 let SET_STORE_DELIVERY_COST_URL = buildUrlWithContextPath(SET_STORE_DELIVERY_COST_URL_RESOURCE);
+const SET_STORE_DYNAMIC_ORDER_STORES_DETAILS_RESOURCE = "setDynamicOrderStoresDetails";
+let SET_STORE_DYNAMIC_ORDER_STORES_DETAILS_URL = buildUrlWithContextPath(SET_STORE_DYNAMIC_ORDER_STORES_DETAILS_RESOURCE);
 
 let stores = [];
 let items = [];
-let orderCategory = "";
 let storesIds = [];
+let date;
 let xLocation;
 let yLocation;
+let orderCategory;
+let storeId;
+let itemsIdsAndQuantities = {};
+let dynamicOrderStoresDetails = {};
 
 
 function ajaxSetStores() {
@@ -115,54 +136,174 @@ function getAddOrderFormInputsAsQueryParameters() {
 }
 
 
+function setItemsIdsAndQuantities() {
+    let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
+    for (let input of itemsTableQuantityCellsInputs) {
+        let quantity = input.value;
+        if (quantity) {
+            let itemId = input.name.split("-")[1];
+            itemsIdsAndQuantities[itemId] = quantity;
+        }
+    }
+}
+
+
+function isAllQuantitiesInputAreEmpty() {
+    let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
+    for (let input of itemsTableQuantityCellsInputs) {
+        let quantity = input.value;
+        if (quantity) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+function isLocationAlreadyExistsForStore() {
+    let store;
+    let storeXLocation;
+    let storeYLocation;
+    for (let j = 0; j < stores.length; j++) {
+        store = stores[j];
+        storeXLocation = store["xLocation"];
+        storeYLocation = store["yLocation"];
+        if (storeXLocation === xLocation && storeYLocation === yLocation) {
+            return true
+        }
+    }
+    return false;
+}
+
+
+function ajaxGetDynamicOrderStoresDetails() {
+    let parameters = getAddOrderFormInputsAsQueryParameters();
+
+    $.ajax({
+        data: parameters,
+        url: SET_STORE_DYNAMIC_ORDER_STORES_DETAILS_URL,
+        timeout: 2000,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
+        error: function(e) {
+            console.error(e);
+        },
+        success: function(storesDetails) {
+            console.log(storesDetails);
+            dynamicOrderStoresDetails = storesDetails;
+            showStoresDetailsForDynamicOrder();
+            // showDiscounts();
+        }
+    });
+}
+
+
+function showStoresDetailsForDynamicOrder() {
+    $(`#${DYNAMIC_ORDER_STORES_DETAILS_CONTAINER_ID}`).show();
+    $.each(dynamicOrderStoresDetails || [], function(index, storeDetails) {
+        let storeDetailsStr = `id: ${storeDetails.id}, name: ${storeDetails.name}, 
+                                location: (${storeDetails["xLocation"]},${storeDetails["yLocation"]}), 
+                                distance (KM): ${storeDetails["distance"]}, 
+                                PPK: ${storeDetails["ppk"]},
+                                Delivery Cost: ${storeDetails["deliveryCost"]},
+                                Number of Different Items type: ${storeDetails["differentItemsType"]},
+                                Items Cost: ${storeDetails["itemsCost"]}
+                                `;
+        $('<li>' + storeDetailsStr + '</li>').appendTo($(`#${DYNAMIC_ORDER_STORES_DETAILS_LIST_ID}`));
+    });
+}
+
+
+function showDiscounts() {
+    showOrderSummery();
+}
+
+
+function showOrderSummery() {
+    document.getElementById(ORDER_SUMMERY_DATE_VALUE_LABEL_ID).textContent = date;
+    document.getElementById(ORDER_SUMMERY_LOCATION_VALUE_LABEL_ID).textContent = `(${xLocation},${yLocation})`;
+    let orderCategoryValueLabel = document.getElementById(ORDER_SUMMERY_ORDER_CATEGORY_VALUE_LABEL_ID);
+    if (orderCategory === ORDER_CATEGORY_STATIC_STR) {
+        orderCategoryValueLabel.textContent = "One Store";
+    }
+    else {
+        orderCategoryValueLabel.textContent = "Best Cart";
+    }
+
+
+
+    document.getElementById(ORDER_SUMMERY_TOTAL_ITEMS_COST_VALUE_LABEL_ID).textContent = date;
+    document.getElementById(ORDER_SUMMERY_TOTAL_DELIVERY_COST_VALUE_LABEL_ID).textContent = date;
+    document.getElementById(ORDER_SUMMERY_TOTAL_ORDER_COST_VALUE_LABEL_ID).textContent = date;
+}
+
+
+function finishOrder() {
+    let finishOrderMsgLabel = document.getElementById(FINISH_ORDER_MSG_LABEL_ID);
+    finishOrderMsgLabel.textContent = "";
+    let datePicker = document.getElementById(DATE_PICKER_INPUT_ID);
+    date = datePicker.value;
+
+    let isLocationAlreadyExists = isLocationAlreadyExistsForStore();
+    let isAllQuantitiesAreEmpty = isAllQuantitiesInputAreEmpty();
+
+    if (isLocationAlreadyExists) {
+        finishOrderMsgLabel.textContent = FINISH_ORDER_TAKEN_LOCATION_MSG;
+    }
+    else if (isAllQuantitiesAreEmpty) {
+        finishOrderMsgLabel.textContent = FINISH_ORDER_EMPTY_QUANTITIES_MSG;
+    }
+    else {
+        setItemsIdsAndQuantities();
+        if (orderCategory === ORDER_CATEGORY_DYNAMIC_STR) {
+            ajaxGetDynamicOrderStoresDetails();
+        }
+        else {
+            showDiscounts();
+        }
+    }
+}
+
+
 function ajaxAddOrder() {
     $("#add-order-form").submit(function() {
+        let parameters = getAddOrderFormInputsAsQueryParameters();
+        console.log(parameters);
 
-        // let isAllQuantitiesInputAreEmpty = true;
-        // let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
-        // for (let input of itemsTableQuantityCellsInputs) {
-        //     if (input.value) {
-        //         isAllQuantitiesInputAreEmpty = false;
-        //     }
-        // }
-        //
-        // if (isAllQuantitiesInputAreEmpty) {
-        //     let addOrderMsgLabel = document.getElementById(ADD_ORDER_MSG_LABEL_ID);
-        //     addOrderMsgLabel.text = "EMPTY QUANTITIES!!!";
-        // }
-        // else {
-            let parameters = getAddOrderFormInputsAsQueryParameters();
-            console.log(parameters);
+        $.ajax({
+            data: parameters,
+            url: this.action,
+            timeout: 2000,
+            headers: {
+                'cache-control': 'no-store,no-cache',
+            },
+            error: function(e) {
+                console.error(e);
+                console.error("Failed to submit");
+                $("#error-msg").text("Failed to get result from server");
+            },
+            success: function(r) {
+                console.log(r);
+                // if (r.length > 0) {
+                //     $("#error-msg").text(r);
+                // }
+                // else {
+                //     pageRedirect();
+                // }
+            }
+        });
 
-            $.ajax({
-                data: parameters,
-                url: this.action,
-                timeout: 2000,
-                headers: {
-                    'cache-control': 'no-store,no-cache',
-                },
-                error: function(e) {
-                    console.error(e);
-                    console.error("Failed to submit");
-                    $("#error-msg").text("Failed to get result from server");
-                },
-                success: function(r) {
-                    console.log(r);
-
-
-                    // if (r.length > 0) {
-                    //     $("#error-msg").text(r);
-                    // }
-                    // else {
-                    //     pageRedirect();
-                    // }
-                }
-            });
-        // }
         // return value of the submit operation
         // by default - we'll always return false so it doesn't redirect the user.
         return false;
     });
+}
+
+
+function configFinishOrderButton() {
+    let finishOrderButton = document.getElementById(FINISH_ORDER_BUTTON_ID);
+    finishOrderButton.addEventListener("click", finishOrder);
 }
 
 
@@ -257,9 +398,9 @@ function ajaxGetStoreDeliveryCost(storeId) {
         data: parameters,
         url: SET_STORE_DELIVERY_COST_URL,
         timeout: 2000,
-        // headers: {
-        //     'cache-control': 'no-store,no-cache',
-        // },
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
         error: function() {
             console.error("Failed to submit");
             $("#error-msg").text("Failed to get result from server");
@@ -342,7 +483,6 @@ function addPriceColumnToItemsTable(index) {
 
 function storeWasChosenForStaticOrder() {
     let index;
-    let storeId;
 
     document.getElementById(STORE_SELECT_DEFAULT_OPTION_ID).disabled = true;
 
@@ -388,6 +528,7 @@ function setItemsTableData() {
 
 $(function() {
     $.when(ajaxSetStores(), ajaxItemsTable()).then(function() {
+        configFinishOrderButton();
         configLocationInputs();
         addStoresToStoresSelect();
         setItemsTableData();

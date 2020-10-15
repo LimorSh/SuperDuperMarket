@@ -318,19 +318,46 @@ public class BusinessLogic {
         return appliedOffers;
     }
 
-    public Map<StoreDto, Map<Integer, Float>> getOptimalCart(String zoneName, Map<Integer, Float> itemsIdsAndQuantities) {
+//    public Map<StoreDto, Map<Integer, Float>> getOptimalCart(String zoneName, Map<Integer, Float> itemsIdsAndQuantities) {
+//        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
+//        Map<Store, Map<Integer, Float>> storesToItemIdsAndQuantities =
+//                chosenSuperDuperMarket.getOptimalCartWithItemIds(itemsIdsAndQuantities);
+//
+//        Map<StoreDto, Map<Integer, Float>> storesDtoToItemIdsAndQuantities = new HashMap<>();
+//
+//        storesToItemIdsAndQuantities.forEach((store,itemIdsAndQuantities) -> {
+//            StoreDto storeDto = new StoreDto(store);
+//            storesDtoToItemIdsAndQuantities.put(storeDto, itemIdsAndQuantities);
+//        });
+//
+//        return storesDtoToItemIdsAndQuantities;
+//    }
+
+    public Collection<DynamicOrderStoreDetailsDto> getDynamicOrderStoresDetailsDto(
+            String zoneName, Map<Integer, Float> itemsIdsAndQuantities,
+            int customerLocationX, int customerLocationY) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
         Map<Store, Map<Integer, Float>> storesToItemIdsAndQuantities =
                 chosenSuperDuperMarket.getOptimalCartWithItemIds(itemsIdsAndQuantities);
 
-        Map<StoreDto, Map<Integer, Float>> storesDtoToItemIdsAndQuantities = new HashMap<>();
-
+        Collection<DynamicOrderStoreDetailsDto> dynamicOrderStoresDetailsDto = new ArrayList<>();
         storesToItemIdsAndQuantities.forEach((store,itemIdsAndQuantities) -> {
-            StoreDto storeDto = new StoreDto(store);
-            storesDtoToItemIdsAndQuantities.put(storeDto, itemIdsAndQuantities);
+            int id = store.getId();
+            String name = store.getName();
+            int storeLocationX = store.getLocation().getCoordinate().x;
+            int storeLocationY = store.getLocation().getCoordinate().y;
+            double distance = store.getDistance(customerLocationX, customerLocationY);
+            int ppk = store.getPpk();
+            float deliveryCost = store.getDeliveryCost(customerLocationX, customerLocationY);
+            int differentItemsType = itemIdsAndQuantities.keySet().size();
+            float itemsCost = store.getItemsCost(itemIdsAndQuantities);
+            DynamicOrderStoreDetailsDto dynamicOrderStoreDetailsDto =
+                    new DynamicOrderStoreDetailsDto(id, name, storeLocationX, storeLocationY,
+                            distance, ppk, deliveryCost, differentItemsType, itemsCost);
+            dynamicOrderStoresDetailsDto.add(dynamicOrderStoreDetailsDto);
         });
 
-        return storesDtoToItemIdsAndQuantities;
+        return dynamicOrderStoresDetailsDto;
     }
 
     public boolean isStoreHasDiscounts(String zoneName, int storeId) {

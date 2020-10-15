@@ -64,6 +64,10 @@
         <servlet-name>GetStoreDeliveryCostServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.addOrder.GetStoreDeliveryCostServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetDynamicOrderStoresDetailsServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.addOrder.GetDynamicOrderStoresDetailsServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -124,5 +128,9 @@
     <servlet-mapping>
         <servlet-name>GetStoreDeliveryCostServlet</servlet-name>
         <url-pattern>/setStoreDeliveryCost</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetDynamicOrderStoresDetailsServlet</servlet-name>
+        <url-pattern>/setDynamicOrderStoresDetails</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -1,10 +1,10 @@
 package course.java.sdm.engine.engine;
-import course.java.sdm.engine.dto.StoreItemDto;
 import course.java.sdm.engine.exception.DuplicateStoreItemIdException;
 import course.java.sdm.engine.exception.LocationOutOfRangeException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Store {
 
@@ -117,8 +117,18 @@ public class Store {
         return (distance * ppk);
     }
 
+    public float getDeliveryCost(int locationX, int locationY) {
+        Location location = new Location(locationX, locationY);
+        return getDeliveryCost(location);
+    }
+
     public double getDistance(Location location) {
         return (Distance.getDistanceBetweenTwoLocations(location, this.location));
+    }
+
+    public double getDistance(int locationX, int locationY) {
+        Location location = new Location(locationX, locationY);
+        return getDistance(location);
     }
 
     public float getItemPrice(Item item) {
@@ -194,6 +204,15 @@ public class Store {
             cost += order.getItemsCost();
         }
         return cost;
+    }
+
+
+    public float getItemsCost(Map<Integer, Float> itemIdsAndQuantities) {
+        AtomicReference<Float> cost = new AtomicReference<>(0f);
+        itemIdsAndQuantities.forEach((itemId ,quantity) -> {
+            cost.updateAndGet(v -> (v + (getItemPrice(itemId) * quantity)));
+        });
+        return cost.get();
     }
 
     @Override
