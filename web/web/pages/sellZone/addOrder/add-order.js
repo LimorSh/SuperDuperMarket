@@ -182,7 +182,7 @@ function isLocationAlreadyExistsForStore() {
         store = stores[j];
         storeXLocation = store["xLocation"];
         storeYLocation = store["yLocation"];
-        if (storeXLocation === xLocation && storeYLocation === yLocation) {
+        if (storeXLocation === parseInt(xLocation) && storeYLocation === parseInt(yLocation)) {
             return true
         }
     }
