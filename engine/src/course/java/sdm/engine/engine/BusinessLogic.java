@@ -249,10 +249,10 @@ public class BusinessLogic {
         chosenSuperDuperMarket.addItemToStore(itemId, itemPrice, storeId);
     }
 
-    public void deleteItemFromStore(String zoneName, int storeItemId, int storeId) {
-        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.deleteItemFromStore(storeItemId, storeId);
-    }
+//    public void deleteItemFromStore(String zoneName, int storeItemId, int storeId) {
+//        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
+//        chosenSuperDuperMarket.deleteItemFromStore(storeItemId, storeId);
+//    }
 
     public void validateItemQuantity(String zoneName, int itemId, float quantity) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
@@ -283,39 +283,22 @@ public class BusinessLogic {
         return chosenSuperDuperMarket.getDistanceBetweenCustomerAndStore(storeId, customerLocationX, customerLocationY);
     }
 
-    public void createOrder(AccountManager accountManager, String zoneName, String username, Date date, int locationX, int locationY,
+    public void createOrder(AccountManager accountManager, String zoneName, String username, Date date,
+                            int locationX, int locationY,
                             int storeId, Map<Integer, Float> itemsIdsAndQuantities,
-                            Map<String, Collection<OfferDto>> appliedOffersDto) {
+                            Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.createOrder(accountManager, username, date, locationX, locationY, storeId, itemsIdsAndQuantities,
-                convertAppliedOffersDtoToOffers(zoneName, appliedOffersDto));
+        chosenSuperDuperMarket.createOrder(accountManager, username, date,
+                locationX, locationY, storeId, itemsIdsAndQuantities, appliedOffersStoreItemsIds);
     }
 
-    public void createOrder(AccountManager accountManager, String zoneName, String username, Date date, int locationX, int locationY,
+    public void createOrder(AccountManager accountManager, String zoneName, String username, Date date,
+                            int locationX, int locationY,
                             Map<Integer, Float> itemsIdsAndQuantities,
-                            Map<String, Collection<OfferDto>> appliedOffersDto) {
+                            Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.createOrder(accountManager, username, date, locationX, locationY, itemsIdsAndQuantities,
-                convertAppliedOffersDtoToOffers(zoneName, appliedOffersDto));
-    }
-
-    private Map<String, ArrayList<Offer>> convertAppliedOffersDtoToOffers(String zoneName, Map<String, Collection<OfferDto>> appliedOffersDto) {
-        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        Map<String, ArrayList<Offer>> appliedOffers = new HashMap<>();
-
-        appliedOffersDto.forEach((discountName, offersDto) -> {
-            ArrayList<Offer> offers = new ArrayList<>();
-            for (OfferDto offerDto : offersDto) {
-                int storeItemId = offerDto.getStoreItemId();
-                Item item = chosenSuperDuperMarket.getItem(storeItemId);
-                Offer offer = new Offer(item, offerDto.getQuantity(), offerDto.getAdditionalPrice());
-
-                offers.add(offer);
-            }
-            appliedOffers.put(discountName, offers);
-        });
-
-        return appliedOffers;
+        chosenSuperDuperMarket.createOrder(accountManager, username, date,
+                locationX, locationY, itemsIdsAndQuantities, appliedOffersStoreItemsIds);
     }
 
     public Map<StoreDto, Map<Integer, Float>> getOptimalCart(String zoneName,

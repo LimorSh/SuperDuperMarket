@@ -1,6 +1,7 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.dto.DiscountDto;
+import course.java.sdm.engine.dto.OfferDto;
 import course.java.sdm.engine.engine.accounts.AccountManager;
 import course.java.sdm.engine.exception.DuplicateElementIdException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheStoreException;
@@ -17,6 +18,7 @@ public class SuperDuperMarket {
     private final Map<Integer, Store> stores;
     private final Map<Integer, Item> items;
     private final Map<Integer, Order> orders;
+    private final Map<String, Discount> discounts;
     private final Set<Item> itemsSold;
     private Object[][] locationGrid;
 
@@ -25,6 +27,7 @@ public class SuperDuperMarket {
         stores = new HashMap<>();
         items = new HashMap<>();
         orders = new HashMap<>();
+        discounts = new HashMap<>();
         itemsSold = new HashSet<>();
         initializeLocationGrid();
     }
@@ -267,6 +270,7 @@ public class SuperDuperMarket {
     public void addDiscountToStore(Discount discount, Store store) {
         validateDiscount(discount, store);
         store.addDiscount(discount);
+        discounts.put(discount.getName(), discount);
     }
 
     public void validateItemIsInSuperAndStore(int itemId, Store store, String discountName) {
@@ -342,23 +346,24 @@ public class SuperDuperMarket {
         return customers.containsKey(name);
     }
 
-    public void deleteItemFromStore(int storeItemId, int storeId) {
-        if (isItemExistsInStore(storeId, storeItemId)) {
-            if (getNumberOfStoresSellingTheItem(storeItemId) == 1) {
-                throw new IllegalArgumentException("The item is currently being sold by this store only." +
-                        "\nItem must be sell in at least one store in the super market.");
-            }
-            else {
-                Store store = stores.get(storeId);
-                store.deleteItem(storeItemId);
-            }
-        }
-        else {
-            Item item = getItem(storeItemId);
-            Store store = getStore(storeId);
-            throw new ItemDoesNotExistInTheStoreException(store.getName(), item.getName(), storeItemId);
-        }
-    }
+//    public void deleteItemFromStore(int storeItemId, int storeId) {
+//        if (isItemExistsInStore(storeId, storeItemId)) {
+//            if (getNumberOfStoresSellingTheItem(storeItemId) == 1) {
+//                throw new IllegalArgumentException("The item is currently being sold by this store only." +
+//                        "\nItem must be sell in at least one store in the super market.");
+//            }
+//            else {
+//                Store store = stores.get(storeId);
+//                store.deleteItem(storeItemId);
+//                // need to delete store item discounts from discounts map here in the super
+//            }
+//        }
+//        else {
+//            Item item = getItem(storeItemId);
+//            Store store = getStore(storeId);
+//            throw new ItemDoesNotExistInTheStoreException(store.getName(), item.getName(), storeItemId);
+//        }
+//    }
 
     public float getStoreDeliveryCost(int storeId, int locationX, int locationY) {
         Store store = getStore(storeId);
@@ -462,13 +467,34 @@ public class SuperDuperMarket {
         }
     }
 
+    private Offer getOfferByStoreItemId(String discountName, Integer storeItemId) {
+        Discount discount = discounts.get(discountName);
+        return discount.getOffer(storeItemId);
+    }
+
+    private Map<String, ArrayList<Offer>> getAppliedOffers(
+            Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
+        Map<String, ArrayList<Offer>> appliedOffers = new HashMap<>();
+
+        appliedOffersStoreItemsIds.forEach((discountName, offersStoreItemsIds) -> {
+            ArrayList<Offer> offers = new ArrayList<>();
+            for (Integer storeItemId : offersStoreItemsIds) {
+                Offer offer = getOfferByStoreItemId(discountName, storeItemId);
+                offers.add(offer);
+            }
+            appliedOffers.put(discountName, offers);
+        });
+
+        return appliedOffers;
+    }
+
     public void createOrder(AccountManager accountManager, String customerName, Date date,
                             int locationX, int locationY,
                             Map<Integer, Float> itemsIdsAndQuantities,
-                            Map<String, ArrayList<Offer>> appliedOffers) {
+                            Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
         Map<Store, Map<Item, Float>> storesToItemsAndQuantities = getOptimalCartWithItems(itemsIdsAndQuantities);
         Collection<DynamicOrderStoreData> dynamicOrderStoresData = getDynamicOrderStoresData(
-                storesToItemsAndQuantities, appliedOffers);
+                storesToItemsAndQuantities, getAppliedOffers(appliedOffersStoreItemsIds));
         Customer customer = getCustomerForNewOrder(customerName);
         Location location = new Location(locationX, locationY);
         Order order = new Order(customer, date, location, Constants.ORDER_CATEGORY_DYNAMIC_STR);
@@ -481,7 +507,7 @@ public class SuperDuperMarket {
     public void createOrder(AccountManager accountManager, String customerName, Date date,
                             int locationX, int locationY,
                             int storeId, Map<Integer, Float> itemsIdsAndQuantities,
-                            Map<String, ArrayList<Offer>> appliedOffers) {
+                            Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
         Customer customer = getCustomerForNewOrder(customerName);
         Location location = new Location(locationX, locationY);
         Order order = new Order(customer, date, location, Constants.ORDER_CATEGORY_STATIC_STR);
@@ -492,7 +518,7 @@ public class SuperDuperMarket {
             Item item = getItem(itemId);
             itemsAndQuantities.put(item, itemQuantity);
         });
-        order.addStoreOrder(store, itemsAndQuantities, appliedOffers);
+        order.addStoreOrder(store, itemsAndQuantities, getAppliedOffers(appliedOffersStoreItemsIds));
         order.finish(store);
         transferPaymentToStoresOwners(accountManager, order, customerName);
     }

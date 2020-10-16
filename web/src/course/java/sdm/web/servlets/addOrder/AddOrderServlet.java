@@ -37,14 +37,27 @@ public class AddOrderServlet extends HttpServlet {
         String itemsAndQuantitiesFromParameter = request.getParameter(Constants.ITEMS_AND_QUANTITIES_PARAM_KEY);
         JsonObject itemsAndQuantitiesJson = new JsonParser().parse(itemsAndQuantitiesFromParameter).getAsJsonObject();
         Map<Integer, Float> itemsIdsAndQuantities = new HashMap<>();
-        itemsAndQuantitiesJson.entrySet().forEach( entry ->
-        {
+        itemsAndQuantitiesJson.entrySet().forEach( entry -> {
             int itemId = Integer.parseInt(entry.getKey());
             float quantity = entry.getValue().getAsFloat();
             itemsIdsAndQuantities.put(itemId, quantity);
         });
 
-        Map<String, Collection<OfferDto>> appliedOffersDto = new HashMap<>();
+        String appliedOffersFromParameter =
+                request.getParameter(Constants.APPLIED_OFFERS_PARAM_KEY);
+        JsonObject appliedOffersJson = new JsonParser().parse(appliedOffersFromParameter).getAsJsonObject();
+        Map<String, Collection<Integer>> appliedOffers = new HashMap<>();
+        appliedOffersJson.entrySet().forEach( appliedOffersEntry -> {
+            Collection<Integer> offersStoreItemsIds = new ArrayList<>();
+            String discountName = appliedOffersEntry.getKey();
+            String offersStoreItemsIdsStr = appliedOffersEntry.getValue().getAsString();
+            String[] offersStoreItemsIdsStrArr = offersStoreItemsIdsStr.split(" ");
+            for (String storeItemIdStr : offersStoreItemsIdsStrArr) {
+                int storeItemId = Integer.parseInt(storeItemIdStr);
+                offersStoreItemsIds.add(storeItemId);
+            }
+            appliedOffers.put(discountName, offersStoreItemsIds);
+        });
 
         String orderCategoryFromParameter = request.getParameter(Constants.CHOSEN_ORDER_CATEGORY_PARAM_KEY);
         if (orderCategoryFromParameter.equals(Constants.STATIC_ORDER_CATEGORY_STR)) {
@@ -52,14 +65,14 @@ public class AddOrderServlet extends HttpServlet {
             int storeId = Integer.parseInt(storeIdFromParameter);
             synchronized (this) {
                 businessLogic.createOrder(accountManager, zoneNameFromSession, usernameFromSession, date, locationX, locationY,
-                        storeId, itemsIdsAndQuantities, appliedOffersDto);
+                        storeId, itemsIdsAndQuantities, appliedOffers);
                 response.getWriter().print("success");
             }
         }
         else {
             synchronized (this) {
                 businessLogic.createOrder(accountManager, zoneNameFromSession, usernameFromSession, date, locationX, locationY,
-                        itemsIdsAndQuantities, appliedOffersDto);
+                        itemsIdsAndQuantities, appliedOffers);
                 response.getWriter().print("success");
             }
         }

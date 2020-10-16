@@ -75,6 +75,15 @@ public class Discount {
         return offers.values();
     }
 
+    public Offer getOffer(int storeItemId) {
+        for (Offer offer : offers.values()) {
+            if (offer.getItem().getId() == storeItemId) {
+                return offer;
+            }
+        }
+        return null;
+    }
+
     public void addOffer(Offer offer) {
         int storeItemId = offer.getItem().getId();
         if (!isItemInTheOffers(storeItemId)) {

@@ -126,23 +126,26 @@ function ajaxItemsTable() {
 function getAddOrderFormInputsAsQueryParameters() {
     let paramArr = [];
     let addOrderForm = document.getElementById(ADD_ORDER_FORM_ID);
-    let itemsIdsAndQuantities = {};
     for (let i = 0; i < addOrderForm.length; i++) {
         let inputName = addOrderForm.elements[i].name;
         let inputValue = addOrderForm.elements[i].value;
-        if (inputName.startsWith("itemId")) {
-            if (inputValue) {
-                let itemId = inputName.split("-")[1];
-                itemsIdsAndQuantities[itemId] = inputValue;
-            }
-        }
-        else {
-            if (inputName) {
+        if (inputName) {
+            if (!inputName.startsWith("itemId")) {
                 paramArr.push(inputName + "=" + inputValue);
             }
         }
     }
     paramArr.push("itemsIdsAndQuantities=" + encodeURIComponent(JSON.stringify(itemsIdsAndQuantities)));
+    let appliedOffersJson={};
+    Object.keys(appliedOffers).forEach(function(discountName) {
+        let appliedOffersStrArr=[];
+        let offers = appliedOffers[discountName];
+        for (let offer of offers) {
+            appliedOffersStrArr.push(offer["storeItemId"]);
+        }
+        appliedOffersJson[discountName] = appliedOffersStrArr.join(" ");
+    });
+    paramArr.push("appliedOffers=" + encodeURIComponent(JSON.stringify(appliedOffersJson)));
     return paramArr.join("&");
 }
 
