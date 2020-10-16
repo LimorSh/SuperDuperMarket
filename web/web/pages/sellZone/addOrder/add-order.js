@@ -36,6 +36,13 @@ const DYNAMIC_ORDER_STORES_DETAILS_CONTAINER_ID = "dynamic-order-stores-details-
 const DYNAMIC_ORDER_STORES_DETAILS_LIST_ID = "dynamic-order-stores-details-list";
 
 const ORDER_DISCOUNTS_CONTAINER_ID = "order-discounts-container";
+const DISCOUNT_CONTAINER_CLASS = "discount-container";
+const DISCOUNT_HEADER_CLASS = "discount-header";
+const DISCOUNT_FIELD_LABEL_CLASS = "discount-field-label";
+const DISCOUNT_VALUE_LABEL_CLASS = "discount-value-label";
+const APPLY_DISCOUNT_BUTTON_CLASS = "apply-discount-button";
+const DISCOUNT_SINGLE_OFFER_CLASS = "discount-single-offer";
+const DISCOUNT_SINGLE_OFFER_RADIO_BUTTON_CLASS = "discount-single-offer-radio-button";
 
 const ADD_ORDER_FORM_ID = "add-order-form";
 
@@ -57,6 +64,7 @@ let storeId;
 let itemsIdsAndQuantities = {};
 let dynamicOrderStoresDetails = {};
 let discounts = {};
+let appliedOffers = {};
 
 
 function ajaxSetStores() {
@@ -198,7 +206,6 @@ function ajaxGetDiscounts() {
             console.error(e);
         },
         success: function(relevantDiscounts) {
-            console.log(relevantDiscounts);
             discounts = relevantDiscounts;
             if (discounts) {
                 showDiscounts();
@@ -248,125 +255,178 @@ function showStoresDetailsForDynamicOrder() {
 }
 
 
-function addDiscountOffer(discountContainer, offer) {
+function getOfferDataAsString(offer) {
     let offerStoreItemId = offer["storeItemId"];
     let offerStoreItemName = offer["storeItemName"];
     let offerStoreItemPurchaseCategory = offer["storeItemPurchaseCategory"];
     let offerQuantity = offer["quantity"];
     let offerAdditionalPrice = offer["additionalPrice"];
-
-    let offerP = document.createElement("p");
-    offerP.classList.add("discount-single-offer");
-
-    offerP.innerHTML = `ID: ${offerStoreItemId}${TAB}Name: ${offerStoreItemName}${TAB}
+    return `ID: ${offerStoreItemId}${TAB}Name: ${offerStoreItemName}${TAB}
                                       Purchase Category: ${offerStoreItemPurchaseCategory}${TAB}
                                       Quantity: ${offerQuantity}${TAB}Additional Price: ${offerAdditionalPrice}`;
+}
+
+
+function addDiscountOfferForCategoryIrrelevantAndAllOrNothing(discountContainer, offer) {
+    let offerP = document.createElement("p");
+    offerP.classList.add(DISCOUNT_SINGLE_OFFER_CLASS);
+
+    offerP.innerHTML = getOfferDataAsString(offer);
     discountContainer.appendChild(offerP);
 }
 
 
-function discountWasApplied(discount) {
+function getAppliedOfferOneOfDiscount(discountOffers) {
+    let appliedOfferOneOfDiscount = [];
+    let offersOneOfDiscountRadioButtons = document.getElementsByClassName(DISCOUNT_SINGLE_OFFER_RADIO_BUTTON_CLASS);
+    for (const radio of offersOneOfDiscountRadioButtons) {
+        if (radio.checked) {
+            let storeItemId = parseInt(radio.value);
+            for (const offer of discountOffers) {
+                if (offer["storeItemId"] === storeItemId) {
+                    appliedOfferOneOfDiscount.push(offer);
+                }
+            }
+        }
+    }
+    return appliedOfferOneOfDiscount;
+}
 
+
+function addOneOfDiscountOffers(discountContainer, discountOffers, applyDiscountButton) {
+    for (let offer of discountOffers) {
+        let offerStoreItemId = offer["storeItemId"];
+        let offerStoreItemName = offer["storeItemName"];
+        let offerStoreItemPurchaseCategory = offer["storeItemPurchaseCategory"];
+        let offerQuantity = offer["quantity"];
+        let offerAdditionalPrice = offer["additionalPrice"];
+
+        let offerRadioButton = document.createElement("input");
+        offerRadioButton.style.marginRight = "10px";
+        offerRadioButton.id = offerStoreItemId
+        offerRadioButton.classList.add(DISCOUNT_SINGLE_OFFER_CLASS , DISCOUNT_SINGLE_OFFER_RADIO_BUTTON_CLASS);
+        offerRadioButton.type = "radio";
+        offerRadioButton.name = "one-of-offer";
+        offerRadioButton.value = offerStoreItemId;
+        let offerRadioButtonLabel = document.createElement("label");
+        offerRadioButtonLabel.htmlFor = offerStoreItemId;
+
+        offerRadioButtonLabel.innerHTML = `ID: ${offerStoreItemId}${TAB}Name: ${offerStoreItemName}${TAB}
+                                      Purchase Category: ${offerStoreItemPurchaseCategory}${TAB}
+                                      Quantity: ${offerQuantity}${TAB}Additional Price: ${offerAdditionalPrice}`;
+        offerRadioButton.onchange = function() {
+            applyDiscountButton.disabled = false;
+        }
+        discountContainer.appendChild(offerRadioButton);
+        discountContainer.appendChild(offerRadioButtonLabel);
+        let newLine = document.createElement("br");
+        discountContainer.appendChild(newLine);
+    }
+}
+
+
+function discountWasApplied(discount) {
+    let discountName = discount["name"];
+    let discountCategory = discount["category"];
+    let discountOffers = discount["offersDto"];
+    let appliedDiscountOffers;
+    if (discountCategory === DISCOUNT_CATEGORY_ONE_OF_STR) {
+        appliedDiscountOffers = getAppliedOfferOneOfDiscount(discountOffers);
+    } else {
+        appliedDiscountOffers = discountOffers;
+    }
+    appliedOffers[discountName] = appliedDiscountOffers;
+}
+
+
+function createApplyDiscountButton(discountContainer, discount) {
+    let applyDiscountButton = document.createElement("button");
+    applyDiscountButton.id = `${discount["name"]}-apply-discount-button`;
+    applyDiscountButton.classList.add(APPLY_DISCOUNT_BUTTON_CLASS);
+    applyDiscountButton.textContent = "Apply Discount";
+    applyDiscountButton.addEventListener("click", () => {
+        discountWasApplied(discount);
+    })
+    return applyDiscountButton;
+}
+
+
+function showDiscountByCategory(discountContainer, discount, applyDiscountButton, thenYouGetValueLabel) {
+    let discountCategory = discount["category"];
+    let discountOffers = discount["offersDto"];
+    if (discountCategory === DISCOUNT_CATEGORY_ONE_OF_STR) {
+        applyDiscountButton.disabled = true;
+        thenYouGetValueLabel.textContent = "one of the following items:";
+        addOneOfDiscountOffers(discountContainer, discountOffers, applyDiscountButton);
+    }
+    else if (discountCategory === DISCOUNT_CATEGORY_ALL_OR_NOTHING_STR) {
+        thenYouGetValueLabel.textContent = "all the following items:";
+        for (let offer of discountOffers) {
+            addDiscountOfferForCategoryIrrelevantAndAllOrNothing(discountContainer, offer);
+        }
+    }
+    else {
+        thenYouGetValueLabel.textContent = "the following item:";
+        let offer = discountOffers[0];
+        addDiscountOfferForCategoryIrrelevantAndAllOrNothing(discountContainer, offer);
+    }
+}
+
+
+function createDiscountChildrenElements(discountContainer, discount, applyDiscountButton) {
+    let discountName = discount["name"];
+    let discountStoreItemId = discount["storeItemId"];
+    let discountStoreItemName = discount["storeItemName"];
+    let discountStoreItemQuantity = discount["storeItemQuantity"];
+    let discountHeader = document.createElement("h4");
+    discountHeader.textContent = discountName;
+    discountHeader.classList.add(DISCOUNT_HEADER_CLASS);
+    let ifYouBuyFieldLabel = document.createElement("label");
+    ifYouBuyFieldLabel.textContent = "If you buy ";
+    ifYouBuyFieldLabel.classList.add(DISCOUNT_FIELD_LABEL_CLASS);
+    let ifYouBuyValueLabel = document.createElement("label");
+    ifYouBuyValueLabel.classList.add(DISCOUNT_VALUE_LABEL_CLASS);
+    ifYouBuyValueLabel.textContent = `${discountStoreItemName} (ID ${discountStoreItemId})
+                                          of total quantity ${discountStoreItemQuantity}`;
+    let newLine = document.createElement("br");
+    let thenYouGetFieldLabel = document.createElement("label");
+    thenYouGetFieldLabel.id = `${discountName}-then-you-get-field-label`;
+    thenYouGetFieldLabel.classList.add(DISCOUNT_FIELD_LABEL_CLASS);
+    thenYouGetFieldLabel.textContent = "Then you get ";
+    let thenYouGetValueLabel = document.createElement("label");
+    thenYouGetValueLabel.classList.add(DISCOUNT_VALUE_LABEL_CLASS);
+
+    discountContainer.appendChild(discountHeader);
+    discountContainer.appendChild(ifYouBuyFieldLabel);
+    discountContainer.appendChild(ifYouBuyValueLabel);
+    discountContainer.appendChild(newLine);
+    discountContainer.appendChild(thenYouGetFieldLabel);
+    discountContainer.appendChild(thenYouGetValueLabel);
+    newLine = document.createElement("br");
+    discountContainer.appendChild(newLine);
+
+    showDiscountByCategory(discountContainer, discount, applyDiscountButton, thenYouGetValueLabel);
+}
+
+
+function showDiscount(discount) {
+    let orderDiscountsContainer = document.getElementById(ORDER_DISCOUNTS_CONTAINER_ID);
+    let discountName = discount["name"];
+
+    let discountContainer = document.createElement("div");
+    discountContainer.id = `${discountName}-discount-container`;
+    discountContainer.classList.add(DISCOUNT_CONTAINER_CLASS);
+    orderDiscountsContainer.appendChild(discountContainer);
+    let applyDiscountButton = createApplyDiscountButton(discountContainer, discount);
+    createDiscountChildrenElements(discountContainer, discount, applyDiscountButton);
+    discountContainer.appendChild(applyDiscountButton);
 }
 
 
 function showDiscounts() {
     $(`#${ORDER_DISCOUNTS_CONTAINER_ID}`).show();
-    let orderDiscountsContainer = document.getElementById(ORDER_DISCOUNTS_CONTAINER_ID);
     for (let discount of discounts) {
-        let discountName = discount["name"];
-        let discountStoreItemId = discount["storeItemId"];
-        let discountStoreItemName = discount["storeItemName"];
-        let discountStoreItemQuantity = discount["storeItemQuantity"];
-        let discountCategory = discount["category"];
-        let discountOffers = discount["offersDto"];
-
-        let discountContainer = document.createElement("div");
-        discountContainer.id = `discount-${discountName}-container`;
-        discountContainer.classList.add("discount-container");
-        orderDiscountsContainer.appendChild(discountContainer);
-
-        let discountHeader = document.createElement("h4");
-        discountHeader.textContent = discountName;
-        discountHeader.classList.add("discount-header");
-        let ifYouBuyFieldLabel = document.createElement("label");
-        ifYouBuyFieldLabel.textContent = "If you buy ";
-        ifYouBuyFieldLabel.classList.add("discount-field-label");
-        let ifYouBuyValueLabel = document.createElement("label");
-        ifYouBuyValueLabel.classList.add("discount-value-label");
-        ifYouBuyValueLabel.textContent = `${discountStoreItemName} (ID ${discountStoreItemId})
-                                          of total quantity ${discountStoreItemQuantity}`;
-        let newLine = document.createElement("br");
-        let thenYouGetFieldLabel = document.createElement("label");
-        thenYouGetFieldLabel.classList.add("discount-field-label");
-        thenYouGetFieldLabel.textContent = "Then you get ";
-        let thenYouGetValueLabel = document.createElement("label");
-        thenYouGetValueLabel.classList.add("discount-value-label");
-
-        discountContainer.appendChild(discountHeader);
-        discountContainer.appendChild(ifYouBuyFieldLabel);
-        discountContainer.appendChild(ifYouBuyValueLabel);
-        discountContainer.appendChild(newLine);
-        discountContainer.appendChild(thenYouGetFieldLabel);
-        discountContainer.appendChild(thenYouGetValueLabel);
-        newLine = document.createElement("br");
-        discountContainer.appendChild(newLine);
-
-        let applyDiscountButton = document.createElement("button");
-        applyDiscountButton.id = `${discountName}-apply-discount-button`;
-        applyDiscountButton.classList.add("apply-discount-button");
-        applyDiscountButton.textContent = "Apply Discount";
-        applyDiscountButton.addEventListener("click", () => {
-            discountWasApplied(discount);
-        })
-
-        if (discountCategory === DISCOUNT_CATEGORY_ONE_OF_STR) {
-            applyDiscountButton.disabled = true;
-            thenYouGetValueLabel.textContent = "one of the following items:";
-
-            for (let offer of discountOffers) {
-                let offerStoreItemId = offer["storeItemId"];
-                let offerStoreItemName = offer["storeItemName"];
-                let offerStoreItemPurchaseCategory = offer["storeItemPurchaseCategory"];
-                let offerQuantity = offer["quantity"];
-                let offerAdditionalPrice = offer["additionalPrice"];
-
-                let offerRadioButton = document.createElement("input");
-                offerRadioButton.style.marginRight = "10px";
-                offerRadioButton.id = offerStoreItemId
-                offerRadioButton.classList.add("discount-single-offer", "discount-single-offer-radio-button");
-                offerRadioButton.type = "radio";
-                offerRadioButton.name = "one-of-offer";
-                offerRadioButton.value = offerStoreItemId;
-                let offerRadioButtonLabel = document.createElement("label");
-                offerRadioButtonLabel.htmlFor = offerStoreItemId;
-
-                offerRadioButtonLabel.innerHTML = `ID: ${offerStoreItemId}${TAB}Name: ${offerStoreItemName}${TAB}
-                                      Purchase Category: ${offerStoreItemPurchaseCategory}${TAB}
-                                      Quantity: ${offerQuantity}${TAB}Additional Price: ${offerAdditionalPrice}`;
-                offerRadioButton.onchange = function() {
-                    applyDiscountButton.disabled = false;
-                }
-                discountContainer.appendChild(offerRadioButton);
-                discountContainer.appendChild(offerRadioButtonLabel);
-                newLine = document.createElement("br");
-                discountContainer.appendChild(newLine);
-            }
-        }
-        else if (discountCategory === DISCOUNT_CATEGORY_ALL_OR_NOTHING_STR) {
-            thenYouGetValueLabel.textContent = "all the following items:";
-
-            for (let offer of discountOffers) {
-                addDiscountOffer(discountContainer, offer);
-            }
-        }
-        else {
-            thenYouGetValueLabel.textContent = "the following item:";
-            let offer = discountOffers[0];
-            addDiscountOffer(discountContainer, offer);
-        }
-
-        discountContainer.appendChild(applyDiscountButton);
+        showDiscount(discount);
     }
 }
 
