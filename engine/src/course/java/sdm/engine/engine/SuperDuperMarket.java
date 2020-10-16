@@ -528,6 +528,6 @@ public class SuperDuperMarket {
             StoreItem storeItem = store.getStoreItem(itemId);
             discounts.addAll(storeItem.getRelevantDiscounts(itemQuantity));
         });
-        return  discounts;
+        return discounts;
     }
 }

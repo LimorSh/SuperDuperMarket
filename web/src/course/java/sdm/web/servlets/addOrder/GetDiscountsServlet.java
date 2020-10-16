@@ -40,23 +40,22 @@ public class GetDiscountsServlet extends HttpServlet {
             itemsIdsAndQuantities.put(itemId, quantity);
         });
 
+        Collection<DiscountDto> discounts;
         String orderCategoryFromParameter = request.getParameter(Constants.CHOSEN_ORDER_CATEGORY_PARAM_KEY);
         if (orderCategoryFromParameter.equals(Constants.STATIC_ORDER_CATEGORY_STR)) {
             int storeId = Integer.parseInt(request.getParameter(Constants.CHOSEN_STORE_ID_PARAM_KEY));
             synchronized (this) {
-                businessLogic.getRelevantDiscounts(zoneNameFromSession, storeId, itemsIdsAndQuantities);
+                discounts = businessLogic.getRelevantDiscounts(zoneNameFromSession, storeId, itemsIdsAndQuantities);
             }
         }
         else {
             synchronized (this) {
-                businessLogic.getRelevantDiscounts(zoneNameFromSession, itemsIdsAndQuantities);
+                discounts = businessLogic.getRelevantDiscounts(zoneNameFromSession, itemsIdsAndQuantities);
             }
         }
 
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            Collection<DiscountDto> discounts =
-                    businessLogic.getRelevantDiscounts(zoneNameFromSession, itemsIdsAndQuantities);
             Collection<DiscountDto> discountsSortedByName
                     = discounts.stream().sorted
                     (Comparator.comparing(DiscountDto::getName))

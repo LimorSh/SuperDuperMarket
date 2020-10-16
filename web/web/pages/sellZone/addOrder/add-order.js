@@ -8,8 +8,6 @@ const DYNAMIC_ORDER_STORE_INPUT_ID = -1;
 const STORES_SELECT_CONTAINER_ID = "stores-select-container";
 const STORES_SELECT_ID = "stores-select";
 const STORE_SELECT_DEFAULT_OPTION_ID = "stores-select-default-option";
-const ORDER_CATEGORY_STATIC_STR = "static";
-const ORDER_CATEGORY_DYNAMIC_STR = "dynamic";
 const STORE_DELIVERY_COST_LABEL_CONTAINER_ID = "store-delivery-cost-label-container";
 
 const ITEMS_TABLE_CONTAINER_ID = "items-table-container";
@@ -36,6 +34,8 @@ const FINISH_ORDER_TAKEN_LOCATION_MSG = "The order location is a store location,
 const FINISH_ORDER_EMPTY_QUANTITIES_MSG = "Your cart is empty, please choose at least one item and fill its quantity.";
 const DYNAMIC_ORDER_STORES_DETAILS_CONTAINER_ID = "dynamic-order-stores-details-container";
 const DYNAMIC_ORDER_STORES_DETAILS_LIST_ID = "dynamic-order-stores-details-list";
+
+const ORDER_DISCOUNTS_CONTAINER_ID = "order-discounts-container";
 
 const ADD_ORDER_FORM_ID = "add-order-form";
 
@@ -200,7 +200,10 @@ function ajaxGetDiscounts() {
         success: function(relevantDiscounts) {
             console.log(relevantDiscounts);
             discounts = relevantDiscounts;
-            // showOrderSummery();
+            if (discounts) {
+                showDiscounts();
+            }
+            showOrderSummery();
         }
     });
 }
@@ -223,7 +226,7 @@ function ajaxGetDynamicOrderStoresDetails() {
             console.log(storesDetails);
             dynamicOrderStoresDetails = storesDetails;
             showStoresDetailsForDynamicOrder();
-            showDiscounts();
+            ajaxGetDiscounts();
         }
     });
 }
@@ -245,8 +248,126 @@ function showStoresDetailsForDynamicOrder() {
 }
 
 
+function addDiscountOffer(discountContainer, offer) {
+    let offerStoreItemId = offer["storeItemId"];
+    let offerStoreItemName = offer["storeItemName"];
+    let offerStoreItemPurchaseCategory = offer["storeItemPurchaseCategory"];
+    let offerQuantity = offer["quantity"];
+    let offerAdditionalPrice = offer["additionalPrice"];
+
+    let offerP = document.createElement("p");
+    offerP.classList.add("discount-single-offer");
+
+    offerP.innerHTML = `ID: ${offerStoreItemId}${TAB}Name: ${offerStoreItemName}${TAB}
+                                      Purchase Category: ${offerStoreItemPurchaseCategory}${TAB}
+                                      Quantity: ${offerQuantity}${TAB}Additional Price: ${offerAdditionalPrice}`;
+    discountContainer.appendChild(offerP);
+}
+
+
+function discountWasApplied(discount) {
+
+}
+
+
 function showDiscounts() {
-    ajaxGetDiscounts();
+    $(`#${ORDER_DISCOUNTS_CONTAINER_ID}`).show();
+    let orderDiscountsContainer = document.getElementById(ORDER_DISCOUNTS_CONTAINER_ID);
+    for (let discount of discounts) {
+        let discountName = discount["name"];
+        let discountStoreItemId = discount["storeItemId"];
+        let discountStoreItemName = discount["storeItemName"];
+        let discountStoreItemQuantity = discount["storeItemQuantity"];
+        let discountCategory = discount["category"];
+        let discountOffers = discount["offersDto"];
+
+        let discountContainer = document.createElement("div");
+        discountContainer.id = `discount-${discountName}-container`;
+        discountContainer.classList.add("discount-container");
+        orderDiscountsContainer.appendChild(discountContainer);
+
+        let discountHeader = document.createElement("h4");
+        discountHeader.textContent = discountName;
+        discountHeader.classList.add("discount-header");
+        let ifYouBuyFieldLabel = document.createElement("label");
+        ifYouBuyFieldLabel.textContent = "If you buy ";
+        ifYouBuyFieldLabel.classList.add("discount-field-label");
+        let ifYouBuyValueLabel = document.createElement("label");
+        ifYouBuyValueLabel.classList.add("discount-value-label");
+        ifYouBuyValueLabel.textContent = `${discountStoreItemName} (ID ${discountStoreItemId})
+                                          of total quantity ${discountStoreItemQuantity}`;
+        let newLine = document.createElement("br");
+        let thenYouGetFieldLabel = document.createElement("label");
+        thenYouGetFieldLabel.classList.add("discount-field-label");
+        thenYouGetFieldLabel.textContent = "Then you get ";
+        let thenYouGetValueLabel = document.createElement("label");
+        thenYouGetValueLabel.classList.add("discount-value-label");
+
+        discountContainer.appendChild(discountHeader);
+        discountContainer.appendChild(ifYouBuyFieldLabel);
+        discountContainer.appendChild(ifYouBuyValueLabel);
+        discountContainer.appendChild(newLine);
+        discountContainer.appendChild(thenYouGetFieldLabel);
+        discountContainer.appendChild(thenYouGetValueLabel);
+        newLine = document.createElement("br");
+        discountContainer.appendChild(newLine);
+
+        let applyDiscountButton = document.createElement("button");
+        applyDiscountButton.id = `${discountName}-apply-discount-button`;
+        applyDiscountButton.classList.add("apply-discount-button");
+        applyDiscountButton.textContent = "Apply Discount";
+        applyDiscountButton.addEventListener("click", () => {
+            discountWasApplied(discount);
+        })
+
+        if (discountCategory === DISCOUNT_CATEGORY_ONE_OF_STR) {
+            applyDiscountButton.disabled = true;
+            thenYouGetValueLabel.textContent = "one of the following items:";
+
+            for (let offer of discountOffers) {
+                let offerStoreItemId = offer["storeItemId"];
+                let offerStoreItemName = offer["storeItemName"];
+                let offerStoreItemPurchaseCategory = offer["storeItemPurchaseCategory"];
+                let offerQuantity = offer["quantity"];
+                let offerAdditionalPrice = offer["additionalPrice"];
+
+                let offerRadioButton = document.createElement("input");
+                offerRadioButton.style.marginRight = "10px";
+                offerRadioButton.id = offerStoreItemId
+                offerRadioButton.classList.add("discount-single-offer", "discount-single-offer-radio-button");
+                offerRadioButton.type = "radio";
+                offerRadioButton.name = "one-of-offer";
+                offerRadioButton.value = offerStoreItemId;
+                let offerRadioButtonLabel = document.createElement("label");
+                offerRadioButtonLabel.htmlFor = offerStoreItemId;
+
+                offerRadioButtonLabel.innerHTML = `ID: ${offerStoreItemId}${TAB}Name: ${offerStoreItemName}${TAB}
+                                      Purchase Category: ${offerStoreItemPurchaseCategory}${TAB}
+                                      Quantity: ${offerQuantity}${TAB}Additional Price: ${offerAdditionalPrice}`;
+                offerRadioButton.onchange = function() {
+                    applyDiscountButton.disabled = false;
+                }
+                discountContainer.appendChild(offerRadioButton);
+                discountContainer.appendChild(offerRadioButtonLabel);
+                newLine = document.createElement("br");
+                discountContainer.appendChild(newLine);
+            }
+        }
+        else if (discountCategory === DISCOUNT_CATEGORY_ALL_OR_NOTHING_STR) {
+            thenYouGetValueLabel.textContent = "all the following items:";
+
+            for (let offer of discountOffers) {
+                addDiscountOffer(discountContainer, offer);
+            }
+        }
+        else {
+            thenYouGetValueLabel.textContent = "the following item:";
+            let offer = discountOffers[0];
+            addDiscountOffer(discountContainer, offer);
+        }
+
+        discountContainer.appendChild(applyDiscountButton);
+    }
 }
 
 
@@ -290,7 +411,7 @@ function finishOrder() {
             ajaxGetDynamicOrderStoresDetails();
         }
         else {
-            showDiscounts();
+            ajaxGetDiscounts();
         }
     }
 }
