@@ -85,34 +85,34 @@
 }
 
 #order-summery-stores-info-ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+    /*padding: 0;*/
+    /*margin: 0;*/
+    /*list-style: none;*/
 
-    /*-ms-box-orient: horizontal;*/
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
-    display: flex;
+    /*!*-ms-box-orient: horizontal;*!*/
+    /*display: -webkit-box;*/
+    /*display: -moz-box;*/
+    /*display: -ms-flexbox;*/
+    /*display: -moz-flex;*/
+    /*display: -webkit-flex;*/
+    /*display: flex;*/
 
-    -webkit-flex-direction: column;
-    flex-direction: column;
-    float: left;
+    /*-webkit-flex-direction: column;*/
+    /*flex-direction: column;*/
+    /*float: left;*/
 }
 
 .order-summery-stores-info-ul li {
-    background: deepskyblue;
-    /*background: tomato;*/
-    padding: 5px;
-    width: 50px;
-    height: 50px;
-    margin: 5px;
+    /*background: deepskyblue;*/
+    /*!*background: tomato;*!*/
+    /*padding: 5px;*/
+    /*width: 50px;*/
+    /*height: 50px;*/
+    /*margin: 5px;*/
 
-    line-height: 50px;
-    color: white;
-    font-weight: bold;
-    font-size: 2em;
-    text-align: center;
+    /*line-height: 50px;*/
+    /*color: white;*/
+    /*font-weight: bold;*/
+    /*font-size: 2em;*/
+    /*text-align: center;*/
 }

@@ -524,7 +524,7 @@ function addStoreDetailToOrderSummeryStore(storeContainer, field, val) {
 
 
 function addStoreDetailsToOrderSummeryStore(storeContainer, store) {
-    let ppk = store["ppk"];
+    let ppk = parseFloat(store["ppk"]);
     let deliveryCost = ppk * distanceFromStore;
     addStoreDetailToOrderSummeryStore(storeContainer, "ID: ", store["id"]);
     addStoreDetailToOrderSummeryStore(storeContainer, "PPK: ", ppk);
@@ -542,6 +542,7 @@ function addStoreToToOrderSummeryStoresForStaticOrder() {
     let storeHeader = document.createElement("h4");
     storeHeader.textContent = `${store["name"]}`;
     storeHeader.classList.add(ORDER_SUMMERY_STORE_HEADER_CLASS);
+    storeContainer.appendChild(storeHeader);
 
     addStoreDetailsToOrderSummeryStore(storeContainer, store);
 
@@ -551,7 +552,7 @@ function addStoreToToOrderSummeryStoresForStaticOrder() {
 
 
 function showOrderSummery() {
-    $(`#${ORDER_SUMMERY_STORES_INFO_CONTAINER_ID}`).show();
+    document.getElementById(ORDER_SUMMERY_STORES_INFO_CONTAINER_ID).style.display = "inline-block";
     document.getElementById(ORDER_SUMMERY_DATE_VALUE_LABEL_ID).textContent = date;
     document.getElementById(ORDER_SUMMERY_LOCATION_VALUE_LABEL_ID).textContent = `(${xLocation},${yLocation})`;
     let orderCategoryValueLabel = document.getElementById(ORDER_SUMMERY_ORDER_CATEGORY_VALUE_LABEL_ID);
@@ -570,9 +571,9 @@ function showOrderSummery() {
         orderCategoryValue = "Best Cart";
     }
     orderCategoryValueLabel.textContent = orderCategoryValue;
-    totalItemsCostValueLabel.textContent = totalItemsCost;
-    totalDeliveryCostValueLabel.textContent = totalDeliveryCost;
-    totalOrderCostValueLabel.textContent = totalItemsCost + totalDeliveryCost;
+    // totalItemsCostValueLabel.textContent = totalItemsCost;
+    // totalDeliveryCostValueLabel.textContent = totalDeliveryCost;
+    // totalOrderCostValueLabel.textContent = totalItemsCost + totalDeliveryCost;
 }
 
 
@@ -769,7 +770,7 @@ function ajaxGetDistanceFromStore(storeId) {
             $("#error-msg").text("Failed to get result from server");
         },
         success: function(distanceFromStoreRes) {
-            distanceFromStore = distanceFromStoreRes;
+            distanceFromStore = parseFloat(distanceFromStoreRes);
         }
     });
 }
