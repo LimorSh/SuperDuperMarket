@@ -43,11 +43,20 @@ const DISCOUNT_VALUE_LABEL_CLASS = "discount-value-label";
 const APPLY_DISCOUNT_BUTTON_CLASS = "apply-discount-button";
 const DISCOUNT_SINGLE_OFFER_CLASS = "discount-single-offer";
 const DISCOUNT_SINGLE_OFFER_RADIO_BUTTON_CLASS = "discount-single-offer-radio-button";
+const DISCOUNT_APPLIES_AMOUNT_CLASS = "discount-applies-amount-label"
+
+const ORDER_SUMMERY_STORES_INFO_CONTAINER_ID = "order-summery-stores-info-container";
+const ORDER_SUMMERY_STORES_INFO_UL_ID = "order-summery-stores-info-ul";
+const ORDER_SUMMERY_STORE_HEADER_CLASS = "order-summery-store-header";
+const ORDER_SUMMERY_STORE_FIELD_LABEL_CLASS = "order-summery-store-field-label";
+const ORDER_SUMMERY_STORE_VALUE_LABEL_CLASS= "order-summery-store-value-label";
 
 const ADD_ORDER_FORM_ID = "add-order-form";
 
 const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
 let SET_STORE_DELIVERY_COST_URL = buildUrlWithContextPath(SET_STORE_DELIVERY_COST_URL_RESOURCE);
+const SET_DISTANCE_FROM_STORE_URL_RESOURCE = "setDistanceFromStore";
+let SET_DISTANCE_FROM_STORE_URL = buildUrlWithContextPath(SET_DISTANCE_FROM_STORE_URL_RESOURCE);
 const SET_STORE_DYNAMIC_ORDER_STORES_DETAILS_RESOURCE = "setDynamicOrderStoresDetails";
 let SET_STORE_DYNAMIC_ORDER_STORES_DETAILS_URL = buildUrlWithContextPath(SET_STORE_DYNAMIC_ORDER_STORES_DETAILS_RESOURCE);
 const SET_DISCOUNTS_RESOURCE = "setDiscounts";
@@ -61,11 +70,13 @@ let xLocation;
 let yLocation;
 let orderCategory;
 let storeId;
+let distanceFromStore;
 let itemsIdsAndQuantities = {};
 let dynamicOrderStoresDetails = {};
 let discounts = {};
 let appliedOffers = {};
 let itemsIdsAndQuantitiesAfterAppliedDiscounts = {};
+let appliedDiscountsNamesAndAppliesAmount = {};
 
 
 function ajaxSetStores() {
@@ -200,6 +211,14 @@ function setDiscountsAndStoreItemQuantities() {
 }
 
 
+function initAppliedDiscountsNamesAndAppliesAmount() {
+    for (let discount of discounts) {
+        let discountName = discount["name"];
+        appliedDiscountsNamesAndAppliesAmount[discountName] = 0;
+    }
+}
+
+
 function ajaxGetDiscounts() {
     let parameters = getAddOrderFormInputsAsQueryParameters();
     // parameters["chosen-order-category"] = orderCategory;
@@ -222,6 +241,7 @@ function ajaxGetDiscounts() {
             if (relevantDiscounts) {
                 discounts = relevantDiscounts;
                 setDiscountsAndStoreItemQuantities();
+                initAppliedDiscountsNamesAndAppliesAmount();
                 showDiscounts();
             }
             showOrderSummery();
@@ -356,6 +376,16 @@ function checkIfDiscountsStillRelevant(appliedDiscount) {
 }
 
 
+function setDiscountAppliesAmountLabel(discount) {
+    let discountName = discount["name"];
+    let appliesAmount = appliedDiscountsNamesAndAppliesAmount[discountName];
+    appliesAmount++;
+    appliedDiscountsNamesAndAppliesAmount[discountName] = appliesAmount;
+    let discountAppliesAmountLabel = document.getElementById(`${discountName}-discount-applies-amount-label`);
+    discountAppliesAmountLabel.textContent = `You applied this discount ${appliesAmount} times`;
+}
+
+
 function discountWasApplied(discount) {
     let discountName = discount["name"];
     let discountCategory = discount["category"];
@@ -368,6 +398,7 @@ function discountWasApplied(discount) {
     }
     appliedOffers[discountName] = appliedDiscountOffers;
 
+    setDiscountAppliesAmountLabel(discount);
     checkIfDiscountsStillRelevant(discount);
 }
 
@@ -453,6 +484,10 @@ function showDiscount(discount) {
     let applyDiscountButton = createApplyDiscountButton(discountContainer, discount);
     createDiscountChildrenElements(discountContainer, discount, applyDiscountButton);
     discountContainer.appendChild(applyDiscountButton);
+    let discountAppliesAmountLabel = document.createElement("label");
+    discountAppliesAmountLabel.id = `${discountName}-discount-applies-amount-label`;
+    discountAppliesAmountLabel.classList.add(DISCOUNT_APPLIES_AMOUNT_CLASS);
+    discountContainer.appendChild(discountAppliesAmountLabel);
 }
 
 
@@ -464,22 +499,80 @@ function showDiscounts() {
 }
 
 
+function getSelectedStore() {
+    for (let store of stores) {
+        if (store["id"] === storeId) {
+            return store;
+        }
+    }
+}
+
+
+function addStoreDetailToOrderSummeryStore(storeContainer, field, val) {
+    let fieldLabel = document.createElement("label");
+    fieldLabel.textContent = `${field}`;
+    fieldLabel.classList.add(ORDER_SUMMERY_STORE_FIELD_LABEL_CLASS);
+
+    let valueLabel = document.createElement("label");
+    valueLabel.classList.add(ORDER_SUMMERY_STORE_VALUE_LABEL_CLASS);
+    valueLabel.textContent = `${val}`;
+    valueLabel.style.marginRight = "30px";
+
+    storeContainer.appendChild(fieldLabel);
+    storeContainer.appendChild(valueLabel);
+}
+
+
+function addStoreDetailsToOrderSummeryStore(storeContainer, store) {
+    let ppk = store["ppk"];
+    let deliveryCost = ppk * distanceFromStore;
+    addStoreDetailToOrderSummeryStore(storeContainer, "ID: ", store["id"]);
+    addStoreDetailToOrderSummeryStore(storeContainer, "PPK: ", ppk);
+    addStoreDetailToOrderSummeryStore(storeContainer, "Distance (KM): ", distanceFromStore);
+    addStoreDetailToOrderSummeryStore(storeContainer, "Delivery Cost: ", deliveryCost);
+}
+
+
+function addStoreToToOrderSummeryStoresForStaticOrder() {
+    let store = getSelectedStore();
+    let orderSummeryStoresInfoUl = document.getElementById(ORDER_SUMMERY_STORES_INFO_UL_ID);
+    let storeLi = document.createElement("li");
+    let storeContainer = document.createElement("div");
+    storeLi.appendChild(storeContainer);
+    let storeHeader = document.createElement("h4");
+    storeHeader.textContent = `${store["name"]}`;
+    storeHeader.classList.add(ORDER_SUMMERY_STORE_HEADER_CLASS);
+
+    addStoreDetailsToOrderSummeryStore(storeContainer, store);
+
+
+    orderSummeryStoresInfoUl.appendChild(storeLi);
+}
+
+
 function showOrderSummery() {
+    $(`#${ORDER_SUMMERY_STORES_INFO_CONTAINER_ID}`).show();
     document.getElementById(ORDER_SUMMERY_DATE_VALUE_LABEL_ID).textContent = date;
     document.getElementById(ORDER_SUMMERY_LOCATION_VALUE_LABEL_ID).textContent = `(${xLocation},${yLocation})`;
     let orderCategoryValueLabel = document.getElementById(ORDER_SUMMERY_ORDER_CATEGORY_VALUE_LABEL_ID);
+    let totalItemsCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_ITEMS_COST_VALUE_LABEL_ID);
+    let totalDeliveryCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_DELIVERY_COST_VALUE_LABEL_ID);
+    let totalOrderCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_ORDER_COST_VALUE_LABEL_ID);
+    let orderCategoryValue;
+    let totalItemsCost;
+    let totalDeliveryCost;
     if (orderCategory === ORDER_CATEGORY_STATIC_STR) {
-        orderCategoryValueLabel.textContent = "One Store";
+        ajaxGetDistanceFromStore(storeId);
+        orderCategoryValue = "One Store";
+        addStoreToToOrderSummeryStoresForStaticOrder();
     }
     else {
-        orderCategoryValueLabel.textContent = "Best Cart";
+        orderCategoryValue = "Best Cart";
     }
-
-
-
-    document.getElementById(ORDER_SUMMERY_TOTAL_ITEMS_COST_VALUE_LABEL_ID).textContent = date;
-    document.getElementById(ORDER_SUMMERY_TOTAL_DELIVERY_COST_VALUE_LABEL_ID).textContent = date;
-    document.getElementById(ORDER_SUMMERY_TOTAL_ORDER_COST_VALUE_LABEL_ID).textContent = date;
+    orderCategoryValueLabel.textContent = orderCategoryValue;
+    totalItemsCostValueLabel.textContent = totalItemsCost;
+    totalDeliveryCostValueLabel.textContent = totalDeliveryCost;
+    totalOrderCostValueLabel.textContent = totalItemsCost + totalDeliveryCost;
 }
 
 
@@ -652,6 +745,31 @@ function ajaxGetStoreDeliveryCost(storeId) {
         success: function(storeDeliveryCost) {
             $("#store-delivery-cost-label").text("Delivery Cost: " + storeDeliveryCost);
             $("#store-delivery-cost-label-container").visibility = "visible";
+        }
+    });
+}
+
+
+function ajaxGetDistanceFromStore(storeId) {
+    let parameters = {
+        "storeId": storeId,
+        "location-x": xLocation,
+        "location-y": yLocation,
+    };
+
+    $.ajax({
+        data: parameters,
+        url: SET_DISTANCE_FROM_STORE_URL,
+        timeout: 2000,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
+        error: function() {
+            console.error("Failed to submit");
+            $("#error-msg").text("Failed to get result from server");
+        },
+        success: function(distanceFromStoreRes) {
+            distanceFromStore = distanceFromStoreRes;
         }
     });
 }

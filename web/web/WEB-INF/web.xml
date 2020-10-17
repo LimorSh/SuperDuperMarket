@@ -65,6 +65,10 @@
         <servlet-class>course.java.sdm.web.servlets.addOrder.GetStoreDeliveryCostServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>GetDistanceFromStoreServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.addOrder.GetDistanceFromStoreServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>GetDynamicOrderStoresDetailsServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.addOrder.GetDynamicOrderStoresDetailsServlet</servlet-class>
     </servlet>
@@ -72,6 +76,8 @@
         <servlet-name>GetDiscountsServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.addOrder.GetDiscountsServlet</servlet-class>
     </servlet>
+
+
 
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -132,6 +138,10 @@
     <servlet-mapping>
         <servlet-name>GetStoreDeliveryCostServlet</servlet-name>
         <url-pattern>/setStoreDeliveryCost</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetDistanceFromStoreServlet</servlet-name>
+        <url-pattern>/setDistanceFromStore</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GetDynamicOrderStoresDetailsServlet</servlet-name>

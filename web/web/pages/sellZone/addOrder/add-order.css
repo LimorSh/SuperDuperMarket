@@ -6,7 +6,7 @@
 }
 
 #stores-select-container, #items-table-container, #order-summery-dynamic-order-stores-details-container,
-#order-discounts-container {
+#order-discounts-container, #order-summery-stores-info-container {
     display: none;
 }
 
@@ -74,10 +74,45 @@
 }
 
 .apply-discount-button {
-
+    margin-right: 10px;
 }
 
 .discount-single-offer-radio-button {
     /*margin-right: 5px;*/
 }
 
+.discount-applies-amount-label {
+}
+
+#order-summery-stores-info-ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    /*-ms-box-orient: horizontal;*/
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    float: left;
+}
+
+.order-summery-stores-info-ul li {
+    background: deepskyblue;
+    /*background: tomato;*/
+    padding: 5px;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+
+    line-height: 50px;
+    color: white;
+    font-weight: bold;
+    font-size: 2em;
+    text-align: center;
+}
