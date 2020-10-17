@@ -51,6 +51,17 @@ const ORDER_SUMMERY_STORE_HEADER_CLASS = "order-summery-store-header";
 const ORDER_SUMMERY_STORE_FIELD_LABEL_CLASS = "order-summery-store-field-label";
 const ORDER_SUMMERY_STORE_VALUE_LABEL_CLASS= "order-summery-store-value-label";
 
+const PURCHASED_STORE_ITEMS_TABLE_CONTAINER_ID =  "purchased-store-items-table-container";
+const PURCHASED_STORE_ITEMS_TABLE_ID =  "purchased-store-items-table";
+const PURCHASED_STORE_ITEMS_TABLE_CAPTION_ID =  "purchased-store-items-table-caption";
+const PURCHASED_STORE_ITEMS_TABLE_BODY_ID =  "purchased-store-items-table-body";
+const PURCHASED_STORE_ITEMS_TABLE_HEADERS = ["ID", "Name", "Purchase Category", "Quantity", "Price Per Unit", "Total Cost", "Discount"];
+const PURCHASED_STORE_ITEMS_TABLE_COL = "purchased-store-items-table-col";
+const PURCHASED_STORE_ITEMS_TABLE_CELL_CLASS = "purchased-store-items-table-cell";
+const PURCHASED_STORE_ITEMS_TABLE_NUMBER_OF_COLUMNS = 7;
+const ITEM_PURCHASE_NOT_FROM_DISCOUNT_STR = "NO";
+const  ITEM_PURCHASE_FROM_DISCOUNT_STR = "YES";
+
 const ADD_ORDER_FORM_ID = "add-order-form";
 
 const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
@@ -510,12 +521,12 @@ function getSelectedStore() {
 
 function addStoreDetailToOrderSummeryStore(storeContainer, field, val) {
     let fieldLabel = document.createElement("label");
-    fieldLabel.textContent = `${field}`;
     fieldLabel.classList.add(ORDER_SUMMERY_STORE_FIELD_LABEL_CLASS);
+    fieldLabel.textContent = `${field}`;
 
     let valueLabel = document.createElement("label");
     valueLabel.classList.add(ORDER_SUMMERY_STORE_VALUE_LABEL_CLASS);
-    valueLabel.textContent = `${val}`;
+    valueLabel.innerText = `${val}`;
     valueLabel.style.marginRight = "30px";
 
     storeContainer.appendChild(fieldLabel);
@@ -533,6 +544,94 @@ function addStoreDetailsToOrderSummeryStore(storeContainer, store) {
 }
 
 
+function addHeadersToPurchasedItemsTable(thead) {
+    for (let i = 0; i < PURCHASED_STORE_ITEMS_TABLE_HEADERS .length; i++) {
+        let header = document.createElement("th");
+        header.class = PURCHASED_STORE_ITEMS_TABLE_COL ;
+        header.innerHTML = PURCHASED_STORE_ITEMS_TABLE_HEADERS[i];
+        thead.appendChild(header);
+    }
+}
+
+
+function getItem(itemId) {
+    for (let item of items) {
+        if (itemId === item["id"]) {
+            return item;
+        }
+    }
+}
+
+
+function getItemPriceInStore(store, itemId) {
+    let items = store["storeItemsDto"];
+    for (let item of items) {
+        if (itemId === item["id"]) {
+            return item["price"];
+        }
+    }
+}
+
+
+function getPurchasedStoresItemsData(store) {
+    let purchasedStoresItemsData = [];
+    let i = 0;
+    Object.keys(itemsIdsAndQuantities).forEach(function(itemId) {
+        purchasedStoresItemsData[i] = new Array(PURCHASED_STORE_ITEMS_TABLE_NUMBER_OF_COLUMNS);
+        let itemData = purchasedStoresItemsData[i];
+
+        let parsedItemId = parseInt(itemId);
+        let item = getItem(parsedItemId);
+        let itemQuantity = itemsIdsAndQuantities[itemId];
+        let itemPrice = getItemPriceInStore(store, parsedItemId);
+
+        itemData[0] = parsedItemId;
+        itemData[1] = item["name"];
+        itemData[2] = item["purchaseCategory"];
+        itemData[3] = itemQuantity;
+        itemData[4] = itemPrice;
+        itemData[5] = Math.round((itemQuantity * itemPrice) * 100) / 100;
+        itemData[6] = ITEM_PURCHASE_NOT_FROM_DISCOUNT_STR;
+        i++;
+    });
+    return purchasedStoresItemsData;
+}
+
+
+function addItemsToPurchasedItemsTable(purchasedItemsTableBody, store) {
+    let purchasedStoresItemsData = getPurchasedStoresItemsData(store);
+    for (let itemData of purchasedStoresItemsData) {
+        let row = purchasedItemsTableBody.insertRow();
+        for (let data of itemData) {
+            let cell = row.insertCell();
+            cell.classList.add(PURCHASED_STORE_ITEMS_TABLE_CELL_CLASS);
+            cell.textContent = data;
+        }
+    }
+}
+
+
+function addPurchasedItemsToOrderSummeryStore(storeContainer, store) {
+    let purchasedItemTableContainer = document.createElement("div");
+    purchasedItemTableContainer.id = PURCHASED_STORE_ITEMS_TABLE_CONTAINER_ID;
+    let purchasedItemTable = document.createElement("table").createCaption();
+    purchasedItemTable.id = PURCHASED_STORE_ITEMS_TABLE_ID;
+    purchasedItemTableContainer.appendChild(purchasedItemTable);
+    // let caption = purchasedItemTable.createCaption();
+    // caption.id = PURCHASED_STORE_ITEMS_TABLE_CAPTION_ID;
+    // caption.textContent = "Purchased Items";
+    let thead = document.createElement("thead");
+    purchasedItemTable.appendChild(thead);
+    let purchasedItemsTableBody = document.createElement("tbody");
+    purchasedItemsTableBody.id = PURCHASED_STORE_ITEMS_TABLE_BODY_ID;
+    purchasedItemTable.appendChild(purchasedItemsTableBody);
+    addHeadersToPurchasedItemsTable(thead);
+    addItemsToPurchasedItemsTable(purchasedItemsTableBody, store);
+
+    storeContainer.appendChild(purchasedItemTable);
+}
+
+
 function addStoreToToOrderSummeryStoresForStaticOrder() {
     let store = getSelectedStore();
     let orderSummeryStoresInfoUl = document.getElementById(ORDER_SUMMERY_STORES_INFO_UL_ID);
@@ -545,7 +644,7 @@ function addStoreToToOrderSummeryStoresForStaticOrder() {
     storeContainer.appendChild(storeHeader);
 
     addStoreDetailsToOrderSummeryStore(storeContainer, store);
-
+    addPurchasedItemsToOrderSummeryStore(storeContainer, store);
 
     orderSummeryStoresInfoUl.appendChild(storeLi);
 }
@@ -565,7 +664,6 @@ function showOrderSummery() {
     if (orderCategory === ORDER_CATEGORY_STATIC_STR) {
         ajaxGetDistanceFromStore(storeId);
         orderCategoryValue = "One Store";
-        addStoreToToOrderSummeryStoresForStaticOrder();
     }
     else {
         orderCategoryValue = "Best Cart";
@@ -771,6 +869,7 @@ function ajaxGetDistanceFromStore(storeId) {
         },
         success: function(distanceFromStoreRes) {
             distanceFromStore = parseFloat(distanceFromStoreRes);
+            addStoreToToOrderSummeryStoresForStaticOrder();
         }
     });
 }
