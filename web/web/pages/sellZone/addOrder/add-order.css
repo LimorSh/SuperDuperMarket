@@ -5,32 +5,32 @@
     font-family: Georgia, cursive;
 }
 
-#stores-select-container, #items-table-container, #order-summery-dynamic-order-stores-details-container,
-#order-discounts-container, #order-summery-stores-info-container {
+#stores-select-container, #items-table-container, #dynamic-order-stores-details-container,
+#order-discounts-container, #order-summery-container {
     display: none;
 }
 
 #items-table-container {
-    position:relative;
+    /*position:relative;*/
     /*width: 200px;*/
 }
 
-#items-table-scroll {
-    /*width: 200px;*/
-    display: inline-block;
-    /*position: relative;*/
-    height:150px;
-    /*width: content-box;*/
-    overflow:auto;
-    /*margin-top:20px;*/
-    /*display: block;*/
-}
+/*#items-table-scroll {*/
+/*    !*width: 200px;*!*/
+/*    display: inline-block;*/
+/*    !*position: relative;*!*/
+/*    height:150px;*/
+/*    !*width: content-box;*!*/
+/*    overflow:auto;*/
+/*    !*margin-top:20px;*!*/
+/*    !*display: block;*!*/
+/*}*/
 
 #items-table {
     /*width: 100%;*/
     /*width: 200px;*/
     border: 1px solid black;
-    border-collapse: inherit;
+    /*border-collapse: inherit;*/
     /*padding: 15px;*/
     /*border-spacing: 5px;*/
 }
@@ -149,5 +149,15 @@
 
 #purchased-store-items-table-caption {
     margin-bottom: 5px;
-    font-size: 24px;
+    font-size: 16px;
+    font-weight: bold;
 }
+
+.discount-field-label {
+    font-weight: bold;
+}
+
+.order-summery-store-field-label {
+    font-weight: bold;
+}
+

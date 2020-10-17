@@ -58,7 +58,7 @@ public class GetDiscountsServlet extends HttpServlet {
             Gson gson = new Gson();
             Collection<DiscountDto> discountsSortedByName
                     = discounts.stream().sorted
-                    (Comparator.comparing(DiscountDto::getName))
+                    (Comparator.comparing(DiscountDto::getStoreItemId))
                     .collect(Collectors.toList());
             String json = gson.toJson(discountsSortedByName);
             System.out.println(json);

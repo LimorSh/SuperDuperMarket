@@ -45,6 +45,7 @@ const DISCOUNT_SINGLE_OFFER_CLASS = "discount-single-offer";
 const DISCOUNT_SINGLE_OFFER_RADIO_BUTTON_CLASS = "discount-single-offer-radio-button";
 const DISCOUNT_APPLIES_AMOUNT_CLASS = "discount-applies-amount-label"
 
+const ORDER_SUMMERY_CONTAINER_ID = "order-summery-container";
 const ORDER_SUMMERY_STORES_INFO_CONTAINER_ID = "order-summery-stores-info-container";
 const ORDER_SUMMERY_STORES_INFO_UL_ID = "order-summery-stores-info-ul";
 const ORDER_SUMMERY_STORE_HEADER_CLASS = "order-summery-store-header";
@@ -60,7 +61,7 @@ const PURCHASED_STORE_ITEMS_TABLE_COL = "purchased-store-items-table-col";
 const PURCHASED_STORE_ITEMS_TABLE_CELL_CLASS = "purchased-store-items-table-cell";
 const PURCHASED_STORE_ITEMS_TABLE_NUMBER_OF_COLUMNS = 7;
 const ITEM_PURCHASE_NOT_FROM_DISCOUNT_STR = "NO";
-const  ITEM_PURCHASE_FROM_DISCOUNT_STR = "YES";
+const ITEM_PURCHASE_FROM_DISCOUNT_STR = "YES";
 
 const ADD_ORDER_FORM_ID = "add-order-form";
 
@@ -85,6 +86,7 @@ let distanceFromStore;
 let itemsIdsAndQuantities = {};
 let dynamicOrderStoresDetails = {};
 let discounts = {};
+let numberOfDiscountsRemained;
 let appliedOffers = {};
 let itemsIdsAndQuantitiesAfterAppliedDiscounts = {};
 let appliedDiscountsNamesAndAppliesAmount = {};
@@ -249,13 +251,16 @@ function ajaxGetDiscounts() {
             console.error(e);
         },
         success: function(relevantDiscounts) {
-            if (relevantDiscounts) {
+            if (relevantDiscounts.length > 0) {
                 discounts = relevantDiscounts;
+                numberOfDiscountsRemained = relevantDiscounts.length;
                 setDiscountsAndStoreItemQuantities();
                 initAppliedDiscountsNamesAndAppliesAmount();
                 showDiscounts();
             }
-            showOrderSummery();
+            else {
+                showOrderSummery();
+            }
         }
     });
 }
@@ -380,9 +385,15 @@ function checkIfDiscountsStillRelevant(appliedDiscount) {
         let currDiscountName = discount["name"];
         let currDiscountStoreItemQuantity = discount["storeItemQuantity"];
         if (updatedRemainderQuantity < currDiscountStoreItemQuantity) {
+            numberOfDiscountsRemained--;
             let discountContainer = document.getElementById(`${currDiscountName}-discount-container`);
             discountContainer.remove();
         }
+    }
+    if (numberOfDiscountsRemained === 0) {
+        let discountsContainer = document.getElementById(ORDER_DISCOUNTS_CONTAINER_ID);
+        discountsContainer.remove();
+        $(`${ORDER_SUMMERY_CONTAINER_ID}`).show();
     }
 }
 
@@ -507,6 +518,12 @@ function showDiscounts() {
     for (let discount of discounts) {
         showDiscount(discount);
     }
+    let orderDiscountsNextButton = document.createElement("button");
+    orderDiscountsNextButton.id = "order-discounts-next-button";
+    orderDiscountsNextButton.textContent = "Next";
+    orderDiscountsNextButton.addEventListener("click", showOrderSummery);
+    let orderDiscountsContainer = document.getElementById(ORDER_DISCOUNTS_CONTAINER_ID);
+    orderDiscountsContainer.appendChild(orderDiscountsNextButton);
 }
 
 
@@ -598,9 +615,8 @@ function getPurchasedStoresItemsData(store) {
 }
 
 
-function addItemsToPurchasedItemsTable(purchasedItemsTableBody, store) {
-    let purchasedStoresItemsData = getPurchasedStoresItemsData(store);
-    for (let itemData of purchasedStoresItemsData) {
+function addPurchasedItemsTableCells(purchasedItemsTableBody, storesItemsData) {
+    for (let itemData of storesItemsData) {
         let row = purchasedItemsTableBody.insertRow();
         for (let data of itemData) {
             let cell = row.insertCell();
@@ -611,15 +627,53 @@ function addItemsToPurchasedItemsTable(purchasedItemsTableBody, store) {
 }
 
 
+function addItemsToPurchasedItemsTable(purchasedItemsTableBody, store) {
+    let purchasedStoresItemsData = getPurchasedStoresItemsData(store);
+    addPurchasedItemsTableCells(purchasedItemsTableBody, purchasedStoresItemsData);
+}
+
+
+function getPurchasedStoresItemsDataFromAppliedOffers() {
+    let purchasedStoresItemsDataFromAppliedOffers = [];
+    let i = 0;
+    Object.keys(appliedOffers).forEach(function(discountName) {
+        let offers = appliedOffers[discountName];
+        for (let offer of offers) {
+            purchasedStoresItemsDataFromAppliedOffers[i] = new Array(PURCHASED_STORE_ITEMS_TABLE_NUMBER_OF_COLUMNS);
+            let itemData = purchasedStoresItemsDataFromAppliedOffers[i];
+
+            let itemQuantity = offer["quantity"];
+            let itemPrice = offer["additionalPrice"];
+
+            itemData[0] = offer["storeItemId"];
+            itemData[1] = offer["storeItemName"];
+            itemData[2] = offer["storeItemPurchaseCategory"];
+            itemData[3] = itemQuantity;
+            itemData[4] = itemPrice;
+            itemData[5] = itemQuantity * itemPrice;
+            itemData[6] = ITEM_PURCHASE_FROM_DISCOUNT_STR;
+            i++;
+        }
+    });
+    return purchasedStoresItemsDataFromAppliedOffers;
+}
+
+
+function addAppliedOffersToPurchasedItemsTable(purchasedItemsTableBody) {
+    let purchasedStoresItemsDataFromAppliedOffers = getPurchasedStoresItemsDataFromAppliedOffers();
+    addPurchasedItemsTableCells(purchasedItemsTableBody, purchasedStoresItemsDataFromAppliedOffers);
+}
+
+
 function addPurchasedItemsToOrderSummeryStore(storeContainer, store) {
     let purchasedItemTableContainer = document.createElement("div");
     purchasedItemTableContainer.id = PURCHASED_STORE_ITEMS_TABLE_CONTAINER_ID;
-    let purchasedItemTable = document.createElement("table").createCaption();
+    let purchasedItemTable = document.createElement("table");
     purchasedItemTable.id = PURCHASED_STORE_ITEMS_TABLE_ID;
     purchasedItemTableContainer.appendChild(purchasedItemTable);
-    // let caption = purchasedItemTable.createCaption();
-    // caption.id = PURCHASED_STORE_ITEMS_TABLE_CAPTION_ID;
-    // caption.textContent = "Purchased Items";
+    let caption = purchasedItemTable.createCaption();
+    caption.id = PURCHASED_STORE_ITEMS_TABLE_CAPTION_ID;
+    caption.textContent = "Purchased Items";
     let thead = document.createElement("thead");
     purchasedItemTable.appendChild(thead);
     let purchasedItemsTableBody = document.createElement("tbody");
@@ -627,6 +681,7 @@ function addPurchasedItemsToOrderSummeryStore(storeContainer, store) {
     purchasedItemTable.appendChild(purchasedItemsTableBody);
     addHeadersToPurchasedItemsTable(thead);
     addItemsToPurchasedItemsTable(purchasedItemsTableBody, store);
+    addAppliedOffersToPurchasedItemsTable(purchasedItemsTableBody);
 
     storeContainer.appendChild(purchasedItemTable);
 }
@@ -651,7 +706,7 @@ function addStoreToToOrderSummeryStoresForStaticOrder() {
 
 
 function showOrderSummery() {
-    document.getElementById(ORDER_SUMMERY_STORES_INFO_CONTAINER_ID).style.display = "inline-block";
+    $(`#${ORDER_SUMMERY_CONTAINER_ID}`).show();
     document.getElementById(ORDER_SUMMERY_DATE_VALUE_LABEL_ID).textContent = date;
     document.getElementById(ORDER_SUMMERY_LOCATION_VALUE_LABEL_ID).textContent = `(${xLocation},${yLocation})`;
     let orderCategoryValueLabel = document.getElementById(ORDER_SUMMERY_ORDER_CATEGORY_VALUE_LABEL_ID);
