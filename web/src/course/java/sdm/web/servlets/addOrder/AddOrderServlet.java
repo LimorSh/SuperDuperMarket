@@ -2,7 +2,6 @@ package course.java.sdm.web.servlets.addOrder;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import course.java.sdm.engine.dto.OfferDto;
 import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.engine.engine.accounts.AccountManager;
 import course.java.sdm.web.constants.Constants;

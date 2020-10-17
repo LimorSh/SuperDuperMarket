@@ -65,15 +65,16 @@ let itemsIdsAndQuantities = {};
 let dynamicOrderStoresDetails = {};
 let discounts = {};
 let appliedOffers = {};
+let itemsIdsAndQuantitiesAfterAppliedDiscounts = {};
 
 
 function ajaxSetStores() {
     return $.ajax({
         url: STORES_URL,
         timeout: 2000,
-        // headers: {
-        //     'cache-control': 'no-store,no-cache',
-        // },
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
         error: function() {
             console.error("Failed to submit");
             $("#error-msg").text("Failed to get result from server");
@@ -190,6 +191,15 @@ function isLocationAlreadyExistsForStore() {
 }
 
 
+function setDiscountsAndStoreItemQuantities() {
+    for (let discount of discounts) {
+        let discountStoreItemId = discount["storeItemId"];
+        itemsIdsAndQuantitiesAfterAppliedDiscounts[discountStoreItemId] =
+            parseInt(itemsIdsAndQuantities[discountStoreItemId]);
+    }
+}
+
+
 function ajaxGetDiscounts() {
     let parameters = getAddOrderFormInputsAsQueryParameters();
     // parameters["chosen-order-category"] = orderCategory;
@@ -209,8 +219,9 @@ function ajaxGetDiscounts() {
             console.error(e);
         },
         success: function(relevantDiscounts) {
-            discounts = relevantDiscounts;
-            if (discounts) {
+            if (relevantDiscounts) {
+                discounts = relevantDiscounts;
+                setDiscountsAndStoreItemQuantities();
                 showDiscounts();
             }
             showOrderSummery();
@@ -328,6 +339,23 @@ function addOneOfDiscountOffers(discountContainer, discountOffers, applyDiscount
 }
 
 
+function checkIfDiscountsStillRelevant(appliedDiscount) {
+    let discountStoreItemId = appliedDiscount["storeItemId"];
+    let discountStoreItemQuantity = appliedDiscount["storeItemQuantity"];
+    let remainderQuantity = itemsIdsAndQuantitiesAfterAppliedDiscounts[discountStoreItemId];
+    let updatedRemainderQuantity = remainderQuantity - discountStoreItemQuantity;
+    itemsIdsAndQuantitiesAfterAppliedDiscounts[discountStoreItemId] = updatedRemainderQuantity;
+    for (let discount of discounts) {
+        let currDiscountName = discount["name"];
+        let currDiscountStoreItemQuantity = discount["storeItemQuantity"];
+        if (updatedRemainderQuantity < currDiscountStoreItemQuantity) {
+            let discountContainer = document.getElementById(`${currDiscountName}-discount-container`);
+            discountContainer.remove();
+        }
+    }
+}
+
+
 function discountWasApplied(discount) {
     let discountName = discount["name"];
     let discountCategory = discount["category"];
@@ -339,6 +367,8 @@ function discountWasApplied(discount) {
         appliedDiscountOffers = discountOffers;
     }
     appliedOffers[discountName] = appliedDiscountOffers;
+
+    checkIfDiscountsStillRelevant(discount);
 }
 
 
