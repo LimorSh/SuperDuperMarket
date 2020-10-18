@@ -148,6 +148,7 @@
 }
 
 #purchased-store-items-table-caption {
+    margin-top: 10px;
     margin-bottom: 5px;
     font-size: 16px;
     font-weight: bold;
@@ -159,5 +160,9 @@
 
 .order-summery-store-field-label {
     font-weight: bold;
+}
+
+#order-discounts-next-button {
+    margin-top: 15px;
 }
 

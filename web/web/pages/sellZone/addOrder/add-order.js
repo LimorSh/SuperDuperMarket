@@ -86,6 +86,7 @@ let distanceFromStore;
 let itemsIdsAndQuantities = {};
 let dynamicOrderStoresDetails = {};
 let discounts = {};
+let tempDiscounts;
 let numberOfDiscountsRemained;
 let appliedOffers = {};
 let itemsIdsAndQuantitiesAfterAppliedDiscounts = {};
@@ -253,6 +254,7 @@ function ajaxGetDiscounts() {
         success: function(relevantDiscounts) {
             if (relevantDiscounts.length > 0) {
                 discounts = relevantDiscounts;
+                tempDiscounts = [...relevantDiscounts];     // clone discounts
                 numberOfDiscountsRemained = relevantDiscounts.length;
                 setDiscountsAndStoreItemQuantities();
                 initAppliedDiscountsNamesAndAppliesAmount();
@@ -379,21 +381,25 @@ function checkIfDiscountsStillRelevant(appliedDiscount) {
     let discountStoreItemId = appliedDiscount["storeItemId"];
     let discountStoreItemQuantity = appliedDiscount["storeItemQuantity"];
     let remainderQuantity = itemsIdsAndQuantitiesAfterAppliedDiscounts[discountStoreItemId];
-    let updatedRemainderQuantity = remainderQuantity - discountStoreItemQuantity;
-    itemsIdsAndQuantitiesAfterAppliedDiscounts[discountStoreItemId] = updatedRemainderQuantity;
-    for (let discount of discounts) {
+    itemsIdsAndQuantitiesAfterAppliedDiscounts[discountStoreItemId] = remainderQuantity - discountStoreItemQuantity;
+    let discount;
+    for (let i = 0; i < tempDiscounts.length; i++) {
+        discount = tempDiscounts[i];
+        discountStoreItemId = discount["storeItemId"];
         let currDiscountName = discount["name"];
         let currDiscountStoreItemQuantity = discount["storeItemQuantity"];
-        if (updatedRemainderQuantity < currDiscountStoreItemQuantity) {
+        let remainderQuantity = itemsIdsAndQuantitiesAfterAppliedDiscounts[discountStoreItemId];
+        if (remainderQuantity < currDiscountStoreItemQuantity) {
             numberOfDiscountsRemained--;
             let discountContainer = document.getElementById(`${currDiscountName}-discount-container`);
             discountContainer.remove();
+            tempDiscounts.splice(i, 1);     // remove current discount from tempDiscounts
         }
     }
     if (numberOfDiscountsRemained === 0) {
         let discountsContainer = document.getElementById(ORDER_DISCOUNTS_CONTAINER_ID);
-        discountsContainer.remove();
-        $(`${ORDER_SUMMERY_CONTAINER_ID}`).show();
+        discountsContainer.style.display = "none";
+        showOrderSummery();
     }
 }
 
@@ -521,7 +527,11 @@ function showDiscounts() {
     let orderDiscountsNextButton = document.createElement("button");
     orderDiscountsNextButton.id = "order-discounts-next-button";
     orderDiscountsNextButton.textContent = "Next";
-    orderDiscountsNextButton.addEventListener("click", showOrderSummery);
+    orderDiscountsNextButton.addEventListener("click", () => {
+        let discountsContainer = document.getElementById(ORDER_DISCOUNTS_CONTAINER_ID);
+        discountsContainer.style.display = "none";
+        showOrderSummery();
+    });
     let orderDiscountsContainer = document.getElementById(ORDER_DISCOUNTS_CONTAINER_ID);
     orderDiscountsContainer.appendChild(orderDiscountsNextButton);
 }
@@ -553,7 +563,7 @@ function addStoreDetailToOrderSummeryStore(storeContainer, field, val) {
 
 function addStoreDetailsToOrderSummeryStore(storeContainer, store) {
     let ppk = parseFloat(store["ppk"]);
-    let deliveryCost = ppk * distanceFromStore;
+    let deliveryCost = Math.round((ppk * distanceFromStore) * 100) / 100;
     addStoreDetailToOrderSummeryStore(storeContainer, "ID: ", store["id"]);
     addStoreDetailToOrderSummeryStore(storeContainer, "PPK: ", ppk);
     addStoreDetailToOrderSummeryStore(storeContainer, "Distance (KM): ", distanceFromStore);
