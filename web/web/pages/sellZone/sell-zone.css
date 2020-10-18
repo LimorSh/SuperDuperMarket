@@ -9,14 +9,14 @@
     position:relative;
 }
 
-#items-table-scroll{
-    /*position: relative;*/
-    height:150px;
-    /*width: 82%;*/
-    overflow:auto;
-    /*margin-top:20px;*/
-    display: block;
-}
+/*#items-table-scroll{*/
+/*    !*position: relative;*!*/
+/*    height:150px;*/
+/*    !*width: 82%;*!*/
+/*    overflow:auto;*/
+/*    !*margin-top:20px;*!*/
+/*    display: block;*/
+/*}*/
 
 #items-table {
     width: 80%;
@@ -104,7 +104,7 @@
     font-weight: bold;
 }
 
-#store-details-container{
+.store-details-container {
     background-color: #b9d8f3;
     width: 50%;
     /*font-weight: bold;*/
