@@ -64,6 +64,8 @@ const ITEM_PURCHASE_NOT_FROM_DISCOUNT_STR = "NO";
 const ITEM_PURCHASE_FROM_DISCOUNT_STR = "YES";
 
 const ADD_ORDER_FORM_ID = "add-order-form";
+const CONFIRM_ORDER_BUTTON_ID = "confirm-order-button";
+const CANCEL_ORDER_BUTTON_ID = "cancel-order-button";
 
 const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
 let SET_STORE_DELIVERY_COST_URL = buildUrlWithContextPath(SET_STORE_DELIVERY_COST_URL_RESOURCE);
@@ -720,27 +722,38 @@ function addStoreToToOrderSummeryStoresForStaticOrder() {
 }
 
 
+function showOrderSummeryForStaticOrder(storeId, orderCategoryValue) {
+    ajaxGetDistanceFromStore(storeId, orderCategoryValue);
+}
+
+
 function showOrderSummery() {
     $(`#${ORDER_SUMMERY_CONTAINER_ID}`).show();
     document.getElementById(ORDER_SUMMERY_DATE_VALUE_LABEL_ID).textContent = date;
     document.getElementById(ORDER_SUMMERY_LOCATION_VALUE_LABEL_ID).textContent = `(${xLocation},${yLocation})`;
-    // let orderCategoryValueLabel = document.getElementById(ORDER_SUMMERY_ORDER_CATEGORY_VALUE_LABEL_ID);
-    // let totalItemsCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_ITEMS_COST_VALUE_LABEL_ID);
-    // let totalDeliveryCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_DELIVERY_COST_VALUE_LABEL_ID);
-    // let totalOrderCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_ORDER_COST_VALUE_LABEL_ID);
+
     let orderCategoryValue;
     if (orderCategory === ORDER_CATEGORY_STATIC_STR) {
         orderCategoryValue = "One Store";
-        ajaxGetDistanceFromStore(storeId, orderCategoryValue);
+        showOrderSummeryForStaticOrder(storeId, orderCategoryValue);
     }
     else {
         orderCategoryValue = "Best Cart";
+
+        // --------- need to put this inside the ajax that will be: ------------
+        // let orderCategoryValueLabel = document.getElementById(ORDER_SUMMERY_ORDER_CATEGORY_VALUE_LABEL_ID);
+        // let totalItemsCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_ITEMS_COST_VALUE_LABEL_ID);
+        // let totalDeliveryCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_DELIVERY_COST_VALUE_LABEL_ID);
+        // let totalOrderCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_ORDER_COST_VALUE_LABEL_ID);
+        // let orderTotalCost = itemsCost + deliveryCost;
+        // orderCategoryValueLabel.textContent = orderCategoryValue;
+        // totalItemsCostValueLabel.textContent = `${itemsCost}`;
+        // totalDeliveryCostValueLabel.textContent = `${deliveryCost}`;
+        // totalOrderCostValueLabel.textContent = `${orderTotalCost}`;
+
+        // let confirmOrderButton = document.getElementById(CONFIRM_ORDER_BUTTON_ID);
+        // confirmOrderButton.style.display = "block";
     }
-    // let orderTotalCost = itemsCost + deliveryCost;
-    // orderCategoryValueLabel.textContent = orderCategoryValue;
-    // totalItemsCostValueLabel.textContent = `${itemsCost}`;
-    // totalDeliveryCostValueLabel.textContent = `${deliveryCost}`;
-    // totalOrderCostValueLabel.textContent = `${orderTotalCost}`;
 }
 
 
@@ -760,6 +773,8 @@ function finishOrder() {
         finishOrderMsgLabel.textContent = FINISH_ORDER_EMPTY_QUANTITIES_MSG;
     }
     else {
+        let finishOrderButton = document.getElementById(FINISH_ORDER_BUTTON_ID);
+        finishOrderButton.disabled = true;
         setItemsIdsAndQuantities();
         if (orderCategory === ORDER_CATEGORY_DYNAMIC_STR) {
             ajaxGetDynamicOrderStoresDetails();
@@ -790,6 +805,10 @@ function ajaxAddOrder() {
             },
             success: function(r) {
                 console.log(r);
+                let confirmOrderButton = document.getElementById(CONFIRM_ORDER_BUTTON_ID);
+                confirmOrderButton.disabled = true;
+                let cancelOrderButton = document.getElementById(CANCEL_ORDER_BUTTON_ID);
+                cancelOrderButton.disabled = true;
                 // if (r.length > 0) {
                 //     $("#error-msg").text(r);
                 // }
@@ -833,6 +852,7 @@ function configOrderCategoryRadioButtons() {
     let itemsTable = document.getElementById(ITEMS_TABLE_ID);
     let itemTablePriceHeader = document.getElementById(ITEMS_TABLE_PRICE_TH_ID);
     let itemTableQuantityCells = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_CLASS);
+    let finishOrderButton = document.getElementById(FINISH_ORDER_BUTTON_ID);
     for (let i = 0; i < radios.length; i++) {
         let radio = radios[i];
         radio.onchange = function() {
@@ -848,6 +868,7 @@ function configOrderCategoryRadioButtons() {
             }
             else {
                 itemsTableContainer.style.display = "inline-block";
+                finishOrderButton.disabled = false;
                 document.getElementById(CHOSEN_STORE_INPUT_ID).value = DYNAMIC_ORDER_STORE_INPUT_ID;
                 for (let cell of itemTableQuantityCells) {
                     if (cell.innerHTML === "") {
@@ -955,6 +976,10 @@ function ajaxGetDistanceFromStore(storeId, orderCategoryValue) {
             distanceFromStore = parseFloat(distanceFromStoreRes);
             addStoreToToOrderSummeryStoresForStaticOrder();
             setStoreTotalDetailsForStaticOrder(orderCategoryValue);
+            let confirmOrderButton = document.getElementById(CONFIRM_ORDER_BUTTON_ID);
+            confirmOrderButton.style.display = "inline-block";
+            let cancelOrderButton = document.getElementById(CANCEL_ORDER_BUTTON_ID);
+            cancelOrderButton.style.display = "inline-block";
         }
     });
 }
@@ -1031,6 +1056,8 @@ function addPriceColumnToItemsTable(index) {
 function storeWasChosenForStaticOrder() {
     let itemsTableContainer = document.getElementById(ITEMS_TABLE_CONTAINER_ID);
     itemsTableContainer.style.display = "inline-block";
+    let finishOrderButton = document.getElementById(FINISH_ORDER_BUTTON_ID);
+    finishOrderButton.disabled = false;
     let index;
 
     document.getElementById(STORE_SELECT_DEFAULT_OPTION_ID).disabled = true;
@@ -1072,6 +1099,16 @@ function setItemsTableData() {
     });
 
     addQuantityCellsInputs();
+}
+
+
+function goBack() {
+    window.history.back();
+}
+
+
+function cancelOrder() {
+    goBack();
 }
 
 

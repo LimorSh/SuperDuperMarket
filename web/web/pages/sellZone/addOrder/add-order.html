@@ -73,7 +73,7 @@
     </div>
     <br>
     <br>
-    <button id="finish-order-button">
+    <button id="finish-order-button" disabled="disabled">
         Finish Order
     </button>
     <label id="finish-order-msg-label">
@@ -123,9 +123,14 @@
     </div>
     <br>
     <br>
-    <button id="add-order-button" form="add-order-form" type="submit" value="AddOrder">
-        Confirm
-    </button>
+    <div id="final-order-buttons-container">
+        <button id="confirm-order-button" class="final-order-button" form="add-order-form" type="submit" value="AddOrder">
+            Confirm
+        </button>
+        <button id="cancel-order-button" class="final-order-button" onclick="cancelOrder()">
+            Cancel
+        </button>
+    </div>
 </div>
 </body>
 </html>

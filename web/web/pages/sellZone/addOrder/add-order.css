@@ -6,8 +6,13 @@
 }
 
 #stores-select-container, #items-table-container, #dynamic-order-stores-details-container,
-#order-discounts-container, #order-summery-container {
+#order-discounts-container, #order-summery-container, #confirm-order-button, #cancel-order-button {
     display: none;
+}
+
+
+.add-order-label {
+    font-weight: bold;
 }
 
 #items-table-container {
@@ -105,6 +110,10 @@
     /*text-align: center;*/
 }
 
+.order-summery-field-label {
+    font-weight: bold;
+}
+
 #purchased-store-items-table {
     /*width: 100%;*/
     /*width: 200px;*/
@@ -153,5 +162,9 @@
 
 #order-discounts-next-button {
     margin-top: 15px;
+}
+
+.final-order-button {
+    font-weight: bold;
 }
 
