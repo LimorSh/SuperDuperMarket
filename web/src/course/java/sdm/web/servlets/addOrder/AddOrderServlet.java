@@ -21,7 +21,6 @@ public class AddOrderServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ParseException {
-        response.setContentType("text/html;charset=UTF-8");
         String zoneNameFromSession = SessionUtils.getZoneName(request);
         String usernameFromSession = SessionUtils.getUsername(request);
         BusinessLogic businessLogic = ServletUtils.getBusinessLogic(getServletContext());
@@ -65,14 +64,12 @@ public class AddOrderServlet extends HttpServlet {
             synchronized (this) {
                 businessLogic.createOrder(accountManager, zoneNameFromSession, usernameFromSession, date, locationX, locationY,
                         storeId, itemsIdsAndQuantities, appliedOffers);
-                response.getWriter().print("success");
             }
         }
         else {
             synchronized (this) {
                 businessLogic.createOrder(accountManager, zoneNameFromSession, usernameFromSession, date, locationX, locationY,
                         itemsIdsAndQuantities, appliedOffers);
-                response.getWriter().print("success");
             }
         }
     }

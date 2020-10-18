@@ -337,7 +337,7 @@ public class BusinessLogic {
             float itemsCost = store.getItemsCost(itemIdsAndQuantities);
             DynamicOrderStoreDetailsDto dynamicOrderStoreDetailsDto =
                     new DynamicOrderStoreDetailsDto(id, name, storeLocationX, storeLocationY,
-                            distance, ppk, deliveryCost, differentItemsType, itemsCost);
+                            distance, ppk, deliveryCost, differentItemsType, itemsCost, itemIdsAndQuantities);
             dynamicOrderStoresDetailsDto.add(dynamicOrderStoreDetailsDto);
         });
 

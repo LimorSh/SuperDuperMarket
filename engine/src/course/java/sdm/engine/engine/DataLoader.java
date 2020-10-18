@@ -80,7 +80,7 @@ public class DataLoader {
             List<SDMDiscount> sdmDiscounts = sdmDiscountsContainer.getSDMDiscount();
 
             for (SDMDiscount sdmDiscount : sdmDiscounts) {
-                Discount discount = new Discount(sdmDiscount);
+                Discount discount = new Discount(sdmDiscount, store.getId());
                 List<SDMOffer> sdmOffers = sdmDiscount.getThenYouGet().getSDMOffer();
                 try {
                     for (SDMOffer sdmOffer : sdmOffers) {

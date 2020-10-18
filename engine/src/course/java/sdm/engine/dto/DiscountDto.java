@@ -12,6 +12,7 @@ public class DiscountDto {
     private final double storeItemQuantity;
     private final String category;
     private final Collection<OfferDto> offersDto;
+    private final int storeId;
 
     public DiscountDto(Discount discount, String storeItemName) {
         this.name = discount.getName();
@@ -21,6 +22,7 @@ public class DiscountDto {
         this.category = discount.getCategory().getCategoryStr();
         offersDto = new ArrayList<>();
         copyDiscountOffersDto(discount);
+        this.storeId = discount.getStoreId();
     }
 
     private void copyDiscountOffersDto(Discount discount) {
@@ -33,6 +35,10 @@ public class DiscountDto {
 
     public String getName() {
         return name;
+    }
+
+    public int getStoreId() {
+        return storeId;
     }
 
     public int getStoreItemId() {
