@@ -83,6 +83,8 @@ let yLocation;
 let orderCategory;
 let storeId;
 let distanceFromStore;
+let itemsCost = 0;
+let deliveryCost = 0;
 let itemsIdsAndQuantities = {};
 let dynamicOrderStoresDetails = {};
 let discounts = {};
@@ -563,7 +565,6 @@ function addStoreDetailToOrderSummeryStore(storeContainer, field, val) {
 
 function addStoreDetailsToOrderSummeryStore(storeContainer, store) {
     let ppk = parseFloat(store["ppk"]);
-    let deliveryCost = Math.round((ppk * distanceFromStore) * 100) / 100;
     addStoreDetailToOrderSummeryStore(storeContainer, "ID: ", store["id"]);
     addStoreDetailToOrderSummeryStore(storeContainer, "PPK: ", ppk);
     addStoreDetailToOrderSummeryStore(storeContainer, "Distance (KM): ", distanceFromStore);
@@ -617,7 +618,9 @@ function getPurchasedStoresItemsData(store) {
         itemData[2] = item["purchaseCategory"];
         itemData[3] = itemQuantity;
         itemData[4] = itemPrice;
-        itemData[5] = Math.round((itemQuantity * itemPrice) * 100) / 100;
+        let itemCost = Math.round((itemQuantity * itemPrice) * 100) / 100;
+        itemsCost += itemCost;
+        itemData[5] = itemCost;
         itemData[6] = ITEM_PURCHASE_NOT_FROM_DISCOUNT_STR;
         i++;
     });
@@ -660,7 +663,9 @@ function getPurchasedStoresItemsDataFromAppliedOffers() {
             itemData[2] = offer["storeItemPurchaseCategory"];
             itemData[3] = itemQuantity;
             itemData[4] = itemPrice;
-            itemData[5] = itemQuantity * itemPrice;
+            let itemCost = Math.round((itemQuantity * itemPrice) * 100) / 100;
+            itemsCost += itemCost;
+            itemData[5] = itemCost;
             itemData[6] = ITEM_PURCHASE_FROM_DISCOUNT_STR;
             i++;
         }
@@ -719,24 +724,23 @@ function showOrderSummery() {
     $(`#${ORDER_SUMMERY_CONTAINER_ID}`).show();
     document.getElementById(ORDER_SUMMERY_DATE_VALUE_LABEL_ID).textContent = date;
     document.getElementById(ORDER_SUMMERY_LOCATION_VALUE_LABEL_ID).textContent = `(${xLocation},${yLocation})`;
-    let orderCategoryValueLabel = document.getElementById(ORDER_SUMMERY_ORDER_CATEGORY_VALUE_LABEL_ID);
-    let totalItemsCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_ITEMS_COST_VALUE_LABEL_ID);
-    let totalDeliveryCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_DELIVERY_COST_VALUE_LABEL_ID);
-    let totalOrderCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_ORDER_COST_VALUE_LABEL_ID);
+    // let orderCategoryValueLabel = document.getElementById(ORDER_SUMMERY_ORDER_CATEGORY_VALUE_LABEL_ID);
+    // let totalItemsCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_ITEMS_COST_VALUE_LABEL_ID);
+    // let totalDeliveryCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_DELIVERY_COST_VALUE_LABEL_ID);
+    // let totalOrderCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_ORDER_COST_VALUE_LABEL_ID);
     let orderCategoryValue;
-    let totalItemsCost;
-    let totalDeliveryCost;
     if (orderCategory === ORDER_CATEGORY_STATIC_STR) {
-        ajaxGetDistanceFromStore(storeId);
         orderCategoryValue = "One Store";
+        ajaxGetDistanceFromStore(storeId, orderCategoryValue);
     }
     else {
         orderCategoryValue = "Best Cart";
     }
-    orderCategoryValueLabel.textContent = orderCategoryValue;
-    // totalItemsCostValueLabel.textContent = totalItemsCost;
-    // totalDeliveryCostValueLabel.textContent = totalDeliveryCost;
-    // totalOrderCostValueLabel.textContent = totalItemsCost + totalDeliveryCost;
+    // let orderTotalCost = itemsCost + deliveryCost;
+    // orderCategoryValueLabel.textContent = orderCategoryValue;
+    // totalItemsCostValueLabel.textContent = `${itemsCost}`;
+    // totalDeliveryCostValueLabel.textContent = `${deliveryCost}`;
+    // totalOrderCostValueLabel.textContent = `${orderTotalCost}`;
 }
 
 
@@ -832,7 +836,6 @@ function configOrderCategoryRadioButtons() {
     for (let i = 0; i < radios.length; i++) {
         let radio = radios[i];
         radio.onchange = function() {
-            itemsTableContainer.style.display = "inline-block";
 
             // document.getElementById("login").disabled = false;
             orderCategory = radio.value;
@@ -844,6 +847,7 @@ function configOrderCategoryRadioButtons() {
                 $(".items-table-price-cell").show();
             }
             else {
+                itemsTableContainer.style.display = "inline-block";
                 document.getElementById(CHOSEN_STORE_INPUT_ID).value = DYNAMIC_ORDER_STORE_INPUT_ID;
                 for (let cell of itemTableQuantityCells) {
                     if (cell.innerHTML === "") {
@@ -907,6 +911,7 @@ function ajaxGetStoreDeliveryCost(storeId) {
             $("#error-msg").text("Failed to get result from server");
         },
         success: function(storeDeliveryCost) {
+            deliveryCost = parseFloat(storeDeliveryCost);
             $("#store-delivery-cost-label").text("Delivery Cost: " + storeDeliveryCost);
             $("#store-delivery-cost-label-container").visibility = "visible";
         }
@@ -914,7 +919,21 @@ function ajaxGetStoreDeliveryCost(storeId) {
 }
 
 
-function ajaxGetDistanceFromStore(storeId) {
+function setStoreTotalDetailsForStaticOrder(orderCategoryValue) {
+    let orderCategoryValueLabel = document.getElementById(ORDER_SUMMERY_ORDER_CATEGORY_VALUE_LABEL_ID);
+    let totalItemsCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_ITEMS_COST_VALUE_LABEL_ID);
+    let totalDeliveryCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_DELIVERY_COST_VALUE_LABEL_ID);
+    let totalOrderCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_ORDER_COST_VALUE_LABEL_ID);
+    let roundedItemsCost = Math.round(itemsCost * 100) / 100;
+    let orderTotalCost = Math.round((roundedItemsCost + deliveryCost) * 100) / 100;
+    orderCategoryValueLabel.textContent = orderCategoryValue;
+    totalItemsCostValueLabel.textContent = `${roundedItemsCost}`;
+    totalDeliveryCostValueLabel.textContent = `${deliveryCost}`;
+    totalOrderCostValueLabel.textContent = `${orderTotalCost}`;
+}
+
+
+function ajaxGetDistanceFromStore(storeId, orderCategoryValue) {
     let parameters = {
         "storeId": storeId,
         "location-x": xLocation,
@@ -935,6 +954,7 @@ function ajaxGetDistanceFromStore(storeId) {
         success: function(distanceFromStoreRes) {
             distanceFromStore = parseFloat(distanceFromStoreRes);
             addStoreToToOrderSummeryStoresForStaticOrder();
+            setStoreTotalDetailsForStaticOrder(orderCategoryValue);
         }
     });
 }
@@ -1009,6 +1029,8 @@ function addPriceColumnToItemsTable(index) {
 
 
 function storeWasChosenForStaticOrder() {
+    let itemsTableContainer = document.getElementById(ITEMS_TABLE_CONTAINER_ID);
+    itemsTableContainer.style.display = "inline-block";
     let index;
 
     document.getElementById(STORE_SELECT_DEFAULT_OPTION_ID).disabled = true;
