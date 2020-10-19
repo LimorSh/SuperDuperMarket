@@ -16,7 +16,7 @@ public class OrderDto {
     private final float deliveryCost;
     private final float totalCost;
     private ArrayList<PurchasedItemDto> purchasedItemsDto;
-    private Map<Integer, StoreOrderDto> storesOrderDto;   // The key is store id
+    private final Map<Integer, StoreOrderDto> storesOrderDto;   // The key is store id
 
 
     public OrderDto(Order order) {
@@ -29,6 +29,7 @@ public class OrderDto {
         this.itemsCost = Utils.roundNumberWithTwoDigitsAfterPoint(order.getItemsCost());
         this.deliveryCost = Utils.roundNumberWithTwoDigitsAfterPoint(order.getDeliveryCost());
         this.totalCost = Utils.roundNumberWithTwoDigitsAfterPoint(order.getTotalCost());
+        storesOrderDto = new HashMap<>();
         copyStoreOrdersDto(order);
     }
 

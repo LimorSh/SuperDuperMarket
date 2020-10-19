@@ -585,6 +585,7 @@ public class BusinessLogic {
             OrderDto orderDto = new OrderDto(order);
             purchasedItemsDto = getOrderPurchasedItemsDto(order);
             orderDto.setPurchasedItemsDto(purchasedItemsDto);
+            ordersDto.add(orderDto);
         }
         return ordersDto;
     }

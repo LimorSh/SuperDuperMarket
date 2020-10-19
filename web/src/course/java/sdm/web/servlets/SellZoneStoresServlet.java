@@ -37,10 +37,6 @@ public class SellZoneStoresServlet extends HttpServlet {
             out.println(json);
             out.flush();
         }
-        catch (Exception e) {
-            System.out.println(e.getStackTrace());
-            System.out.println(e.getMessage());
-        }
     }
 
     @Override

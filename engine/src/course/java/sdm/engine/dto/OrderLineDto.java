@@ -9,7 +9,6 @@ public class OrderLineDto {
     private final float quantity;
     private final float cost;   //the price of one item/kg in the order
     private final float totalCost;
-//    private final boolean discount = false;
 
     public OrderLineDto(OrderLine orderLine) {
         this.basicItemDto = new BasicItemDto(orderLine.getItem());

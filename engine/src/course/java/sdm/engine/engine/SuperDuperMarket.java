@@ -497,10 +497,14 @@ public class SuperDuperMarket {
                 storesToItemsAndQuantities, getAppliedOffers(appliedOffersStoreItemsIds));
         Customer customer = getCustomerForNewOrder(customerName);
         Location location = new Location(locationX, locationY);
-        Order order = new Order(customer, date, location, Constants.ORDER_CATEGORY_DYNAMIC_STR);
+        Order order = new Order(date, customer.getName(), location, Constants.ORDER_CATEGORY_DYNAMIC_STR);
         addOrder(order);
         order.addStoresOrder(dynamicOrderStoresData);
-        order.finish(storesToItemsAndQuantities.keySet());
+        Collection<Store> stores = storesToItemsAndQuantities.keySet();
+        for (Store store : stores) {
+            store.updateTotalDeliveriesRevenue(location);
+        }
+        customer.addOrder(order);
         transferPaymentToStoresOwners(accountManager, order, customerName);
         return order.getId();
     }
@@ -511,7 +515,7 @@ public class SuperDuperMarket {
                             Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
         Customer customer = getCustomerForNewOrder(customerName);
         Location location = new Location(locationX, locationY);
-        Order order = new Order(customer, date, location, Constants.ORDER_CATEGORY_STATIC_STR);
+        Order order = new Order(date, customer.getName(), location, Constants.ORDER_CATEGORY_STATIC_STR);
         addOrder(order);
         Store store = getStore(storeId);
         Map<Item, Float> itemsAndQuantities = new HashMap<>();
@@ -520,7 +524,8 @@ public class SuperDuperMarket {
             itemsAndQuantities.put(item, itemQuantity);
         });
         order.addStoreOrder(store, itemsAndQuantities, getAppliedOffers(appliedOffersStoreItemsIds));
-        order.finish(store);
+        store.updateTotalDeliveriesRevenue(location);
+        customer.addOrder(order);
         transferPaymentToStoresOwners(accountManager, order, customerName);
         return order.getId();
     }
