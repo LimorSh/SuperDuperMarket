@@ -101,6 +101,7 @@ let itemsCost = 0;
 let deliveryCost = 0;
 let totalDeliveryCost = 0;
 let itemsIdsAndQuantities = {};
+let tempItemsIdsAndQuantities = {};
 let dynamicOrderStoresDetails = {};
 let discounts = {};
 let tempDiscounts;
@@ -791,6 +792,7 @@ function addStoreToToOrderSummeryStoresForStaticOrder() {
 
 
 function addStoreToToOrderSummeryStoresForDynamicOrder() {
+    tempItemsIdsAndQuantities = itemsIdsAndQuantities;
     $.each(dynamicOrderStoresDetails || [], function(index, storeDetails) {
         let storeId = storeDetails["id"];
         itemsIdsAndQuantities = storeDetails["itemIdsAndQuantities"];
@@ -800,6 +802,7 @@ function addStoreToToOrderSummeryStoresForDynamicOrder() {
         appliedOffers = storesIdsAndAppliedOffers[storeId] || [];
         addStoreToOrderSummery(storeDetails);
     });
+    itemsIdsAndQuantities = tempItemsIdsAndQuantities;
 }
 
 
@@ -945,10 +948,11 @@ function showRateStore(store) {
     saveStoreRateButton.textContent = "Save Rate";
     saveStoreRateButton.disabled = true;
     saveStoreRateButton.addEventListener("click", () => {
-            saveStoreRateButton.disabled = false;
-            storeWasRated(storeId, storeRateInput, storeRateFeedback);
-        }
-    );
+        saveStoreRateButton.disabled = true;
+        storeRateInput.disabled = true;
+        storeRateFeedback.disabled = true;
+        storeWasRated(storeId, storeRateInput, storeRateFeedback);
+    });
 
     storeRateInput.addEventListener("change", () => {
         saveStoreRateButton.disabled = !storeRateInput.value;
