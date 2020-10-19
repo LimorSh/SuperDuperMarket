@@ -15,6 +15,7 @@ public class StoreOrder {
     private float deliveryCost;
     private float totalCost;
     private double distanceFromCustomer;
+    private StoreFeedback feedback;
 
     public StoreOrder(Date date, Store store, Map<Integer, OrderLine> orderLines) {
         this.date = date;
@@ -44,6 +45,14 @@ public class StoreOrder {
 
     private void setTotalCost() {
         this.totalCost = itemsCost + deliveryCost;
+    }
+
+    public StoreFeedback getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(StoreFeedback feedback) {
+        this.feedback = feedback;
     }
 
     private void setTotalItems() {

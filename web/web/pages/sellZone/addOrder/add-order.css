@@ -6,7 +6,8 @@
 }
 
 #stores-select-container, #items-table-container, #dynamic-order-stores-details-container,
-#order-discounts-container, #order-summery-container, #final-order-buttons-container {
+#order-discounts-container, #order-summery-container, #final-order-buttons-container,
+#order-feedback-container {
     display: none;
 }
 

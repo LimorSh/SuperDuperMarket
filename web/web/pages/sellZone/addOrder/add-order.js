@@ -68,6 +68,15 @@ const FINAL_ORDER_BUTTONS_CONTAINER_ID = "final-order-buttons-container";
 const CONFIRM_ORDER_BUTTON_ID = "confirm-order-button";
 const CANCEL_ORDER_BUTTON_ID = "cancel-order-button";
 
+const ORDER_FEEDBACK_CONTAINER_ID = "order-feedback-container";
+const STORE_RATE_CONTAINER_CLASS = "store-rate-container";
+const STORE_RATE_HEADER_CLASS = "store-rate-header";
+const STORE_RATE_FIELD_CLASS = "store-rate-field";
+const STORE_RATE_INPUT_CLASS = "store-rate-input";
+const STORE_RATE_INPUT_NOTE_CLASS = "store-rate-input-note";
+const SEND_STORE_RATE_BUTTON_CLASS = "store-rate-button";
+
+
 const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
 let SET_STORE_DELIVERY_COST_URL = buildUrlWithContextPath(SET_STORE_DELIVERY_COST_URL_RESOURCE);
 const SET_DISTANCE_FROM_STORE_URL_RESOURCE = "setDistanceFromStore";
@@ -99,6 +108,7 @@ let itemsIdsAndQuantitiesAfterAppliedDiscounts = {};
 let appliedDiscountsNamesAndAppliesAmount = {};
 let storesIdsAndAppliedOffers = {};
 let appliedOfferRowIndex = 0;
+let storesAndRates = {};
 
 
 function ajaxSetStores() {
@@ -796,13 +806,8 @@ function showOrderSummeryForStaticOrder(storeId, orderCategoryValue) {
 
 
 function showOrderSummeryForDynamicOrder(orderCategoryValue) {
-    // delete this after:
-    // ajaxGetDynamicOrderOptimalCart(orderCategoryValue);
-
     addStoreToToOrderSummeryStoresForDynamicOrder();
     setStoreTotalDetails(orderCategoryValue);
-
-
     showOrderConfirmAndCancelButtons();
 }
 
@@ -876,6 +881,121 @@ function finishOrder() {
 }
 
 
+function enableOrderConfirmAndCancelButtons() {
+    let confirmOrderButton = document.getElementById(CONFIRM_ORDER_BUTTON_ID);
+    confirmOrderButton.disabled = true;
+    let cancelOrderButton = document.getElementById(CANCEL_ORDER_BUTTON_ID);
+    cancelOrderButton.disabled = true;
+}
+
+
+function storeWasRated(storeId, storeRateInput, storeRateFeedback) {
+    storesAndRates[storeId] = {
+        "storeRate": parseInt(storeRateInput.value),
+        "storeFeedback": storeRateFeedback.value,
+    }
+}
+
+
+function showRateStore(store) {
+    let orderFeedbackContainer = document.getElementById(ORDER_FEEDBACK_CONTAINER_ID);
+    let storeId = store["id"];
+    let storeName = store["name"];
+
+    const STORE_RATE_INPUT_ID = `${storeId}-store-rate-input`;
+    const STORE_RATE_FEEDBACK_ID = `${storeId}-store-rate-feedback`;
+    const STORE_RATE_FEEDBACK_ROWS = 6;
+    const STORE_RATE_FEEDBACK_COLS = 70;
+    const STORE_RATE_FEEDBACK_LENGTH = 300;
+
+    let storeRateContainer = document.createElement("div");
+    storeRateContainer.classList.add(STORE_RATE_CONTAINER_CLASS);
+    let storeRateHeader = document.createElement("h4");
+    storeRateHeader.classList.add(STORE_RATE_HEADER_CLASS);
+    storeRateHeader.textContent = storeName;
+    let storeRateInput = document.createElement("input");
+    storeRateInput.id = STORE_RATE_INPUT_ID;
+    storeRateInput.classList.add(STORE_RATE_INPUT_CLASS);
+    storeRateInput.type = "number";
+    storeRateInput.min = "1";
+    storeRateInput.max = "5";
+    let storeRateInputLabel = document.createElement("label");
+    storeRateInputLabel.classList.add(STORE_RATE_FIELD_CLASS);
+    storeRateInputLabel.textContent = "Rate: ";
+    storeRateInputLabel.htmlFor = STORE_RATE_INPUT_ID;
+    let storeRateInputNoteLabel = document.createElement("label");
+    storeRateInputNoteLabel.classList.add(STORE_RATE_INPUT_NOTE_CLASS);
+    storeRateInputNoteLabel.textContent = "1 - very poor, 5 - excellent";
+    let storeRateFeedbackLabel = document.createElement("label");
+    storeRateFeedbackLabel.classList.add(STORE_RATE_FIELD_CLASS);
+    storeRateFeedbackLabel.textContent = "Feedback: ";
+    let storeRateFeedback = document.createElement("textarea");
+    storeRateFeedback.id = STORE_RATE_FEEDBACK_ID;
+    storeRateFeedback.classList.add(STORE_RATE_FIELD_CLASS);
+    storeRateFeedback.rows = STORE_RATE_FEEDBACK_ROWS;
+    storeRateFeedback.cols = STORE_RATE_FEEDBACK_COLS;
+    storeRateFeedback.maxlength = STORE_RATE_FEEDBACK_LENGTH;
+    storeRateFeedback.disabled = true;
+
+    let sendStoreRateButton = document.createElement("button");
+    sendStoreRateButton.classList.add(SEND_STORE_RATE_BUTTON_CLASS );
+    sendStoreRateButton.textContent = "Send Rate";
+    sendStoreRateButton.disabled = true;
+    sendStoreRateButton.addEventListener("click", () => {
+            storeWasRated(storeId, storeRateInput, storeRateFeedback);
+        }
+    );
+
+    storeRateInput.addEventListener("change", () => {
+        sendStoreRateButton.disabled = !storeRateInput.value;
+        storeRateFeedback.disabled = !storeRateInput.value;
+    });
+
+    let newLine = document.createElement("br");
+    storeRateContainer.appendChild(storeRateHeader);
+    storeRateContainer.appendChild(storeRateInputLabel);
+    storeRateContainer.appendChild(storeRateInput);
+    storeRateContainer.appendChild(storeRateInputNoteLabel);
+    storeRateContainer.appendChild(newLine);
+    storeRateContainer.appendChild(storeRateFeedbackLabel);
+    newLine = document.createElement("br");
+    storeRateContainer.appendChild(newLine);
+    storeRateContainer.appendChild(storeRateFeedback);
+    newLine = document.createElement("br");
+    storeRateContainer.appendChild(newLine);
+    storeRateContainer.appendChild(sendStoreRateButton);
+
+    orderFeedbackContainer.appendChild(storeRateContainer);
+}
+
+
+function finishOrderRate() {
+    goBack();
+}
+
+
+function showOrderRateStores() {
+    let orderFeedbackContainer = document.getElementById(ORDER_FEEDBACK_CONTAINER_ID);
+    if (orderCategory === ORDER_CATEGORY_STATIC_STR) {
+        let store = getSelectedStore();
+        showRateStore(store);
+    }
+    else {
+        $.each(dynamicOrderStoresDetails || [], function(index, store) {
+            showRateStore(store);
+        });
+    }
+
+    let finishButton = document.createElement("button");
+    finishButton.id = "order-rate-finish-button";
+    finishButton.textContent = "Finish";
+    finishButton.onclick = finishOrderRate;
+
+    orderFeedbackContainer.appendChild(finishButton);
+    orderFeedbackContainer.style.display = "block";
+}
+
+
 function ajaxAddOrder() {
     $("#add-order-form").submit(function() {
         let parameters = getAddOrderFormInputsAsQueryParameters();
@@ -892,18 +1012,9 @@ function ajaxAddOrder() {
                 console.error("Failed to submit");
                 $("#error-msg").text("Failed to get result from server");
             },
-            success: function(r) {
-                console.log(r);
-                let confirmOrderButton = document.getElementById(CONFIRM_ORDER_BUTTON_ID);
-                confirmOrderButton.disabled = true;
-                let cancelOrderButton = document.getElementById(CANCEL_ORDER_BUTTON_ID);
-                cancelOrderButton.disabled = true;
-                // if (r.length > 0) {
-                //     $("#error-msg").text(r);
-                // }
-                // else {
-                //     pageRedirect();
-                // }
+            success: function() {
+                enableOrderConfirmAndCancelButtons();
+                showOrderRateStores();
             }
         });
 
@@ -945,8 +1056,6 @@ function configOrderCategoryRadioButtons() {
     for (let i = 0; i < radios.length; i++) {
         let radio = radios[i];
         radio.onchange = function() {
-
-            // document.getElementById("login").disabled = false;
             orderCategory = radio.value;
             document.getElementById(CHOSEN_ORDER_CATEGORY_INPUT_ID).value = orderCategory;
             if (orderCategory === ORDER_CATEGORY_STATIC_STR) {
@@ -1049,33 +1158,6 @@ function showOrderConfirmAndCancelButtons() {
     let confirmOrderButton = document.getElementById(FINAL_ORDER_BUTTONS_CONTAINER_ID);
     confirmOrderButton.style.display = "block";
 }
-
-
-// function ajaxGetDynamicOrderOptimalCart(orderCategoryValue) {
-//     let parameters = getAddOrderFormInputsAsQueryParameters();
-//
-//     $.ajax({
-//         data: parameters,
-//         url: SET_DYNAMIC_ORDER_OPTIMAL_CART_URL,
-//         timeout: 2000,
-//         headers: {
-//             'cache-control': 'no-store,no-cache',
-//         },
-//         error: function() {
-//             console.error("Failed to submit");
-//             $("#error-msg").text("Failed to get result from server");
-//         },
-//         success: function(optimalCart) {
-//             storesToPurchasedItemsAndQuantities = optimalCart;
-//             // distanceFromStore = parseFloat(distanceFromStoreRes);
-//             addStoreToToOrderSummeryStoresForStaticOrder();
-//             setStoreTotalDetailsForStaticOrder(orderCategoryValue);
-//
-//
-//             showOrderConfirmAndCancelButtons();
-//         }
-//     });
-// }
 
 
 function ajaxGetDistanceFromStore(storeId, orderCategoryValue) {
