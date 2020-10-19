@@ -563,4 +563,9 @@ public class SuperDuperMarket {
         Order order = getOrder(orderId);
         order.addFeedback(storesAndRates);
     }
+
+    public Collection<Order> getCustomerOrders(String name) {
+        Customer customer = getCustomer(name);
+        return customer.getOrders();
+    }
 }

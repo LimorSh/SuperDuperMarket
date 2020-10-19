@@ -19,7 +19,7 @@ public class StoreDto {
     private final float totalItemsCost;
     private final boolean hasDiscounts;
     private final Collection<StoreItemDto> storeItemsDto;
-    private final Collection<OrderDto> ordersDto;
+//    private final Collection<OrderDto> ordersDto; //circular reference - with customer
 
     public StoreDto(Store store) {
         this.id = store.getId();
@@ -33,9 +33,9 @@ public class StoreDto {
         this.totalItemsCost = Utils.roundNumberWithTwoDigitsAfterPoint(store.getTotalItemsCost());
         this.hasDiscounts = store.hasDiscounts();
         storeItemsDto = new ArrayList<>();
-        ordersDto = new ArrayList<>();
+//        ordersDto = new ArrayList<>();
         copyStoreItemsDto(store);
-        copyOrdersDto(store);
+//        copyOrdersDto(store);
     }
 
     private void copyStoreItemsDto(Store store) {
@@ -46,13 +46,13 @@ public class StoreDto {
         }
     }
 
-    private void copyOrdersDto(Store store) {
-        Collection<Order> orders = store.getOrders();
-        for (Order order : orders) {
-            OrderDto orderDto = new OrderDto(order);
-            ordersDto.add(orderDto);
-        }
-    }
+//    private void copyOrdersDto(Store store) {
+//        Collection<Order> orders = store.getOrders();
+//        for (Order order : orders) {
+//            OrderDto orderDto = new OrderDto(order);
+//            ordersDto.add(orderDto);
+//        }
+//    }
 
     public int getId() {
         return id;
@@ -86,9 +86,9 @@ public class StoreDto {
         return storeItemsDto;
     }
 
-    public Collection<OrderDto> getOrdersDto() {
-        return ordersDto;
-    }
+//    public Collection<OrderDto> getOrdersDto() {
+//        return ordersDto;
+//    }
 
     public int getXLocation() {
         return xLocation;

@@ -515,4 +515,77 @@ public class BusinessLogic {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
         chosenSuperDuperMarket.addOrderFeedback(orderId, storesAndRates);
     }
+
+    public ArrayList<PurchasedItemDto> getOrderPurchasedItemsDtoFromOrderLines
+            (StoreOrder storeOrder) {
+        ArrayList<PurchasedItemDto> purchasedItemsDto = new ArrayList<>();
+        Map<Integer, OrderLine> orderLines = storeOrder.getOrderLines();
+        for (OrderLine orderLine : orderLines.values()) {
+            PurchasedItemDto purchasedItemDto = new PurchasedItemDto(
+                    orderLine.getItem().getId(),
+                    orderLine.getItem().getName(),
+                    orderLine.getItem().getPurchaseCategory().getPurchaseCategoryStr(),
+                    storeOrder.getStore().getId(),
+                    storeOrder.getStore().getName(),
+                    orderLine.getQuantity(),
+                    orderLine.getCost(),
+                    orderLine.getTotalCost(),
+                    false
+            );
+            purchasedItemsDto.add(purchasedItemDto);
+        }
+        return purchasedItemsDto;
+    }
+
+    public ArrayList<PurchasedItemDto> getOrderPurchasedItemsDtoFromAppliedOffers
+            (StoreOrder storeOrder) {
+        ArrayList<PurchasedItemDto> purchasedItemsDto = new ArrayList<>();
+        Map<String, ArrayList<Offer>> appliedOffers = storeOrder.getAppliedOffers();
+        for (ArrayList<Offer> offers : appliedOffers.values()) {
+            for (Offer offer : offers) {
+                PurchasedItemDto purchasedItemDto = new PurchasedItemDto(
+                        offer.getItem().getId(),
+                        offer.getItem().getName(),
+                        offer.getItem().getPurchaseCategory().getPurchaseCategoryStr(),
+                        storeOrder.getStore().getId(),
+                        storeOrder.getStore().getName(),
+                        (float) offer.getQuantity(),
+                        offer.getAdditionalPrice(),
+                        offer.getTotalCost(),
+                        true
+                );
+                purchasedItemsDto.add(purchasedItemDto);
+            }
+        }
+        return purchasedItemsDto;
+    }
+
+    private ArrayList<PurchasedItemDto> getOrderPurchasedItemsDto(Order order) {
+        ArrayList<PurchasedItemDto> purchasedItemsDto = new ArrayList<>();
+        Collection<StoreOrder> storesOrder = order.getStoresOrder();
+        for (StoreOrder storeOrder : storesOrder) {
+            ArrayList<PurchasedItemDto> purchasedItemsDtoFromOrderLines =
+                    getOrderPurchasedItemsDtoFromOrderLines(storeOrder);
+
+            ArrayList<PurchasedItemDto> purchasedItemsDtoFromAppliedOffers =
+                    getOrderPurchasedItemsDtoFromAppliedOffers(storeOrder);
+
+            purchasedItemsDto.addAll(purchasedItemsDtoFromOrderLines);
+            purchasedItemsDto.addAll(purchasedItemsDtoFromAppliedOffers);
+        }
+        return purchasedItemsDto;
+    }
+
+    public Collection<OrderDto> getOrderHistory(String zoneName, String username) {
+        Collection<OrderDto> ordersDto = new ArrayList<>();
+        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
+        Collection<Order> orders = chosenSuperDuperMarket.getCustomerOrders(username);
+        ArrayList<PurchasedItemDto> purchasedItemsDto;
+        for (Order order : orders) {
+            OrderDto orderDto = new OrderDto(order);
+            purchasedItemsDto = getOrderPurchasedItemsDto(order);
+            orderDto.setPurchasedItemsDto(purchasedItemsDto);
+        }
+        return ordersDto;
+    }
 }

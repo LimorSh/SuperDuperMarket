@@ -80,6 +80,14 @@
         <servlet-name>AddOrderFeedbackServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.addOrder.AddOrderFeedbackServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetOrderHistoryServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.orderHistory.GetOrderHistoryServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RedirectOrderHistoryServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.RedirectOrderHistoryServlet</servlet-class>
+    </servlet>
 
 
 
@@ -158,5 +166,13 @@
     <servlet-mapping>
         <servlet-name>AddOrderFeedbackServlet</servlet-name>
         <url-pattern>/addOrderFeedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetOrderHistoryServlet</servlet-name>
+        <url-pattern>/getOrderHistory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RedirectOrderHistoryServlet</servlet-name>
+        <url-pattern>/pages/sellZone/orderHistory</url-pattern>
     </servlet-mapping>
 </web-app>

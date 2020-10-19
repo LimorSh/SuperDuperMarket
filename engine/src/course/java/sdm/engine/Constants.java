@@ -15,4 +15,6 @@ public class Constants {
     public final static String TRANSACTION_TYPE_RECEIVE_STR = "receive";
     public final static String TRANSACTION_TYPE_TRANSFER_STR = "transfer";
     public final static String TRANSACTION_TYPE_DEFAULT_STR = "";
+    public final static String PURCHASE_ITEM_FROM_DISCOUNT_STR = "YES";
+    public final static String PURCHASE_ITEM_NOT_FROM_DISCOUNT_STR = "NO";
 }

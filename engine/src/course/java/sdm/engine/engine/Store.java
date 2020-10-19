@@ -215,18 +215,18 @@ public class Store {
         return cost.get();
     }
 
-    @Override
-    public String toString() {
-        return "Store{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", ppk=" + ppk +
-                ", location=" + location +
-                ", storeItems=" + storeItems +
-                ", orders=" + orders +
-                ", totalDeliveriesRevenue=" + totalDeliveriesRevenue +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Store{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", ppk=" + ppk +
+//                ", location=" + location +
+//                ", storeItems=" + storeItems +
+//                ", orders=" + orders +
+//                ", totalDeliveriesRevenue=" + totalDeliveriesRevenue +
+//                '}';
+//    }
 
     @Override
     public boolean equals(Object o) {

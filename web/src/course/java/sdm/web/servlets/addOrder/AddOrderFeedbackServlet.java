@@ -3,7 +3,6 @@ package course.java.sdm.web.servlets.addOrder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import course.java.sdm.engine.engine.BusinessLogic;
-import course.java.sdm.engine.engine.accounts.AccountManager;
 import course.java.sdm.web.constants.Constants;
 import course.java.sdm.web.utils.ServletUtils;
 import course.java.sdm.web.utils.SessionUtils;
@@ -12,8 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 //@WebServlet(name = "AddOrderFeedbackServlet", urlPatterns = {"/addOrderFeedback"})

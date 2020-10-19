@@ -7,7 +7,7 @@ const STORE_CONTAINER_ID = "store-container";
 const STORES_HEADER_ID = "stores-headers";
 const STORE_ITEMS_TABLE_ID = "store-items-table";
 const STORE_ITEMS_TABLE_BODY_ID = "store-items-table-body";
-const STORE_ITEMS_TABLE_COL = "store-items-table-col";
+const STORE_ITEMS_TABLE_COL_CLASS = "store-items-table-col";
 const STORE_ITEMS_TABLE_CELL_CLASS = "store-items-table-cell";
 const STORE_ITEMS_TABLE_HEADERS = ["ID", "Name", "Purchase Category", "Price", "Total Sells"];
 const STORE_DETAILS_CONTAINER_ID = "store-details-container";
@@ -44,7 +44,7 @@ function refreshItemsTable(items) {
 function addHeadersToItemsTable(thead) {
     for (let i = 0; i < STORE_ITEMS_TABLE_HEADERS.length; i++) {
         let header = document.createElement("th");
-        header.class = STORE_ITEMS_TABLE_COL;
+        header.class = STORE_ITEMS_TABLE_COL_CLASS;
         header.innerHTML = STORE_ITEMS_TABLE_HEADERS[i];
         thead.appendChild(header);
     }

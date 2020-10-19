@@ -8,22 +8,28 @@ public class OrderDto {
 
     private final int id;
     private final Date date;
-    private final BasicCustomerDto basicCustomerDto;
-    private final Map<Integer, StoreOrderDto> storesOrderDto;   // The key is store id
+    private final int customerXLocation;
+    private final int customerYLocation;
+    private final int totalStores;
+    private final int totalItems;
     private final float itemsCost;
     private final float deliveryCost;
-    private final String orderCategory;
+    private final float totalCost;
+    private ArrayList<PurchasedItemDto> purchasedItemsDto;
+    private Map<Integer, StoreOrderDto> storesOrderDto;   // The key is store id
 
 
     public OrderDto(Order order) {
         this.id = order.getId();
         this.date = order.getDate();
-        this.basicCustomerDto = new BasicCustomerDto(order.getCustomer());
-        this.storesOrderDto = new HashMap<>();
-        copyStoreOrdersDto(order);
+        this.customerXLocation = order.getCustomerLocation().getCoordinate().x;
+        this.customerYLocation = order.getCustomerLocation().getCoordinate().y;
+        this.totalStores = order.getTotalStores();
+        this.totalItems = order.getTotalItems();
         this.itemsCost = Utils.roundNumberWithTwoDigitsAfterPoint(order.getItemsCost());
         this.deliveryCost = Utils.roundNumberWithTwoDigitsAfterPoint(order.getDeliveryCost());
-        this.orderCategory = order.getOrderCategory().getOrderCategoryStr();
+        this.totalCost = Utils.roundNumberWithTwoDigitsAfterPoint(order.getTotalCost());
+        copyStoreOrdersDto(order);
     }
 
     private void copyStoreOrdersDto(Order order) {
@@ -41,12 +47,20 @@ public class OrderDto {
         return date;
     }
 
-    public BasicCustomerDto getBasicCustomerDto() {
-        return basicCustomerDto;
+    public int getCustomerXLocation() {
+        return customerXLocation;
     }
 
-    public Collection<StoreOrderDto> getStoresOrderDto() {
-        return storesOrderDto.values();
+    public int getCustomerYLocation() {
+        return customerYLocation;
+    }
+
+    public int getTotalStores() {
+        return totalStores;
+    }
+
+    public int getTotalItems() {
+        return totalItems;
     }
 
     public float getItemsCost() {
@@ -58,14 +72,18 @@ public class OrderDto {
     }
 
     public float getTotalCost() {
-        return (itemsCost + deliveryCost);
+        return totalCost;
     }
 
-    public String getOrderCategory() {
-        return orderCategory;
+    public ArrayList<PurchasedItemDto> getPurchasedItemsDto() {
+        return purchasedItemsDto;
     }
 
-    public StoreOrderDto getStoreOrderDto(int storeId) {
-        return storesOrderDto.get(storeId);
+    public void setPurchasedItemsDto(ArrayList<PurchasedItemDto> purchasedItemsDto) {
+        this.purchasedItemsDto = purchasedItemsDto;
+    }
+
+    public Collection<StoreOrderDto> getStoresOrderDto() {
+        return storesOrderDto.values();
     }
 }

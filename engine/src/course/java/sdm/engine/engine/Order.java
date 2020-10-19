@@ -101,6 +101,18 @@ public class Order {
         return false;
     }
 
+    public int getTotalStores() {
+        return storesOrder.keySet().size();
+    }
+
+    public int getTotalItems() {
+        int totalItems = 0;
+        for (StoreOrder storeOrder : storesOrder.values()) {
+            totalItems += storeOrder.getTotalItems();
+        }
+        return totalItems;
+    }
+
     public float getItemQuantity(int id) {
         float quantity = 0f;
         for (StoreOrder storeOrder : storesOrder.values()) {
