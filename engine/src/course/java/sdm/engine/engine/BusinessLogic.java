@@ -42,7 +42,6 @@ public class BusinessLogic {
 
     private SuperDuperMarket loadSystemData(InputStream fileDataInputStream, String zoneOwnerName)
             throws JAXBException {
-        //        superDuperMarket.initNumOrders();
         return DataLoader.loadFromXmlFileDataInputStream(fileDataInputStream, zoneOwnerName);
     }
 
@@ -283,21 +282,21 @@ public class BusinessLogic {
         return chosenSuperDuperMarket.getDistanceBetweenCustomerAndStore(storeId, customerLocationX, customerLocationY);
     }
 
-    public void createOrder(AccountManager accountManager, String zoneName, String username, Date date,
+    public int createOrder(AccountManager accountManager, String zoneName, String username, Date date,
                             int locationX, int locationY,
                             int storeId, Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.createOrder(accountManager, username, date,
+        return chosenSuperDuperMarket.createOrder(accountManager, username, date,
                 locationX, locationY, storeId, itemsIdsAndQuantities, appliedOffersStoreItemsIds);
     }
 
-    public void createOrder(AccountManager accountManager, String zoneName, String username, Date date,
+    public int createOrder(AccountManager accountManager, String zoneName, String username, Date date,
                             int locationX, int locationY,
                             Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.createOrder(accountManager, username, date,
+        return chosenSuperDuperMarket.createOrder(accountManager, username, date,
                 locationX, locationY, itemsIdsAndQuantities, appliedOffersStoreItemsIds);
     }
 
@@ -509,5 +508,11 @@ public class BusinessLogic {
         Collection<Discount> discounts =
                 chosenSuperDuperMarket.getRelevantDiscounts(StoreId, itemsIdsAndQuantities);
         return convertDiscountsToDiscountsDto(chosenSuperDuperMarket, discounts);
+    }
+
+    public void addOrderFeedback(String zoneName, int orderId,
+                                 Map<Integer, ArrayList<String>> storesAndRates) {
+        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
+        chosenSuperDuperMarket.addOrderFeedback(orderId, storesAndRates);
     }
 }

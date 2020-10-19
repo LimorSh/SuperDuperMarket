@@ -18,6 +18,8 @@ public class Constants {
     public static final String CHOSEN_STORE_ID_PARAM_KEY = "chosen-store";
     public static final String ITEMS_AND_QUANTITIES_PARAM_KEY = "itemsIdsAndQuantities";
     public static final String APPLIED_OFFERS_PARAM_KEY = "appliedOffers";
+    public static final String ORDER_ID_PARAM_KEY = "orderId";
+    public static final String ORDER_STORES_AND_RATES_PARAM_KEY = "storesAndRates";
 
     // servlet utils
     public static final int INT_PARAMETER_ERROR = Integer.MIN_VALUE;

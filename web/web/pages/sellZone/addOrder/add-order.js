@@ -74,7 +74,7 @@ const STORE_RATE_HEADER_CLASS = "store-rate-header";
 const STORE_RATE_FIELD_CLASS = "store-rate-field";
 const STORE_RATE_INPUT_CLASS = "store-rate-input";
 const STORE_RATE_INPUT_NOTE_CLASS = "store-rate-input-note";
-const SEND_STORE_RATE_BUTTON_CLASS = "store-rate-button";
+const SAVE_STORE_FEEDBACK_BUTTON_CLASS = "store-rate-button";
 
 
 const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
@@ -85,6 +85,8 @@ const SET_STORE_DYNAMIC_ORDER_STORES_DETAILS_RESOURCE = "setDynamicOrderStoresDe
 let SET_STORE_DYNAMIC_ORDER_STORES_DETAILS_URL = buildUrlWithContextPath(SET_STORE_DYNAMIC_ORDER_STORES_DETAILS_RESOURCE);
 const SET_DISCOUNTS_RESOURCE = "setDiscounts";
 let SET_DISCOUNT_URL = buildUrlWithContextPath(SET_DISCOUNTS_RESOURCE);
+const ADD_ORDER_FEEDBACK_RESOURCE = "addOrderFeedback";
+let ADD_ORDER_FEEDBACK_URL = buildUrlWithContextPath(ADD_ORDER_FEEDBACK_RESOURCE);
 
 let stores = [];
 let items = [];
@@ -109,6 +111,7 @@ let appliedDiscountsNamesAndAppliesAmount = {};
 let storesIdsAndAppliedOffers = {};
 let appliedOfferRowIndex = 0;
 let storesAndRates = {};
+let orderId;
 
 
 function ajaxSetStores() {
@@ -937,17 +940,18 @@ function showRateStore(store) {
     storeRateFeedback.maxlength = STORE_RATE_FEEDBACK_LENGTH;
     storeRateFeedback.disabled = true;
 
-    let sendStoreRateButton = document.createElement("button");
-    sendStoreRateButton.classList.add(SEND_STORE_RATE_BUTTON_CLASS );
-    sendStoreRateButton.textContent = "Send Rate";
-    sendStoreRateButton.disabled = true;
-    sendStoreRateButton.addEventListener("click", () => {
+    let saveStoreRateButton = document.createElement("button");
+    saveStoreRateButton.classList.add(SAVE_STORE_FEEDBACK_BUTTON_CLASS);
+    saveStoreRateButton.textContent = "Save Rate";
+    saveStoreRateButton.disabled = true;
+    saveStoreRateButton.addEventListener("click", () => {
+            saveStoreRateButton.disabled = false;
             storeWasRated(storeId, storeRateInput, storeRateFeedback);
         }
     );
 
     storeRateInput.addEventListener("change", () => {
-        sendStoreRateButton.disabled = !storeRateInput.value;
+        saveStoreRateButton.disabled = !storeRateInput.value;
         storeRateFeedback.disabled = !storeRateInput.value;
     });
 
@@ -963,14 +967,62 @@ function showRateStore(store) {
     storeRateContainer.appendChild(storeRateFeedback);
     newLine = document.createElement("br");
     storeRateContainer.appendChild(newLine);
-    storeRateContainer.appendChild(sendStoreRateButton);
+    storeRateContainer.appendChild(saveStoreRateButton);
 
     orderFeedbackContainer.appendChild(storeRateContainer);
 }
 
 
+function getAddOrderFeedbackInputsAsQueryParameters() {
+    let paramArr = [];
+    paramArr.push("orderId" + "=" + orderId);
+    paramArr.push("storesAndRates=" + encodeURIComponent(JSON.stringify(storesAndRates)));
+    return paramArr.join("&");
+}
+
+
+function ajaxAddOrderFeedback() {
+    let parameters = getAddOrderFeedbackInputsAsQueryParameters();
+
+    $.ajax({
+        data: parameters,
+        url: ADD_ORDER_FEEDBACK_URL,
+        timeout: 2000,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
+        error: function(e) {
+            console.error(e);
+            console.error("Failed to submit");
+            $("#error-msg").text("Failed to get result from server");
+        },
+        success: function() {
+            let orderFeedbackContainer = document.getElementById(ORDER_FEEDBACK_CONTAINER_ID);
+
+            let finishButton = document.getElementById("order-rate-finish-button");
+            finishButton.disabled = true;
+            let backToSellZoneButton = document.createElement("button");
+            backToSellZoneButton.id = "test"
+            backToSellZoneButton.textContent = "Go Back";
+            // backToSellZoneButton.classList.add(CLASS)
+            let backToSellZoneButtonLabel = document.createElement("label");
+            backToSellZoneButtonLabel.textContent = "Go Back To Sell Zone -->";
+            backToSellZoneButtonLabel.htmlFor = "test";
+            backToSellZoneButton.addEventListener("click", () => {
+                goBack();
+            })
+
+            orderFeedbackContainer.appendChild(backToSellZoneButtonLabel);
+            orderFeedbackContainer.appendChild(backToSellZoneButton);
+        }
+    });
+}
+
+
 function finishOrderRate() {
-    goBack();
+    if (storesAndRates) {
+        ajaxAddOrderFeedback();
+    }
 }
 
 
@@ -1012,7 +1064,8 @@ function ajaxAddOrder() {
                 console.error("Failed to submit");
                 $("#error-msg").text("Failed to get result from server");
             },
-            success: function() {
+            success: function(orderIdRes) {
+                orderId = orderIdRes;
                 enableOrderConfirmAndCancelButtons();
                 showOrderRateStores();
             }

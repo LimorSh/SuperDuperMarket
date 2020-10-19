@@ -76,6 +76,10 @@
         <servlet-name>GetDiscountsServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.addOrder.GetDiscountsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddOrderFeedbackServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.addOrder.AddOrderFeedbackServlet</servlet-class>
+    </servlet>
 
 
 
@@ -150,5 +154,9 @@
     <servlet-mapping>
         <servlet-name>GetDiscountsServlet</servlet-name>
         <url-pattern>/setDiscounts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddOrderFeedbackServlet</servlet-name>
+        <url-pattern>/addOrderFeedback</url-pattern>
     </servlet-mapping>
 </web-app>

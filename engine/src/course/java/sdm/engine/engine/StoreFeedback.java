@@ -1,44 +1,45 @@
 package course.java.sdm.engine.engine;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class StoreFeedback {
 
-    private final String customerName;
     private final Date orderDate;
+    private final String customerName;
     private final int rate;
-    private final String description;
+    private final String feedback;
 
-    public StoreFeedback(String customerName, Date orderDate, int rate, String description) {
-        this.customerName = customerName;
+    public StoreFeedback(Date orderDate, String customerName, int rate, String feedback) {
         this.orderDate = orderDate;
+        this.customerName = customerName;
         this.rate = rate;
-        this.description = description;
-    }
-
-    public String getCustomerName() {
-        return customerName;
+        this.feedback = feedback;
     }
 
     public Date getOrderDate() {
         return orderDate;
     }
 
+    public String getCustomerName() {
+        return customerName;
+    }
+
     public int getRate() {
         return rate;
     }
 
-    public String getDescription() {
-        return description;
+    public String getFeedback() {
+        return feedback;
     }
 
     @Override
     public String toString() {
         return "StoreFeedback{" +
-                "customerName='" + customerName + '\'' +
-                ", orderDate=" + orderDate +
+                "orderDate=" + orderDate +
+                ", customerName='" + customerName + '\'' +
                 ", rate=" + rate +
-                ", description='" + description + '\'' +
+                ", feedback='" + feedback + '\'' +
                 '}';
     }
 
@@ -50,17 +51,17 @@ public class StoreFeedback {
         StoreFeedback that = (StoreFeedback) o;
 
         if (rate != that.rate) return false;
-        if (customerName != null ? !customerName.equals(that.customerName) : that.customerName != null) return false;
-        if (orderDate != null ? !orderDate.equals(that.orderDate) : that.orderDate != null) return false;
-        return description != null ? description.equals(that.description) : that.description == null;
+        if (!Objects.equals(orderDate, that.orderDate)) return false;
+        if (!Objects.equals(customerName, that.customerName)) return false;
+        return Objects.equals(feedback, that.feedback);
     }
 
     @Override
     public int hashCode() {
-        int result = customerName != null ? customerName.hashCode() : 0;
-        result = 31 * result + (orderDate != null ? orderDate.hashCode() : 0);
+        int result = orderDate != null ? orderDate.hashCode() : 0;
+        result = 31 * result + (customerName != null ? customerName.hashCode() : 0);
         result = 31 * result + rate;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (feedback != null ? feedback.hashCode() : 0);
         return result;
     }
 }

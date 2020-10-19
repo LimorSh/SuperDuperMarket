@@ -21,6 +21,8 @@ public class AddOrderServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ParseException {
+        response.setContentType("text/html;charset=UTF-8");
+
         String zoneNameFromSession = SessionUtils.getZoneName(request);
         String usernameFromSession = SessionUtils.getUsername(request);
         BusinessLogic businessLogic = ServletUtils.getBusinessLogic(getServletContext());
@@ -57,21 +59,23 @@ public class AddOrderServlet extends HttpServlet {
             appliedOffers.put(discountName, offersStoreItemsIds);
         });
 
+        int orderId;
         String orderCategoryFromParameter = request.getParameter(Constants.CHOSEN_ORDER_CATEGORY_PARAM_KEY);
         if (orderCategoryFromParameter.equals(Constants.STATIC_ORDER_CATEGORY_STR)) {
             String storeIdFromParameter = request.getParameter(Constants.CHOSEN_STORE_ID_PARAM_KEY);
             int storeId = Integer.parseInt(storeIdFromParameter);
             synchronized (this) {
-                businessLogic.createOrder(accountManager, zoneNameFromSession, usernameFromSession, date, locationX, locationY,
+                orderId = businessLogic.createOrder(accountManager, zoneNameFromSession, usernameFromSession, date, locationX, locationY,
                         storeId, itemsIdsAndQuantities, appliedOffers);
             }
         }
         else {
             synchronized (this) {
-                businessLogic.createOrder(accountManager, zoneNameFromSession, usernameFromSession, date, locationX, locationY,
+                orderId = businessLogic.createOrder(accountManager, zoneNameFromSession, usernameFromSession, date, locationX, locationY,
                         itemsIdsAndQuantities, appliedOffers);
             }
         }
+        response.getWriter().print(orderId);
     }
 
     @Override

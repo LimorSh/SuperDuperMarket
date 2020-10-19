@@ -165,20 +165,27 @@ public class Order {
             finish(store);
         }
     }
-//
-//    @Override
-//    public String toString() {
-//        return "Order{" +
-//                "id=" + id +
-//                ", date=" + date +
-//                ", customer=" + customer +
-//                ", customerLocation=" + customerLocation +
-//                ", storesOrder=" + storesOrder +
-//                ", itemsCost=" + itemsCost +
-//                ", deliveryCost=" + deliveryCost +
-//                ", orderCategory=" + orderCategory +
-//                '}';
-//    }
+
+    public void addFeedback(Map<Integer, ArrayList<String>> storesAndRates) {
+        storesAndRates.forEach((storeId,storeRateDetails) -> {
+            StoreOrder storeOrder = getStoreOrder(storeId);
+            storeOrder.setStoreFeedback(date, customer.getName(), storeRateDetails);
+        });
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", date=" + date +
+                ", customer=" + customer +
+                ", customerLocation=" + customerLocation +
+                ", storesOrder=" + storesOrder +
+                ", itemsCost=" + itemsCost +
+                ", deliveryCost=" + deliveryCost +
+                ", orderCategory=" + orderCategory +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -488,7 +488,7 @@ public class SuperDuperMarket {
         return appliedOffers;
     }
 
-    public void createOrder(AccountManager accountManager, String customerName, Date date,
+    public int createOrder(AccountManager accountManager, String customerName, Date date,
                             int locationX, int locationY,
                             Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
@@ -502,9 +502,10 @@ public class SuperDuperMarket {
         order.addStoresOrder(dynamicOrderStoresData);
         order.finish(storesToItemsAndQuantities.keySet());
         transferPaymentToStoresOwners(accountManager, order, customerName);
+        return order.getId();
     }
 
-    public void createOrder(AccountManager accountManager, String customerName, Date date,
+    public int createOrder(AccountManager accountManager, String customerName, Date date,
                             int locationX, int locationY,
                             int storeId, Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
@@ -521,6 +522,7 @@ public class SuperDuperMarket {
         order.addStoreOrder(store, itemsAndQuantities, getAppliedOffers(appliedOffersStoreItemsIds));
         order.finish(store);
         transferPaymentToStoresOwners(accountManager, order, customerName);
+        return order.getId();
     }
 
     public boolean isStoreHasDiscounts(int id) {
@@ -555,5 +557,10 @@ public class SuperDuperMarket {
             discounts.addAll(storeItem.getRelevantDiscounts(itemQuantity));
         });
         return discounts;
+    }
+
+    public void addOrderFeedback(int orderId, Map<Integer, ArrayList<String>> storesAndRates) {
+        Order order = getOrder(orderId);
+        order.addFeedback(storesAndRates);
     }
 }
