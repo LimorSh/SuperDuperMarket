@@ -30,6 +30,9 @@ const ORDER_SUMMERY_TOTAL_ORDER_COST_VALUE_LABEL_ID = "order-summery-total-order
 
 const FINISH_ORDER_BUTTON_ID = "finish-order-button";
 const FINISH_ORDER_MSG_LABEL_ID = "finish-order-msg-label";
+const FINISH_EMPTY_DATE_MSG = "Please pick a date";
+const FINISH_EMPTY_LOCATION_X_MSG = "Please fill out Location X field";
+const FINISH_EMPTY_LOCATION_Y_MSG = "Please fill out Location Y field";
 const FINISH_ORDER_TAKEN_LOCATION_MSG = "The order location is a store location, please choose a different location.";
 const FINISH_ORDER_EMPTY_QUANTITIES_MSG = "Your cart is empty, please choose at least one item and fill its quantity.";
 const DYNAMIC_ORDER_STORES_DETAILS_CONTAINER_ID = "dynamic-order-stores-details-container";
@@ -863,13 +866,24 @@ function disableOrderInterface() {
 function finishOrder() {
     let finishOrderMsgLabel = document.getElementById(FINISH_ORDER_MSG_LABEL_ID);
     finishOrderMsgLabel.textContent = "";
-    let datePicker = document.getElementById(DATE_PICKER_INPUT_ID);
-    date = datePicker.value;
+
+    let datePickerValue = document.getElementById(DATE_PICKER_INPUT_ID).value;
+    let xLocationValue = document.getElementById(X_LOCATION_INPUT_ID).value;
+    let yLocationValue = document.getElementById(Y_LOCATION_INPUT_ID).value;
 
     let isLocationAlreadyExists = isLocationAlreadyExistsForStore();
     let isAllQuantitiesAreEmpty = isAllQuantitiesInputAreEmpty();
 
-    if (isLocationAlreadyExists) {
+    if (!datePickerValue) {
+        finishOrderMsgLabel.textContent = FINISH_EMPTY_DATE_MSG;
+    }
+    else if (!xLocationValue) {
+        finishOrderMsgLabel.textContent = FINISH_EMPTY_LOCATION_X_MSG;
+    }
+    else if (!yLocationValue) {
+        finishOrderMsgLabel.textContent = FINISH_EMPTY_LOCATION_Y_MSG;
+    }
+    else if (isLocationAlreadyExists) {
         finishOrderMsgLabel.textContent = FINISH_ORDER_TAKEN_LOCATION_MSG;
     }
     else if (isAllQuantitiesAreEmpty) {

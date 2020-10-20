@@ -54,7 +54,7 @@ function addPurchasedItemsTableToOrder(items) {
 
 function addOrder(order) {
     let id = order["id"];
-    let date = order["date"];
+    let date = order["dateStr"];
     let customerXLocation = order["customerXLocation"];
     let customerYLocation = order["customerYLocation"];
     let totalStores = order["totalStores"];
