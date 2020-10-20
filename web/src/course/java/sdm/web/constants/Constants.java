@@ -21,7 +21,8 @@ public class Constants {
     public static final String ORDER_ID_PARAM_KEY = "orderId";
     public static final String ORDER_STORES_AND_RATES_PARAM_KEY = "storesAndRates";
 
-    // servlet utils
+    // common
+    public static final String EMPTY_JSON_RESPONSE = "{}";
     public static final int INT_PARAMETER_ERROR = Integer.MIN_VALUE;
     public static final String STATIC_ORDER_CATEGORY_STR = "static";
 }

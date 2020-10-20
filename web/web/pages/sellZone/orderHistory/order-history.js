@@ -1,3 +1,4 @@
+const ORDERS_CONTAINER_ID = "orders-container";
 const ORDERS_ACCORDION_CONTAINER_ID = "orders-accordion-container";
 const ORDER_ACCORDION_BUTTON_CLASS = "order-accordion-button";
 const ORDER_ACCORDION_BUTTON_ACTIVE_CLASS = "order-accordion-button-active";
@@ -8,6 +9,7 @@ const ORDER_ITEMS_TABLE_COL_CLASS = "order-items-table-col";
 const ORDER_ITEMS_TABLE_CELL_CLASS = "order-items-table-cell";
 const ORDER_ITEMS_TABLE_HEADERS = ["ID", "Name", "Purchase Category", "Store ID", "Store Name",
                                     "Quantity", "Price", "Total Cost", "Discount"];
+const NO_ORDERS_P_ID = "no-orders-p";
 
 
 const ORDER_HISTORY_URL_RESOURCE = "getOrderHistory";
@@ -68,8 +70,10 @@ function addOrder(order) {
     orderAccordionButton.innerHTML = `ID: ${id}${TAB}
                                    Date: ${date}${TAB}
                                    Destination: (${customerXLocation},${customerYLocation})${TAB}
+                                   ${NEW_LINE}
                                    Total Stores: ${totalStores}${TAB}
                                    Total Items: ${totalItems}${TAB}
+                                   ${NEW_LINE}
                                    Items Cost: ${itemsCost}${TAB}
                                    Delivery Cost: ${deliveryCost}${TAB}
                                    Total Cost: ${totalCost}${TAB}
@@ -117,7 +121,19 @@ function ajaxOrderHistory() {
             'cache-control': 'no-store,no-cache',
         },
         success: function(orders) {
-            showOrderHistory(orders);
+            let ordersContainer = document.getElementById(ORDERS_CONTAINER_ID);
+            if (orders.length > 0) {
+                let ordersAccordionContainer = document.createElement("div");
+                ordersAccordionContainer.id = ORDERS_ACCORDION_CONTAINER_ID;
+                ordersContainer.appendChild(ordersAccordionContainer);
+                showOrderHistory(orders);
+            }
+            else {
+                let noOrdersP = document.createElement("p");
+                noOrdersP.id = NO_ORDERS_P_ID;
+                noOrdersP.textContent = "You didn't order yet :)";
+                ordersContainer.appendChild(noOrdersP);
+            }
         }
     });
 }

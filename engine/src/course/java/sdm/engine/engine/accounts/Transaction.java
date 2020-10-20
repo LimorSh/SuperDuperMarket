@@ -34,26 +34,25 @@ public class Transaction {
     }
 
     private final TransactionType type;
-    private final String dateStr;
+    private final Date date;
     private final float amount;
     private final float balanceBefore;
     private float balanceAfter;
 
     public Transaction(String type, Date date, float amount, float balanceBefore) {
-        float amountRounded = Utils.roundNumberWithTwoDigitsAfterPoint(amount);
         TransactionType transactionType = TransactionType.getTransactionType(type);
         this.type = transactionType;
-        this.dateStr = Utils.convertDateToString(date);
-        this.amount = amountRounded;
+        this.date = date;
+        this.amount = amount;
         this.balanceBefore = balanceBefore;
 
         switch (transactionType) {
             case CHARGE:
             case RECEIVE:
-                this.balanceAfter = balanceBefore + amountRounded;
+                this.balanceAfter = balanceBefore + amount;
                 break;
             case TRANSFER:
-                this.balanceAfter = balanceBefore - amountRounded;
+                this.balanceAfter = balanceBefore - amount;
                 break;
         }
     }
@@ -72,8 +71,8 @@ public class Transaction {
         return type.getTransactionTypeStr();
     }
 
-    public String getDateStr() {
-        return dateStr;
+    public Date getDate() {
+        return date;
     }
 
     public float getAmount() {

@@ -1,6 +1,7 @@
 package course.java.sdm.web.servlets.dashboard;
 
 import com.google.gson.Gson;
+import course.java.sdm.engine.dto.TransactionDto;
 import course.java.sdm.engine.engine.accounts.AccountManager;
 import course.java.sdm.engine.engine.accounts.Transaction;
 import course.java.sdm.web.utils.ServletUtils;
@@ -27,7 +28,7 @@ public class AccountTransactionsTableServlet extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            List<Transaction> transactions = accountManager.getUserTransactions(usernameFromSession);
+            List<TransactionDto> transactions = accountManager.getUserTransactionsDto(usernameFromSession);
             String json = gson.toJson(transactions);
             System.out.println(json);
             out.println(json);

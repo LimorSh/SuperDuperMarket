@@ -3,6 +3,7 @@ package course.java.sdm.web.servlets.orderHistory;
 import com.google.gson.Gson;
 import course.java.sdm.engine.dto.OrderDto;
 import course.java.sdm.engine.engine.BusinessLogic;
+import course.java.sdm.web.constants.Constants;
 import course.java.sdm.web.utils.ServletUtils;
 import course.java.sdm.web.utils.SessionUtils;
 
@@ -30,13 +31,18 @@ public class GetOrderHistoryServlet extends HttpServlet {
             Gson gson = new Gson();
             Collection<OrderDto> orders =
                     businessLogic.getOrderHistory(zoneNameFromSession, usernameFromSession);
-            Collection<OrderDto> ordersSortedById
-                    = orders.stream().sorted
-                    (Comparator.comparing(OrderDto::getId))
-                    .collect(Collectors.toList());
-            String json = gson.toJson(ordersSortedById);
-            System.out.println(json);
-            out.println(json);
+            if (orders.isEmpty()) {
+                out.write(Constants.EMPTY_JSON_RESPONSE);
+            }
+            else {
+                Collection<OrderDto> ordersSortedById
+                        = orders.stream().sorted
+                        (Comparator.comparing(OrderDto::getId))
+                        .collect(Collectors.toList());
+                String json = gson.toJson(ordersSortedById);
+                System.out.println(json);
+                out.println(json);
+            }
             out.flush();
         }
     }

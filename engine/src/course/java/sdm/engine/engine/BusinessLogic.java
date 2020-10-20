@@ -565,15 +565,17 @@ public class BusinessLogic {
     }
 
     public Collection<OrderDto> getOrderHistory(String zoneName, String username) {
-        Collection<OrderDto> ordersDto = new ArrayList<>();
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        Collection<Order> orders = chosenSuperDuperMarket.getCustomerOrders(username);
-        ArrayList<PurchasedItemDto> purchasedItemsDto;
-        for (Order order : orders) {
-            OrderDto orderDto = new OrderDto(order);
-            purchasedItemsDto = getOrderPurchasedItemsDto(order);
-            orderDto.setPurchasedItemsDto(purchasedItemsDto);
-            ordersDto.add(orderDto);
+        Collection<OrderDto> ordersDto = new ArrayList<>();
+        if (chosenSuperDuperMarket.isCustomerExists(username)) {
+            Collection<Order> orders = chosenSuperDuperMarket.getCustomerOrders(username);
+            ArrayList<PurchasedItemDto> purchasedItemsDto;
+            for (Order order : orders) {
+                OrderDto orderDto = new OrderDto(order);
+                purchasedItemsDto = getOrderPurchasedItemsDto(order);
+                orderDto.setPurchasedItemsDto(purchasedItemsDto);
+                ordersDto.add(orderDto);
+            }
         }
         return ordersDto;
     }

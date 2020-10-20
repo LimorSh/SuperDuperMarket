@@ -1,5 +1,7 @@
 package course.java.sdm.engine.engine.accounts;
 
+import course.java.sdm.engine.dto.TransactionDto;
+
 import java.util.*;
 
 // Adding and retrieving accounts is synchronized and in that manner - these actions are thread safe
@@ -35,9 +37,15 @@ public class AccountManager {
         account.transferCredit(date, credit);
     }
 
-    public synchronized List<Transaction> getUserTransactions(String username) {
+    public synchronized List<TransactionDto> getUserTransactionsDto(String username) {
         Account account = getUserAccount(username);
-        return account.getTransactions();
+        List<Transaction> transactions = account.getTransactions();
+        List<TransactionDto> transactionsDto = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            TransactionDto transactionDto = new TransactionDto(transaction);
+            transactionsDto.add(transactionDto);
+        }
+        return transactionsDto;
     }
 
     private Account getUserAccount(String username) {
