@@ -1,17 +1,12 @@
-package course.java.sdm.web.servlets.sellZone;
-
-import course.java.sdm.engine.engine.accounts.AccountManager;
-import course.java.sdm.engine.engine.users.UserManager;
-import course.java.sdm.web.utils.ServletUtils;
-import course.java.sdm.web.utils.SessionUtils;
+package course.java.sdm.web.servlets;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@WebServlet(name = "HomeServlet", urlPatterns = {"/pages/sellZone/home"})
-public class HomeServlet extends HttpServlet {
+//@WebServlet(name = "SellZoneServlet", urlPatterns = {"/sellZone"})
+public class SellZoneServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         /*
@@ -20,7 +15,7 @@ public class HomeServlet extends HttpServlet {
         https://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpServletResponse.html#sendRedirect(java.lang.String)
         the best way (IMO) is to fetch the context path dynamically and build the redirection from it and on
          */
-        response.sendRedirect(request.getContextPath() + "/pages/dashboard/dashboard.html");
+        response.sendRedirect(request.getContextPath() + "/pages/sellZone/sell-zone.html");
     }
 
     @Override

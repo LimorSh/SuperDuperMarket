@@ -46,7 +46,7 @@
     </servlet>
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.sellZone.HomeServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.HomeServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>GetChosenSellZone</servlet-name>
@@ -87,6 +87,10 @@
     <servlet>
         <servlet-name>RedirectOrderHistoryServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.sellZone.RedirectOrderHistoryServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SellZoneServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.SellZoneServlet</servlet-class>
     </servlet>
 
 
@@ -133,7 +137,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
-        <url-pattern>/pages/sellZone/home</url-pattern>
+        <url-pattern>/home</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GetChosenSellZone</servlet-name>
@@ -174,5 +178,9 @@
     <servlet-mapping>
         <servlet-name>RedirectOrderHistoryServlet</servlet-name>
         <url-pattern>/pages/sellZone/orderHistory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellZoneServlet</servlet-name>
+        <url-pattern>/sellZone</url-pattern>
     </servlet-mapping>
 </web-app>

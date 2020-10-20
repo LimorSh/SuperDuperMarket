@@ -101,7 +101,6 @@ let itemsCost = 0;
 let deliveryCost = 0;
 let totalDeliveryCost = 0;
 let itemsIdsAndQuantities = {};
-let tempItemsIdsAndQuantities = {};
 let dynamicOrderStoresDetails = {};
 let discounts = {};
 let tempDiscounts;
@@ -447,24 +446,24 @@ function discountWasApplied(discount) {
         appliedDiscountOffers = discountOffers;
     }
 
-    if (orderCategory === ORDER_CATEGORY_STATIC_STR) {
-        let currDiscountAppliedOffers = appliedOffers[discountName];
-        if (currDiscountAppliedOffers) {
-            currDiscountAppliedOffers.push(...appliedDiscountOffers);
-            appliedOffers[discountName] = currDiscountAppliedOffers;
-        }
-        else {
-            appliedOffers[discountName] = appliedDiscountOffers;
-        }
+    let currDiscountAppliedOffers = appliedOffers[discountName];
+    if (currDiscountAppliedOffers) {
+        currDiscountAppliedOffers.push(...appliedDiscountOffers);
+        appliedOffers[discountName] = currDiscountAppliedOffers;
     }
     else {
+        appliedOffers[discountName] = appliedDiscountOffers;
+    }
+
+    if (orderCategory === ORDER_CATEGORY_DYNAMIC_STR) {
+        let copyAppliedDiscountOffers = [...appliedDiscountOffers];
         let storeId = discount["storeId"];
         let currStoreAppliedDiscountOffers = storesIdsAndAppliedOffers[storeId];
         if (currStoreAppliedDiscountOffers) {
-            currStoreAppliedDiscountOffers.push(...appliedDiscountOffers);
+            currStoreAppliedDiscountOffers.push(...copyAppliedDiscountOffers);
         }
         else {
-            currStoreAppliedDiscountOffers = appliedDiscountOffers;
+            currStoreAppliedDiscountOffers = copyAppliedDiscountOffers;
         }
         storesIdsAndAppliedOffers[storeId] = currStoreAppliedDiscountOffers;
     }
@@ -791,8 +790,9 @@ function addStoreToToOrderSummeryStoresForStaticOrder() {
 }
 
 
-function addStoreToToOrderSummeryStoresForDynamicOrder() {
-    tempItemsIdsAndQuantities = itemsIdsAndQuantities;
+function addOrderSummeryStoresForDynamicOrder() {
+    let tempItemsIdsAndQuantities = itemsIdsAndQuantities;
+    let tempAppliedOffers = appliedOffers;
     $.each(dynamicOrderStoresDetails || [], function(index, storeDetails) {
         let storeId = storeDetails["id"];
         itemsIdsAndQuantities = storeDetails["itemIdsAndQuantities"];
@@ -803,6 +803,7 @@ function addStoreToToOrderSummeryStoresForDynamicOrder() {
         addStoreToOrderSummery(storeDetails);
     });
     itemsIdsAndQuantities = tempItemsIdsAndQuantities;
+    appliedOffers = tempAppliedOffers;
 }
 
 
@@ -812,8 +813,8 @@ function showOrderSummeryForStaticOrder(storeId, orderCategoryValue) {
 
 
 function showOrderSummeryForDynamicOrder(orderCategoryValue) {
-    addStoreToToOrderSummeryStoresForDynamicOrder();
-    setStoreTotalDetails(orderCategoryValue);
+    addOrderSummeryStoresForDynamicOrder();
+    setOrderSummeryTotalDetails(orderCategoryValue);
     showOrderConfirmAndCancelButtons();
 }
 
@@ -1196,7 +1197,7 @@ function ajaxGetStoreDeliveryCost(storeId) {
 }
 
 
-function setStoreTotalDetails(orderCategoryValue) {
+function setOrderSummeryTotalDetails(orderCategoryValue) {
     let orderCategoryValueLabel = document.getElementById(ORDER_SUMMERY_ORDER_CATEGORY_VALUE_LABEL_ID);
     let totalItemsCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_ITEMS_COST_VALUE_LABEL_ID);
     let totalDeliveryCostValueLabel = document.getElementById(ORDER_SUMMERY_TOTAL_DELIVERY_COST_VALUE_LABEL_ID);
@@ -1238,7 +1239,7 @@ function ajaxGetDistanceFromStore(storeId, orderCategoryValue) {
         success: function(distanceFromStoreRes) {
             distanceFromStore = parseFloat(distanceFromStoreRes);
             addStoreToToOrderSummeryStoresForStaticOrder();
-            setStoreTotalDetails(orderCategoryValue);
+            setOrderSummeryTotalDetails(orderCategoryValue);
             showOrderConfirmAndCancelButtons();
         }
     });

@@ -64,10 +64,10 @@ function addOrder(order) {
 
     let ordersAccordionContainer = document.getElementById(ORDERS_ACCORDION_CONTAINER_ID);
     let orderAccordionButton = document.createElement("button");
-    orderAccordionButton.classList.add(ORDER_ACCORDION_BUTTON_ACTIVE_CLASS);
+    orderAccordionButton.classList.add(ORDER_ACCORDION_BUTTON_CLASS);
     orderAccordionButton.innerHTML = `ID: ${id}${TAB}
                                    Date: ${date}${TAB}
-                                   Destination: (${customerXLocation},${customerYLocation})${TAB})
+                                   Destination: (${customerXLocation},${customerYLocation})${TAB}
                                    Total Stores: ${totalStores}${TAB}
                                    Total Items: ${totalItems}${TAB}
                                    Items Cost: ${itemsCost}${TAB}

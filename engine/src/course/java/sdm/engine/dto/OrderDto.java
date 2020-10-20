@@ -7,7 +7,7 @@ import java.util.*;
 public class OrderDto {
 
     private final int id;
-    private final Date date;
+    private final String dateStr;
     private final int customerXLocation;
     private final int customerYLocation;
     private final int totalStores;
@@ -21,7 +21,7 @@ public class OrderDto {
 
     public OrderDto(Order order) {
         this.id = order.getId();
-        this.date = order.getDate();
+        this.dateStr = Utils.convertDateToString(order.getDate());
         this.customerXLocation = order.getCustomerLocation().getCoordinate().x;
         this.customerYLocation = order.getCustomerLocation().getCoordinate().y;
         this.totalStores = order.getTotalStores();
@@ -44,8 +44,8 @@ public class OrderDto {
         return id;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDateStr() {
+        return dateStr;
     }
 
     public int getCustomerXLocation() {

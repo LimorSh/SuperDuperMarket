@@ -10,11 +10,11 @@
 }
 
 .order-accordion-button {
-    background-color: #eee;
+    background-color: #eeeeee;
     color: #444;
     cursor: pointer;
     padding: 10px;
-    width: 50%;
+    /*width: 50%;*/
     border: none;
     text-align: left;
     outline: none;
@@ -23,7 +23,7 @@
 }
 
 .order-accordion-button-active, .order-accordion-button:hover {
-    background-color: #ccc;
+    background-color: #cccccc;
 }
 
 .order-panel-container {
@@ -48,7 +48,7 @@
 
 #order-items-table {
     /*align-content: center;*/
-    width: 45%;
+    width: 100%;
     border: 1px solid black;
     border-collapse: collapse;
     /*padding: 15px;*/

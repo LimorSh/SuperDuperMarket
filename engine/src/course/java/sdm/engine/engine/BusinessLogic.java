@@ -191,18 +191,6 @@ public class BusinessLogic {
         return chosenSuperDuperMarket.getItemName(id);
     }
 
-//    public static void createOrder(Date date, int customerLocationX, int customerLocationY, StoreDto store, Map<Integer, Float> itemsIdsAndQuantities) {
-//        superDuperMarket.createOrder(date, customerLocationX, customerLocationY, store.getId(), itemsIdsAndQuantities);
-//    }
-
-//    public static void validateLocation(int x, int y) {
-//        Location.isValidLocation(x, y);
-//        if (superDuperMarket.isLocationAlreadyExists(x, y)) {
-//            Object object = superDuperMarket.getObjectByLocation(x, y);
-//            throw new DuplicateLocationException(object, x, y);
-//        }
-//    }
-
     public void validateStoreIdExists(String zoneName, int id) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
         if (id <= 0) {
