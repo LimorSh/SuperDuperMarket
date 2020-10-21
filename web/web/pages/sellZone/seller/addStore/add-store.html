@@ -28,6 +28,7 @@
                 <label for="store-name" class="add-store-label">Name:</label>
                 <input type="text" id="store-name" name="storeName" required>
                 <br/>
+                <br/>
                 <div id="locations-container">
                     <label class="add-store-label">Location:</label>
                     <br/>
@@ -36,8 +37,11 @@
                     <label for="location-y">Y:</label>
                     <input type="number" min="1" max="50" id="location-y" name="location-y" required>
                 </div>
+                <br/>
+                <br/>
                 <label for="ppk" class="add-store-label">PPK:</label>
                 <input type="number" id="ppk" name="ppk" required>
+                <br/>
                 <br/>
                 <div id="items-table-container">
                     <table id="items-table">
@@ -54,11 +58,9 @@
                 </div>
                 <br>
                 <br>
-
-    <!--            <input id="addStore" disabled="disabled" type="submit" value="AddStore"/>-->
                 <input id="add-store" class="add-store-buttons" type="submit" value="Add Store"/>
+                <label for="add-store" id="add-store-msg-label"></label>
             </form>
-            <label for="add-store" id="add-store-msg-label"></label>
         </div>
     </div>
 </div>
