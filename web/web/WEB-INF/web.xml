@@ -92,6 +92,22 @@
         <servlet-name>SellZoneServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.SellZoneServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RedirectOrdersServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.seller.RedirectOrdersServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RedirectFeedbacksServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.seller.RedirectFeedbacksServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RedirectAddStoreServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.seller.RedirectAddStoreServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RedirectAddItemServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.seller.RedirectAddItemServlet</servlet-class>
+    </servlet>
 
 
 
@@ -182,5 +198,21 @@
     <servlet-mapping>
         <servlet-name>SellZoneServlet</servlet-name>
         <url-pattern>/sellZone</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RedirectOrdersServlet</servlet-name>
+        <url-pattern>/pages/sellZone/seller/orders</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RedirectFeedbacksServlet</servlet-name>
+        <url-pattern>/pages/sellZone/seller/feedbacks</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RedirectAddStoreServlet</servlet-name>
+        <url-pattern>/pages/sellZone/seller/addStore</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RedirectAddItemServlet</servlet-name>
+        <url-pattern>/pages/sellZone/seller/addItem</url-pattern>
     </servlet-mapping>
 </web-app>
