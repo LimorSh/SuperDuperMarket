@@ -21,7 +21,29 @@
         </div>
     </div>
     <h1 id="header">Add Store</h1>
+    <br/>
+    <div id="form-container">
+        <form id="add-store-form" method="GET" action="createNewStore">
+            <label for="name" class="add-store-label">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <br/>
+            <div id="locations-container">
+                <label class="add-store-label">Location:</label>
+                <br/>
+                <label for="location-x">X:</label>
+                <input type="number" min="1" max="50" id="location-x" name="location-x" required>
+                <label for="location-y">Y:</label>
+                <input type="number" min="1" max="50" id="location-y" name="location-y" required>
+            </div>
+            <label for="ppk" class="add-store-label">PPK:</label>
+            <input type="number" id="ppk" name="ppk" required>
+            <br/>
 
+<!--            <input id="addStore" disabled="disabled" type="submit" value="AddStore"/>-->
+            <input id="addStore" type="submit" value="Add Store"/>
+        </form>
+        <label id="add-store-msg-label"></label>
+    </div>
 </div>
 </body>
 </html>

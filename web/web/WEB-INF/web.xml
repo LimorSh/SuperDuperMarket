@@ -112,6 +112,10 @@
         <servlet-name>GetFeedbacksServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.sellZone.seller.GetFeedbacksServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddStoreServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.seller.AddStoreServlet</servlet-class>
+    </servlet>
 
 
 
@@ -222,5 +226,9 @@
     <servlet-mapping>
         <servlet-name>GetFeedbacksServlet</servlet-name>
         <url-pattern>/getFeedbacks</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddStoreServlet</servlet-name>
+        <url-pattern>/pages/sellZone/seller/addStore/createNewStore</url-pattern>
     </servlet-mapping>
 </web-app>
