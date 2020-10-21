@@ -1,4 +1,5 @@
 package course.java.sdm.engine.dto;
+import course.java.sdm.engine.Utils;
 import course.java.sdm.engine.engine.*;
 
 import java.util.*;
@@ -6,27 +7,34 @@ import java.util.*;
 public class OrderDto {
 
     private final int id;
-    private final Date date;
-    private final BasicCustomerDto basicCustomerDto;
-    private final Map<Integer, StoreOrderDto> storesOrderDto;   // The key is store id
+    private final String dateStr;
+    private final int customerXLocation;
+    private final int customerYLocation;
+    private final int totalStores;
+    private final int totalItems;
     private final float itemsCost;
     private final float deliveryCost;
-    private final String orderCategory;
+    private final float totalCost;
+    private ArrayList<PurchasedItemDto> purchasedItemsDto;
+    private final Map<Integer, StoreOrderDto> storesOrderDto;   // The key is store id
 
 
     public OrderDto(Order order) {
         this.id = order.getId();
-        this.date = order.getDate();
-        this.basicCustomerDto = new BasicCustomerDto(order.getCustomer());
-        this.storesOrderDto = new HashMap<>();
+        this.dateStr = Utils.convertDateToString(order.getDate());
+        this.customerXLocation = order.getCustomerLocation().getCoordinate().x;
+        this.customerYLocation = order.getCustomerLocation().getCoordinate().y;
+        this.totalStores = order.getTotalStores();
+        this.totalItems = order.getTotalItems();
+        this.itemsCost = Utils.roundNumberWithTwoDigitsAfterPoint(order.getItemsCost());
+        this.deliveryCost = Utils.roundNumberWithTwoDigitsAfterPoint(order.getDeliveryCost());
+        this.totalCost = Utils.roundNumberWithTwoDigitsAfterPoint(order.getTotalCost());
+        storesOrderDto = new HashMap<>();
         copyStoreOrdersDto(order);
-        this.itemsCost = order.getItemsCost();
-        this.deliveryCost = order.getDeliveryCost();
-        this.orderCategory = order.getOrderCategory().getOrderCategoryStr();
     }
 
     private void copyStoreOrdersDto(Order order) {
-        order.getStoresOrder().forEach((storeId,storeOrder) -> {
+        order.getStoresOrderMap().forEach((storeId,storeOrder) -> {
             StoreOrderDto storeOrderDto = new StoreOrderDto(storeOrder);
             storesOrderDto.put(storeId, storeOrderDto);
         });
@@ -36,16 +44,24 @@ public class OrderDto {
         return id;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDateStr() {
+        return dateStr;
     }
 
-    public BasicCustomerDto getBasicCustomerDto() {
-        return basicCustomerDto;
+    public int getCustomerXLocation() {
+        return customerXLocation;
     }
 
-    public Collection<StoreOrderDto> getStoresOrderDto() {
-        return storesOrderDto.values();
+    public int getCustomerYLocation() {
+        return customerYLocation;
+    }
+
+    public int getTotalStores() {
+        return totalStores;
+    }
+
+    public int getTotalItems() {
+        return totalItems;
     }
 
     public float getItemsCost() {
@@ -57,14 +73,18 @@ public class OrderDto {
     }
 
     public float getTotalCost() {
-        return (itemsCost + deliveryCost);
+        return totalCost;
     }
 
-    public String getOrderCategory() {
-        return orderCategory;
+    public ArrayList<PurchasedItemDto> getPurchasedItemsDto() {
+        return purchasedItemsDto;
     }
 
-    public StoreOrderDto getStoreOrderDto(int storeId) {
-        return storesOrderDto.get(storeId);
+    public void setPurchasedItemsDto(ArrayList<PurchasedItemDto> purchasedItemsDto) {
+        this.purchasedItemsDto = purchasedItemsDto;
+    }
+
+    public Collection<StoreOrderDto> getStoresOrderDto() {
+        return storesOrderDto.values();
     }
 }

@@ -24,15 +24,17 @@ public class Order {
     private static int numOrders = 1;
     private final int id;
     private final Date date;
-    private final Customer customer;
+    private final String customerName;
+    private final Location customerLocation;
     private final Map<Integer, StoreOrder> storesOrder;     //The key is store id
     private float itemsCost;
     private float deliveryCost;
     private final OrderCategory orderCategory;
 
-    public Order(Customer customer, Date date, String orderCategory) {
+    public Order(Date date, String customerName, Location customerLocation, String orderCategory) {
         this.id = numOrders;
-        this.customer = customer;
+        this.customerName = customerName;
+        this.customerLocation = customerLocation;
         this.date = date;
         this.orderCategory = convertStringToOrderCategory(orderCategory);
         storesOrder = new HashMap<>();
@@ -54,12 +56,20 @@ public class Order {
         return date;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public Map<Integer, StoreOrder> getStoresOrder() {
+    public Location getCustomerLocation() {
+        return customerLocation;
+    }
+
+    public Map<Integer, StoreOrder> getStoresOrderMap() {
         return storesOrder;
+    }
+
+    public Collection<StoreOrder> getStoresOrder() {
+        return storesOrder.values();
     }
 
     public OrderCategory getOrderCategory() {
@@ -89,6 +99,18 @@ public class Order {
             }
         }
         return false;
+    }
+
+    public int getTotalStores() {
+        return storesOrder.keySet().size();
+    }
+
+    public int getTotalItems() {
+        int totalItems = 0;
+        for (StoreOrder storeOrder : storesOrder.values()) {
+            totalItems += storeOrder.getTotalItems();
+        }
+        return totalItems;
     }
 
     public float getItemQuantity(int id) {
@@ -127,7 +149,7 @@ public class Order {
         });
 
         StoreOrder storeOrder = new StoreOrder(date, store, orderLines);
-        storeOrder.SetValues(customer.getLocation(), appliedOffers);
+        storeOrder.SetValues(customerLocation, appliedOffers);
         storesOrder.put(store.getId(), storeOrder);
         setValues(storeOrder);
     }
@@ -145,15 +167,11 @@ public class Order {
         }
     }
 
-    public void finish(Store store) {
-        store.updateTotalDeliveriesRevenue(customer.getLocation());
-        customer.addOrder(this);
-    }
-
-    public void finish(Collection<Store> stores) {
-        for (Store store : stores) {
-            finish(store);
-        }
+    public void addFeedback(Map<Integer, ArrayList<String>> storesAndRates) {
+        storesAndRates.forEach((storeId,storeRateDetails) -> {
+            StoreOrder storeOrder = getStoreOrder(storeId);
+            storeOrder.setStoreFeedback(date, customerName, storeRateDetails);
+        });
     }
 
     @Override
@@ -161,10 +179,12 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", date=" + date +
-                ", customer=" + customer +
+                ", customerName='" + customerName + '\'' +
+                ", customerLocation=" + customerLocation +
                 ", storesOrder=" + storesOrder +
                 ", itemsCost=" + itemsCost +
                 ", deliveryCost=" + deliveryCost +
+                ", orderCategory=" + orderCategory +
                 '}';
     }
 

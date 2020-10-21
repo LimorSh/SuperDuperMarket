@@ -15,6 +15,7 @@ public class StoreOrder {
     private float deliveryCost;
     private float totalCost;
     private double distanceFromCustomer;
+    private StoreFeedback storeFeedback;
 
     public StoreOrder(Date date, Store store, Map<Integer, OrderLine> orderLines) {
         this.date = date;
@@ -44,6 +45,17 @@ public class StoreOrder {
 
     private void setTotalCost() {
         this.totalCost = itemsCost + deliveryCost;
+    }
+
+    public StoreFeedback getStoreFeedback() {
+        return storeFeedback;
+    }
+
+    public void setStoreFeedback(Date date, String customerName, ArrayList<String> storeRateDetails) {
+        int rate = Integer.parseInt(storeRateDetails.get(0));
+        String feedback = storeRateDetails.get(1);
+        this.storeFeedback = new StoreFeedback(store.getId(), store.getName(), date,
+                customerName, rate, feedback);
     }
 
     private void setTotalItems() {

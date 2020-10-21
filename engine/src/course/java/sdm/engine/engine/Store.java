@@ -1,36 +1,38 @@
 package course.java.sdm.engine.engine;
-import course.java.sdm.engine.dto.StoreItemDto;
 import course.java.sdm.engine.exception.DuplicateStoreItemIdException;
 import course.java.sdm.engine.exception.LocationOutOfRangeException;
 import course.java.sdm.engine.jaxb.schema.generated.SDMStore;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Store {
 
     private final int id;
     private final String name;
+    private final String ownerName;
     private final int ppk;
     private Location location;
     private final Map<Integer, StoreItem> storeItems;
     private final Map<Integer, Order> orders;
     private float totalDeliveriesRevenue;
 
-    public Store(int id, String name, int ppk, Location location) {
-        this(id, name, ppk, location.getCoordinate().x, location.getCoordinate().y);
+    public Store(int id, String name, String ownerName, int ppk, Location location) {
+        this(id, name, ownerName, ppk, location.getCoordinate().x, location.getCoordinate().y);
     }
 
-    public Store(int id, String name, int ppk, int xLocation, int yLocation) {
+    public Store(int id, String name, String ownerName, int ppk, int xLocation, int yLocation) {
         this.id = id;
         this.name = name.trim();
+        this.ownerName = ownerName.trim();
         this.ppk = ppk;
         setLocation(xLocation, yLocation);
         storeItems = new HashMap<>();
         orders = new HashMap<>();
     }
 
-    public Store(SDMStore sdmStore) {
-        this(sdmStore.getId(), sdmStore.getName(),
+    public Store(SDMStore sdmStore, String ownerName) {
+        this(sdmStore.getId(), sdmStore.getName(), ownerName,
                 sdmStore.getDeliveryPpk(), sdmStore.getLocation().getX(), sdmStore.getLocation().getY());
     }
 
@@ -47,6 +49,10 @@ public class Store {
 
     public String getName() {
         return name;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
     }
 
     public int getPpk() {
@@ -111,8 +117,18 @@ public class Store {
         return (distance * ppk);
     }
 
+    public float getDeliveryCost(int locationX, int locationY) {
+        Location location = new Location(locationX, locationY);
+        return getDeliveryCost(location);
+    }
+
     public double getDistance(Location location) {
         return (Distance.getDistanceBetweenTwoLocations(location, this.location));
+    }
+
+    public double getDistance(int locationX, int locationY) {
+        Location location = new Location(locationX, locationY);
+        return getDistance(location);
     }
 
     public float getItemPrice(Item item) {
@@ -178,18 +194,39 @@ public class Store {
         return false;
     }
 
-    @Override
-    public String toString() {
-        return "Store{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", ppk=" + ppk +
-                ", location=" + location +
-                ", storeItems=" + storeItems +
-                ", orders=" + orders +
-                ", totalDeliveriesRevenue=" + totalDeliveriesRevenue +
-                '}';
+    public int getNumberOfOrders() {
+        return orders.keySet().size();
     }
+
+    public float getTotalItemsCost() {
+        float cost = 0f;
+        for (Order order : orders.values()) {
+            cost += order.getItemsCost();
+        }
+        return cost;
+    }
+
+
+    public float getItemsCost(Map<Integer, Float> itemIdsAndQuantities) {
+        AtomicReference<Float> cost = new AtomicReference<>(0f);
+        itemIdsAndQuantities.forEach((itemId ,quantity) -> {
+            cost.updateAndGet(v -> (v + (getItemPrice(itemId) * quantity)));
+        });
+        return cost.get();
+    }
+
+//    @Override
+//    public String toString() {
+//        return "Store{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", ppk=" + ppk +
+//                ", location=" + location +
+//                ", storeItems=" + storeItems +
+//                ", orders=" + orders +
+//                ", totalDeliveriesRevenue=" + totalDeliveriesRevenue +
+//                '}';
+//    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,11 +1,11 @@
 package course.java.sdm.engine.dto;
 
+import course.java.sdm.engine.Utils;
 import course.java.sdm.engine.engine.Offer;
 import course.java.sdm.engine.engine.OrderLine;
 import course.java.sdm.engine.engine.StoreOrder;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class StoreOrderDto {
 
@@ -31,10 +31,10 @@ public class StoreOrderDto {
         this.appliedOffersDto = new HashMap<>();
         copyAppliedOffersDto(storeOrder);
         this.totalItems = storeOrder.getTotalItems();
-        this.itemsCost = storeOrder.getItemsCost();
-        this.deliveryCost = storeOrder.getDeliveryCost();
-        this.totalCost = storeOrder.getTotalCost();
-        this.distanceFromCustomer = storeOrder.getDistanceFromCustomer();
+        this.itemsCost = Utils.roundNumberWithTwoDigitsAfterPoint(storeOrder.getItemsCost());
+        this.deliveryCost = Utils.roundNumberWithTwoDigitsAfterPoint(storeOrder.getDeliveryCost());
+        this.totalCost = Utils.roundNumberWithTwoDigitsAfterPoint(storeOrder.getTotalCost());
+        this.distanceFromCustomer = Utils.roundNumberWithTwoDigitsAfterPoint(storeOrder.getDistanceFromCustomer());
     }
 
     private void copyOrderLinesDto(StoreOrder storeOrder) {

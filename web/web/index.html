@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <script type="text/javascript" src="common/jquery-3.5.1.min.js"></script>
+    <script src="common/context-path-helper.js"></script>
+    <script src="constants/constants.js"></script>
+    <script src="utils/utils.js"></script>
+    <script src="index/index.js"></script>
+    <link rel="stylesheet" href="index/index.css">
+    <title>SDM</title>
+</head>
+<body>
+<div id="container">
+    <div id="header-container">
+        <h1 id="header">Welcome to Super Duper Market!</h1>
+        <br/>
+    </div>
+    <br/>
+    <div id="form-container">
+        <form id="login-form" method="GET" action="login">
+            <div id="user-type-radio-buttons-container">
+                <div id="user-type-label-container">
+                    <label id="user-type-label">I'm a:</label>
+                </div>
+                <div id="user-type-radio-buttons">
+                    <input type="radio" id="customer-radio-button" class="user-type-radio-button" name="user-type" value="customer">
+                    <label for="customer-radio-button">Customer</label><br>
+                    <input type="radio" id="seller-radio-button" class="user-type-radio-button" name="user-type" value="seller">
+                    <label for="seller-radio-button">Seller</label><br>
+                </div>
+            </div>
+            <label id="username-label">
+                Please enter a username:
+                <input type="text" name="username" required/>
+            </label>
+            <input id="login" disabled="disabled" type="submit" value="Login"/>
+        </form>
+        <label id="error-msg"></label>
+    </div>
+</div>
+</body>
+</html>

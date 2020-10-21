@@ -1,0 +1,171 @@
+#header {
+    color: blue;
+    margin-left: 20px;
+    text-align: center;
+    font-family: Georgia, cursive;
+}
+
+#stores-select-container, #items-table-container, #dynamic-order-stores-details-container,
+#order-discounts-container, #order-summery-container, #final-order-buttons-container,
+#order-feedback-container {
+    display: none;
+}
+
+
+.add-order-label {
+    font-weight: bold;
+}
+
+#items-table-container {
+    /*position:relative;*/
+    /*width: 200px;*/
+}
+
+#items-table {
+    /*width: 100%;*/
+    /*width: 200px;*/
+    border: 1px solid black;
+    /*border-collapse: inherit;*/
+    /*padding: 15px;*/
+    /*border-spacing: 5px;*/
+}
+
+#items-table-container table thead th .items-table-col {
+    position:absolute;
+    top:-20px;
+    height:20px;
+    /*width:80%;*/
+    /*border:1px solid red;*/
+    text-align: center;
+    /*align-items: center;*/
+    /*word-wrap: break-word;*/
+}
+
+.items-table-cell {
+    /*position: center;*/
+    text-align: center;
+}
+
+#items-table-caption {
+    margin-bottom: 5px;
+    font-size: 24px;
+}
+
+.discount-container {
+    /*border: thick black;*/
+    /*background-color: #87CEEB;*/
+}
+
+.discount-header {
+    color: #6231a5;
+    margin-left: 20px;
+    /*text-align: center;*/
+    font-family: Georgia, cursive;
+}
+
+.discount-field-label {
+    font-weight: bold;
+    color: black;
+}
+
+.apply-discount-button {
+    margin-right: 10px;
+}
+
+.discount-single-offer-radio-button {
+    /*margin-right: 5px;*/
+}
+
+.discount-applies-amount-label {
+}
+
+#order-summery-stores-info-ul {
+    /*padding: 0;*/
+    /*margin: 0;*/
+    /*list-style: none;*/
+
+    /*!*-ms-box-orient: horizontal;*!*/
+    /*display: -webkit-box;*/
+    /*display: -moz-box;*/
+    /*display: -ms-flexbox;*/
+    /*display: -moz-flex;*/
+    /*display: -webkit-flex;*/
+    /*display: flex;*/
+
+    /*-webkit-flex-direction: column;*/
+    /*flex-direction: column;*/
+    /*float: left;*/
+}
+
+.order-summery-stores-info-ul li {
+    /*background: deepskyblue;*/
+    /*padding: 5px;*/
+    /*width: 50px;*/
+    /*height: 50px;*/
+    /*margin: 5px;*/
+
+    /*line-height: 50px;*/
+    /*color: white;*/
+    /*font-weight: bold;*/
+    /*font-size: 2em;*/
+    /*text-align: center;*/
+}
+
+.order-summery-field-label {
+    font-weight: bold;
+}
+
+#purchased-store-items-table {
+    /*width: 100%;*/
+    /*width: 200px;*/
+    /*width: 60%;*/
+    /*border: 1px solid black;*/
+    /*border-collapse: inherit;*/
+    /*padding: 15px;*/
+    /*border-spacing: 5px;*/
+    /*align-content: center;*/
+    width: 300px;
+    border: 1px solid black;
+    /*border-collapse: collapse;*/
+    /*padding: 15px;*/
+}
+
+#purchased-store-items-table-container table thead th .purchased-store-items-table-col {
+    position:absolute;
+    top:-20px;
+    height:20px;
+    /*width:80%;*/
+    /*border:1px solid red;*/
+    text-align: center;
+    /*align-items: center;*/
+    /*word-wrap: break-word;*/
+}
+
+.purchased-store-items-table-cell {
+    /*position: center;*/
+    text-align: center;
+}
+
+#purchased-store-items-table-caption {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.discount-field-label {
+    font-weight: bold;
+}
+
+.order-summery-store-field-label {
+    font-weight: bold;
+}
+
+#order-discounts-next-button {
+    margin-top: 15px;
+}
+
+.final-order-button {
+    font-weight: bold;
+}
+

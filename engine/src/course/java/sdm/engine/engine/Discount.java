@@ -26,21 +26,23 @@ public class Discount {
     }
 
     private final String name;
+    private final int storeId;
     private final int storeItemId;
     private final double storeItemQuantity;
     private final Category category;
     private final Map<Integer, Offer> offers;
 
-    public Discount(String name, int storeItemId, double storeItemQuantity, Category category) {
+    public Discount(String name, int storeId, int storeItemId, double storeItemQuantity, Category category) {
         this.name = name;
+        this.storeId = storeId;
         this.storeItemId = storeItemId;
         this.storeItemQuantity = storeItemQuantity;
         this.category = category;
         this.offers = new HashMap<>();
     }
 
-    public Discount(SDMDiscount sdmDiscount) {
-        this(sdmDiscount.getName(), sdmDiscount.getIfYouBuy().getItemId()
+    public Discount(SDMDiscount sdmDiscount, int storeId) {
+        this(sdmDiscount.getName(), storeId, sdmDiscount.getIfYouBuy().getItemId()
                 ,sdmDiscount.getIfYouBuy().getQuantity(),
                 convertStringToCategory(sdmDiscount.getThenYouGet().getOperator().toLowerCase()));
     }
@@ -59,6 +61,10 @@ public class Discount {
         return name;
     }
 
+    public int getStoreId() {
+        return storeId;
+    }
+
     public int getStoreItemId() {
         return storeItemId;
     }
@@ -75,6 +81,15 @@ public class Discount {
         return offers.values();
     }
 
+    public Offer getOffer(int storeItemId) {
+        for (Offer offer : offers.values()) {
+            if (offer.getItem().getId() == storeItemId) {
+                return offer;
+            }
+        }
+        return null;
+    }
+
     public void addOffer(Offer offer) {
         int storeItemId = offer.getItem().getId();
         if (!isItemInTheOffers(storeItemId)) {
@@ -85,6 +100,10 @@ public class Discount {
         }
     }
 
+    public boolean isGreaterOrEqualToStoreItemQuantity(float storeItemQuantity) {
+        return (storeItemQuantity >= this.storeItemQuantity);
+    }
+
     public boolean isItemInTheOffers(int itemId) {
         return offers.containsKey(itemId);
     }
@@ -93,6 +112,7 @@ public class Discount {
     public String toString() {
         return "Discount{" +
                 "name='" + name + '\'' +
+                ", storeId=" + storeId +
                 ", storeItemId=" + storeItemId +
                 ", storeItemQuantity=" + storeItemQuantity +
                 ", category=" + category +

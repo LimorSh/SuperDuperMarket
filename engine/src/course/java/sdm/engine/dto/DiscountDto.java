@@ -1,4 +1,5 @@
 package course.java.sdm.engine.dto;
+import course.java.sdm.engine.Utils;
 import course.java.sdm.engine.engine.Discount;
 import course.java.sdm.engine.engine.Offer;
 import java.util.ArrayList;
@@ -11,15 +12,17 @@ public class DiscountDto {
     private final double storeItemQuantity;
     private final String category;
     private final Collection<OfferDto> offersDto;
+    private final int storeId;
 
     public DiscountDto(Discount discount, String storeItemName) {
         this.name = discount.getName();
         this.storeItemId = discount.getStoreItemId();
         this.storeItemName = storeItemName;
-        this.storeItemQuantity = discount.getStoreItemQuantity();
+        this.storeItemQuantity = Utils.roundNumberWithTwoDigitsAfterPoint(discount.getStoreItemQuantity());
         this.category = discount.getCategory().getCategoryStr();
         offersDto = new ArrayList<>();
         copyDiscountOffersDto(discount);
+        this.storeId = discount.getStoreId();
     }
 
     private void copyDiscountOffersDto(Discount discount) {
@@ -32,6 +35,10 @@ public class DiscountDto {
 
     public String getName() {
         return name;
+    }
+
+    public int getStoreId() {
+        return storeId;
     }
 
     public int getStoreItemId() {

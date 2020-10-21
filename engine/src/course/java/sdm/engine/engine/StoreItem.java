@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 public class StoreItem extends Item{
 
     private float price;
-    private float totalSold;
+    private float totalSells;
     private final ArrayList<Discount> discounts;
 
     public StoreItem(Item item, float price) {
@@ -24,8 +24,8 @@ public class StoreItem extends Item{
         this.price = price;
     }
 
-    public float getTotalSold() {
-        return totalSold;
+    public float getTotalSells() {
+        return totalSells;
     }
 
     public Collection<Discount> getDiscounts() {
@@ -37,7 +37,7 @@ public class StoreItem extends Item{
     }
 
     public void updateTotalNumberSold(float quantity) {
-        this.totalSold += quantity;
+        this.totalSells += quantity;
     }
 
     public boolean hasDiscounts() {
@@ -53,11 +53,18 @@ public class StoreItem extends Item{
         return false;
     }
 
+    public Collection<Discount> getRelevantDiscounts(float purchasedQuantity) {
+        return discounts.stream()
+                .filter (discount ->
+                        discount.isGreaterOrEqualToStoreItemQuantity(purchasedQuantity))
+                .collect(Collectors.toList());
+    }
+
     @Override
     public String toString() {
         return "StoreItem{" +
                 "price=" + price +
-                ", totalSold=" + totalSold +
+                ", totalSold=" + totalSells +
                 '}';
     }
 
@@ -70,14 +77,14 @@ public class StoreItem extends Item{
         StoreItem storeItem = (StoreItem) o;
 
         if (Float.compare(storeItem.price, price) != 0) return false;
-        return Float.compare(storeItem.totalSold, totalSold) == 0;
+        return Float.compare(storeItem.totalSells, totalSells) == 0;
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (price != +0.0f ? Float.floatToIntBits(price) : 0);
-        result = 31 * result + (totalSold != +0.0f ? Float.floatToIntBits(totalSold) : 0);
+        result = 31 * result + (totalSells != +0.0f ? Float.floatToIntBits(totalSells) : 0);
         return result;
     }
 }

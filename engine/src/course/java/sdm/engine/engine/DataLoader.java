@@ -17,23 +17,19 @@ import java.util.Set;
 public class DataLoader {
 
     private static final String JAXB_XML_PACKAGE_NAME = Constants.JAXB_XML_PACKAGE_NAME;
-    private static final String FILE_EXTENSION = ".xml";
 
-    public static SuperDuperMarket loadFromXmlFile(String xmlFilePath) throws JAXBException, FileNotFoundException {
-        if (!xmlFilePath.toLowerCase().endsWith(FILE_EXTENSION)) {
-            throw new IllegalArgumentException("The file type is not xml!");
-        }
+    public static SuperDuperMarket loadFromXmlFileDataInputStream(InputStream inputStream, String zoneOwnerName)
+            throws JAXBException {
         SuperDuperMarket superDuperMarket;
         superDuperMarket = new SuperDuperMarket();
-        InputStream inputStream = new FileInputStream(new File(xmlFilePath));
         SuperDuperMarketDescriptor superDuperMarketDescriptor = deserializeFrom(inputStream);
         loadItems(superDuperMarketDescriptor, superDuperMarket);
-        loadStores(superDuperMarketDescriptor, superDuperMarket);
+        loadStores(superDuperMarketDescriptor, superDuperMarket, zoneOwnerName);
         if (!superDuperMarket.isAllItemsAreBeingSoldByAtLeastOneStore()) {
             Set<Item> missingItems = superDuperMarket.getItemsThatAreNotBeingSoldByAtLeastOneStore();
             throw new NotAllItemsAreBeingSoldException(missingItems);
         }
-        loadCustomers(superDuperMarketDescriptor, superDuperMarket);
+        loadZoneName(superDuperMarketDescriptor, superDuperMarket);
 
         return superDuperMarket;
     }
@@ -46,10 +42,11 @@ public class DataLoader {
         }
     }
 
-    private static void loadStores(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
+    private static void loadStores(SuperDuperMarketDescriptor superDuperMarketDescriptor,
+                                   SuperDuperMarket superDuperMarket, String zoneOwnerName) {
         List<SDMStore> sdmStores = superDuperMarketDescriptor.getSDMStores().getSDMStore();
         for (SDMStore sdmStore : sdmStores) {
-            Store store = new Store(sdmStore);
+            Store store = new Store(sdmStore, zoneOwnerName);
             try {
                 superDuperMarket.addStore(store);
             }
@@ -83,7 +80,7 @@ public class DataLoader {
             List<SDMDiscount> sdmDiscounts = sdmDiscountsContainer.getSDMDiscount();
 
             for (SDMDiscount sdmDiscount : sdmDiscounts) {
-                Discount discount = new Discount(sdmDiscount);
+                Discount discount = new Discount(sdmDiscount, store.getId());
                 List<SDMOffer> sdmOffers = sdmDiscount.getThenYouGet().getSDMOffer();
                 try {
                     for (SDMOffer sdmOffer : sdmOffers) {
@@ -103,17 +100,9 @@ public class DataLoader {
         }
     }
 
-    private static void loadCustomers(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
-        List<SDMCustomer> sdmCustomers = superDuperMarketDescriptor.getSDMCustomers().getSDMCustomer();
-        for (SDMCustomer sdmCustomer : sdmCustomers) {
-            Customer customer = new Customer(sdmCustomer);
-            try {
-                superDuperMarket.addCustomer(customer);
-            }
-            catch (DuplicateLocationException e) {
-                throw new IllegalArgumentException("Could not add the customer " + customer.getName() + ":\n" + e.getMessage());
-            }
-        }
+    private static void loadZoneName(SuperDuperMarketDescriptor superDuperMarketDescriptor, SuperDuperMarket superDuperMarket) {
+        String zoneName = superDuperMarketDescriptor.getSDMZone().getName();
+        superDuperMarket.setZoneName(zoneName);
     }
 
     private static SuperDuperMarketDescriptor deserializeFrom(InputStream in) throws JAXBException {

@@ -1,41 +1,55 @@
 package course.java.sdm.engine.dto;
-import course.java.sdm.engine.engine.Discount;
+import course.java.sdm.engine.Utils;
 import course.java.sdm.engine.engine.StoreItem;
 
-import java.util.ArrayList;
-import java.util.Collection;
+public class StoreItemDto {
 
-public class StoreItemDto extends BasicItemDto {
-
+    private final int id;
+    private final String name;
+    private final String purchaseCategory;
     private final float price;
-    private final float totalSold;
-    private final ArrayList<DiscountDto> discountsDto;
+    private final float totalSells;
+//    private final ArrayList<DiscountDto> discountsDto;
 
     public StoreItemDto(StoreItem storeItem) {
-        super(storeItem);
-        this.price = storeItem.getPrice();
-        this.totalSold = storeItem.getTotalSold();
-        discountsDto = new ArrayList<>();
-        copyDiscountsDto(storeItem);
+        this.id = storeItem.getId();
+        this.name = storeItem.getName();
+        this.purchaseCategory = storeItem.getPurchaseCategory().getPurchaseCategoryStr();
+        this.price = Utils.roundNumberWithTwoDigitsAfterPoint(storeItem.getPrice());
+        this.totalSells = Utils.roundNumberWithTwoDigitsAfterPoint(storeItem.getTotalSells());
+//        discountsDto = new ArrayList<>();
+//        copyDiscountsDto(storeItem);
     }
 
-    private void copyDiscountsDto(StoreItem storeItem) {
-        Collection<Discount> discounts = storeItem.getDiscounts();
-        for (Discount discount : discounts) {
-            DiscountDto discountDto = new DiscountDto(discount, storeItem.getName());
-            discountsDto.add(discountDto);
-        }
+//    private void copyDiscountsDto(StoreItem storeItem) {
+//        Collection<Discount> discounts = storeItem.getDiscounts();
+//        for (Discount discount : discounts) {
+//            DiscountDto discountDto = new DiscountDto(discount, storeItem.getName());
+//            discountsDto.add(discountDto);
+//        }
+//    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPurchaseCategory() {
+        return purchaseCategory;
     }
 
     public float getPrice() {
         return price;
     }
 
-    public float getTotalSold() {
-        return totalSold;
+    public float getTotalSells() {
+        return totalSells;
     }
 
-    public Collection<DiscountDto> getDiscountsDto() {
-        return discountsDto;
-    }
+//    public Collection<DiscountDto> getDiscountsDto() {
+//        return discountsDto;
+//    }
 }

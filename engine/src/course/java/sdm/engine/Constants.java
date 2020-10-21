@@ -9,4 +9,12 @@ public class Constants {
     public final static String DISCOUNT_CATEGORY_ALL_OR_NOTHING = "all-or-nothing";
     public final static String ORDER_CATEGORY_STATIC_STR = "one store";
     public final static String ORDER_CATEGORY_DYNAMIC_STR = "best cart";
+    public final static String USER_TYPE_CUSTOMER_STR = "customer";
+    public final static String USER_TYPE_SELLER_STR = "seller";
+    public final static String TRANSACTION_TYPE_CHARGE_STR = "charge";
+    public final static String TRANSACTION_TYPE_RECEIVE_STR = "receive";
+    public final static String TRANSACTION_TYPE_TRANSFER_STR = "transfer";
+    public final static String TRANSACTION_TYPE_DEFAULT_STR = "";
+    public final static String PURCHASE_ITEM_FROM_DISCOUNT_STR = "YES";
+    public final static String PURCHASE_ITEM_NOT_FROM_DISCOUNT_STR = "NO";
 }
