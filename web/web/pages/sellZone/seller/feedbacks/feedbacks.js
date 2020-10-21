@@ -9,6 +9,23 @@ const FEEDBACKS_URL_RESOURCE = "getFeedbacks";
 let FEEDBACKS_URL = buildUrlWithContextPath(FEEDBACKS_URL_RESOURCE);
 
 
+function getNewLineElement() {
+    return document.createElement("br");
+}
+
+function addFeedbackData(feedbackContainer, fieldLabelText, valueLabelText) {
+    let fieldLabel = document.createElement("label");
+    fieldLabel.classList.add(FEEDBACK_FIELD_LABEL_CLASS);
+    fieldLabel.textContent = fieldLabelText;
+    let valueLabel = document.createElement("label");
+    valueLabel.classList.add(FEEDBACK_VALUE_LABEL_CLASS);
+    valueLabel.textContent = valueLabelText;
+
+    feedbackContainer.appendChild(fieldLabel);
+    feedbackContainer.appendChild(valueLabel);
+    feedbackContainer.appendChild(getNewLineElement());
+}
+
 function addFeedback(feedback) {
     let storeId = feedback["storeId"];
     let storeName = feedback["storeName"];
@@ -21,62 +38,11 @@ function addFeedback(feedback) {
     let feedbackContainer = document.createElement("div");
     feedbackContainer.classList.add(FEEDBACK_CONTAINER_ID);
 
-    let storeFieldLabel = document.createElement("label");
-    storeFieldLabel.classList.add(FEEDBACK_FIELD_LABEL_CLASS);
-    storeFieldLabel.textContent = "Store: ";
-    let storeValueLabel = document.createElement("label");
-    storeValueLabel.classList.add(FEEDBACK_VALUE_LABEL_CLASS);
-    storeValueLabel.textContent = `${storeName} (ID ${storeId})`;
-
-    let orderDateFieldLabel = document.createElement("label");
-    orderDateFieldLabel.classList.add(FEEDBACK_FIELD_LABEL_CLASS);
-    orderDateFieldLabel.textContent = "Order Date: ";
-    let orderDateValueLabel = document.createElement("label");
-    orderDateValueLabel.classList.add(FEEDBACK_VALUE_LABEL_CLASS);
-    orderDateValueLabel.textContent = `${orderDate}`;
-
-    let customerNameFieldLabel = document.createElement("label");
-    customerNameFieldLabel.classList.add(FEEDBACK_FIELD_LABEL_CLASS);
-    customerNameFieldLabel.textContent = "Customer Name: ";
-    let customerNameValueLabel = document.createElement("label");
-    customerNameValueLabel.classList.add(FEEDBACK_VALUE_LABEL_CLASS);
-    customerNameValueLabel.textContent = `${customerName}`;
-
-    let rateFieldLabel = document.createElement("label");
-    rateFieldLabel.classList.add(FEEDBACK_FIELD_LABEL_CLASS);
-    rateFieldLabel.textContent = "Rate: ";
-    let rateValueLabel = document.createElement("label");
-    rateValueLabel.classList.add(FEEDBACK_VALUE_LABEL_CLASS);
-    rateValueLabel.textContent = `${rate}`;
-
-    let feedbackDescriptionFieldLabel = document.createElement("label");
-    feedbackDescriptionFieldLabel.classList.add(FEEDBACK_FIELD_LABEL_CLASS);
-    feedbackDescriptionFieldLabel.textContent = "Feedback: ";
-    let feedbackDescriptionValueLabel = document.createElement("label");
-    feedbackDescriptionValueLabel.classList.add(FEEDBACK_VALUE_LABEL_CLASS);
-    feedbackDescriptionValueLabel.textContent = `${feedbackDescription}`;
-
-    let newLine = document.createElement("br");
-
-    feedbackContainer.appendChild(storeFieldLabel);
-    feedbackContainer.appendChild(storeValueLabel);
-    feedbackContainer.appendChild(newLine);
-    feedbackContainer.appendChild(orderDateFieldLabel);
-    feedbackContainer.appendChild(orderDateValueLabel);
-    newLine = document.createElement("br");
-    feedbackContainer.appendChild(newLine);
-    feedbackContainer.appendChild(customerNameFieldLabel);
-    feedbackContainer.appendChild(customerNameValueLabel);
-    newLine = document.createElement("br");
-    feedbackContainer.appendChild(newLine);
-    feedbackContainer.appendChild(rateFieldLabel);
-    feedbackContainer.appendChild(rateValueLabel);
-    newLine = document.createElement("br");
-    feedbackContainer.appendChild(newLine);
-    feedbackContainer.appendChild(feedbackDescriptionFieldLabel);
-    feedbackContainer.appendChild(feedbackDescriptionValueLabel);
-    newLine = document.createElement("br");
-    feedbackContainer.appendChild(newLine);
+    addFeedbackData(feedbackContainer, "Store: ", `${storeName} (ID ${storeId})`);
+    addFeedbackData(feedbackContainer, "Order Date: ", `${orderDate}`);
+    addFeedbackData(feedbackContainer, "Customer Name: ", `${customerName}`);
+    addFeedbackData(feedbackContainer, "Rate: ", `${rate}`);
+    addFeedbackData(feedbackContainer,  "Feedback: ", `${feedbackDescription}`);
 
     feedbacksContainer.appendChild(feedbackContainer);
 }
@@ -103,7 +69,7 @@ function ajaxFeedbacks() {
                 refreshFeedbacks(feedbacks);
             }
             else {
-                let noFeedbacksP = document.getElementById("no-feedbacks-p");
+                let noFeedbacksP = document.getElementById(NO_FEEDBACKS_P_ID);
                 noFeedbacksP.style.display = "block";
             }
         }
