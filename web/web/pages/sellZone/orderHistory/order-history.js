@@ -10,6 +10,7 @@ const ORDER_ITEMS_TABLE_CELL_CLASS = "order-items-table-cell";
 const ORDER_ITEMS_TABLE_HEADERS = ["ID", "Name", "Purchase Category", "Store ID", "Store Name",
                                     "Quantity", "Price", "Total Cost", "Discount"];
 const NO_ORDERS_P_ID = "no-orders-p";
+const NO_ORDERS_P_TEXT_CONTENT = "You didn't order yet :)";
 
 
 const ORDER_HISTORY_URL_RESOURCE = "getOrderHistory";
@@ -131,7 +132,7 @@ function ajaxOrderHistory() {
             else {
                 let noOrdersP = document.createElement("p");
                 noOrdersP.id = NO_ORDERS_P_ID;
-                noOrdersP.textContent = "You didn't order yet :)";
+                noOrdersP.textContent = NO_ORDERS_P_TEXT_CONTENT;
                 ordersContainer.appendChild(noOrdersP);
             }
         }

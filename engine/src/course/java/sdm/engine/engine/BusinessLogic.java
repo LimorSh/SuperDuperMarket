@@ -579,4 +579,17 @@ public class BusinessLogic {
         }
         return ordersDto;
     }
+
+    public Collection<StoreFeedbackDto> getFeedbacksDto(String zoneName, String storeOwnerName) {
+        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
+        Collection<StoreFeedbackDto> feedbacksDto = new ArrayList<>();
+        Collection<StoreFeedback> feedbacks = chosenSuperDuperMarket.getFeedbacks(storeOwnerName);
+        for (StoreFeedback storeFeedback : feedbacks) {
+            StoreFeedbackDto storeFeedbackDto = new StoreFeedbackDto(storeFeedback);
+            feedbacksDto.add(storeFeedbackDto);
+        }
+        return feedbacksDto;
+    }
+
+
 }

@@ -54,7 +54,8 @@ public class StoreOrder {
     public void setStoreFeedback(Date date, String customerName, ArrayList<String> storeRateDetails) {
         int rate = Integer.parseInt(storeRateDetails.get(0));
         String feedback = storeRateDetails.get(1);
-        this.storeFeedback = new StoreFeedback(date, customerName, rate, feedback);
+        this.storeFeedback = new StoreFeedback(store.getId(), store.getName(), date,
+                customerName, rate, feedback);
     }
 
     private void setTotalItems() {

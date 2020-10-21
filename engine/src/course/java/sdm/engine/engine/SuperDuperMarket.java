@@ -112,6 +112,21 @@ public class SuperDuperMarket {
         return items.get(itemId).getPurchaseCategory().getPurchaseCategoryStr();
     }
 
+    public Collection<StoreFeedback> getFeedbacks(String storeOwnerName) {
+        Collection<StoreFeedback> feedbacks = new ArrayList<>();
+        for (Order order : orders.values()) {
+            for (StoreOrder storeOrder : order.getStoresOrder()) {
+                if (storeOrder.getStore().getOwnerName().equalsIgnoreCase(storeOwnerName)) {
+                    StoreFeedback feedback = storeOrder.getStoreFeedback();
+                    if (feedback != null) {
+                        feedbacks.add(feedback);
+                    }
+                }
+            }
+        }
+        return feedbacks;
+    }
+
     public void addItemIdToItemsSoldIds(Item item) {
         itemsSold.add(item);
     }

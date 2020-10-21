@@ -108,6 +108,10 @@
         <servlet-name>RedirectAddItemServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.sellZone.seller.RedirectAddItemServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetFeedbacksServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.seller.GetFeedbacksServlet</servlet-class>
+    </servlet>
 
 
 
@@ -214,5 +218,9 @@
     <servlet-mapping>
         <servlet-name>RedirectAddItemServlet</servlet-name>
         <url-pattern>/pages/sellZone/seller/addItem</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetFeedbacksServlet</servlet-name>
+        <url-pattern>/getFeedbacks</url-pattern>
     </servlet-mapping>
 </web-app>
