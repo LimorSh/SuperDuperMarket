@@ -10,9 +10,10 @@ public class Constants {
     public static final String ZONE_NAME_PARAM_KEY = "zoneName";
     // add order + dashboard windows
     public static final String DATE_PARAM_KEY = "date";
-    // add order window
+    // add order + store windows
     public static final String LOCATION_X_PARAM_KEY = "location-x";
     public static final String LOCATION_Y_PARAM_KEY = "location-y";
+    // add order window
     public static final String CHOSEN_ORDER_CATEGORY_PARAM_KEY = "chosen-order-category";
     public static final String STORE_ID_PARAM_KEY = "storeId";
     public static final String CHOSEN_STORE_ID_PARAM_KEY = "chosen-store";
@@ -20,6 +21,10 @@ public class Constants {
     public static final String APPLIED_OFFERS_PARAM_KEY = "appliedOffers";
     public static final String ORDER_ID_PARAM_KEY = "orderId";
     public static final String ORDER_STORES_AND_RATES_PARAM_KEY = "storesAndRates";
+    // add store window
+    public static final String STORE_NAME_PARAM_KEY = "storeName";
+    public static final String PPK_PARAM_KEY = "ppk";
+    public static final String ITEM_IDS_AND_PRICES_PARAM_KEY = "itemsIdsAndPrices";
 
     // common
     public static final String EMPTY_JSON_RESPONSE = "{}";

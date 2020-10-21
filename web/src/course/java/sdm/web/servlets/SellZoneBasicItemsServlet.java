@@ -1,6 +1,7 @@
 package course.java.sdm.web.servlets;
 
 import com.google.gson.Gson;
+import course.java.sdm.engine.dto.BasicItemDto;
 import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.web.utils.ServletUtils;
@@ -15,7 +16,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-public class SellZoneItemsTableServlet extends HttpServlet {
+//@WebServlet(name = "SellZoneBasicItemsServlet", urlPatterns = {"/basicItems"})
+public class SellZoneBasicItemsServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -27,11 +29,11 @@ public class SellZoneItemsTableServlet extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            Collection<ItemDto> items = businessLogic.getItemsDto(zoneNameFromSession);
-            Collection<ItemDto> itemsSortedById = items.stream().sorted
-                    (Comparator.comparing(ItemDto::getId))
+            Collection<BasicItemDto> basicItems = businessLogic.getBasicItemsDto(zoneNameFromSession);
+            Collection<BasicItemDto> basicItemsSortedById = basicItems.stream().sorted
+                    (Comparator.comparing(BasicItemDto::getId))
                     .collect(Collectors.toList());
-            String json = gson.toJson(itemsSortedById);
+            String json = gson.toJson(basicItemsSortedById);
             System.out.println(json);
             out.println(json);
             out.flush();

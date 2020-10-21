@@ -168,7 +168,7 @@ function refreshStores(stores) {
 
 function ajaxItemsTable() {
     $.ajax({
-        url: ITEMS_TABLE_URL,
+        url: ITEMS_URL,
         headers: {
             'cache-control': 'no-store,no-cache',
         },

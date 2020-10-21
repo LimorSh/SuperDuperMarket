@@ -22,27 +22,44 @@
     </div>
     <h1 id="header">Add Store</h1>
     <br/>
-    <div id="form-container">
-        <form id="add-store-form" method="GET" action="createNewStore">
-            <label for="name" class="add-store-label">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <br/>
-            <div id="locations-container">
-                <label class="add-store-label">Location:</label>
+    <div id="add-store-container">
+        <div id="form-container">
+            <form id="add-store-form" method="GET" action="createNewStore">
+                <label for="store-name" class="add-store-label">Name:</label>
+                <input type="text" id="store-name" name="storeName" required>
                 <br/>
-                <label for="location-x">X:</label>
-                <input type="number" min="1" max="50" id="location-x" name="location-x" required>
-                <label for="location-y">Y:</label>
-                <input type="number" min="1" max="50" id="location-y" name="location-y" required>
-            </div>
-            <label for="ppk" class="add-store-label">PPK:</label>
-            <input type="number" id="ppk" name="ppk" required>
-            <br/>
+                <div id="locations-container">
+                    <label class="add-store-label">Location:</label>
+                    <br/>
+                    <label for="location-x">X:</label>
+                    <input type="number" min="1" max="50" id="location-x" name="location-x" required>
+                    <label for="location-y">Y:</label>
+                    <input type="number" min="1" max="50" id="location-y" name="location-y" required>
+                </div>
+                <label for="ppk" class="add-store-label">PPK:</label>
+                <input type="number" id="ppk" name="ppk" required>
+                <br/>
+                <div id="items-table-container">
+                    <table id="items-table">
+                        <caption id="items-table-caption">Choose Items:</caption>
+                        <thead id="items-table-thead">
+                        <th class="items-table-col">ID</th>
+                        <th class="items-table-col">Name</th>
+                        <th class="items-table-col">Purchase Category</th>
+                        <th id="items-table-price-col" class="items-table-col">Price</th>
+                        </thead>
+                        <tbody id="items-table-body">
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <br>
 
-<!--            <input id="addStore" disabled="disabled" type="submit" value="AddStore"/>-->
-            <input id="addStore" type="submit" value="Add Store"/>
-        </form>
-        <label id="add-store-msg-label"></label>
+    <!--            <input id="addStore" disabled="disabled" type="submit" value="AddStore"/>-->
+                <input id="add-store" class="add-store-buttons" type="submit" value="Add Store"/>
+            </form>
+            <label for="add-store" id="add-store-msg-label"></label>
+        </div>
     </div>
 </div>
 </body>

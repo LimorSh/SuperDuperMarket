@@ -33,8 +33,12 @@
         <servlet-class>course.java.sdm.web.servlets.dashboard.AccountTransactionsTableServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SellZoneItemsTableServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.SellZoneItemsTableServlet</servlet-class>
+        <servlet-name>SellZoneItemsServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.SellZoneItemsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SellZoneBasicItemsServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.SellZoneBasicItemsServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SellZoneStoresServlet</servlet-name>
@@ -148,8 +152,12 @@
         <url-pattern>/accountTable</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SellZoneItemsTableServlet</servlet-name>
-        <url-pattern>/itemsTable</url-pattern>
+        <servlet-name>SellZoneItemsServlet</servlet-name>
+        <url-pattern>/items</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellZoneBasicItemsServlet</servlet-name>
+        <url-pattern>/basicItems</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SellZoneStoresServlet</servlet-name>

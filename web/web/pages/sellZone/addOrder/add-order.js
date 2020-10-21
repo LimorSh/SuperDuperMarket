@@ -68,8 +68,10 @@ const ITEM_PURCHASE_FROM_DISCOUNT_STR = "YES";
 
 const ADD_ORDER_FORM_ID = "add-order-form";
 const FINAL_ORDER_BUTTONS_CONTAINER_ID = "final-order-buttons-container";
+const FINAL_ORDER_BUTTON_CLASS = "final-order-button";
 const CONFIRM_ORDER_BUTTON_ID = "confirm-order-button";
 const CANCEL_ORDER_BUTTON_ID = "cancel-order-button";
+const GO_BACK_BUTTON_ID = "go-back-button";
 
 const ORDER_FEEDBACK_CONTAINER_ID = "order-feedback-container";
 const STORE_RATE_CONTAINER_CLASS = "store-rate-container";
@@ -157,7 +159,7 @@ function setItemsArray(allItems) {
 
 function ajaxItemsTable() {
     return $.ajax({
-        url: ITEMS_TABLE_URL,
+        url: ITEMS_URL,
         timeout: 2000,
         headers: {
             'cache-control': 'no-store,no-cache',
@@ -1021,12 +1023,12 @@ function ajaxAddOrderFeedback() {
             let finishButton = document.getElementById("order-rate-finish-button");
             finishButton.disabled = true;
             let backToSellZoneButton = document.createElement("button");
-            backToSellZoneButton.id = "test"
+            backToSellZoneButton.id = GO_BACK_BUTTON_ID;
             backToSellZoneButton.textContent = "Go Back";
-            // backToSellZoneButton.classList.add(CLASS)
+            backToSellZoneButton.classList.add(FINAL_ORDER_BUTTON_CLASS);
             let backToSellZoneButtonLabel = document.createElement("label");
             backToSellZoneButtonLabel.textContent = "Go Back To Sell Zone -->";
-            backToSellZoneButtonLabel.htmlFor = "test";
+            backToSellZoneButtonLabel.htmlFor = GO_BACK_BUTTON_ID;
             backToSellZoneButton.addEventListener("click", () => {
                 goBack();
             })

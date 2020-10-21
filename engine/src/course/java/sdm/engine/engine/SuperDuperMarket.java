@@ -151,9 +151,15 @@ public class SuperDuperMarket {
         }
     }
 
-    public void addStore(int id, String name, String ownerName, int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
+    private int getNextFreeStoreId() {
+        return Collections.max(stores.keySet()) + 1;
+    }
+
+    public void addStore(String ownerName, String storeName,
+                         int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
         Location location = new Location(locationX, locationY);
-        Store store = new Store(id, name, ownerName, ppk, location);
+        int id = getNextFreeStoreId();
+        Store store = new Store(id, storeName, ownerName, ppk, location);
         addStore(store);
 
         itemIdsAndPrices.forEach((itemId, price) -> {

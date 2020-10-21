@@ -391,9 +391,10 @@ public class BusinessLogic {
         return minAndMaxLocations;
     }
 
-    public void createNewStore(String zoneName, int id, String name, String ownerName, int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
+    public void createNewStore(String zoneName, String ownerName, String storeName,
+                               int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.addStore(id, name, ownerName, locationX, locationY, ppk, itemIdsAndPrices);
+        chosenSuperDuperMarket.addStore(ownerName, storeName, locationX, locationY, ppk, itemIdsAndPrices);
     }
 
     public void validateStoreId(String zoneName, int id) {
