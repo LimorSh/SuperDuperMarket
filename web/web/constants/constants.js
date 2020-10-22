@@ -14,3 +14,8 @@ const ITEMS_URL_RESOURCE = "items";
 let ITEMS_URL = buildUrlWithContextPath(ITEMS_URL_RESOURCE);
 const BASIC_ITEMS_URL_RESOURCE = "basicItems";
 let BASIC_ITEMS_URL = buildUrlWithContextPath(BASIC_ITEMS_URL_RESOURCE);
+const BASIC_STORES_URL_RESOURCE = "basicStores";
+let BASIC_STORES_URL = buildUrlWithContextPath(BASIC_STORES_URL_RESOURCE);
+const OWNER_BASIC_STORES_URL_RESOURCE = "ownerBasicStores";
+let OWNER_BASIC_STORES_URL = buildUrlWithContextPath(OWNER_BASIC_STORES_URL_RESOURCE);
+

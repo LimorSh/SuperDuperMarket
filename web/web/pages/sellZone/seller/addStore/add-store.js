@@ -79,7 +79,7 @@ function setItemsIdsAndPrices() {
 }
 
 
-function getAddOrderFormInputsAsQueryParameters() {
+function getQueryParameters() {
     let paramArr = [];
     let addStoreForm = document.getElementById(ADD_STORE_FORM_ID);
     for (let i = 0; i < addStoreForm.length; i++) {
@@ -129,7 +129,7 @@ $(function() {
 
         setItemsIdsAndPrices();
         if (Object.keys(itemsIdsAndPrices).length > 0) {
-            let parameters = getAddOrderFormInputsAsQueryParameters();
+            let parameters = getQueryParameters();
             $.ajax({
                 data: parameters,
                 url: this.action,

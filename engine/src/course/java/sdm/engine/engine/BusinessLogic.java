@@ -76,6 +76,21 @@ public class BusinessLogic {
         return SuperDuperMarketDto.getBasicCustomersDto(chosenSuperDuperMarket.getCustomers());
     }
 
+    public Collection<BasicStoreDto> getOwnerBasicStoresDto(String zoneName, String ownerName) {
+        Collection<StoreDto> storesDto = getOwnerStoresDto(zoneName, ownerName);
+        Collection<BasicStoreDto> basicStoresDto = new ArrayList<>();
+        for (StoreDto storeDto : storesDto) {
+            BasicStoreDto basicStoreDto = new BasicStoreDto(storeDto);
+            basicStoresDto.add(basicStoreDto);
+        }
+        return basicStoresDto;
+    }
+
+    public Collection<BasicStoreDto> getBasicStoresDto(String zoneName) {
+        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
+        return SuperDuperMarketDto.getBasicStoresDto(chosenSuperDuperMarket.getStores());
+    }
+
     public Collection<BasicItemDto> getBasicItemsDto(String zoneName) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
         return SuperDuperMarketDto.getBasicItemsDto(chosenSuperDuperMarket.getItems());
@@ -453,10 +468,10 @@ public class BusinessLogic {
         return Item.PurchaseCategory.PER_WEIGHT.getPurchaseCategoryStr();
     }
 
-    public void createNewItem(String zoneName, int itemId, String itemName, String purchasedCategory,
+    public void createNewItem(String zoneName, String itemName, String purchasedCategory,
                               Map<Integer, Float> storeIdsAndPrices) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.addItem(itemId, itemName, purchasedCategory, storeIdsAndPrices);
+        chosenSuperDuperMarket.addItem(itemName, purchasedCategory, storeIdsAndPrices);
     }
 
     public ZoneDetailsDto getZoneDetailsDto(SuperDuperMarket superDuperMarket) {

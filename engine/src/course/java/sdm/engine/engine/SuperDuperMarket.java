@@ -280,8 +280,14 @@ public class SuperDuperMarket {
         addItemToStore(itemId, itemPrice, store);
     }
 
-    public void addItem(int itemId, String itemName, String purchasedCategory,
+    private int getNextFreeItemId() {
+        return Collections.max(items.keySet()) + 1;
+    }
+
+    // add new item from seller (not file)
+    public void addItem(String itemName, String purchasedCategory,
                                 Map<Integer, Float> storeIdsAndPrices) {
+        int itemId =  getNextFreeItemId();
         addItem(itemId, itemName, purchasedCategory);
         storeIdsAndPrices.forEach((storeId, itemPrice) -> {
             addItemToStore(itemId, itemPrice, storeId);

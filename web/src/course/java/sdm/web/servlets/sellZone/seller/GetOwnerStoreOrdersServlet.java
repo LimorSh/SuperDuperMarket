@@ -28,24 +28,24 @@ public class GetOwnerStoreOrdersServlet extends HttpServlet {
         String zoneNameFromSession = SessionUtils.getZoneName(request);
         String usernameFromSession = SessionUtils.getUsername(request);
 
-        try (PrintWriter out = response.getWriter()) {
-            Gson gson = new Gson();
-            Collection<OrderDto> orders =
-                    businessLogic.getOrderHistory(zoneNameFromSession, usernameFromSession);
-            if (orders.isEmpty()) {
-                out.write(Constants.EMPTY_JSON_RESPONSE);
-            }
-            else {
-                Collection<OrderDto> ordersSortedById
-                        = orders.stream().sorted
-                        (Comparator.comparing(OrderDto::getId))
-                        .collect(Collectors.toList());
-                String json = gson.toJson(ordersSortedById);
-                System.out.println(json);
-                out.println(json);
-            }
-            out.flush();
-        }
+//        try (PrintWriter out = response.getWriter()) {
+//            Gson gson = new Gson();
+//            Collection<OrderDto> orders =
+//                    businessLogic.getOrderHistory(zoneNameFromSession, usernameFromSession);
+//            if (orders.isEmpty()) {
+//                out.write(Constants.EMPTY_JSON_RESPONSE);
+//            }
+//            else {
+//                Collection<OrderDto> ordersSortedById
+//                        = orders.stream().sorted
+//                        (Comparator.comparing(OrderDto::getId))
+//                        .collect(Collectors.toList());
+//                String json = gson.toJson(ordersSortedById);
+//                System.out.println(json);
+//                out.println(json);
+//            }
+//            out.flush();
+//        }
     }
 
     @Override

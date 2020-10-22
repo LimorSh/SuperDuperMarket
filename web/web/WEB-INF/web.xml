@@ -41,6 +41,10 @@
         <servlet-class>course.java.sdm.web.servlets.SellZoneBasicItemsServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>SellZoneBasicStoresServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.SellZoneBasicStoresServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>SellZoneStoresServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.SellZoneStoresServlet</servlet-class>
     </servlet>
@@ -121,13 +125,22 @@
         <servlet-class>course.java.sdm.web.servlets.sellZone.seller.AddStoreServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>AddItemServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.seller.AddItemServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>SellZoneOwnerStoresServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.sellZone.seller.SellZoneOwnerStoresServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SellZoneOwnerBasicStoresServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.SellZoneOwnerBasicStoresServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>GetOwnerStoreOrdersServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.sellZone.seller.GetOwnerStoreOrdersServlet</servlet-class>
     </servlet>
+
 
 
 
@@ -167,6 +180,10 @@
     <servlet-mapping>
         <servlet-name>SellZoneBasicItemsServlet</servlet-name>
         <url-pattern>/basicItems</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellZoneBasicStoresServlet</servlet-name>
+        <url-pattern>/basicStores</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SellZoneStoresServlet</servlet-name>
@@ -249,8 +266,16 @@
         <url-pattern>/pages/sellZone/seller/addStore/createNewStore</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>AddItemServlet</servlet-name>
+        <url-pattern>/pages/sellZone/seller/addItem/createNewItem</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>SellZoneOwnerStoresServlet</servlet-name>
         <url-pattern>/ownerStores</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellZoneOwnerBasicStoresServlet</servlet-name>
+        <url-pattern>/ownerBasicStores</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GetOwnerStoreOrdersServlet</servlet-name>
