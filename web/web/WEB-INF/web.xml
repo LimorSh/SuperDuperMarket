@@ -120,6 +120,15 @@
         <servlet-name>AddStoreServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.sellZone.seller.AddStoreServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SellZoneOwnerStoresServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.seller.SellZoneOwnerStoresServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetOwnerStoreOrdersServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.seller.GetOwnerStoreOrdersServlet</servlet-class>
+    </servlet>
+
 
 
 
@@ -238,5 +247,13 @@
     <servlet-mapping>
         <servlet-name>AddStoreServlet</servlet-name>
         <url-pattern>/pages/sellZone/seller/addStore/createNewStore</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellZoneOwnerStoresServlet</servlet-name>
+        <url-pattern>/ownerStores</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetOwnerStoreOrdersServlet</servlet-name>
+        <url-pattern>/getOwnerStoreOrders</url-pattern>
     </servlet-mapping>
 </web-app>

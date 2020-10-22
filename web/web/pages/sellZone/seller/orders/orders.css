@@ -5,3 +5,15 @@
     font-family: Georgia, cursive;
 }
 
+#stores-select-label {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#stores-select {
+
+}
+
+#stores-orders-container {
+    display: none;
+}

@@ -6,6 +6,7 @@ import course.java.sdm.engine.engine.accounts.AccountManager;
 import javax.xml.bind.JAXBException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BusinessLogic {
     private final Map<String, SuperDuperMarket> superDuperMarkets;    // the key is zone name
@@ -48,6 +49,13 @@ public class BusinessLogic {
     public Collection<StoreDto> getStoresDto(String zoneName) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
         return SuperDuperMarketDto.getStoresDto(chosenSuperDuperMarket.getStores());
+    }
+
+    public Collection<StoreDto> getOwnerStoresDto(String zoneName, String ownerName) {
+        Collection<StoreDto> storesDto = getStoresDto(zoneName);
+        return storesDto.stream()
+                .filter(storeDto-> storeDto.getOwnerName().equalsIgnoreCase(ownerName))
+                .collect(Collectors.toList());
     }
 
     public Collection<CustomerDto> getCustomersDto(String zoneName) {
@@ -591,6 +599,8 @@ public class BusinessLogic {
         }
         return feedbacksDto;
     }
+
+
 
 
 }
