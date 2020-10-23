@@ -5,6 +5,18 @@ const STORES_SELECT_CONTAINER_ID = "stores-select-container";
 const STORES_SELECT_ID = "stores-select";
 const STORE_SELECT_DEFAULT_OPTION_ID = "stores-select-default-option";
 
+const ORDERS_ACCORDION_CONTAINER_ID = "orders-accordion-container";
+const ORDER_ACCORDION_BUTTON_CLASS = "order-accordion-button";
+const ORDER_ACCORDION_BUTTON_ACTIVE_CLASS = "order-accordion-button-active";
+const ORDER_PANEL_CONTAINER_CLASS = "order-panel-container";
+
+const ORDER_ITEMS_TABLE_ID = "order-items-table";
+const ORDER_ITEMS_TABLE_BODY_ID = "order-items-table-body";
+const ORDER_ITEMS_TABLE_COL_CLASS = "order-items-table-col";
+const ORDER_ITEMS_TABLE_CELL_CLASS = "order-items-table-cell";
+const ORDER_ITEMS_TABLE_HEADERS = ["ID", "Name", "Purchase Category", "Quantity",
+    "Price", "Total Cost", "Discount"];
+
 const NO_STORES_P_ID = "no-stores-p";
 const NO_STORES_P_TEXT_CONTENT = "You don't have any stores in this zone.";
 const NO_STORE_ORDERS_P_ID = "no-store-orders-p";
@@ -20,8 +32,101 @@ let storeId;
 let storesIds = [];
 
 
-function showOrders(orders) {
-    console.log(orders);
+function addEventListenersToStoreOrders() {
+    let ordersAccordionButtons = document.getElementsByClassName(ORDER_ACCORDION_BUTTON_CLASS);
+
+    for (let orderAccordionButton of ordersAccordionButtons) {
+        orderAccordionButton.addEventListener("click", function() {
+            this.classList.toggle(ORDER_ACCORDION_BUTTON_ACTIVE_CLASS);
+            let panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+}
+
+
+function addHeadersToPurchasedItemsTable(thead) {
+    for (let i = 0; i < ORDER_ITEMS_TABLE_HEADERS.length; i++) {
+        let header = document.createElement("th");
+        header.class = ORDER_ITEMS_TABLE_COL_CLASS;
+        header.innerHTML = ORDER_ITEMS_TABLE_HEADERS[i];
+        thead.appendChild(header);
+    }
+}
+
+
+function addItemsToPurchasedItemsTable(items, itemsTableBody) {
+    for (let item of items) {
+        let row = itemsTableBody.insertRow();
+        Object.keys(item).forEach(function(key) {
+            let cell = row.insertCell();
+            cell.classList.add(ORDER_ITEMS_TABLE_CELL_CLASS);
+            cell.textContent = item[key];
+        })
+    }
+}
+
+
+function addPurchasedItemsTableToOrder(items) {
+    let itemsTable = document.createElement("table");
+    itemsTable.id = ORDER_ITEMS_TABLE_ID;
+    let thead = document.createElement("thead");
+    itemsTable.appendChild(thead);
+    let itemsTableBody = document.createElement("tbody");
+    itemsTableBody.id = ORDER_ITEMS_TABLE_BODY_ID;
+    itemsTable.appendChild(itemsTableBody);
+    addHeadersToPurchasedItemsTable(thead);
+    addItemsToPurchasedItemsTable(items, itemsTableBody);
+    return itemsTable;
+}
+
+
+function addStoreOrder(storeOrder) {
+    let id = storeOrder["orderId"];
+    let date = storeOrder["dateStr"];
+    let customerName = storeOrder["customerName"];
+    let customerLocation = storeOrder["customerLocation"];
+    let totalItems = storeOrder["totalItems"];
+    let itemsCost = storeOrder["itemsCost"];
+    let deliveryCost = storeOrder["deliveryCost"];
+    let totalCost = storeOrder["totalCost"];
+    let purchasedItems = storeOrder["purchasedItemsStoreOrderDto"];
+
+    let ordersAccordionContainer = document.getElementById(ORDERS_ACCORDION_CONTAINER_ID);
+    let orderAccordionButton = document.createElement("button");
+    orderAccordionButton.classList.add(ORDER_ACCORDION_BUTTON_CLASS);
+    orderAccordionButton.innerHTML = `ID: ${id}${TAB}
+                                   Date: ${date}${TAB}
+                                   Customer Name: ${customerName}${TAB}
+                                   Customer Location: ${customerLocation}${TAB}
+                                   ${NEW_LINE}
+                                   Total Items: ${totalItems}${TAB}
+                                   Items Cost: ${itemsCost}${TAB}
+                                   Delivery Cost: ${deliveryCost}${TAB}
+                                   Total Cost: ${totalCost}${TAB}
+                                   `;
+    let orderPanelContainer = document.createElement("div");
+    orderPanelContainer.classList.add(ORDER_PANEL_CONTAINER_CLASS);
+    let purchasedItemsTable = addPurchasedItemsTableToOrder(purchasedItems);
+    orderPanelContainer.appendChild(purchasedItemsTable);
+    ordersAccordionContainer.appendChild(orderAccordionButton);
+    ordersAccordionContainer.appendChild(orderPanelContainer);
+}
+
+
+function showStoreOrders(storeOrders) {
+    $(`#${ORDERS_ACCORDION_CONTAINER_ID}`).empty();
+
+    $.each(storeOrders || [], function(index, storeOrder) {
+        addStoreOrder(storeOrder);
+    });
+
+    addEventListenersToStoreOrders();
+        // console.log(orders);
 }
 
 
@@ -45,9 +150,14 @@ function ajaxGetStoreOrders() {
         error: function() {
             console.error("Failed to submit");
         },
-        success: function(orders) {
-            if (orders.length > 0) {
-                showOrders(orders);
+        success: function(storeOrders) {
+            let ordersContainer = document.getElementById(ORDERS_CONTAINER_ID);
+
+            if (storeOrders.length > 0) {
+                let ordersAccordionContainer = document.createElement("div");
+                ordersAccordionContainer.id = ORDERS_ACCORDION_CONTAINER_ID;
+                ordersContainer.appendChild(ordersAccordionContainer);
+                showStoreOrders(storeOrders);
             }
             else {
                 showNoContentMsg(STORE_ORDERS_CONTAINER_ID, NO_STORE_ORDERS_P_ID,

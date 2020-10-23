@@ -11,7 +11,7 @@ import java.util.*;
 public class StoreOrderDto {
 
     private final int orderId;
-    private final Date date;
+    private final String dateStr;
     private final String customerName;
     private final String customerLocation;
     private final int storeId;
@@ -28,7 +28,7 @@ public class StoreOrderDto {
 
     public StoreOrderDto(StoreOrder storeOrder) {
         this.orderId = storeOrder.getOrderId();
-        this.date = storeOrder.getDate();
+        this.dateStr = Utils.convertDateToString(storeOrder.getDate());
         this.customerName = storeOrder.getCustomerName();
         this.customerLocation = Location.getLocationStr(storeOrder.getCustomerLocation());
         this.storeId = storeOrder.getStore().getId();
@@ -69,8 +69,8 @@ public class StoreOrderDto {
         return orderId;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDateStr() {
+        return dateStr;
     }
 
     public String getCustomerName() {

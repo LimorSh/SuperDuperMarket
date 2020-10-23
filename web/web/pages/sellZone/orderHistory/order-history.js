@@ -123,6 +123,7 @@ function ajaxOrderHistory() {
         },
         success: function(orders) {
             let ordersContainer = document.getElementById(ORDERS_CONTAINER_ID);
+
             if (orders.length > 0) {
                 let ordersAccordionContainer = document.createElement("div");
                 ordersAccordionContainer.id = ORDERS_ACCORDION_CONTAINER_ID;
