@@ -2,6 +2,7 @@ package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.dto.*;
 import course.java.sdm.engine.engine.accounts.AccountManager;
+import course.java.sdm.engine.engine.notifications.NotificationManager;
 
 import javax.xml.bind.JAXBException;
 import java.io.InputStream;
@@ -414,10 +415,14 @@ public class BusinessLogic {
         return minAndMaxLocations;
     }
 
-    public void createNewStore(String zoneName, String ownerName, String storeName,
+    public void createNewStore(NotificationManager notificationManager, String zoneName,
+                               String ownerName, String storeName,
                                int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.addStore(ownerName, storeName, locationX, locationY, ppk, itemIdsAndPrices);
+        Store store = chosenSuperDuperMarket.addStore(ownerName, storeName,
+                locationX, locationY, ppk, itemIdsAndPrices);
+        int totalZoneItems = chosenSuperDuperMarket.getTotalItems();
+        notificationManager.addStoreNotification(store, totalZoneItems);
     }
 
     public void validateStoreId(String zoneName, int id) {

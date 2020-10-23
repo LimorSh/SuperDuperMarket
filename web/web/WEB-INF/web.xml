@@ -140,6 +140,10 @@
         <servlet-name>GetOwnerStoreOrdersServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.sellZone.seller.GetOwnerStoreOrdersServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StoreNotificationServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.notifications.StoreNotificationServlet</servlet-class>
+    </servlet>
 
 
 
@@ -280,5 +284,9 @@
     <servlet-mapping>
         <servlet-name>GetOwnerStoreOrdersServlet</servlet-name>
         <url-pattern>/ownerStoreOrders</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StoreNotificationServlet</servlet-name>
+        <url-pattern>/storeNotifications</url-pattern>
     </servlet-mapping>
 </web-app>

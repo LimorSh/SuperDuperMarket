@@ -153,7 +153,7 @@ public class SuperDuperMarket {
         return Collections.max(stores.keySet()) + 1;
     }
 
-    public void addStore(String ownerName, String storeName,
+    public Store addStore(String ownerName, String storeName,
                          int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
         Location location = new Location(locationX, locationY);
         int id = getNextFreeStoreId();
@@ -164,6 +164,7 @@ public class SuperDuperMarket {
             Item item = getItem(itemId);
             store.addItem(item, price);
         });
+        return store;
     }
 
     private void validateLocation(Object object, Location location) {
@@ -602,5 +603,9 @@ public class SuperDuperMarket {
     public Collection<StoreOrder> getStoreOrders(int storeId) {
         Store store = getStore(storeId);
         return store.getStoreOrders();
+    }
+
+    public int getTotalItems() {
+        return items.size();
     }
 }

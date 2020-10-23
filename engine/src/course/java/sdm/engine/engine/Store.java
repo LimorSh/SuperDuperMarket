@@ -75,6 +75,10 @@ public class Store {
         return location;
     }
 
+    public int getNumberOfItems() {
+        return storeItems.keySet().size();
+    }
+
     public Collection<StoreOrder> getStoreOrders() {
         Collection<Order> orders = getOrders();
         Collection<StoreOrder> storeOrders = new ArrayList<>();
