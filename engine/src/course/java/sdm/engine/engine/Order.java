@@ -148,7 +148,7 @@ public class Order {
             store.updateTotalNumberSoldItem(item, itemQuantity);
         });
 
-        StoreOrder storeOrder = new StoreOrder(date, store, orderLines);
+        StoreOrder storeOrder = new StoreOrder(id, date,customerName, customerLocation, store, orderLines);
         storeOrder.SetValues(customerLocation, appliedOffers);
         storesOrder.put(store.getId(), storeOrder);
         setValues(storeOrder);

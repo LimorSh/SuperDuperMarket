@@ -37,7 +37,7 @@ function showNoContentMsg(containerId, noContentPId, noContentPText) {
 function ajaxGetStoreOrders() {
     $.ajax({
         url: OWNER_STORE_ORDERS_URL,
-        date: {"storeId": storeId},
+        data: {"storeId": storeId},
         timeout: 2000,
         headers: {
             'cache-control': 'no-store,no-cache',
@@ -60,8 +60,9 @@ function ajaxGetStoreOrders() {
 
 function storeWasChosen() {
     document.getElementById(STORE_SELECT_DEFAULT_OPTION_ID).disabled = true;
+    let storesSelect = document.getElementById(STORES_SELECT_ID);
 
-    let index = this.selectedIndex - 1;
+    let index = storesSelect.selectedIndex - 1;
     for (let i = 0; i < storesIds.length; i++) {
         if (i === index) {
             storeId = storesIds[i];

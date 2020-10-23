@@ -6,7 +6,10 @@ import java.util.Map;
 
 public class StoreOrder {
 
+    private final int orderId;
     private final Date date;
+    private final String customerName;
+    private final Location customerLocation;
     private final Store store;
     private final Map<Integer, OrderLine> orderLines; //the key is itemId
     private Map<String, ArrayList<Offer>> appliedOffers;  //the key is discount name
@@ -17,8 +20,12 @@ public class StoreOrder {
     private double distanceFromCustomer;
     private StoreFeedback storeFeedback;
 
-    public StoreOrder(Date date, Store store, Map<Integer, OrderLine> orderLines) {
+    public StoreOrder(int orderId, Date date, String customerName, Location customerLocation,
+                      Store store, Map<Integer, OrderLine> orderLines) {
+        this.orderId = orderId;
         this.date = date;
+        this.customerName = customerName;
+        this.customerLocation = customerLocation;
         this.store = store;
         this.orderLines = orderLines;
     }
@@ -101,8 +108,20 @@ public class StoreOrder {
         });
     }
 
+    public int getOrderId() {
+        return orderId;
+    }
+
     public Date getDate() {
         return date;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public Location getCustomerLocation() {
+        return customerLocation;
     }
 
     public Store getStore() {

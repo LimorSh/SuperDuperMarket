@@ -279,6 +279,6 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GetOwnerStoreOrdersServlet</servlet-name>
-        <url-pattern>/getOwnerStoreOrders</url-pattern>
+        <url-pattern>/ownerStoreOrders</url-pattern>
     </servlet-mapping>
 </web-app>

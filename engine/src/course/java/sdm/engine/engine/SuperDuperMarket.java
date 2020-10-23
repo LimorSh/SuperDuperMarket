@@ -1,7 +1,5 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
-import course.java.sdm.engine.dto.DiscountDto;
-import course.java.sdm.engine.dto.OfferDto;
 import course.java.sdm.engine.engine.accounts.AccountManager;
 import course.java.sdm.engine.exception.DuplicateElementIdException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheStoreException;
@@ -599,5 +597,10 @@ public class SuperDuperMarket {
     public Collection<Order> getCustomerOrders(String name) {
         Customer customer = getCustomer(name);
         return customer.getOrders();
+    }
+
+    public Collection<StoreOrder> getStoreOrders(int storeId) {
+        Store store = getStore(storeId);
+        return store.getStoreOrders();
     }
 }

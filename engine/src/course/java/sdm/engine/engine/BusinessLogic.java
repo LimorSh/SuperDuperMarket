@@ -573,17 +573,28 @@ public class BusinessLogic {
     }
 
     private ArrayList<PurchasedItemDto> getOrderPurchasedItemsDto(Order order) {
-        ArrayList<PurchasedItemDto> purchasedItemsDto = new ArrayList<>();
         Collection<StoreOrder> storesOrder = order.getStoresOrder();
+        return getOrderPurchasedItemsDto(storesOrder);
+    }
+
+    private Collection<PurchasedItemDto> getStoreOrderPurchasedItemsDto
+            (StoreOrder storeOrder) {
+        ArrayList<PurchasedItemDto> purchasedItemsDto = new ArrayList<>();
+        ArrayList<PurchasedItemDto> purchasedItemsDtoFromOrderLines =
+                getOrderPurchasedItemsDtoFromOrderLines(storeOrder);
+
+        ArrayList<PurchasedItemDto> purchasedItemsDtoFromAppliedOffers =
+                getOrderPurchasedItemsDtoFromAppliedOffers(storeOrder);
+
+        purchasedItemsDto.addAll(purchasedItemsDtoFromOrderLines);
+        purchasedItemsDto.addAll(purchasedItemsDtoFromAppliedOffers);
+        return purchasedItemsDto;
+    }
+
+    private ArrayList<PurchasedItemDto> getOrderPurchasedItemsDto(Collection<StoreOrder> storesOrder) {
+        ArrayList<PurchasedItemDto> purchasedItemsDto = new ArrayList<>();
         for (StoreOrder storeOrder : storesOrder) {
-            ArrayList<PurchasedItemDto> purchasedItemsDtoFromOrderLines =
-                    getOrderPurchasedItemsDtoFromOrderLines(storeOrder);
-
-            ArrayList<PurchasedItemDto> purchasedItemsDtoFromAppliedOffers =
-                    getOrderPurchasedItemsDtoFromAppliedOffers(storeOrder);
-
-            purchasedItemsDto.addAll(purchasedItemsDtoFromOrderLines);
-            purchasedItemsDto.addAll(purchasedItemsDtoFromAppliedOffers);
+            purchasedItemsDto.addAll(getStoreOrderPurchasedItemsDto(storeOrder));
         }
         return purchasedItemsDto;
     }
@@ -602,6 +613,26 @@ public class BusinessLogic {
             }
         }
         return ordersDto;
+    }
+
+    public Collection<StoreOrderDto> getStoreOrderHistory(String zoneName, int storeId) {
+        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
+        Collection<StoreOrderDto> storeOrdersDto = new ArrayList<>();
+        Collection<StoreOrder> storeOrders = chosenSuperDuperMarket.getStoreOrders(storeId);
+
+        for (StoreOrder storeOrder : storeOrders) {
+            StoreOrderDto storeOrderDto = new StoreOrderDto(storeOrder);
+            Collection<PurchasedItemDto> purchasedItemsDto = getStoreOrderPurchasedItemsDto(storeOrder);
+            ArrayList<PurchasedItemStoreOrderDto> purchasedItemsStoreOrderDto = new ArrayList<>();
+            for (PurchasedItemDto purchasedItemDto : purchasedItemsDto) {
+                PurchasedItemStoreOrderDto purchasedItemStoreOrderDto =
+                        new PurchasedItemStoreOrderDto(purchasedItemDto);
+                purchasedItemsStoreOrderDto.add(purchasedItemStoreOrderDto);
+            }
+            storeOrderDto.setPurchasedItemStoreOrderDto(purchasedItemsStoreOrderDto);
+            storeOrdersDto.add(storeOrderDto);
+        }
+        return storeOrdersDto;
     }
 
     public Collection<StoreFeedbackDto> getFeedbacksDto(String zoneName, String storeOwnerName) {

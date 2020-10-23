@@ -75,6 +75,16 @@ public class Store {
         return location;
     }
 
+    public Collection<StoreOrder> getStoreOrders() {
+        Collection<Order> orders = getOrders();
+        Collection<StoreOrder> storeOrders = new ArrayList<>();
+        for (Order order : orders) {
+            StoreOrder storeOrder = order.getStoreOrder(id);
+            storeOrders.add(storeOrder);
+        }
+        return storeOrders;
+    }
+
     public void addItem(Item item, float price) {
         int id = item.getId();
         if (!isItemInTheStore(id)) {
@@ -215,18 +225,19 @@ public class Store {
         return cost.get();
     }
 
-//    @Override
-//    public String toString() {
-//        return "Store{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", ppk=" + ppk +
-//                ", location=" + location +
-//                ", storeItems=" + storeItems +
-//                ", orders=" + orders +
-//                ", totalDeliveriesRevenue=" + totalDeliveriesRevenue +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "Store{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", ownerName='" + ownerName + '\'' +
+                ", ppk=" + ppk +
+                ", location=" + location +
+                ", storeItems=" + storeItems +
+                ", orders=" + orders +
+                ", totalDeliveriesRevenue=" + totalDeliveriesRevenue +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -245,4 +256,5 @@ public class Store {
         result = 31 * result + (location != null ? location.hashCode() : 0);
         return result;
     }
+
 }
