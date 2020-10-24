@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //@WebServlet(name = "StoreNotificationServlet", urlPatterns = {"/storeNotifications"})
 public class StoreNotificationServlet extends HttpServlet {
@@ -32,13 +33,17 @@ public class StoreNotificationServlet extends HttpServlet {
 
         int notificationsManagerVersion;
         List<StoreNotification> storeNotifications;
+        List<StoreNotification> storeNotificationsWithoutCurrentUser;
         synchronized (getServletContext()) {
             notificationsManagerVersion = notificationManager.getVersion();
             storeNotifications = notificationManager.getStoreNotifications(storeNotificationVersion);
+            storeNotificationsWithoutCurrentUser = storeNotifications.stream()
+                    .filter(storeNotification -> !storeNotification.getOwnerName().equalsIgnoreCase(username))
+                    .collect(Collectors.toList());
         }
 
         NewStoreNotifications newStoreNotifications =
-                new NewStoreNotifications(storeNotifications, notificationsManagerVersion);
+                new NewStoreNotifications(storeNotificationsWithoutCurrentUser, notificationsManagerVersion);
         Gson gson = new Gson();
         String jsonResponse = gson.toJson(newStoreNotifications);
         try (PrintWriter out = response.getWriter()) {
