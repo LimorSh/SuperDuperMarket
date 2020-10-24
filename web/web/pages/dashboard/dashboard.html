@@ -10,6 +10,7 @@
     <script src="../../notifications/notifications.js"></script>
     <script src="dashboard.js"></script>
     <link rel="stylesheet" href="../../common/w3_style.css">
+    <link rel="stylesheet" href="../../common/bootstrap.min.css">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="../../notifications/notifications.css">
     <title>Dashboard</title>
@@ -26,21 +27,31 @@
         <br/>
         <br/>
     </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-2">
+                <div class="sidebar">
+                    <h4>Online</h4>
+                    <div class="clearfix">
+                        <div class="input">
+                            <div id="users-list-container">
+                                <ul id="users-list">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="content">
+                    <div id="notifications-window">
+                        <h4>Notifications</h4>
+                        <div id="notifications-area" class="span6"></div>
+                    </div>
+                </div>
 
-
-    <div class="col-xs-4">
-        <div class="content">
-            <div id="notifications-window">
-                <h4>Notification</h4>
-                <div id="notifications-area" class="span6"></div>
             </div>
         </div>
-    </div>
-
-
-    <div id="users-list-container">
-        <ul id="users-list">
-        </ul>
     </div>
     <div id="upload-file-container">
         <p id="upload-zone-file-p">Upload Zone File</p>
