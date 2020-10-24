@@ -1,5 +1,7 @@
 package course.java.sdm.engine.engine;
 
+import course.java.sdm.engine.engine.notifications.NotificationManager;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -58,11 +60,14 @@ public class StoreOrder {
         return storeFeedback;
     }
 
-    public void setStoreFeedback(Date date, String customerName, ArrayList<String> storeRateDetails) {
+    public void setStoreFeedback(NotificationManager notificationManager,
+                                 Date date, String customerName, ArrayList<String> storeRateDetails) {
         int rate = Integer.parseInt(storeRateDetails.get(0));
         String feedback = storeRateDetails.get(1);
         this.storeFeedback = new StoreFeedback(store.getId(), store.getName(), date,
                 customerName, rate, feedback);
+        notificationManager.addStoreFeedbackNotification(store.getOwnerName(),
+                store.getName(), customerName, rate);
     }
 
     private void setTotalItems() {

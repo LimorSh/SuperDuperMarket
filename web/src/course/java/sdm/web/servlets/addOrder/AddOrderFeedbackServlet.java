@@ -3,6 +3,7 @@ package course.java.sdm.web.servlets.addOrder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import course.java.sdm.engine.engine.BusinessLogic;
+import course.java.sdm.engine.engine.notifications.NotificationManager;
 import course.java.sdm.web.constants.Constants;
 import course.java.sdm.web.utils.ServletUtils;
 import course.java.sdm.web.utils.SessionUtils;
@@ -20,6 +21,7 @@ public class AddOrderFeedbackServlet extends HttpServlet {
             throws IOException {
         String zoneNameFromSession = SessionUtils.getZoneName(request);
         BusinessLogic businessLogic = ServletUtils.getBusinessLogic(getServletContext());
+        NotificationManager notificationManager = ServletUtils.getNotificationManager(getServletContext());
 
         String orderIdFromParameter = request.getParameter(Constants.ORDER_ID_PARAM_KEY);
         int orderId = Integer.parseInt(orderIdFromParameter);
@@ -39,7 +41,7 @@ public class AddOrderFeedbackServlet extends HttpServlet {
         });
 
         synchronized (this) {
-            businessLogic.addOrderFeedback(zoneNameFromSession, orderId, storesAndRates);
+            businessLogic.addOrderFeedback(notificationManager, zoneNameFromSession, orderId, storesAndRates);
         }
     }
 

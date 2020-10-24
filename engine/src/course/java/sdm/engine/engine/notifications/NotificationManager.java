@@ -8,13 +8,21 @@ import java.util.List;
 public class NotificationManager {
 
     private final List<StoreNotification> storeNotifications;
+    private final List<StoreFeedbackNotification> storeFeedbackNotifications;
 
     public NotificationManager() {
         storeNotifications = new ArrayList<>();
+        storeFeedbackNotifications = new ArrayList<>();
     }
 
     public synchronized void addStoreNotification(Store store, int totalZoneItems) {
         storeNotifications.add(new StoreNotification(store, totalZoneItems));
+    }
+
+    public synchronized void addStoreFeedbackNotification(String ownerName, String storeName,
+                                                          String customerName, int rate) {
+        storeFeedbackNotifications.add(new StoreFeedbackNotification(
+                ownerName, storeName, customerName, rate));
     }
 
     public synchronized List<StoreNotification> getStoreNotifications(int fromIndex){
@@ -24,7 +32,20 @@ public class NotificationManager {
         return storeNotifications.subList(fromIndex, storeNotifications.size());
     }
 
-    public int getVersion() {
+    public int getStoreNotificationsVersion() {
         return storeNotifications.size();
     }
+
+    public synchronized List<StoreFeedbackNotification> getStoreFeedbackNotifications(int fromIndex){
+        if (fromIndex < 0 || fromIndex > storeFeedbackNotifications.size()) {
+            fromIndex = 0;
+        }
+        return storeFeedbackNotifications.subList(fromIndex, storeFeedbackNotifications.size());
+    }
+
+    public int getStoreFeedbackNotificationsVersion() {
+        return storeFeedbackNotifications.size();
+    }
+
+
 }

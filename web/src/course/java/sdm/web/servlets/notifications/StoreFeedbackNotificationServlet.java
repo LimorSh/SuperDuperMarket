@@ -2,7 +2,7 @@ package course.java.sdm.web.servlets.notifications;
 
 import com.google.gson.Gson;
 import course.java.sdm.engine.engine.notifications.NotificationManager;
-import course.java.sdm.engine.engine.notifications.StoreNotification;
+import course.java.sdm.engine.engine.notifications.StoreFeedbackNotification;
 import course.java.sdm.web.constants.Constants;
 import course.java.sdm.web.utils.ServletUtils;
 import course.java.sdm.web.utils.SessionUtils;
@@ -16,8 +16,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@WebServlet(name = "StoreNotificationServlet", urlPatterns = {"/storeNotifications"})
-public class StoreNotificationServlet extends HttpServlet {
+//@WebServlet(name = "StoreFeedbackNotificationServlet", urlPatterns = {"/storeFeedbackNotifications"})
+public class StoreFeedbackNotificationServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -26,38 +26,40 @@ public class StoreNotificationServlet extends HttpServlet {
         NotificationManager notificationManager = ServletUtils.getNotificationManager(getServletContext());
         String username = SessionUtils.getUsername(request);
 
-        int storeNotificationVersion = ServletUtils.getIntParameter(request, Constants.STORE_NOTIFICATION_VERSION_PARAMETER);
-        if (storeNotificationVersion == Constants.INT_PARAMETER_ERROR) {
+        int StoreFeedbackNotification = ServletUtils.getIntParameter(request, Constants.STORE_FEEDBACK_NOTIFICATION_VERSION_PARAMETER);
+        if (StoreFeedbackNotification == Constants.INT_PARAMETER_ERROR) {
             return;
         }
 
-        int storeNotificationsVersion;
-        List<StoreNotification> storeNotifications;
-        List<StoreNotification> storeNotificationsWithoutCurrentUser;
+        int storeFeedbackNotificationsVersion;
+        List<StoreFeedbackNotification> storeFeedbackNotifications;
+        List<StoreFeedbackNotification> storeFeedbackNotificationsFilteredByCurrentUser;
         synchronized (getServletContext()) {
-            storeNotificationsVersion = notificationManager.getStoreNotificationsVersion();
-            storeNotifications = notificationManager.getStoreNotifications(storeNotificationVersion);
-            storeNotificationsWithoutCurrentUser = storeNotifications.stream()
-                    .filter(storeNotification -> !storeNotification.getOwnerName().equalsIgnoreCase(username))
+            storeFeedbackNotificationsVersion = notificationManager.getStoreFeedbackNotificationsVersion();
+            storeFeedbackNotifications = notificationManager.
+                    getStoreFeedbackNotifications(storeFeedbackNotificationsVersion);
+            storeFeedbackNotificationsFilteredByCurrentUser = storeFeedbackNotifications.stream()
+                    .filter(storeNotification -> storeNotification.getOwnerName().equalsIgnoreCase(username))
                     .collect(Collectors.toList());
         }
 
-        NewStoreNotifications newStoreNotifications =
-                new NewStoreNotifications(storeNotificationsWithoutCurrentUser, storeNotificationsVersion);
+        NewStoreFeedbackNotifications newStoreFeedbackNotifications =
+                new NewStoreFeedbackNotifications(storeFeedbackNotificationsFilteredByCurrentUser,
+                        storeFeedbackNotificationsVersion);
         Gson gson = new Gson();
-        String jsonResponse = gson.toJson(newStoreNotifications);
+        String jsonResponse = gson.toJson(newStoreFeedbackNotifications);
         try (PrintWriter out = response.getWriter()) {
             out.print(jsonResponse);
             out.flush();
         }
     }
 
-    private static class NewStoreNotifications {
+    private static class NewStoreFeedbackNotifications {
 
-        final private List<StoreNotification> entries;
+        final private List<StoreFeedbackNotification> entries;
         final private int version;
 
-        public NewStoreNotifications(List<StoreNotification> entries, int version) {
+        public NewStoreFeedbackNotifications(List<StoreFeedbackNotification> entries, int version) {
             this.entries = entries;
             this.version = version;
         }

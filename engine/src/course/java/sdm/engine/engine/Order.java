@@ -1,5 +1,6 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
+import course.java.sdm.engine.engine.notifications.NotificationManager;
 
 import java.util.*;
 
@@ -167,10 +168,11 @@ public class Order {
         }
     }
 
-    public void addFeedback(Map<Integer, ArrayList<String>> storesAndRates) {
+    public void addFeedback(NotificationManager notificationManager,
+                            Map<Integer, ArrayList<String>> storesAndRates) {
         storesAndRates.forEach((storeId,storeRateDetails) -> {
             StoreOrder storeOrder = getStoreOrder(storeId);
-            storeOrder.setStoreFeedback(date, customerName, storeRateDetails);
+            storeOrder.setStoreFeedback(notificationManager, date, customerName, storeRateDetails);
         });
     }
 

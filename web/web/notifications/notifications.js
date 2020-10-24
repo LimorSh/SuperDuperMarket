@@ -1,10 +1,13 @@
 const NOTIFICATIONS_AREA_ID = "notifications-area";
 
 let storeNotificationVersion = 0;
+let storeFeedbackNotificationVersion = 0;
 
 const REFRESH_RATE = 2000; //milli seconds
 const STORE_NOTIFICATION_URL_RESOURCE = "storeNotifications";
 let STORE_NOTIFICATION_URL = buildUrlWithContextPath(STORE_NOTIFICATION_URL_RESOURCE);
+const STORE_FEEDBACK_NOTIFICATION_URL_RESOURCE = "storeFeedbackNotifications";
+let STORE_FEEDBACK_NOTIFICATION_URL = buildUrlWithContextPath(STORE_FEEDBACK_NOTIFICATION_URL_RESOURCE);
 
 
 function appendToNotificationsArea(notifications) {
@@ -25,11 +28,11 @@ function appendNotification(index, notification){
 }
 
 
-function createNotification(notification){
-    let storeOwnerName = notification["ownerName"];
-    let storeName = notification["storeName"];
-    let location = notification["locationStr"];
-    let itemsRatio = notification["itemsRatio"];
+function createStoreNotification(storeNotification){
+    let storeOwnerName = storeNotification["ownerName"];
+    let storeName = storeNotification["storeName"];
+    let location = storeNotification["locationStr"];
+    let itemsRatio = storeNotification["itemsRatio"];
 
     return $("<span class=\"success\">").append(
         `New store was opened in your zone: 
@@ -41,7 +44,7 @@ function createNotification(notification){
 }
 
 
-function ajaxNotifications() {
+function ajaxStoreNotifications() {
     $.ajax({
         url: STORE_NOTIFICATION_URL,
         data: "storeNotificationVersion=" + storeNotificationVersion,
@@ -76,7 +79,9 @@ function ajaxNotifications() {
 
 
 function triggerAjaxNotifications() {
-    setTimeout(ajaxNotifications, REFRESH_RATE);
+    setTimeout(ajaxStoreNotifications, REFRESH_RATE);
+    setTimeout(ajaxStoreFeebackNotifications, REFRESH_RATE);
+    // setTimeout(ajaxOrderNotifications, REFRESH_RATE);
 }
 
 

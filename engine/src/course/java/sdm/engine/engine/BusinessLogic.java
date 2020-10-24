@@ -419,10 +419,8 @@ public class BusinessLogic {
                                String ownerName, String storeName,
                                int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        Store store = chosenSuperDuperMarket.addStore(ownerName, storeName,
+        chosenSuperDuperMarket.addStore(notificationManager, ownerName, storeName,
                 locationX, locationY, ppk, itemIdsAndPrices);
-        int totalZoneItems = chosenSuperDuperMarket.getTotalItems();
-        notificationManager.addStoreNotification(store, totalZoneItems);
     }
 
     public void validateStoreId(String zoneName, int id) {
@@ -527,10 +525,10 @@ public class BusinessLogic {
         return convertDiscountsToDiscountsDto(chosenSuperDuperMarket, discounts);
     }
 
-    public void addOrderFeedback(String zoneName, int orderId,
+    public void addOrderFeedback(NotificationManager notificationManager, String zoneName, int orderId,
                                  Map<Integer, ArrayList<String>> storesAndRates) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.addOrderFeedback(orderId, storesAndRates);
+        chosenSuperDuperMarket.addOrderFeedback(notificationManager, orderId, storesAndRates);
     }
 
     public ArrayList<PurchasedItemDto> getOrderPurchasedItemsDtoFromOrderLines

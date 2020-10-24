@@ -1,6 +1,7 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.engine.accounts.AccountManager;
+import course.java.sdm.engine.engine.notifications.NotificationManager;
 import course.java.sdm.engine.exception.DuplicateElementIdException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheStoreException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheSuperException;
@@ -153,8 +154,8 @@ public class SuperDuperMarket {
         return Collections.max(stores.keySet()) + 1;
     }
 
-    public Store addStore(String ownerName, String storeName,
-                         int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
+    public Store addStore(NotificationManager notificationManager, String ownerName, String storeName,
+                          int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
         Location location = new Location(locationX, locationY);
         int id = getNextFreeStoreId();
         Store store = new Store(id, storeName, ownerName, ppk, location);
@@ -164,6 +165,7 @@ public class SuperDuperMarket {
             Item item = getItem(itemId);
             store.addItem(item, price);
         });
+        notificationManager.addStoreNotification(store, getTotalItems());
         return store;
     }
 
@@ -590,9 +592,10 @@ public class SuperDuperMarket {
         return discounts;
     }
 
-    public void addOrderFeedback(int orderId, Map<Integer, ArrayList<String>> storesAndRates) {
+    public void addOrderFeedback(NotificationManager notificationManager,
+                                 int orderId, Map<Integer, ArrayList<String>> storesAndRates) {
         Order order = getOrder(orderId);
-        order.addFeedback(storesAndRates);
+        order.addFeedback(notificationManager, storesAndRates);
     }
 
     public Collection<Order> getCustomerOrders(String name) {

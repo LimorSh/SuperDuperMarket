@@ -144,6 +144,10 @@
         <servlet-name>StoreNotificationServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.notifications.StoreNotificationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StoreFeedbackNotificationServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.notifications.StoreFeedbackNotificationServlet</servlet-class>
+    </servlet>
 
 
 
@@ -288,5 +292,9 @@
     <servlet-mapping>
         <servlet-name>StoreNotificationServlet</servlet-name>
         <url-pattern>/storeNotifications</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StoreFeedbackNotificationServlet</servlet-name>
+        <url-pattern>/storeFeedbackNotifications</url-pattern>
     </servlet-mapping>
 </web-app>

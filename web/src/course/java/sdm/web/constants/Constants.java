@@ -31,6 +31,8 @@ public class Constants {
     public static final String STORES_IDS_AND_PRICES_PARAM_KEY = "storesIdsAndPrices";
     // notifications
     public static final String STORE_NOTIFICATION_VERSION_PARAMETER = "storeNotificationVersion";
+    public static final String STORE_FEEDBACK_NOTIFICATION_VERSION_PARAMETER =
+            "storeFeedbackNotificationVersion";
     // common
     public static final String EMPTY_JSON_RESPONSE = "{}";
     public static final int INT_PARAMETER_ERROR = Integer.MIN_VALUE;
