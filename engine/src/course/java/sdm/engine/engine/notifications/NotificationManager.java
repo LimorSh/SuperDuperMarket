@@ -15,14 +15,15 @@ public class NotificationManager {
         storeFeedbackNotifications = new ArrayList<>();
     }
 
-    public synchronized void addStoreNotification(Store store, int totalZoneItems) {
-        storeNotifications.add(new StoreNotification(store, totalZoneItems));
+    public synchronized void addStoreNotification(String zoneOwnerName, Store store, int totalZoneItems) {
+        storeNotifications.add(new StoreNotification(zoneOwnerName, store, totalZoneItems));
     }
 
-    public synchronized void addStoreFeedbackNotification(String ownerName, String storeName,
-                                                          String customerName, int rate) {
+    public synchronized void addStoreFeedbackNotification(
+            String zoneOwnerName, String storeOwnerName,
+            String storeName, String customerName, int rate) {
         storeFeedbackNotifications.add(new StoreFeedbackNotification(
-                ownerName, storeName, customerName, rate));
+                zoneOwnerName, storeOwnerName, storeName, customerName, rate));
     }
 
     public synchronized List<StoreNotification> getStoreNotifications(int fromIndex){

@@ -12,8 +12,8 @@ public class StoreNotification extends Notification {
     private final String locationStr;
     private final String itemsRatio;
 
-    public StoreNotification(Store store, int totalZoneItems) {
-        super(store.getOwnerName(), Constants.NOTIFICATION_TYPE_NEW_STORE_STR);
+    public StoreNotification(String zoneOwnerName, Store store, int totalZoneItems) {
+        super(zoneOwnerName, store.getOwnerName(), Constants.NOTIFICATION_TYPE_NEW_STORE_STR);
         this.storeName = store.getName();
         this.locationStr = Location.getLocationStr(store.getLocation());
         this.itemsRatio = String.format("%d/%d", store.getNumberOfItems(), totalZoneItems);
@@ -31,13 +31,17 @@ public class StoreNotification extends Notification {
         return itemsRatio;
     }
 
+    public boolean isUserZoneOwnerAndNotStoreOwner(String userName) {
+        return userName.equalsIgnoreCase(zoneOwnerName) && !userName.equalsIgnoreCase(storeOwnerName);
+    }
+
     @Override
     public String toString() {
         return "StoreNotification{" +
                 "storeName='" + storeName + '\'' +
                 ", locationStr='" + locationStr + '\'' +
                 ", itemsRatio='" + itemsRatio + '\'' +
-                ", ownerName='" + ownerName + '\'' +
+                ", ownerName='" + storeOwnerName + '\'' +
                 ", type='" + type + '\'' +
                 ", dateStr='" + dateStr + '\'' +
                 '}';

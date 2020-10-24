@@ -165,7 +165,7 @@ public class SuperDuperMarket {
             Item item = getItem(itemId);
             store.addItem(item, price);
         });
-        notificationManager.addStoreNotification(store, getTotalItems());
+        notificationManager.addStoreNotification(getZoneOwnerName(), store, getTotalItems());
         return store;
     }
 
@@ -595,7 +595,7 @@ public class SuperDuperMarket {
     public void addOrderFeedback(NotificationManager notificationManager,
                                  int orderId, Map<Integer, ArrayList<String>> storesAndRates) {
         Order order = getOrder(orderId);
-        order.addFeedback(notificationManager, storesAndRates);
+        order.addFeedback(notificationManager, getZoneOwnerName(), storesAndRates);
     }
 
     public Collection<Order> getCustomerOrders(String name) {

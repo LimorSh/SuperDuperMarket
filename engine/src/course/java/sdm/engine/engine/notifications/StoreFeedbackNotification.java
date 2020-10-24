@@ -10,8 +10,9 @@ public class StoreFeedbackNotification extends Notification {
     private final String customerName;
     private final int rate;
 
-    public StoreFeedbackNotification(String ownerName, String storeName, String customerName, int rate) {
-        super(ownerName, Constants.NOTIFICATION_TYPE_NEW_STORE_FEEDBACK_STR);
+    public StoreFeedbackNotification(String zoneOwnerName, String storeOwnerName,
+                                     String storeName, String customerName, int rate) {
+        super(zoneOwnerName, storeOwnerName, Constants.NOTIFICATION_TYPE_NEW_STORE_FEEDBACK_STR);
         this.storeName = storeName;
         this.customerName = customerName;
         this.rate = rate;
@@ -35,7 +36,7 @@ public class StoreFeedbackNotification extends Notification {
                 "storeName='" + storeName + '\'' +
                 ", customerName='" + customerName + '\'' +
                 ", rate=" + rate +
-                ", ownerName='" + ownerName + '\'' +
+                ", ownerName='" + storeOwnerName + '\'' +
                 ", type='" + type + '\'' +
                 ", dateStr='" + dateStr + '\'' +
                 '}';

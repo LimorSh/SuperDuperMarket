@@ -34,7 +34,7 @@ public class SellZoneBasicItemsServlet extends HttpServlet {
                     (Comparator.comparing(BasicItemDto::getId))
                     .collect(Collectors.toList());
             String json = gson.toJson(basicItemsSortedById);
-            System.out.println(json);
+//            System.out.println(json);
             out.println(json);
             out.flush();
         }

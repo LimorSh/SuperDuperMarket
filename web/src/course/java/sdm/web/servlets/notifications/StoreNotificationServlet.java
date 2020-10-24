@@ -26,8 +26,8 @@ public class StoreNotificationServlet extends HttpServlet {
         NotificationManager notificationManager = ServletUtils.getNotificationManager(getServletContext());
         String username = SessionUtils.getUsername(request);
 
-        int storeNotificationVersion = ServletUtils.getIntParameter(request, Constants.STORE_NOTIFICATION_VERSION_PARAMETER);
-        if (storeNotificationVersion == Constants.INT_PARAMETER_ERROR) {
+        int versionFromUserParameter = ServletUtils.getIntParameter(request, Constants.STORE_NOTIFICATION_VERSION_PARAMETER);
+        if (versionFromUserParameter == Constants.INT_PARAMETER_ERROR) {
             return;
         }
 
@@ -36,9 +36,12 @@ public class StoreNotificationServlet extends HttpServlet {
         List<StoreNotification> storeNotificationsWithoutCurrentUser;
         synchronized (getServletContext()) {
             storeNotificationsVersion = notificationManager.getStoreNotificationsVersion();
-            storeNotifications = notificationManager.getStoreNotifications(storeNotificationVersion);
+            storeNotifications = notificationManager.getStoreNotifications(versionFromUserParameter);
             storeNotificationsWithoutCurrentUser = storeNotifications.stream()
-                    .filter(storeNotification -> !storeNotification.getOwnerName().equalsIgnoreCase(username))
+                    .filter(storeNotification -> {
+                        assert username != null;
+                        return storeNotification.isUserZoneOwnerAndNotStoreOwner(username);
+                    })
                     .collect(Collectors.toList());
         }
 

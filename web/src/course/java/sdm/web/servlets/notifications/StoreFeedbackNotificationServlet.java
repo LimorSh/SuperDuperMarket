@@ -26,28 +26,26 @@ public class StoreFeedbackNotificationServlet extends HttpServlet {
         NotificationManager notificationManager = ServletUtils.getNotificationManager(getServletContext());
         String username = SessionUtils.getUsername(request);
 
-        int StoreFeedbackNotification = ServletUtils.getIntParameter(request, Constants.STORE_FEEDBACK_NOTIFICATION_VERSION_PARAMETER);
-        if (StoreFeedbackNotification == Constants.INT_PARAMETER_ERROR) {
+        int versionFromUserParameter = ServletUtils.getIntParameter(request, Constants.STORE_FEEDBACK_NOTIFICATION_VERSION_PARAMETER);
+        if (versionFromUserParameter == Constants.INT_PARAMETER_ERROR) {
             return;
         }
 
         int storeFeedbackNotificationsVersion;
         List<StoreFeedbackNotification> storeFeedbackNotifications;
-        List<StoreFeedbackNotification> storeFeedbackNotificationsFilteredByCurrentUser;
+        List<StoreFeedbackNotification> storeFeedbackNotificationsWithoutCurrentUser;
         synchronized (getServletContext()) {
             storeFeedbackNotificationsVersion = notificationManager.getStoreFeedbackNotificationsVersion();
-            storeFeedbackNotifications = notificationManager.
-                    getStoreFeedbackNotifications(storeFeedbackNotificationsVersion);
-            storeFeedbackNotificationsFilteredByCurrentUser = storeFeedbackNotifications.stream()
-                    .filter(storeNotification -> storeNotification.getOwnerName().equalsIgnoreCase(username))
+            storeFeedbackNotifications = notificationManager.getStoreFeedbackNotifications(versionFromUserParameter);
+            storeFeedbackNotificationsWithoutCurrentUser = storeFeedbackNotifications.stream()
+                    .filter(storeFeedbackNotification -> storeFeedbackNotification.getStoreOwnerName().equalsIgnoreCase(username))
                     .collect(Collectors.toList());
         }
 
-        NewStoreFeedbackNotifications newStoreFeedbackNotifications =
-                new NewStoreFeedbackNotifications(storeFeedbackNotificationsFilteredByCurrentUser,
-                        storeFeedbackNotificationsVersion);
+        NewStoreFeedbackNotifications newStoreNotifications =
+                new NewStoreFeedbackNotifications(storeFeedbackNotificationsWithoutCurrentUser, storeFeedbackNotificationsVersion);
         Gson gson = new Gson();
-        String jsonResponse = gson.toJson(newStoreFeedbackNotifications);
+        String jsonResponse = gson.toJson(newStoreNotifications);
         try (PrintWriter out = response.getWriter()) {
             out.print(jsonResponse);
             out.flush();

@@ -168,11 +168,11 @@ public class Order {
         }
     }
 
-    public void addFeedback(NotificationManager notificationManager,
+    public void addFeedback(NotificationManager notificationManager, String zoneOwnerName,
                             Map<Integer, ArrayList<String>> storesAndRates) {
         storesAndRates.forEach((storeId,storeRateDetails) -> {
             StoreOrder storeOrder = getStoreOrder(storeId);
-            storeOrder.setStoreFeedback(notificationManager, date, customerName, storeRateDetails);
+            storeOrder.setStoreFeedback(notificationManager, zoneOwnerName, date, customerName, storeRateDetails);
         });
     }
 
