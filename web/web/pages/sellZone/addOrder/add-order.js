@@ -898,8 +898,10 @@ function setOrderBasicInfo() {
     addOrderBasicInfoMsgLabel.textContent = "";
 
     let datePickerValue = document.getElementById(DATE_PICKER_INPUT_ID).value;
-    let xLocationValue = parseInt(document.getElementById(X_LOCATION_INPUT_ID).value);
-    let yLocationValue = parseInt(document.getElementById(Y_LOCATION_INPUT_ID).value);
+    let xLocationValue = document.getElementById(X_LOCATION_INPUT_ID).value;
+    let yLocationValue = document.getElementById(Y_LOCATION_INPUT_ID).value;
+    let xLocationValueInt = parseInt(xLocationValue);
+    let yLocationValueInt = parseInt(yLocationValue);
 
     if (!datePickerValue) {
         addOrderBasicInfoMsgLabel.textContent = FINISH_EMPTY_DATE_MSG;
@@ -910,13 +912,13 @@ function setOrderBasicInfo() {
     else if (!yLocationValue) {
         addOrderBasicInfoMsgLabel.textContent = FINISH_EMPTY_LOCATION_Y_MSG;
     }
-    else if (xLocationValue < MIN_COORDINATE_LOCATION || xLocationValue > MAX_COORDINATE_LOCATION) {
+    else if (xLocationValueInt < MIN_COORDINATE_LOCATION || xLocationValueInt > MAX_COORDINATE_LOCATION) {
         addOrderBasicInfoMsgLabel.textContent = FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG;
     }
-    else if (yLocationValue < MIN_COORDINATE_LOCATION || yLocationValue > MAX_COORDINATE_LOCATION) {
+    else if (yLocationValueInt < MIN_COORDINATE_LOCATION || yLocationValueInt > MAX_COORDINATE_LOCATION) {
         addOrderBasicInfoMsgLabel.textContent = FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG;
     }
-    else if (isLocationAlreadyExistsForStore(xLocationValue, yLocationValue)) {
+    else if (isLocationAlreadyExistsForStore(xLocationValueInt, yLocationValueInt)) {
         addOrderBasicInfoMsgLabel.textContent = FINISH_ORDER_TAKEN_LOCATION_MSG;
     }
     else {
