@@ -79,8 +79,11 @@ const STORE_RATE_HEADER_CLASS = "store-rate-header";
 const STORE_RATE_FIELD_CLASS = "store-rate-field";
 const STORE_RATE_INPUT_CLASS = "store-rate-input";
 const STORE_RATE_INPUT_NOTE_CLASS = "store-rate-input-note";
-const SAVE_STORE_FEEDBACK_BUTTON_CLASS = "store-rate-button";
-
+const SAVE_STORE_FEEDBACK_BUTTON_CLASS = "save-store-feedback-button";
+const SAVE_STORE_FEEDBACK_BUTTON_LABEL_CLASS = "save-store-feedback-button-label";
+const MIN_RATE = "1";
+const MAX_RATE = "5";
+const RATE_ERROR_MSG = "Rate should be between " + MIN_RATE + " and " + MAX_RATE + ".";
 
 const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
 let SET_STORE_DELIVERY_COST_URL = buildUrlWithContextPath(SET_STORE_DELIVERY_COST_URL_RESOURCE);
@@ -940,8 +943,8 @@ function showRateStore(store) {
     storeRateInput.id = STORE_RATE_INPUT_ID;
     storeRateInput.classList.add(STORE_RATE_INPUT_CLASS);
     storeRateInput.type = "number";
-    storeRateInput.min = "1";
-    storeRateInput.max = "5";
+    storeRateInput.min = MIN_RATE;
+    storeRateInput.max = MAX_RATE;
     let storeRateInputLabel = document.createElement("label");
     storeRateInputLabel.classList.add(STORE_RATE_FIELD_CLASS);
     storeRateInputLabel.textContent = "Rate: ";
@@ -960,19 +963,31 @@ function showRateStore(store) {
     storeRateFeedback.maxlength = STORE_RATE_FEEDBACK_LENGTH;
     storeRateFeedback.disabled = true;
 
-    let saveStoreRateButton = document.createElement("button");
-    saveStoreRateButton.classList.add(SAVE_STORE_FEEDBACK_BUTTON_CLASS);
-    saveStoreRateButton.textContent = "Save Rate";
-    saveStoreRateButton.disabled = true;
-    saveStoreRateButton.addEventListener("click", () => {
-        saveStoreRateButton.disabled = true;
-        storeRateInput.disabled = true;
-        storeRateFeedback.disabled = true;
-        storeWasRated(storeId, storeRateInput, storeRateFeedback);
+    let saveStoreFeedbackButton = document.createElement("button");
+    saveStoreFeedbackButton.id = `${storeId}-save-store-feedback-button`;
+    saveStoreFeedbackButton.classList.add(SAVE_STORE_FEEDBACK_BUTTON_CLASS);
+    saveStoreFeedbackButton.textContent = "Save Feedback";
+    saveStoreFeedbackButton.disabled = true;
+
+    let saveStoreFeedbackButtonLabel = document.createElement("label");
+    saveStoreFeedbackButtonLabel.classList.add(SAVE_STORE_FEEDBACK_BUTTON_LABEL_CLASS);
+    saveStoreFeedbackButtonLabel.htmlFor = `${storeId}-save-store-feedback-button`;
+
+    saveStoreFeedbackButton.addEventListener("click", () => {
+        if (storeRateInput.value >= MIN_RATE && storeRateInput.value <= MAX_RATE) {
+            saveStoreFeedbackButtonLabel.textContent = "";
+            saveStoreFeedbackButton.disabled = true;
+            storeRateInput.disabled = true;
+            storeRateFeedback.disabled = true;
+            storeWasRated(storeId, storeRateInput, storeRateFeedback);
+        }
+        else {
+            saveStoreFeedbackButtonLabel.textContent = RATE_ERROR_MSG;
+        }
     });
 
     storeRateInput.addEventListener("change", () => {
-        saveStoreRateButton.disabled = !storeRateInput.value;
+        saveStoreFeedbackButton.disabled = !storeRateInput.value;
         storeRateFeedback.disabled = !storeRateInput.value;
     });
 
@@ -988,7 +1003,8 @@ function showRateStore(store) {
     storeRateContainer.appendChild(storeRateFeedback);
     newLine = document.createElement("br");
     storeRateContainer.appendChild(newLine);
-    storeRateContainer.appendChild(saveStoreRateButton);
+    storeRateContainer.appendChild(saveStoreFeedbackButton);
+    storeRateContainer.appendChild(saveStoreFeedbackButtonLabel);
 
     orderFeedbackContainer.appendChild(storeRateContainer);
 }

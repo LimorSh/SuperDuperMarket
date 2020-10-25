@@ -4,8 +4,7 @@ let storeNotificationVersion = 0;
 let storeFeedbackNotificationVersion = 0;
 let orderNotificationVersion = 0;
 
-// const REFRESH_RATE = 2000; //milli seconds
-const REFRESH_RATE = 60000; //milli seconds
+const REFRESH_RATE = 2000; //milli seconds
 
 const STORE_NOTIFICATION_URL_RESOURCE = "storeNotifications";
 let STORE_NOTIFICATION_URL = buildUrlWithContextPath(STORE_NOTIFICATION_URL_RESOURCE);
@@ -70,6 +69,7 @@ function appendOrderNotification(index, notification) {
 
 
 function createOrderNotification(OrderNotification) {
+    let zoneName = OrderNotification["zoneName"];
     let orderId = OrderNotification["orderId"];
     let storeName = OrderNotification["storeName"];
     let customerName = OrderNotification["customerName"];
@@ -78,7 +78,7 @@ function createOrderNotification(OrderNotification) {
     let deliveryCost = OrderNotification["deliveryCost"];
 
     return $("<span class=\"success\">").append(
-        `You have one new order from your store ${storeName}:
+        `New order was made from your store ${storeName} in ${zoneName}:
         Order ID: ${orderId} |
         Customer Name: ${customerName} | 
         Total Items: ${totalItems} | 
@@ -89,12 +89,13 @@ function createOrderNotification(OrderNotification) {
 
 
 function createFeedbackStoreNotification(storeFeedbackNotification) {
+    let zoneName = storeFeedbackNotification["zoneName"];
     let storeName = storeFeedbackNotification["storeName"];
     let customerName = storeFeedbackNotification["customerName"];
     let rate = storeFeedbackNotification["rate"];
 
     return $("<span class=\"success\">").append(
-        `You have one new feedback on your store ${storeName}:
+        `You have one new feedback on your store ${storeName} in ${zoneName}:
         Customer Name: ${customerName} | 
         Rate: ${rate}`
     );
@@ -102,13 +103,14 @@ function createFeedbackStoreNotification(storeFeedbackNotification) {
 
 
 function createStoreNotification(storeNotification) {
+    let zoneName = storeNotification["zoneName"];
     let storeOwnerName = storeNotification["storeOwnerName"];
     let storeName = storeNotification["storeName"];
     let location = storeNotification["locationStr"];
     let itemsRatio = storeNotification["itemsRatio"];
 
     return $("<span class=\"success\">").append(
-        `New store was opened in your zone: 
+        `New store was opened in your zone ${zoneName}: 
         Store Owner Name: ${storeOwnerName} | 
         Store Name: ${storeName} | 
         Location: ${location} | 
