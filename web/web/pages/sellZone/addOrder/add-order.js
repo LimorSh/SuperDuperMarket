@@ -87,10 +87,12 @@ const STORE_RATE_HEADER_CLASS = "store-rate-header";
 const STORE_RATE_FIELD_CLASS = "store-rate-field";
 const STORE_RATE_INPUT_CLASS = "store-rate-input";
 const STORE_RATE_INPUT_NOTE_CLASS = "store-rate-input-note";
+const STORE_FEEDBACK_TEXT_AREA_CLASS = "store-feedback-text-area";
 const SAVE_STORE_FEEDBACK_BUTTON_CLASS = "save-store-feedback-button";
 const SAVE_STORE_FEEDBACK_BUTTON_LABEL_CLASS = "save-store-feedback-button-label";
-const MIN_RATE = "1";
-const MAX_RATE = "5";
+const FINISH_RATING_BUTTON_ID = "finish-rating-button";
+const MIN_RATE = 1;
+const MAX_RATE = 5;
 const RATE_ERROR_MSG = "Rate should be between " + MIN_RATE + " and " + MAX_RATE + ".";
 
 const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
@@ -929,6 +931,23 @@ function setOrderBasicInfo() {
 }
 
 
+function disableStoresFeedbacks() {
+    let saveStoreFeedbackButtons = document.getElementsByClassName(SAVE_STORE_FEEDBACK_BUTTON_CLASS);
+    let storeRateInputs = document.getElementsByClassName(STORE_RATE_INPUT_CLASS);
+    let storeFeedbackTextAreas = document.getElementsByClassName(STORE_FEEDBACK_TEXT_AREA_CLASS);
+
+    for (let button of saveStoreFeedbackButtons) {
+        button.disabled = true;
+    }
+    for (let input of storeRateInputs) {
+        input.disabled = true;
+    }
+    for (let textArea of storeFeedbackTextAreas) {
+        textArea.disabled = true;
+    }
+}
+
+
 function finishOrder() {
     let finishOrderMsgLabel = document.getElementById(FINISH_ORDER_MSG_LABEL_ID);
     finishOrderMsgLabel.textContent = "";
@@ -959,10 +978,10 @@ function enableOrderConfirmAndCancelButtons() {
 }
 
 
-function storeWasRated(storeId, storeRateInput, storeRateFeedback) {
+function storeWasRated(storeId, storeRateInput, storeFeedback) {
     storesAndRates[storeId] = {
         "storeRate": parseInt(storeRateInput.value),
-        "storeFeedback": storeRateFeedback.value,
+        "storeFeedback": storeFeedback.value,
     }
 }
 
@@ -973,10 +992,11 @@ function showRateStore(store) {
     let storeName = store["name"];
 
     const STORE_RATE_INPUT_ID = `${storeId}-store-rate-input`;
-    const STORE_RATE_FEEDBACK_ID = `${storeId}-store-rate-feedback`;
-    const STORE_RATE_FEEDBACK_ROWS = 6;
-    const STORE_RATE_FEEDBACK_COLS = 70;
-    const STORE_RATE_FEEDBACK_LENGTH = 300;
+    const STORE_FEEDBACK_TEXT_AREA_ID = `${storeId}-store-rate-feedback`;
+    const SAVE_STORE_FEEDBACK_BUTTON_ID = `${storeId}-save-store-feedback-button`;
+    const STORE_FEEDBACK_TEXT_AREA_ROWS = 6;
+    const STORE_FEEDBACK_TEXT_AREA_COLS = 70;
+    const STORE_FEEDBACK_TEXT_AREA_LENGTH = 300;
 
     let storeRateContainer = document.createElement("div");
     storeRateContainer.classList.add(STORE_RATE_CONTAINER_CLASS);
@@ -987,8 +1007,8 @@ function showRateStore(store) {
     storeRateInput.id = STORE_RATE_INPUT_ID;
     storeRateInput.classList.add(STORE_RATE_INPUT_CLASS);
     storeRateInput.type = "number";
-    storeRateInput.min = MIN_RATE;
-    storeRateInput.max = MAX_RATE;
+    storeRateInput.min = `${MIN_RATE}`;
+    storeRateInput.max = `${MAX_RATE}`;
     let storeRateInputLabel = document.createElement("label");
     storeRateInputLabel.classList.add(STORE_RATE_FIELD_CLASS);
     storeRateInputLabel.textContent = "Rate: ";
@@ -999,31 +1019,31 @@ function showRateStore(store) {
     let storeRateFeedbackLabel = document.createElement("label");
     storeRateFeedbackLabel.classList.add(STORE_RATE_FIELD_CLASS);
     storeRateFeedbackLabel.textContent = "Feedback: ";
-    let storeRateFeedback = document.createElement("textarea");
-    storeRateFeedback.id = STORE_RATE_FEEDBACK_ID;
-    storeRateFeedback.classList.add(STORE_RATE_FIELD_CLASS);
-    storeRateFeedback.rows = STORE_RATE_FEEDBACK_ROWS;
-    storeRateFeedback.cols = STORE_RATE_FEEDBACK_COLS;
-    storeRateFeedback.maxlength = STORE_RATE_FEEDBACK_LENGTH;
-    storeRateFeedback.disabled = true;
+    let storeFeedback = document.createElement("textarea");
+    storeFeedback.id = STORE_FEEDBACK_TEXT_AREA_ID;
+    storeFeedback.classList.add(STORE_FEEDBACK_TEXT_AREA_CLASS);
+    storeFeedback.rows = STORE_FEEDBACK_TEXT_AREA_ROWS;
+    storeFeedback.cols = STORE_FEEDBACK_TEXT_AREA_COLS;
+    storeFeedback.maxlength = STORE_FEEDBACK_TEXT_AREA_LENGTH;
+    storeFeedback.disabled = true;
 
     let saveStoreFeedbackButton = document.createElement("button");
-    saveStoreFeedbackButton.id = `${storeId}-save-store-feedback-button`;
+    saveStoreFeedbackButton.id = SAVE_STORE_FEEDBACK_BUTTON_ID;
     saveStoreFeedbackButton.classList.add(SAVE_STORE_FEEDBACK_BUTTON_CLASS);
     saveStoreFeedbackButton.textContent = "Save Feedback";
     saveStoreFeedbackButton.disabled = true;
 
     let saveStoreFeedbackButtonLabel = document.createElement("label");
     saveStoreFeedbackButtonLabel.classList.add(SAVE_STORE_FEEDBACK_BUTTON_LABEL_CLASS);
-    saveStoreFeedbackButtonLabel.htmlFor = `${storeId}-save-store-feedback-button`;
+    saveStoreFeedbackButtonLabel.htmlFor = SAVE_STORE_FEEDBACK_BUTTON_ID;
 
     saveStoreFeedbackButton.addEventListener("click", () => {
-        if (storeRateInput.value >= MIN_RATE && storeRateInput.value <= MAX_RATE) {
+        if (parseInt(storeRateInput.value) >= MIN_RATE && parseInt(storeRateInput.value) <= MAX_RATE) {
             saveStoreFeedbackButtonLabel.textContent = "";
             saveStoreFeedbackButton.disabled = true;
             storeRateInput.disabled = true;
-            storeRateFeedback.disabled = true;
-            storeWasRated(storeId, storeRateInput, storeRateFeedback);
+            storeFeedback.disabled = true;
+            storeWasRated(storeId, storeRateInput, storeFeedback);
         }
         else {
             saveStoreFeedbackButtonLabel.textContent = RATE_ERROR_MSG;
@@ -1032,7 +1052,7 @@ function showRateStore(store) {
 
     storeRateInput.addEventListener("change", () => {
         saveStoreFeedbackButton.disabled = !storeRateInput.value;
-        storeRateFeedback.disabled = !storeRateInput.value;
+        storeFeedback.disabled = !storeRateInput.value;
     });
 
     let newLine = document.createElement("br");
@@ -1044,7 +1064,7 @@ function showRateStore(store) {
     storeRateContainer.appendChild(storeRateFeedbackLabel);
     newLine = document.createElement("br");
     storeRateContainer.appendChild(newLine);
-    storeRateContainer.appendChild(storeRateFeedback);
+    storeRateContainer.appendChild(storeFeedback);
     newLine = document.createElement("br");
     storeRateContainer.appendChild(newLine);
     storeRateContainer.appendChild(saveStoreFeedbackButton);
@@ -1078,9 +1098,12 @@ function ajaxAddOrderFeedback() {
             $("#error-msg").text("Failed to get result from server");
         },
         success: function() {
+
+            disableStoresFeedbacks();
+
             let orderFeedbackContainer = document.getElementById(ORDER_FEEDBACK_CONTAINER_ID);
 
-            let finishButton = document.getElementById("order-rate-finish-button");
+            let finishButton = document.getElementById(FINISH_RATING_BUTTON_ID);
             finishButton.disabled = true;
             let backToSellZoneButton = document.createElement("button");
             backToSellZoneButton.id = GO_BACK_BUTTON_ID;
@@ -1119,18 +1142,19 @@ function showOrderRateStores() {
         });
     }
 
-    let finishButton = document.createElement("button");
-    finishButton.id = "order-rate-finish-button";
-    finishButton.textContent = "Finish";
-    finishButton.onclick = finishOrderRate;
+    let finishRatingButton = document.createElement("button");
+    finishRatingButton.id = "finish-rating-button";
+    finishRatingButton.textContent = "Finish Rating";
+    finishRatingButton.onclick = finishOrderRate;
 
-    orderFeedbackContainer.appendChild(finishButton);
+    orderFeedbackContainer.appendChild(finishRatingButton);
     orderFeedbackContainer.style.display = "block";
 }
 
 
 function ajaxAddOrder() {
     $("#add-order-form").submit(function() {
+        let confirmOrderLabel = document.getElementById(CONFIRM_ORDER_LABEL_ID);
         let parameters = getAddOrderFormInputsAsQueryParameters();
 
         $.ajax({
@@ -1142,11 +1166,9 @@ function ajaxAddOrder() {
             },
             error: function(e) {
                 console.error(e);
-                console.error("Failed to submit");
-                $("#error-msg").text("Failed to get result from server");
+                confirmOrderLabel.textContent = "Failed to get result from server: " + e;
             },
             success: function(orderIdRes) {
-                let confirmOrderLabel = document.getElementById(CONFIRM_ORDER_LABEL_ID);
                 confirmOrderLabel.textContent = "Your order was confirmed!";
                 orderId = orderIdRes;
                 enableOrderConfirmAndCancelButtons();
@@ -1368,9 +1390,6 @@ function addCellsToPriceColumn(prices) {
         }
 
         priceCell = row.cells[row.cells.length-2];
-        if (!priceCell.classList.contains(ITEMS_TABLE_PRICE_CELL_CLASS)) {
-            priceCell.classList.add(ITEMS_TABLE_PRICE_CELL_CLASS);
-        }
         priceCell.textContent = cellContent;
     }
 }
@@ -1436,6 +1455,13 @@ function setItemsTableData() {
     $.each(items || [], function(index, item) {
         addElemToTable(item, ITEMS_TABLE_BODY_ID, ITEMS_TABLE_CELL_CLASS);
     });
+
+    let itemsTableBody = document.getElementById(ITEMS_TABLE_BODY_ID);
+    for (let row of itemsTableBody.rows) {
+        let priceCell = row.cells[row.cells.length-1];
+        priceCell.classList.add(ITEMS_TABLE_PRICE_CELL_CLASS);
+        priceCell.style.display = "none";
+    }
 
     addQuantityCellsInputs();
 }
