@@ -9,8 +9,6 @@ const ACCOUNT_TABLE_BODY_ID = "account-table-body";
 const ACCOUNT_TABLE_CELL_ID = "account-table-cell";
 
 let refreshRate = 2000; //milli seconds
-const GET_USER_TYPE_URL_RESOURCE = "getUserType";
-let GET_USER_TYPE_URL = buildUrlWithContextPath(GET_USER_TYPE_URL_RESOURCE);
 const USER_LIST_URL_RESOURCE = "userslist";
 let USER_LIST_URL = buildUrlWithContextPath(USER_LIST_URL_RESOURCE);
 const SELL_ZONES_TABLE_URL_RESOURCE = "sellZonesTable";
@@ -143,24 +141,29 @@ function ajaxAccountTable() {
 }
 
 
+function showElementsByUserType(currUserType) {
+    let notificationsContainer = document.getElementById(NOTIFICATIONS_CONTAINER);
+    let uploadFileContainer = document.getElementById(UPLOAD_FILE_CONTAINER);
+    let chargeCreditContainer = document.getElementById(CHARGE_CREDIT_CONTAINER);
+
+    if (currUserType === USER_TYPE_CUSTOMER_STR) {
+        notificationsContainer.style.display = "none";
+        uploadFileContainer.style.display = "none";
+    }
+    else {
+        chargeCreditContainer.style.display = "none";
+    }
+}
+
+
 function ajaxGetUserType() {
     $.ajax({
         url: GET_USER_TYPE_URL,
         headers: {
             'cache-control': 'no-store,no-cache',
         },
-        success: function(userType) {
-            let notificationsContainer = document.getElementById(NOTIFICATIONS_CONTAINER);
-            let uploadFileContainer = document.getElementById(UPLOAD_FILE_CONTAINER);
-            let chargeCreditContainer = document.getElementById(CHARGE_CREDIT_CONTAINER);
-
-            if (userType === USER_TYPE_CUSTOMER_STR) {
-                notificationsContainer.style.display = "none";
-                uploadFileContainer.style.display = "none";
-            }
-            else {
-                chargeCreditContainer.style.display = "none";
-            }
+        success: function(currUserType) {
+            showElementsByUserType(currUserType);
         }
     });
 }

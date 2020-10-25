@@ -15,6 +15,8 @@ const NOTIFICATION_TYPE_NEW_STORE_FEEDBACK_STR = "newStoreFeedback";
 const NOTIFICATION_TYPE_NEW_ORDER_STR = "newOrder";
 
 const DASHBOARD_URL = "pages/dashboard/dashboard.html";
+const GET_USER_TYPE_URL_RESOURCE = "getUserType";
+let GET_USER_TYPE_URL = buildUrlWithContextPath(GET_USER_TYPE_URL_RESOURCE);
 const STORES_URL_RESOURCE = "stores";
 let STORES_URL = buildUrlWithContextPath(STORES_URL_RESOURCE);
 const ITEMS_URL_RESOURCE = "items";
