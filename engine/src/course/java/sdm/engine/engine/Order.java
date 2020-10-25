@@ -128,7 +128,8 @@ public class Order {
         return storesOrder.get(storeId);
     }
 
-    public void addStoreOrder(Store store, Map<Item, Float> itemsAndQuantities,
+    public void addStoreOrder(NotificationManager notificationManager, String zoneName,
+                              Store store, Map<Item, Float> itemsAndQuantities,
                               Map<String, ArrayList<Offer>> appliedOffers) {
         store.addOrder(this);
 
@@ -153,6 +154,7 @@ public class Order {
         storeOrder.SetValues(customerLocation, appliedOffers);
         storesOrder.put(store.getId(), storeOrder);
         setValues(storeOrder);
+        notificationManager.addOrderNotification(zoneName, storeOrder);
     }
 
     private void setValues(StoreOrder storeOrder) {
@@ -160,19 +162,23 @@ public class Order {
         deliveryCost += storeOrder.getDeliveryCost();
     }
 
-    public void addStoresOrder(Collection<DynamicOrderStoreData> dynamicOrderStoresData) {
+    public void addStoresOrder(NotificationManager notificationManager, String zoneName,
+                               Collection<DynamicOrderStoreData> dynamicOrderStoresData) {
         for (DynamicOrderStoreData dynamicOrderStoreData : dynamicOrderStoresData) {
-            addStoreOrder(dynamicOrderStoreData.getStore(),
+            addStoreOrder(
+                    notificationManager, zoneName,
+                    dynamicOrderStoreData.getStore(),
                     dynamicOrderStoreData.getItemsAndQuantities(),
-                    dynamicOrderStoreData.getAppliedOffers());
+                    dynamicOrderStoreData.getAppliedOffers()
+            );
         }
     }
 
-    public void addFeedback(NotificationManager notificationManager, String zoneOwnerName,
+    public void addFeedback(NotificationManager notificationManager, String zoneName,
                             Map<Integer, ArrayList<String>> storesAndRates) {
         storesAndRates.forEach((storeId,storeRateDetails) -> {
             StoreOrder storeOrder = getStoreOrder(storeId);
-            storeOrder.setStoreFeedback(notificationManager, zoneOwnerName, date, customerName, storeRateDetails);
+            storeOrder.setStoreFeedback(notificationManager, zoneName, date, customerName, storeRateDetails);
         });
     }
 

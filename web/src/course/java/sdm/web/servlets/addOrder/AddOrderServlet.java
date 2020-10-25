@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.engine.engine.accounts.AccountManager;
+import course.java.sdm.engine.engine.notifications.NotificationManager;
 import course.java.sdm.web.constants.Constants;
 import course.java.sdm.web.utils.ServletUtils;
 import course.java.sdm.web.utils.SessionUtils;
@@ -27,6 +28,7 @@ public class AddOrderServlet extends HttpServlet {
         String usernameFromSession = SessionUtils.getUsername(request);
         BusinessLogic businessLogic = ServletUtils.getBusinessLogic(getServletContext());
         AccountManager accountManager = ServletUtils.getAccountManager(getServletContext());
+        NotificationManager notificationManager = ServletUtils.getNotificationManager(getServletContext());
 
         String dateFromParameter = request.getParameter(Constants.DATE_PARAM_KEY);
         Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateFromParameter);
@@ -65,13 +67,15 @@ public class AddOrderServlet extends HttpServlet {
             String storeIdFromParameter = request.getParameter(Constants.CHOSEN_STORE_ID_PARAM_KEY);
             int storeId = Integer.parseInt(storeIdFromParameter);
             synchronized (this) {
-                orderId = businessLogic.createOrder(accountManager, zoneNameFromSession, usernameFromSession, date, locationX, locationY,
+                orderId = businessLogic.createOrder(accountManager, notificationManager,
+                        zoneNameFromSession, usernameFromSession, date, locationX, locationY,
                         storeId, itemsIdsAndQuantities, appliedOffers);
             }
         }
         else {
             synchronized (this) {
-                orderId = businessLogic.createOrder(accountManager, zoneNameFromSession, usernameFromSession, date, locationX, locationY,
+                orderId = businessLogic.createOrder(accountManager, notificationManager,
+                        zoneNameFromSession, usernameFromSession, date, locationX, locationY,
                         itemsIdsAndQuantities, appliedOffers);
             }
         }

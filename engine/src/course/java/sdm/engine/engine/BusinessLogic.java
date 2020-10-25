@@ -294,21 +294,22 @@ public class BusinessLogic {
         return chosenSuperDuperMarket.getDistanceBetweenCustomerAndStore(storeId, customerLocationX, customerLocationY);
     }
 
-    public int createOrder(AccountManager accountManager, String zoneName, String username, Date date,
-                            int locationX, int locationY,
+    public int createOrder(AccountManager accountManager, NotificationManager notificationManager,
+                           String zoneName, String username, Date date, int locationX, int locationY,
                             int storeId, Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        return chosenSuperDuperMarket.createOrder(accountManager, username, date,
-                locationX, locationY, storeId, itemsIdsAndQuantities, appliedOffersStoreItemsIds);
+        return chosenSuperDuperMarket.createOrder(accountManager, notificationManager, username,
+                date, locationX, locationY, storeId, itemsIdsAndQuantities, appliedOffersStoreItemsIds);
     }
 
-    public int createOrder(AccountManager accountManager, String zoneName, String username, Date date,
+    public int createOrder(AccountManager accountManager, NotificationManager notificationManager,
+                           String zoneName, String username, Date date,
                             int locationX, int locationY,
                             Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        return chosenSuperDuperMarket.createOrder(accountManager, username, date,
+        return chosenSuperDuperMarket.createOrder(accountManager, notificationManager, username, date,
                 locationX, locationY, itemsIdsAndQuantities, appliedOffersStoreItemsIds);
     }
 

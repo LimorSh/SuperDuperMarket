@@ -60,13 +60,13 @@ public class StoreOrder {
         return storeFeedback;
     }
 
-    public void setStoreFeedback(NotificationManager notificationManager, String zoneOwnerName,
+    public void setStoreFeedback(NotificationManager notificationManager, String zoneName,
                                  Date date, String customerName, ArrayList<String> storeRateDetails) {
         int rate = Integer.parseInt(storeRateDetails.get(0));
         String feedback = storeRateDetails.get(1);
         this.storeFeedback = new StoreFeedback(store.getId(), store.getName(), date,
                 customerName, rate, feedback);
-        notificationManager.addStoreFeedbackNotification(zoneOwnerName, store.getOwnerName(),
+        notificationManager.addStoreFeedbackNotification(zoneName, store.getOwnerName(),
                 store.getName(), customerName, rate);
     }
 

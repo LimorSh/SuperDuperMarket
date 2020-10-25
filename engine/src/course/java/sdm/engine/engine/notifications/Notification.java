@@ -4,18 +4,18 @@ import java.util.Objects;
 
 public abstract class Notification {
 
-    protected final String zoneOwnerName;
+    protected final String zoneName;
     protected final String storeOwnerName;
     protected final String type;
 
-    public Notification(String zoneOwnerName, String storeOwnerName, String type) {
-        this.zoneOwnerName = zoneOwnerName;
+    public Notification(String zoneName, String storeOwnerName, String type) {
+        this.zoneName = zoneName;
         this.storeOwnerName = storeOwnerName;
         this.type = type;
     }
 
-    public String getZoneOwnerName() {
-        return zoneOwnerName;
+    public String getZoneName() {
+        return zoneName;
     }
 
     public String getStoreOwnerName() {
@@ -29,7 +29,7 @@ public abstract class Notification {
     @Override
     public String toString() {
         return "Notification{" +
-                "zoneOwnerName='" + zoneOwnerName + '\'' +
+                "zoneName='" + zoneName + '\'' +
                 ", storeOwnerName='" + storeOwnerName + '\'' +
                 ", type='" + type + '\'' +
                 '}';
@@ -42,7 +42,7 @@ public abstract class Notification {
 
         Notification that = (Notification) o;
 
-        if (!Objects.equals(zoneOwnerName, that.zoneOwnerName))
+        if (!Objects.equals(zoneName, that.zoneName))
             return false;
         if (!Objects.equals(storeOwnerName, that.storeOwnerName))
             return false;
@@ -51,7 +51,7 @@ public abstract class Notification {
 
     @Override
     public int hashCode() {
-        int result = zoneOwnerName != null ? zoneOwnerName.hashCode() : 0;
+        int result = zoneName != null ? zoneName.hashCode() : 0;
         result = 31 * result + (storeOwnerName != null ? storeOwnerName.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;

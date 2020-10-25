@@ -8,15 +8,21 @@ import java.util.Objects;
 
 public class StoreNotification extends Notification {
 
+    private final String zoneOwnerName;
     private final String storeName;
     private final String locationStr;
     private final String itemsRatio;
 
-    public StoreNotification(String zoneOwnerName, Store store, int totalZoneItems) {
-        super(zoneOwnerName, store.getOwnerName(), Constants.NOTIFICATION_TYPE_NEW_STORE_STR);
+    public StoreNotification(String zoneName, String zoneOwnerName, Store store, int totalZoneItems) {
+        super(zoneName, store.getOwnerName(), Constants.NOTIFICATION_TYPE_NEW_STORE_STR);
+        this.zoneOwnerName = zoneOwnerName;
         this.storeName = store.getName();
         this.locationStr = Location.getLocationStr(store.getLocation());
         this.itemsRatio = String.format("%d/%d", store.getNumberOfItems(), totalZoneItems);
+    }
+
+    public String getZoneOwnerName() {
+        return zoneOwnerName;
     }
 
     public String getStoreName() {
@@ -38,12 +44,13 @@ public class StoreNotification extends Notification {
     @Override
     public String toString() {
         return "StoreNotification{" +
-                "storeName='" + storeName + '\'' +
+                "zoneOwnerName='" + zoneOwnerName + '\'' +
+                ", storeName='" + storeName + '\'' +
                 ", locationStr='" + locationStr + '\'' +
                 ", itemsRatio='" + itemsRatio + '\'' +
-                ", ownerName='" + storeOwnerName + '\'' +
+                ", zoneName='" + zoneName + '\'' +
+                ", storeOwnerName='" + storeOwnerName + '\'' +
                 ", type='" + type + '\'' +
-                ", dateStr='" + dateStr + '\'' +
                 '}';
     }
 
@@ -55,6 +62,8 @@ public class StoreNotification extends Notification {
 
         StoreNotification that = (StoreNotification) o;
 
+        if (!Objects.equals(zoneOwnerName, that.zoneOwnerName))
+            return false;
         if (!Objects.equals(storeName, that.storeName)) return false;
         if (!Objects.equals(locationStr, that.locationStr)) return false;
         return Objects.equals(itemsRatio, that.itemsRatio);
@@ -63,6 +72,7 @@ public class StoreNotification extends Notification {
     @Override
     public int hashCode() {
         int result = super.hashCode();
+        result = 31 * result + (zoneOwnerName != null ? zoneOwnerName.hashCode() : 0);
         result = 31 * result + (storeName != null ? storeName.hashCode() : 0);
         result = 31 * result + (locationStr != null ? locationStr.hashCode() : 0);
         result = 31 * result + (itemsRatio != null ? itemsRatio.hashCode() : 0);

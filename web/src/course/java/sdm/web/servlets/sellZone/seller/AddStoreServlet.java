@@ -46,7 +46,8 @@ public class AddStoreServlet extends HttpServlet {
 
         synchronized (getServletContext()) {
             try {
-                businessLogic.createNewStore(notificationManager, zoneNameFromSession, usernameFromSession, storeNameFromParameter,
+                businessLogic.createNewStore(notificationManager, zoneNameFromSession,
+                        usernameFromSession, storeNameFromParameter,
                         locationX, locationY, ppk, itemIdsAndPrices);
                 response.getWriter().print("");
             }

@@ -154,7 +154,7 @@ public class SuperDuperMarket {
         return Collections.max(stores.keySet()) + 1;
     }
 
-    public Store addStore(NotificationManager notificationManager, String ownerName, String storeName,
+    public void addStore(NotificationManager notificationManager, String ownerName, String storeName,
                           int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
         Location location = new Location(locationX, locationY);
         int id = getNextFreeStoreId();
@@ -165,8 +165,7 @@ public class SuperDuperMarket {
             Item item = getItem(itemId);
             store.addItem(item, price);
         });
-        notificationManager.addStoreNotification(getZoneOwnerName(), store, getTotalItems());
-        return store;
+        notificationManager.addStoreNotification(zoneName, zoneOwnerName, store, getTotalItems());
     }
 
     private void validateLocation(Object object, Location location) {
@@ -516,7 +515,8 @@ public class SuperDuperMarket {
         return appliedOffers;
     }
 
-    public int createOrder(AccountManager accountManager, String customerName, Date date,
+    public int createOrder(AccountManager accountManager, NotificationManager notificationManager,
+                            String customerName, Date date,
                             int locationX, int locationY,
                             Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
@@ -527,7 +527,7 @@ public class SuperDuperMarket {
         Location location = new Location(locationX, locationY);
         Order order = new Order(date, customer.getName(), location, Constants.ORDER_CATEGORY_DYNAMIC_STR);
         addOrder(order);
-        order.addStoresOrder(dynamicOrderStoresData);
+        order.addStoresOrder(notificationManager, zoneName, dynamicOrderStoresData);
         Collection<Store> stores = storesToItemsAndQuantities.keySet();
         for (Store store : stores) {
             store.updateTotalDeliveriesRevenue(location);
@@ -537,7 +537,8 @@ public class SuperDuperMarket {
         return order.getId();
     }
 
-    public int createOrder(AccountManager accountManager, String customerName, Date date,
+    public int createOrder(AccountManager accountManager, NotificationManager notificationManager,
+                           String customerName, Date date,
                             int locationX, int locationY,
                             int storeId, Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
@@ -551,7 +552,8 @@ public class SuperDuperMarket {
             Item item = getItem(itemId);
             itemsAndQuantities.put(item, itemQuantity);
         });
-        order.addStoreOrder(store, itemsAndQuantities, getAppliedOffers(appliedOffersStoreItemsIds));
+        order.addStoreOrder(notificationManager, zoneName, store,
+                itemsAndQuantities, getAppliedOffers(appliedOffersStoreItemsIds));
         store.updateTotalDeliveriesRevenue(location);
         customer.addOrder(order);
         transferPaymentToStoresOwners(accountManager, order, customerName);
@@ -595,7 +597,7 @@ public class SuperDuperMarket {
     public void addOrderFeedback(NotificationManager notificationManager,
                                  int orderId, Map<Integer, ArrayList<String>> storesAndRates) {
         Order order = getOrder(orderId);
-        order.addFeedback(notificationManager, getZoneOwnerName(), storesAndRates);
+        order.addFeedback(notificationManager, zoneName, storesAndRates);
     }
 
     public Collection<Order> getCustomerOrders(String name) {

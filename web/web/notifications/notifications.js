@@ -2,13 +2,17 @@ const NOTIFICATIONS_AREA_ID = "notifications-area";
 
 let storeNotificationVersion = 0;
 let storeFeedbackNotificationVersion = 0;
+let orderNotificationVersion = 0;
 
-const REFRESH_RATE = 200; //milli seconds
+// const REFRESH_RATE = 2000; //milli seconds
+const REFRESH_RATE = 60000; //milli seconds
 
 const STORE_NOTIFICATION_URL_RESOURCE = "storeNotifications";
 let STORE_NOTIFICATION_URL = buildUrlWithContextPath(STORE_NOTIFICATION_URL_RESOURCE);
 const STORE_FEEDBACK_NOTIFICATION_URL_RESOURCE = "storeFeedbackNotifications";
 let STORE_FEEDBACK_NOTIFICATION_URL = buildUrlWithContextPath(STORE_FEEDBACK_NOTIFICATION_URL_RESOURCE);
+const ORDER_NOTIFICATION_URL_RESOURCE = "orderNotifications";
+let ORDER_NOTIFICATION_URL = buildUrlWithContextPath(ORDER_NOTIFICATION_URL_RESOURCE);
 
 
 function appendStoreNotificationToNotificationsArea(storeNotifications) {
@@ -29,6 +33,15 @@ function appendStoreFeedbackToNotificationsArea(storeFeedbackNotifications) {
 }
 
 
+function appendOrderToNotificationsArea(orderNotifications) {
+    $.each(orderNotifications || [], appendOrderNotification);
+
+    let scroller = $(`#${NOTIFICATIONS_AREA_ID}`);
+    let height = scroller[0].scrollHeight - $(scroller).height();
+    $(scroller).stop().animate({ scrollTop: height }, "slow");
+}
+
+
 function appendStoreNotification(index, notification) {
     let notificationElement = createStoreNotification(notification);
     $(`#${NOTIFICATIONS_AREA_ID}`).append(notificationElement).append("<br>");
@@ -37,6 +50,11 @@ function appendStoreNotification(index, notification) {
 
 function appendStoreFeedbackNotification(index, notification) {
     let notificationElement = createFeedbackStoreNotification(notification);
+    $(`#${NOTIFICATIONS_AREA_ID}`).append(notificationElement).append("<br>");
+}
+
+function appendOrderNotification(index, notification) {
+    let notificationElement = createOrderNotification(notification);
     $(`#${NOTIFICATIONS_AREA_ID}`).append(notificationElement).append("<br>");
 }
 
@@ -50,6 +68,26 @@ function appendStoreFeedbackNotification(index, notification) {
 //     }
 // }
 
+
+function createOrderNotification(OrderNotification) {
+    let orderId = OrderNotification["orderId"];
+    let storeName = OrderNotification["storeName"];
+    let customerName = OrderNotification["customerName"];
+    let totalItems = OrderNotification["totalItems"];
+    let itemsCost = OrderNotification["itemsCost"];
+    let deliveryCost = OrderNotification["deliveryCost"];
+
+    return $("<span class=\"success\">").append(
+        `You have one new order from your store ${storeName}:
+        Order ID: ${orderId} |
+        Customer Name: ${customerName} | 
+        Total Items: ${totalItems} | 
+        Items Cost: ${itemsCost} | 
+        Delivery Cost: ${deliveryCost}`
+    );
+}
+
+
 function createFeedbackStoreNotification(storeFeedbackNotification) {
     let storeName = storeFeedbackNotification["storeName"];
     let customerName = storeFeedbackNotification["customerName"];
@@ -61,6 +99,7 @@ function createFeedbackStoreNotification(storeFeedbackNotification) {
         Rate: ${rate}`
     );
 }
+
 
 function createStoreNotification(storeNotification) {
     let storeOwnerName = storeNotification["storeOwnerName"];
@@ -116,6 +155,25 @@ function ajaxStoreFeedbackNotifications() {
 }
 
 
+function ajaxOrderNotifications() {
+    $.ajax({
+        url: ORDER_NOTIFICATION_URL,
+        data: "orderNotificationVersion=" + orderNotificationVersion,
+        dataType: 'json',
+        success: function(newOrderNotifications) {
+            if (newOrderNotifications.version !== orderNotificationVersion) {
+                orderNotificationVersion = newOrderNotifications.version;
+                appendOrderToNotificationsArea(newOrderNotifications.entries);
+            }
+            triggerAjaxOrderNotifications();
+        },
+        error: function() {
+            triggerAjaxOrderNotifications();
+        }
+    });
+}
+
+
 function triggerAjaxStoreNotifications() {
     setTimeout(ajaxStoreNotifications, REFRESH_RATE);
 }
@@ -127,13 +185,13 @@ function triggerAjaxStoreFeedbackNotifications() {
 
 
 function triggerAjaxOrderNotifications() {
-    // setTimeout(ajaxOrderNotifications, REFRESH_RATE);
+    setTimeout(ajaxOrderNotifications, REFRESH_RATE);
 }
 
 
 $(function() {
     triggerAjaxStoreNotifications();
     triggerAjaxStoreFeedbackNotifications();
-    // triggerAjaxOrderNotifications();
+    triggerAjaxOrderNotifications();
 })
 
