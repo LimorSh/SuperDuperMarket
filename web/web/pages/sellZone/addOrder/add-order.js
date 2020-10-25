@@ -21,22 +21,26 @@ const ITEMS_TABLE_PRICE_CELL_CLASS = "items-table-price-cell";
 const ITEMS_TABLE_QUANTITY_CELL_CLASS = "items-table-quantity-cell";
 const ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS = "items-table-quantity-cell-input";
 
+const FINISH_ORDER_BUTTON_ID = "finish-order-button";
+const FINISH_ORDER_MSG_LABEL_ID = "finish-order-msg-label";
+const FINISH_EMPTY_DATE_MSG = "Please pick a date";
+const FINISH_EMPTY_LOCATION_X_MSG = "Please fill out Location X field";
+const FINISH_EMPTY_LOCATION_Y_MSG = "Please fill out Location Y field";
+const MIN_COORDINATE_LOCATION = "1";
+const MAX_COORDINATE_LOCATION = "50";
+const FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG = "Location's coordinate should be between " + MIN_COORDINATE_LOCATION + " and " + MAX_COORDINATE_LOCATION + ".";
+const FINISH_ORDER_TAKEN_LOCATION_MSG = "The order location is a store location, please choose a different location.";
+const FINISH_ORDER_EMPTY_QUANTITIES_MSG = "Your cart is empty, please choose at least one item and fill its quantity.";
+const DYNAMIC_ORDER_STORES_DETAILS_CONTAINER_ID = "dynamic-order-stores-details-container";
+const DYNAMIC_ORDER_STORES_DETAILS_LIST_ID = "dynamic-order-stores-details-list";
+
+
 const ORDER_SUMMERY_DATE_VALUE_LABEL_ID = "order-summery-date-value-label";
 const ORDER_SUMMERY_LOCATION_VALUE_LABEL_ID = "order-summery-location-value-label";
 const ORDER_SUMMERY_ORDER_CATEGORY_VALUE_LABEL_ID = "order-summery-order-category-value-label";
 const ORDER_SUMMERY_TOTAL_ITEMS_COST_VALUE_LABEL_ID = "order-summery-total-items-cost-value-label";
 const ORDER_SUMMERY_TOTAL_DELIVERY_COST_VALUE_LABEL_ID = "order-summery-total-delivery-cost-value-label";
 const ORDER_SUMMERY_TOTAL_ORDER_COST_VALUE_LABEL_ID = "order-summery-total-order-cost-value-label";
-
-const FINISH_ORDER_BUTTON_ID = "finish-order-button";
-const FINISH_ORDER_MSG_LABEL_ID = "finish-order-msg-label";
-const FINISH_EMPTY_DATE_MSG = "Please pick a date";
-const FINISH_EMPTY_LOCATION_X_MSG = "Please fill out Location X field";
-const FINISH_EMPTY_LOCATION_Y_MSG = "Please fill out Location Y field";
-const FINISH_ORDER_TAKEN_LOCATION_MSG = "The order location is a store location, please choose a different location.";
-const FINISH_ORDER_EMPTY_QUANTITIES_MSG = "Your cart is empty, please choose at least one item and fill its quantity.";
-const DYNAMIC_ORDER_STORES_DETAILS_CONTAINER_ID = "dynamic-order-stores-details-container";
-const DYNAMIC_ORDER_STORES_DETAILS_LIST_ID = "dynamic-order-stores-details-list";
 
 const ORDER_DISCOUNTS_CONTAINER_ID = "order-discounts-container";
 const DISCOUNT_CONTAINER_CLASS = "discount-container";
@@ -887,6 +891,12 @@ function finishOrder() {
     }
     else if (!yLocationValue) {
         finishOrderMsgLabel.textContent = FINISH_EMPTY_LOCATION_Y_MSG;
+    }
+    else if (xLocationValue < MIN_COORDINATE_LOCATION || xLocationValue > MAX_COORDINATE_LOCATION) {
+        finishOrderMsgLabel.textContent = FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG;
+    }
+    else if (yLocationValue < MIN_COORDINATE_LOCATION || yLocationValue > MAX_COORDINATE_LOCATION) {
+        finishOrderMsgLabel.textContent = FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG;
     }
     else if (isLocationAlreadyExists) {
         finishOrderMsgLabel.textContent = FINISH_ORDER_TAKEN_LOCATION_MSG;
