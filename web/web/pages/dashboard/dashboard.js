@@ -1,6 +1,9 @@
-const NOTIFICATIONS_CONTAINER = "notifications-container";
-const UPLOAD_FILE_CONTAINER = "upload-file-container";
-const CHARGE_CREDIT_CONTAINER = "charge-credit-container";
+const NOTIFICATIONS_CONTAINER_ID = "notifications-container";
+const UPLOAD_FILE_CONTAINER_ID = "upload-file-container";
+const FILE_CHOOSER_INPUT_ID = "file-chooser";
+const UPLOAD_FILE_FORM_SUBMIT_ID = "upload-file-form-submit";
+const UPLOAD_FILE_MSG_LABEL_ID = "upload-file-msg-label";
+const CHARGE_CREDIT_CONTAINER_ID = "charge-credit-container";
 
 const SELL_ZONES_TABLE_BODY_ID = "sell-zones-table-body";
 const SELL_ZONES_TABLE_CELL_ID = "sell-zones-table-cell";
@@ -142,9 +145,9 @@ function ajaxAccountTable() {
 
 
 function showElementsByUserType(currUserType) {
-    let notificationsContainer = document.getElementById(NOTIFICATIONS_CONTAINER);
-    let uploadFileContainer = document.getElementById(UPLOAD_FILE_CONTAINER);
-    let chargeCreditContainer = document.getElementById(CHARGE_CREDIT_CONTAINER);
+    let notificationsContainer = document.getElementById(NOTIFICATIONS_CONTAINER_ID);
+    let uploadFileContainer = document.getElementById(UPLOAD_FILE_CONTAINER_ID);
+    let chargeCreditContainer = document.getElementById(CHARGE_CREDIT_CONTAINER_ID);
 
     if (currUserType === USER_TYPE_CUSTOMER_STR) {
         notificationsContainer.style.display = "none";
@@ -189,28 +192,35 @@ $(function() {
 // upload file
 $(function() {
     $("#upload-file").submit(function() {
-        let file = this[0].files[0];
-        let formData = new FormData();
-        formData.append("file", file);
 
-        $.ajax({
-            method:'POST',
-            data: formData,
-            url: this.action,
-            processData: false, // Don't process the files
-            contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-            timeout: 4000,
-            headers: {
-                'cache-control': 'no-store,no-cache',
-            },
-            error: function(r) {
-                // console.error("Failed to submit");
-                $("#upload-file-msg-label").text("Failed to get result from server " + r);
-            },
-            success: function(r) {
-                $("#upload-file-msg-label").text(r);
-            }
-        });
+        let fileChooserInput = document.getElementById(FILE_CHOOSER_INPUT_ID);
+        if (fileChooserInput.value) {
+            let file = this[0].files[0];
+            let formData = new FormData();
+            formData.append("file", file);
+
+            $.ajax({
+                method:'POST',
+                data: formData,
+                url: this.action,
+                processData: false, // Don't process the files
+                contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                timeout: 4000,
+                headers: {
+                    'cache-control': 'no-store,no-cache',
+                },
+                error: function(r) {
+                    // console.error("Failed to submit");
+                    $(`#${UPLOAD_FILE_MSG_LABEL_ID}`).text("Failed to get result from server " + r);
+                },
+                success: function(r) {
+                    $(`#${UPLOAD_FILE_MSG_LABEL_ID}`).text(r);
+                }
+            });
+        }
+        else {
+            $(`#${UPLOAD_FILE_MSG_LABEL_ID}`).text("Please choose a file.");
+        }
 
         // return value of the submit operation
         // by default - we'll always return false so it doesn't redirect the user.
