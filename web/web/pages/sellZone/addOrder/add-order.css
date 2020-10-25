@@ -165,7 +165,7 @@
     font-weight: bold;
 }
 
-#order-discounts-next-button {
+#order-discounts-next-button, #finish-rating-button {
     margin-top: 15px;
 }
 
