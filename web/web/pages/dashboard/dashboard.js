@@ -1,20 +1,25 @@
+const NOTIFICATIONS_CONTAINER = "notifications-container";
+const UPLOAD_FILE_CONTAINER = "upload-file-container";
+const CHARGE_CREDIT_CONTAINER = "charge-credit-container";
+
 const SELL_ZONES_TABLE_BODY_ID = "sell-zones-table-body";
 const SELL_ZONES_TABLE_CELL_ID = "sell-zones-table-cell";
 const SELL_ZONE_TABLE_LINK_CELL_CLASS = "sell-zone-link-cell-class";
 const ACCOUNT_TABLE_BODY_ID = "account-table-body";
 const ACCOUNT_TABLE_CELL_ID = "account-table-cell";
 
-const USER_LIST_URL_RESOURCE = "userslist";
-const SELL_ZONES_TABLE_URL_RESOURCE = "sellZonesTable";
-const ACCOUNT_TABLE_URL_RESOURCE = "accountTable";
-const SELL_ZONE_URL_RESOURCE = "pages/sellZone/sell-zone.html";
-const SELL_ZONE_CHOSEN_URL_RESOURCE = "sellZoneChosen";
-
 let refreshRate = 2000; //milli seconds
+const GET_USER_TYPE_URL_RESOURCE = "getUserType";
+let GET_USER_TYPE_URL = buildUrlWithContextPath(GET_USER_TYPE_URL_RESOURCE);
+const USER_LIST_URL_RESOURCE = "userslist";
 let USER_LIST_URL = buildUrlWithContextPath(USER_LIST_URL_RESOURCE);
+const SELL_ZONES_TABLE_URL_RESOURCE = "sellZonesTable";
 let SELL_ZONES_TABLE_URL = buildUrlWithContextPath(SELL_ZONES_TABLE_URL_RESOURCE);
+const ACCOUNT_TABLE_URL_RESOURCE = "accountTable";
 let ACCOUNT_TABLE_URL = buildUrlWithContextPath(ACCOUNT_TABLE_URL_RESOURCE);
+const SELL_ZONE_URL_RESOURCE = "pages/sellZone/sell-zone.html";
 let SELL_ZONE_URL = buildUrlWithContextPath(SELL_ZONE_URL_RESOURCE);
+const SELL_ZONE_CHOSEN_URL_RESOURCE = "sellZoneChosen";
 let SELL_ZONE_CHOSEN_URL = buildUrlWithContextPath(SELL_ZONE_CHOSEN_URL_RESOURCE);
 
 
@@ -137,8 +142,35 @@ function ajaxAccountTable() {
     });
 }
 
+
+function ajaxGetUserType() {
+    $.ajax({
+        url: GET_USER_TYPE_URL,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
+        success: function(userType) {
+            let notificationsContainer = document.getElementById(NOTIFICATIONS_CONTAINER);
+            let uploadFileContainer = document.getElementById(UPLOAD_FILE_CONTAINER);
+            let chargeCreditContainer = document.getElementById(CHARGE_CREDIT_CONTAINER);
+
+            if (userType === USER_TYPE_CUSTOMER_STR) {
+                notificationsContainer.style.display = "none";
+                uploadFileContainer.style.display = "none";
+            }
+            else {
+                chargeCreditContainer.style.display = "none";
+            }
+        }
+    });
+}
+
+
 //activate the timer calls after the page is loaded
 $(function() {
+
+    // get user type
+    ajaxGetUserType();
 
     //The users list is refreshed automatically every second
     setInterval(ajaxUsersList, refreshRate);

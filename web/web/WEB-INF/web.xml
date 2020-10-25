@@ -160,6 +160,10 @@
         <servlet-name>SendChatServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.dashboard.chatroom.SendChatServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetUserTypeServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.GetUserTypeServlet</servlet-class>
+    </servlet>
 
 
 
@@ -320,5 +324,9 @@
     <servlet-mapping>
         <servlet-name>SendChatServlet</servlet-name>
         <url-pattern>/pages/dashboard/sendChat</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetUserTypeServlet</servlet-name>
+        <url-pattern>/getUserType</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -1,6 +1,8 @@
 const TAB = "&emsp;&emsp;&emsp;"
 const NEW_LINE = "<br/>"
 
+const USER_TYPE_CUSTOMER_STR = "customer";
+const USER_TYPE_SELLER_STR = "seller";
 const ORDER_CATEGORY_STATIC_STR = "static";
 const ORDER_CATEGORY_DYNAMIC_STR = "dynamic";
 const DISCOUNT_CATEGORY_ONE_OF_STR = "one-of";
