@@ -37,15 +37,19 @@
             <input type="number" min="1" max="50" id="location-y" name="location-y">
         </div>
         <br/>
+        <div id="add-order-basic-info-container">
+            <button type="button" id="add-order-basic-info-button" onclick=setOrderBasicInfo()>Set Order Basic Info</button>
+            <label for="add-order-basic-info-button" id="add-order-basic-info-label"></label>
+        </div>
         <div id="order-category-radio-buttons-container">
             <div id="order-category-label-container">
                 <label id="order-category-label" class="add-order-label">Order Category:</label>
             </div>
             <div id="order-category-radio-buttons">
                 <input id="chosen-order-category-input" type="hidden" name="chosen-order-category"/>
-                <input type="radio" id="static-order-radio-button" class="order-category-radio-button" name="order-category" value="static">
+                <input type="radio" disabled="disabled" id="static-order-radio-button" class="order-category-radio-button" name="order-category" value="static">
                 <label for="static-order-radio-button">One Store</label><br>
-                <input type="radio" id="dynamic-order-radio-button" class="order-category-radio-button" name="order-category" value="dynamic">
+                <input type="radio" disabled="disabled" id="dynamic-order-radio-button" class="order-category-radio-button" name="order-category" value="dynamic">
                 <label for="dynamic-order-radio-button">Best Cart</label><br>
             </div>
         </div>
@@ -79,7 +83,7 @@
     </div>
     <br>
     <br>
-    <button id="finish-order-button" disabled="disabled">
+    <button type="button" id="finish-order-button" disabled="disabled">
         Finish Order
     </button>
     <label id="finish-order-msg-label">

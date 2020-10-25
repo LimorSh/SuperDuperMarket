@@ -1,6 +1,9 @@
 const DATE_PICKER_INPUT_ID = "date";
 const X_LOCATION_INPUT_ID = "location-x";
 const Y_LOCATION_INPUT_ID = "location-y";
+const ADD_ORDER_BASIC_INFO_BUTTON_ID = "add-order-basic-info-button";
+const ADD_ORDER_BASIC_INFO_LABEL_ID = "add-order-basic-info-label";
+
 const ORDER_CATEGORY_RADIO_BUTTON_CLASS = "order-category-radio-button";
 const CHOSEN_ORDER_CATEGORY_INPUT_ID = "chosen-order-category-input";
 const CHOSEN_STORE_INPUT_ID = "chosen-store-input";
@@ -26,8 +29,8 @@ const FINISH_ORDER_MSG_LABEL_ID = "finish-order-msg-label";
 const FINISH_EMPTY_DATE_MSG = "Please pick a date";
 const FINISH_EMPTY_LOCATION_X_MSG = "Please fill out Location X field";
 const FINISH_EMPTY_LOCATION_Y_MSG = "Please fill out Location Y field";
-const MIN_COORDINATE_LOCATION = "1";
-const MAX_COORDINATE_LOCATION = "50";
+const MIN_COORDINATE_LOCATION = 1;
+const MAX_COORDINATE_LOCATION = 50;
 const FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG = "Location's coordinate should be between " + MIN_COORDINATE_LOCATION + " and " + MAX_COORDINATE_LOCATION + ".";
 const FINISH_ORDER_TAKEN_LOCATION_MSG = "The order location is a store location, please choose a different location.";
 const FINISH_ORDER_EMPTY_QUANTITIES_MSG = "Your cart is empty, please choose at least one item and fill its quantity.";
@@ -233,7 +236,7 @@ function isAllQuantitiesInputAreEmpty() {
 }
 
 
-function isLocationAlreadyExistsForStore() {
+function isLocationAlreadyExistsForStore(customerXLocation, customerYLocation) {
     let store;
     let storeXLocation;
     let storeYLocation;
@@ -241,7 +244,7 @@ function isLocationAlreadyExistsForStore() {
         store = stores[j];
         storeXLocation = store["xLocation"];
         storeYLocation = store["yLocation"];
-        if (storeXLocation === parseInt(xLocation) && storeYLocation === parseInt(yLocation)) {
+        if (storeXLocation === customerXLocation && storeYLocation === customerYLocation) {
             return true
         }
     }
@@ -848,20 +851,38 @@ function showOrderSummery() {
 }
 
 
-function disableOrderInterface() {
-    let finishOrderButton = document.getElementById(FINISH_ORDER_BUTTON_ID);
+function enableOrderCategoryRadioButtons() {
+    let OrderCategoryRadioButtonsInputs = document.getElementsByClassName(ORDER_CATEGORY_RADIO_BUTTON_CLASS);
+
+    for (let radio of OrderCategoryRadioButtonsInputs) {
+        radio.disabled = false;
+    }
+}
+
+
+function disableOrderBasicInfoInterface() {
+    let addOrderBasicInfoButton = document.getElementById(ADD_ORDER_BASIC_INFO_BUTTON_ID);
     let datePicker = document.getElementById(DATE_PICKER_INPUT_ID);
     let xLocationInput = document.getElementById(X_LOCATION_INPUT_ID);
     let yLocationInput = document.getElementById(Y_LOCATION_INPUT_ID);
+
+    addOrderBasicInfoButton.disabled = true;
+    datePicker.disabled = true;
+    xLocationInput.disabled = true;
+    yLocationInput.disabled = true;
+}
+
+
+function disableOrderInterface() {
+    let finishOrderButton = document.getElementById(FINISH_ORDER_BUTTON_ID);
     let OrderCategoryRadioButtonsInputs = document.getElementsByClassName(ORDER_CATEGORY_RADIO_BUTTON_CLASS);
     let storeSelectInput = document.getElementById(STORES_SELECT_ID);
     let deliveryCostLabel = document.getElementById(STORE_DELIVERY_COST_LABEL_CONTAINER_ID);
     let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
+
     finishOrderButton.disabled = true;
-    datePicker.disabled = true;
-    xLocationInput.disabled = true;
-    yLocationInput.disabled = true;
-    for (let radio of OrderCategoryRadioButtonsInputs) {
+
+   for (let radio of OrderCategoryRadioButtonsInputs) {
         radio.disabled = true;
     }
     storeSelectInput.disabled = true;
@@ -872,36 +893,46 @@ function disableOrderInterface() {
 }
 
 
+function setOrderBasicInfo() {
+    let addOrderBasicInfoMsgLabel = document.getElementById(ADD_ORDER_BASIC_INFO_LABEL_ID);
+    addOrderBasicInfoMsgLabel.textContent = "";
+
+    let datePickerValue = document.getElementById(DATE_PICKER_INPUT_ID).value;
+    let xLocationValue = parseInt(document.getElementById(X_LOCATION_INPUT_ID).value);
+    let yLocationValue = parseInt(document.getElementById(Y_LOCATION_INPUT_ID).value);
+
+    if (!datePickerValue) {
+        addOrderBasicInfoMsgLabel.textContent = FINISH_EMPTY_DATE_MSG;
+    }
+    else if (!xLocationValue) {
+        addOrderBasicInfoMsgLabel.textContent = FINISH_EMPTY_LOCATION_X_MSG;
+    }
+    else if (!yLocationValue) {
+        addOrderBasicInfoMsgLabel.textContent = FINISH_EMPTY_LOCATION_Y_MSG;
+    }
+    else if (xLocationValue < MIN_COORDINATE_LOCATION || xLocationValue > MAX_COORDINATE_LOCATION) {
+        addOrderBasicInfoMsgLabel.textContent = FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG;
+    }
+    else if (yLocationValue < MIN_COORDINATE_LOCATION || yLocationValue > MAX_COORDINATE_LOCATION) {
+        addOrderBasicInfoMsgLabel.textContent = FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG;
+    }
+    else if (isLocationAlreadyExistsForStore(xLocationValue, yLocationValue)) {
+        addOrderBasicInfoMsgLabel.textContent = FINISH_ORDER_TAKEN_LOCATION_MSG;
+    }
+    else {
+        disableOrderBasicInfoInterface();
+        enableOrderCategoryRadioButtons();
+    }
+}
+
+
 function finishOrder() {
     let finishOrderMsgLabel = document.getElementById(FINISH_ORDER_MSG_LABEL_ID);
     finishOrderMsgLabel.textContent = "";
 
-    let datePickerValue = document.getElementById(DATE_PICKER_INPUT_ID).value;
-    let xLocationValue = document.getElementById(X_LOCATION_INPUT_ID).value;
-    let yLocationValue = document.getElementById(Y_LOCATION_INPUT_ID).value;
-
-    let isLocationAlreadyExists = isLocationAlreadyExistsForStore();
     let isAllQuantitiesAreEmpty = isAllQuantitiesInputAreEmpty();
 
-    if (!datePickerValue) {
-        finishOrderMsgLabel.textContent = FINISH_EMPTY_DATE_MSG;
-    }
-    else if (!xLocationValue) {
-        finishOrderMsgLabel.textContent = FINISH_EMPTY_LOCATION_X_MSG;
-    }
-    else if (!yLocationValue) {
-        finishOrderMsgLabel.textContent = FINISH_EMPTY_LOCATION_Y_MSG;
-    }
-    else if (xLocationValue < MIN_COORDINATE_LOCATION || xLocationValue > MAX_COORDINATE_LOCATION) {
-        finishOrderMsgLabel.textContent = FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG;
-    }
-    else if (yLocationValue < MIN_COORDINATE_LOCATION || yLocationValue > MAX_COORDINATE_LOCATION) {
-        finishOrderMsgLabel.textContent = FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG;
-    }
-    else if (isLocationAlreadyExists) {
-        finishOrderMsgLabel.textContent = FINISH_ORDER_TAKEN_LOCATION_MSG;
-    }
-    else if (isAllQuantitiesAreEmpty) {
+    if (isAllQuantitiesAreEmpty) {
         finishOrderMsgLabel.textContent = FINISH_ORDER_EMPTY_QUANTITIES_MSG;
     }
     else {

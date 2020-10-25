@@ -12,6 +12,10 @@
 }
 
 
+#add-order-basic-info-container {
+    margin-bottom: 10px;
+}
+
 .add-order-label {
     font-weight: bold;
 }
