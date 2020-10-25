@@ -1,7 +1,7 @@
 let chatVersion = 0;
 let triggerAjaxChatContentRefreshRate = 2000; //milli seconds
 
-const CHAT_AREA_ID = "chatarea";
+const CHAT_AREA_ID = "chat-area";
 
 const CHAT_LIST_URL_RESOURCE = "chat";
 let CHAT_LIST_URL = buildUrlWithContextPath(CHAT_LIST_URL_RESOURCE);
@@ -32,7 +32,7 @@ function createChatEntry (entry){
 function ajaxChatContent() {
     $.ajax({
         url: CHAT_LIST_URL,
-        data: "chatversion=" + chatVersion,
+        data: "chatVersion=" + chatVersion,
         dataType: 'json',
         success: function(newChatLines) {
             if (newChatLines.version !== chatVersion) {
@@ -51,7 +51,7 @@ function ajaxChatContent() {
 //and not actually submit the form
 $(function() { // onload...do
     //add a function to the submit event
-    $("#chatform").submit(function() {
+    $("#chat-form").submit(function() {
         $.ajax({
             data: $(this).serialize(),
             url: this.action,
@@ -66,7 +66,7 @@ $(function() { // onload...do
             }
         });
 
-        $("#userstring").val("");
+        $("#user-chat-msg").val("");
         // by default - we'll always return false so it doesn't redirect the user.
         return false;
     });
