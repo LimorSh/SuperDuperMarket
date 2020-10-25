@@ -141,7 +141,6 @@ function ajaxSetStores() {
         },
         error: function() {
             console.error("Failed to submit");
-            $("#error-msg").text("Failed to get result from server");
         },
         success: function(allStores) {
             stores = allStores;
@@ -179,7 +178,6 @@ function ajaxItemsTable() {
         },
         error: function() {
             console.error("Failed to submit");
-            $("#error-msg").text("Failed to get result from server");
         },
         success: function(allItems) {
             setItemsArray(allItems);
@@ -1095,7 +1093,6 @@ function ajaxAddOrderFeedback() {
         error: function(e) {
             console.error(e);
             console.error("Failed to submit");
-            $("#error-msg").text("Failed to get result from server");
         },
         success: function() {
 
@@ -1285,7 +1282,7 @@ function ajaxGetStoreDeliveryCost(storeId) {
         },
         error: function() {
             console.error("Failed to submit");
-            $("#error-msg").text("Failed to get result from server");
+            $("#store-delivery-cost-label").text("Failed to get result from server");
         },
         success: function(storeDeliveryCost) {
             deliveryCost = parseFloat(storeDeliveryCost);
@@ -1334,7 +1331,6 @@ function ajaxGetDistanceFromStore(storeId, orderCategoryValue) {
         },
         error: function() {
             console.error("Failed to submit");
-            $("#error-msg").text("Failed to get result from server");
         },
         success: function(distanceFromStoreRes) {
             distanceFromStore = parseFloat(distanceFromStoreRes);
