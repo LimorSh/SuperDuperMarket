@@ -33,6 +33,9 @@ public class Constants {
     public static final String STORE_NOTIFICATION_VERSION_PARAMETER = "storeNotificationVersion";
     public static final String STORE_FEEDBACK_NOTIFICATION_VERSION_PARAMETER = "storeFeedbackNotificationVersion";
     public static final String ORDER_NOTIFICATION_VERSION_PARAMETER = "orderNotificationVersion";
+    // chatroom
+    public static final String CHAT_PARAMETER = "userstring";
+    public static final String CHAT_VERSION_PARAMETER = "chatversion";
     // common
     public static final String EMPTY_JSON_RESPONSE = "{}";
     public static final int INT_PARAMETER_ERROR = Integer.MIN_VALUE;

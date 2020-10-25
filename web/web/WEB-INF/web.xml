@@ -152,6 +152,14 @@
         <servlet-name>OrderNotificationServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.notifications.OrderNotificationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChatServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.dashboard.chatroom.ChatServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SendChatServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.dashboard.chatroom.SendChatServlet</servlet-class>
+    </servlet>
 
 
 
@@ -304,5 +312,13 @@
     <servlet-mapping>
         <servlet-name>OrderNotificationServlet</servlet-name>
         <url-pattern>/orderNotifications</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChatServlet</servlet-name>
+        <url-pattern>/chat</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendChatServlet</servlet-name>
+        <url-pattern>/pages/dashboard/sendChat</url-pattern>
     </servlet-mapping>
 </web-app>

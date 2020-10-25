@@ -8,9 +8,11 @@
     <script src="../../constants/constants.js"></script>
     <script src="../../utils/utils.js"></script>
     <script src="../../notifications/notifications.js"></script>
+    <script src="chatroom/chatroom.js"></script>
     <script src="dashboard.js"></script>
     <link rel="stylesheet" href="../../common/w3_style.css">
     <link rel="stylesheet" href="../../common/bootstrap.min.css">
+    <link rel="stylesheet" href="chatroom/chatroom.css">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="../../notifications/notifications.css">
     <title>Dashboard</title>
@@ -54,9 +56,20 @@
                     </div>
                 </div>
             </div>
-
-<!--            //chat-->
-
+            <div class="col-xs-4">
+                <div class="content">
+                    <div id="chatwindow">
+                        <h4>Chat</h4>
+                        <!-- place holder to hold all the chat lines -->
+                        <div id="chatarea" class="span6"></div>
+                        <!-- The actual form through which you send data back to the user -->
+                        <form id="chatform" method="POST" action="sendChat">
+                            <input type="text" id="userstring" name="userstring"/>
+                            <input type="submit" value="Send"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div id="upload-file-container">
