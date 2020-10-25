@@ -78,6 +78,7 @@ const FINAL_ORDER_BUTTONS_CONTAINER_ID = "final-order-buttons-container";
 const FINAL_ORDER_BUTTON_CLASS = "final-order-button";
 const CONFIRM_ORDER_BUTTON_ID = "confirm-order-button";
 const CANCEL_ORDER_BUTTON_ID = "cancel-order-button";
+const CONFIRM_ORDER_LABEL_ID = "confirm-order-label";
 const GO_BACK_BUTTON_ID = "go-back-button";
 
 const ORDER_FEEDBACK_CONTAINER_ID = "order-feedback-container";
@@ -1145,6 +1146,8 @@ function ajaxAddOrder() {
                 $("#error-msg").text("Failed to get result from server");
             },
             success: function(orderIdRes) {
+                let confirmOrderLabel = document.getElementById(CONFIRM_ORDER_LABEL_ID);
+                confirmOrderLabel.textContent = "Your order was confirmed!";
                 orderId = orderIdRes;
                 enableOrderConfirmAndCancelButtons();
                 showOrderRateStores();
@@ -1459,7 +1462,4 @@ $(function() {
     });
 
     ajaxAddOrder();
-
-    // $.when(ajaxAddOrder()).then(function() {
-    // });
 });
