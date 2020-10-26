@@ -5,11 +5,16 @@ const UPLOAD_FILE_FORM_SUBMIT_ID = "upload-file-form-submit";
 const UPLOAD_FILE_MSG_LABEL_ID = "upload-file-msg-label";
 const CHARGE_CREDIT_CONTAINER_ID = "charge-credit-container";
 
+const SELL_ZONES_TABLE_CONTAINER_ID = "sell-zones-table-container";
 const SELL_ZONES_TABLE_BODY_ID = "sell-zones-table-body";
 const SELL_ZONES_TABLE_CELL_ID = "sell-zones-table-cell";
 const SELL_ZONE_TABLE_LINK_CELL_CLASS = "sell-zone-link-cell-class";
+const EMPTY_SELL_ZONES_TABLE_LABEL_ID = "empty-sell-zones-table-label";
+
+const ACCOUNT_TABLE_CONTAINER_ID = "account-table-container";
 const ACCOUNT_TABLE_BODY_ID = "account-table-body";
 const ACCOUNT_TABLE_CELL_ID = "account-table-cell";
+const EMPTY_ACCOUNT_TABLE_LABEL_ID = "empty-account-table-label";
 
 let refreshRate = 2000; //milli seconds
 const USER_LIST_URL_RESOURCE = "userslist";
@@ -118,7 +123,13 @@ function ajaxSellZonesTable() {
             'cache-control': 'no-store,no-cache',
         },
         success: function(zones) {
-            refreshSellZoneTable(zones);
+            if (zones.length > 0) {
+                let sellZonesTableContainer = document.getElementById(SELL_ZONES_TABLE_CONTAINER_ID);
+                sellZonesTableContainer.style.display = "block";
+                let emptySellZonesTableLabel = document.getElementById(EMPTY_SELL_ZONES_TABLE_LABEL_ID);
+                emptySellZonesTableLabel.style.display = "none";
+                refreshSellZoneTable(zones);
+            }
         }
     });
 }
@@ -130,8 +141,14 @@ function ajaxAccountTable() {
         headers: {
             'cache-control': 'no-store,no-cache',
         },
-        success: function(account) {
-            refreshAccountTable(account);
+        success: function(transactions) {
+            if (transactions.length > 0) {
+                let emptyAccountTableLabel = document.getElementById(EMPTY_ACCOUNT_TABLE_LABEL_ID);
+                emptyAccountTableLabel.style.display = "none";
+                let accountTableContainer = document.getElementById(ACCOUNT_TABLE_CONTAINER_ID);
+                accountTableContainer.style.display = "block";
+                refreshAccountTable(transactions);
+            }
         }
     });
 }
