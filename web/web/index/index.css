@@ -1,25 +1,82 @@
-/*#body {*/
-/*    overflow-x: scroll;*/
-/*    white-space: nowrap;*/
+body {
+    overflow-x: scroll;
+    width: 100%;
+    white-space: nowrap;
+    /*background-image: url('../common/images/background.jpg');*/
+}
+
+/*#form-container {*/
+/*    background-color: white;*/
+/*    border-color: #0f6dbe;*/
+/*    border-width: 1px;*/
 /*}*/
 
-#header {
-    color: blue;
-    margin-left: 20px;
-    text-align: center;
-    font-family: Georgia, cursive;
+#user-type-radio-buttons-container {
+    margin-bottom: 20px;
+}
+
+#login {
+    margin-top: 20px;
+    line-height: 1.3333333;
+}
+
+#form-container {
+    margin: auto;
+    width: 40%;
+    padding: 10px;
 }
 
 #username-label {
-    text-align: center;
-    color: blue;
+    margin-right: 10px;
     font-weight: bold;
     font-size: 16px;
 }
 
+#username-input {
+    width: 228px;
+}
+
 #user-type-label {
-    text-align: center;
-    color: blue;
     font-weight: bold;
     font-size: 16px;
+}
+
+.user-type-radio-button-label {
+    font-weight: normal;
+}
+
+
+.btn-primary {
+    color: #fff;
+    background-color: #0f6dbe;
+    border-color: #0b63b0;
+}
+
+.btn.active, .btn:active {
+    background-image: none;
+    outline: 0;
+    -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.btn-group-lg>.btn, .btn-lg {
+    padding: 10px 16px;
+    font-size: 18px;
+    border-radius: 6px;
+}
+
+.btn {
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
 }

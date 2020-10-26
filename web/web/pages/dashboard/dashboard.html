@@ -12,18 +12,14 @@
     <script src="dashboard.js"></script>
     <link rel="stylesheet" href="../../common/w3_style.css">
     <link rel="stylesheet" href="../../common/bootstrap.min.css">
+    <link rel="stylesheet" href="../../common/common.css">
     <link rel="stylesheet" href="chatroom/chatroom.css">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="../../notifications/notifications.css">
     <title>Dashboard</title>
 </head>
 <body>
-<div id="container">
-    <div id="bar-container">
-        <div id="bar" class="w3-bar w3-black">
-            <a href="/sdm/logout" id="logout-button" class="w3-bar-item w3-button w3-right">Logout</a>
-        </div>
-    </div>
+<div id="container" class="container">
     <div id="header-container">
         <h1 id="header">Dashboard</h1>
         <br/>
@@ -35,7 +31,7 @@
                 <div class="col-xs-10">
                     <div class="content">
                         <div id="notifications-window">
-                            <h4>Notifications</h4>
+                            <h2>Notifications</h2>
                             <div id="notifications-area" class="span6"></div>
                         </div>
                     </div>
@@ -67,7 +63,7 @@
                         <!-- The actual form through which you send data back to the user -->
                         <form id="chat-form" method="POST" action="sendChat">
                             <input type="text" id="user-chat-msg" name="user-chat-msg"/>
-                            <input type="submit" value="Send"/>
+                            <input type="submit" id="chat-submit-button" value="Send" class="dashboard-buttons"/>
                         </form>
                     </div>
                 </div>
@@ -75,11 +71,11 @@
         </div>
     </div>
     <div id="upload-file-container">
-        <p id="upload-zone-file-p">Upload Zone File</p>
+        <h2 id="upload-zone-file-h2">Upload Zone File</h2>
         <form id="upload-file" action="uploadFile" enctype="multipart/form-data" method="POST">
             <input id="file-chooser" type="file" name="file" accept=".xml">
             <br>
-            <input id="upload-file-form-submit" type="Submit" value="Upload File">
+            <input id="upload-file-form-submit" type="Submit" value="Upload File" class="dashboard-buttons">
             <label id="upload-file-msg-label" for="upload-file-form-submit"></label>
         </form>
     </div>
@@ -110,10 +106,10 @@
             <br/>
             <label for="date" class="charge-credit-label">Date:</label>
             <input type="date" id="date" name="date" required>
-            <label for="credit" class="charge-credit-label">Credit:</label>
+            <label for="credit" id="credit-label" class="charge-credit-label">Credit:</label>
             <input id="credit" type="number" min="1" max="100000" name="credit" required/>
 <!--            <input id="charge" disabled="disabled" type="submit" value="Charge"/>-->
-            <input id="charge" type="submit" value="Charge"/>
+            <input id="charge" type="submit" value="Charge" class="dashboard-buttons"/>
             <label id="charge-credit-msg-label"></label>
         </form>
     </div>

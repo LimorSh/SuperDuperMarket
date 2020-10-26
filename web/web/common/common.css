@@ -1,0 +1,21 @@
+/*#header-container {*/
+/*    margin: auto;*/
+/*    width: 50%;*/
+/*    background-color: white;*/
+/*}*/
+
+#header {
+    color: SlateBlue;
+    text-align: center;
+    font-family: Georgia, cursive;
+}
+
+h2 {
+    color: SlateBlue;
+    font-size: 24px;
+}
+
+h3 {
+    color: SlateBlue;
+    font-size: 20px;
+}

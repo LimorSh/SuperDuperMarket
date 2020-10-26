@@ -1,18 +1,15 @@
-#header {
-    color: blue;
-    margin-left: 20px;
-    text-align: center;
-    font-family: Georgia, cursive;
+#chat-submit-button, #charge, #credit-label {
+    margin-left: 5px;
 }
 
-#upload-file-form-submit {
+.dashboard-buttons {
+    font-size: 18px;
+    border-radius: 6px;
+    color: #fff;
+    background-color: #0f6dbe;
+    border-color: #0b63b0;
 }
 
-#upload-zone-file-p {
-    color: blue;
-    font-weight: bold;
-    font-size: 16px;
-}
 
 #upload-file-msg-label {
     font-weight: normal;
@@ -20,13 +17,15 @@
 
 #sell-zones-table {
     /*align-content: center;*/
-    width: 60%;
+    width: 80%;
     border: 1px solid black;
     border-collapse: collapse;
     /*padding: 15px;*/
 }
 
 .sell-zones-table-col {
+    /*background-color: black;*/
+    /*color: white;*/
     text-align: center;
     /*word-wrap: break-word;*/
 }
@@ -36,12 +35,17 @@
     text-align: center;
 }
 
-#charge-credit-header{
-    color: DodgerBlue;
-}
-
 .charge-credit-label {
     font-weight: bold;
+    font-size: 18px;
+}
+
+#date {
+    line-height: 25px;
+}
+
+#credit {
+    font-size: 18px;
 }
 
 #account-table {
