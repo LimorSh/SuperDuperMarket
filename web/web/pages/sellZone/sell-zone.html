@@ -11,27 +11,21 @@
     <script src="sell-zone.js"></script>
     <link rel="stylesheet" href="../../common/w3_style.css">
     <link rel="stylesheet" href="../../common/bootstrap.min.css">
+    <link rel="stylesheet" href="../../common/common.css">
     <link rel="stylesheet" href="sell-zone.css">
     <link rel="stylesheet" href="../../notifications/notifications.css">
     <title>Sell Zone</title>
 </head>
 <body>
-<div id="container">
-<!--    <div id="general-bar-container">-->
-<!--        <div id="general-bar" class="w3-bar w3-black">-->
-<!--            <a href="/sdm/home" id="dashboard-button" class="w3-bar-item w3-button w3">Home</a>-->
-<!--            <a href="/sdm/logout" id="logout-button" class="w3-bar-item w3-button w3-right">Logout</a>-->
-<!--        </div>-->
-<!--    </div>-->
     <div id="actions-bar-customer-container">
-        <div id="actions-bar-customer" class="w3-bar w3-green">
+        <div id="actions-bar-customer" class="w3-bar w3-black">
             <a href="/sdm/home" id="customer-dashboard-button" class="w3-bar-item w3-button w3">Home</a>
             <a href="addOrder" id="add-order-button" class="w3-bar-item w3-button w3">Add Order</a>
             <a href="orderHistory" id="order-history-button" class="w3-bar-item w3-button w3">Order History</a>
         </div>
     </div>
     <div id="actions-bar-seller-container">
-        <div id="actions-bar-seller" class="w3-bar w3-red">
+        <div id="actions-bar-seller" class="w3-bar w3-black">
             <a href="/sdm/home" id="seller-dashboard-button" class="w3-bar-item w3-button w3">Home</a>
             <a href="seller/orders" id="orders-button" class="w3-bar-item w3-button w3">Orders</a>
             <a href="seller/feedbacks" id="feedbacks-button" class="w3-bar-item w3-button w3">Feedbacks</a>
@@ -39,25 +33,24 @@
             <a href="seller/addItem" id="add-item-button" class="w3-bar-item w3-button w3">Add Item</a>
         </div>
     </div>
-    <h1 id="header">Sell Zone</h1>
-
-    <div id="notifications-container">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xs-10">
-                    <div class="content">
-                        <div id="notifications-window">
-                            <h4>Notifications</h4>
-                            <div id="notifications-area" class="span6"></div>
+    <div id="container" class="container">
+        <h1 id="header">Sell Zone</h1>
+        <div id="notifications-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-10">
+                        <div class="content">
+                            <div id="notifications-window">
+                                <h4>Notifications</h4>
+                                <div id="notifications-area" class="span6"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-<!--    <h2>Items</h2>-->
-    <div id="items-table-container">
-<!--        <div id="items-table-scroll">-->
+    <!--    <h2>Items</h2>-->
+        <div id="items-table-container">
             <table id="items-table">
                 <caption id="items-table-caption">Items</caption>
                 <thead>
@@ -71,14 +64,11 @@
                 <tbody id="items-table-body">
                 </tbody>
             </table>
-<!--        </div>-->
+        </div>
+        <br/>
+        <h2>Stores</h2>
+        <div id="stores-container">
+        </div>
     </div>
-    <br/>
-    <h2>Stores</h2>
-<!--    <div id="stores-container-accordion">-->
-<!--    </div>-->
-    <div id="stores-container">
-    </div>
-</div>
 </body>
 </html>

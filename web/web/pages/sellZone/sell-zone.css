@@ -1,115 +1,55 @@
-#header{
-    color: blue;
-    margin-left: 20px;
-    text-align: center;
-    font-family: Georgia, cursive;
+#items-table tr:nth-child(even),
+#store-items-table tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
 
-#items-table-container{
-    position:relative;
+#items-table tr:hover,
+#store-items-table tr:hover {
+    background-color: #ddd;
 }
 
-/*#items-table-scroll{*/
-/*    !*position: relative;*!*/
-/*    height:150px;*/
-/*    !*width: 82%;*!*/
-/*    overflow:auto;*/
-/*    !*margin-top:20px;*!*/
-/*    display: block;*/
-/*}*/
+#items-table td, #items-table th,
+#store-items-table td, #store-items-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
 
 #items-table {
-    width: 80%;
-    border: 1px solid black;
+    width: 70%;
     border-collapse: collapse;
-    /*padding: 15px;*/
 }
 
-#items-table-container table thead th .items-table-col{
-    position:absolute;
-    top:-20px;
-    height:20px;
-    /*width:35%;*/
-    /*border:1px solid red;*/
+#store-items-table {
+    width: 45%;
+    border-collapse: collapse;
+}
+
+.items-table-col,
+.store-items-table-col {
+    background-color: #0f6dbe;
+    color: white;
     text-align: center;
-    /*word-wrap: break-word;*/
+    word-wrap: break-word;
 }
 
-.items-table-cell{
-    /*position: center;*/
+.items-table-cell,
+.store-items-table-cell {
     text-align: center;
 }
 
-#items-table-caption{
+
+#items-table-caption {
+    color: #0f6dbe;
     margin-bottom: 5px;
     font-size: 24px;
 }
 
-.accordion {
-    background-color: #eee;
-    color: #444;
-    cursor: pointer;
-    padding: 10px;
-    width: 50%;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 15px;
-    transition: 0.4s;
-}
-
-.active, .accordion:hover {
-    background-color: #ccc;
-}
-
-.panel {
-    padding: 0 18px;
-    background-color: white;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-}
-
-.accordion:after {
-    content: '\02795'; /* Unicode character for "plus" sign (+) */
-    font-size: 13px;
-    color: #777;
-    float: right;
-    margin-left: 5px;
-}
-
-.active:after {
-    content: "\2796"; /* Unicode character for "minus" sign (-) */
-}
-
-#store-items-table {
-    /*align-content: center;*/
-    width: 45%;
-    border: 1px solid black;
-    border-collapse: collapse;
-    /*padding: 15px;*/
-}
-
-.store-items-table-col {
-    text-align: center;
-    /*word-wrap: break-word;*/
-}
-
-.store-items-table-cell {
-    /*position: center;*/
-    text-align: center;
-}
-
-.add-order-label {
-    font-weight: bold;
-}
-
 .store-details-container {
     background-color: #b9d8f3;
-    width: 50%;
-    /*font-weight: bold;*/
+    width: 45%;
 }
 
-.store-details-p {
-    /*height: 300px;*/
+hr.rounded {
+    border-top: 3px solid #bbb;
+    border-radius: 5px;
 }

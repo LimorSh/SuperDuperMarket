@@ -5,7 +5,6 @@ const NOTIFICATIONS_CONTAINER = "notifications-container";
 const ITEMS_TABLE_BODY_ID = "items-table-body";
 const ITEMS_TABLE_CELL_ID = "items-table-cell";
 
-// const STORES_CONTAINER_ACCORDION_ID = "stores-container-accordion";
 const STORES_CONTAINER_ID = "stores-container";
 const STORE_CONTAINER_ID = "store-container";
 const STORES_HEADER_ID = "stores-headers";
@@ -14,7 +13,7 @@ const STORE_ITEMS_TABLE_BODY_ID = "store-items-table-body";
 const STORE_ITEMS_TABLE_COL_CLASS = "store-items-table-col";
 const STORE_ITEMS_TABLE_CELL_CLASS = "store-items-table-cell";
 const STORE_ITEMS_TABLE_HEADERS = ["ID", "Name", "Purchase Category", "Price", "Total Sells"];
-const STORE_DETAILS_CONTAINER_ID = "store-details-container";
+const STORE_DETAILS_CONTAINER_CLASS = "store-details-container";
 const STORE_DETAILS_P_CLASS = "store-details-p";
 
 let refreshRate = 2000; //milli seconds
@@ -48,7 +47,7 @@ function refreshItemsTable(items) {
 function addHeadersToItemsTable(thead) {
     for (let i = 0; i < STORE_ITEMS_TABLE_HEADERS.length; i++) {
         let header = document.createElement("th");
-        header.class = STORE_ITEMS_TABLE_COL_CLASS;
+        header.classList.add(STORE_ITEMS_TABLE_COL_CLASS);
         header.innerHTML = STORE_ITEMS_TABLE_HEADERS[i];
         thead.appendChild(header);
     }
@@ -59,14 +58,12 @@ function addItemsToItemsTable(items, itemsTableBody) {
     for (let i = 0; i < items.length; i++) {
         let item = items[i]
 
-        // let tableBody = document.getElementById(tableBodyId);
         let row = itemsTableBody.insertRow();
         Object.keys(item).forEach(function(key) {
             let cell = row.insertCell();
             cell.classList.add(STORE_ITEMS_TABLE_CELL_CLASS);
             cell.textContent = item[key];
         })
-        // addElemToTable(item, STORE_ITEMS_TABLE_BODY_ID, STORE_ITEMS_TABLE_CELL_ID);
     }
 }
 
@@ -96,10 +93,10 @@ function addStoreDetails(store) {
     let totalItemsCost = store["totalItemsCost"];
 
     let storeDetailsDiv = document.createElement("div");
-    storeDetailsDiv.id = STORE_DETAILS_CONTAINER_ID;
+    storeDetailsDiv.classList.add(STORE_DETAILS_CONTAINER_CLASS);
 
     let storeDetailsP = document.createElement("p");
-    storeDetailsP.class = STORE_DETAILS_P_CLASS;
+    storeDetailsP.classList.add(STORE_DETAILS_P_CLASS);
     storeDetailsP.innerHTML = `ID: ${id}${TAB}Owner Name: ${ownerName}${TAB}
                 Location: (${xLocation},${yLocation})${TAB}PPK: ${ppk}${NEW_LINE}
                 Total Deliveries Revenue: ${totalDeliveriesRevenue}${TAB}
@@ -113,14 +110,6 @@ function addStore(store) {
     let name = store["name"];
     let items = store["storeItemsDto"];
 
-    // let storesContainerAccordion = document.getElementById(STORES_CONTAINER_ACCORDION_ID);
-    // let button = document.createElement("button");
-    // button.classList.add("accordion");
-    // let buttonText = document.createTextNode(name);
-    // button.appendChild(buttonText);
-    // let storeDiv = document.createElement("div");
-    // storeDiv.classList.add("panel");
-
     let storesContainer = document.getElementById(STORES_CONTAINER_ID);
     let storeHeader = document.createElement("h3");
     storeHeader.classList.add(STORES_HEADER_ID);
@@ -130,32 +119,14 @@ function addStore(store) {
 
     let itemsTable = addItemsTableToStore(items);
     let storeDetailsDiv = addStoreDetails(store);
+    let divider = document.createElement("hr");
 
+    storeDiv.appendChild(divider);
+    storeDiv.appendChild(storeHeader);
     storeDiv.appendChild(storeDetailsDiv);
     storeDiv.appendChild(itemsTable);
-    // storesContainerAccordion.appendChild(button);
-    // storesContainerAccordion.appendChild(storeDiv);
-    storesContainer.appendChild(storeHeader);
-    storeHeader.appendChild(storeDiv);
+    storesContainer.appendChild(storeDiv);
 }
-
-
-// function addToStoresEventListeners() {
-//     let acc = document.getElementsByClassName("accordion");
-//     let i;
-//
-//     for (i = 0; i < acc.length; i++) {
-//         acc[i].addEventListener("click", function() {
-//             this.classList.toggle("active");
-//             let panel = this.nextElementSibling;
-//             if (panel.style.maxHeight) {
-//                 panel.style.maxHeight = null;
-//             } else {
-//                 panel.style.maxHeight = panel.scrollHeight + "px";
-//             }
-//         });
-//     }
-// }
 
 
 function refreshStores(stores) {
@@ -165,8 +136,6 @@ function refreshStores(stores) {
     $.each(stores || [], function(index, store) {
         addStore(store);
     });
-
-    // addToStoresEventListeners();
 }
 
 
