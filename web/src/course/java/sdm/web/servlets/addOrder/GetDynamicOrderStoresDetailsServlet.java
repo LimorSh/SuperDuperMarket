@@ -55,7 +55,7 @@ public class GetDynamicOrderStoresDetailsServlet extends HttpServlet {
                     (Comparator.comparing(DynamicOrderStoreDetailsDto::getId))
                     .collect(Collectors.toList());
             String json = gson.toJson(storesDetailsSortedById);
-            System.out.println(json);
+//            System.out.println(json);
             out.println(json);
             out.flush();
         }

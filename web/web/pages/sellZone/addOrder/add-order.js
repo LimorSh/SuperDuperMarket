@@ -1,6 +1,9 @@
 const DATE_PICKER_INPUT_ID = "date";
 const X_LOCATION_INPUT_ID = "location-x";
 const Y_LOCATION_INPUT_ID = "location-y";
+const ADD_ORDER_BASIC_INFO_BUTTON_ID = "add-order-basic-info-button";
+const ADD_ORDER_BASIC_INFO_LABEL_ID = "add-order-basic-info-label";
+
 const ORDER_CATEGORY_RADIO_BUTTON_CLASS = "order-category-radio-button";
 const CHOSEN_ORDER_CATEGORY_INPUT_ID = "chosen-order-category-input";
 const CHOSEN_STORE_INPUT_ID = "chosen-store-input";
@@ -21,22 +24,26 @@ const ITEMS_TABLE_PRICE_CELL_CLASS = "items-table-price-cell";
 const ITEMS_TABLE_QUANTITY_CELL_CLASS = "items-table-quantity-cell";
 const ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS = "items-table-quantity-cell-input";
 
+const FINISH_ORDER_BUTTON_ID = "finish-order-button";
+const FINISH_ORDER_MSG_LABEL_ID = "finish-order-msg-label";
+const FINISH_EMPTY_DATE_MSG = "Please pick a date";
+const FINISH_EMPTY_LOCATION_X_MSG = "Please fill out Location X field";
+const FINISH_EMPTY_LOCATION_Y_MSG = "Please fill out Location Y field";
+const MIN_COORDINATE_LOCATION = 1;
+const MAX_COORDINATE_LOCATION = 50;
+const FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG = "Location's coordinate should be between " + MIN_COORDINATE_LOCATION + " and " + MAX_COORDINATE_LOCATION + ".";
+const FINISH_ORDER_TAKEN_LOCATION_MSG = "The order location is a store location, please choose a different location.";
+const FINISH_ORDER_EMPTY_QUANTITIES_MSG = "Your cart is empty, please choose at least one item and fill its quantity.";
+const DYNAMIC_ORDER_STORES_DETAILS_CONTAINER_ID = "dynamic-order-stores-details-container";
+const DYNAMIC_ORDER_STORES_DETAILS_LIST_ID = "dynamic-order-stores-details-list";
+
+
 const ORDER_SUMMERY_DATE_VALUE_LABEL_ID = "order-summery-date-value-label";
 const ORDER_SUMMERY_LOCATION_VALUE_LABEL_ID = "order-summery-location-value-label";
 const ORDER_SUMMERY_ORDER_CATEGORY_VALUE_LABEL_ID = "order-summery-order-category-value-label";
 const ORDER_SUMMERY_TOTAL_ITEMS_COST_VALUE_LABEL_ID = "order-summery-total-items-cost-value-label";
 const ORDER_SUMMERY_TOTAL_DELIVERY_COST_VALUE_LABEL_ID = "order-summery-total-delivery-cost-value-label";
 const ORDER_SUMMERY_TOTAL_ORDER_COST_VALUE_LABEL_ID = "order-summery-total-order-cost-value-label";
-
-const FINISH_ORDER_BUTTON_ID = "finish-order-button";
-const FINISH_ORDER_MSG_LABEL_ID = "finish-order-msg-label";
-const FINISH_EMPTY_DATE_MSG = "Please pick a date";
-const FINISH_EMPTY_LOCATION_X_MSG = "Please fill out Location X field";
-const FINISH_EMPTY_LOCATION_Y_MSG = "Please fill out Location Y field";
-const FINISH_ORDER_TAKEN_LOCATION_MSG = "The order location is a store location, please choose a different location.";
-const FINISH_ORDER_EMPTY_QUANTITIES_MSG = "Your cart is empty, please choose at least one item and fill its quantity.";
-const DYNAMIC_ORDER_STORES_DETAILS_CONTAINER_ID = "dynamic-order-stores-details-container";
-const DYNAMIC_ORDER_STORES_DETAILS_LIST_ID = "dynamic-order-stores-details-list";
 
 const ORDER_DISCOUNTS_CONTAINER_ID = "order-discounts-container";
 const DISCOUNT_CONTAINER_CLASS = "discount-container";
@@ -71,6 +78,7 @@ const FINAL_ORDER_BUTTONS_CONTAINER_ID = "final-order-buttons-container";
 const FINAL_ORDER_BUTTON_CLASS = "final-order-button";
 const CONFIRM_ORDER_BUTTON_ID = "confirm-order-button";
 const CANCEL_ORDER_BUTTON_ID = "cancel-order-button";
+const CONFIRM_ORDER_LABEL_ID = "confirm-order-label";
 const GO_BACK_BUTTON_ID = "go-back-button";
 
 const ORDER_FEEDBACK_CONTAINER_ID = "order-feedback-container";
@@ -79,8 +87,13 @@ const STORE_RATE_HEADER_CLASS = "store-rate-header";
 const STORE_RATE_FIELD_CLASS = "store-rate-field";
 const STORE_RATE_INPUT_CLASS = "store-rate-input";
 const STORE_RATE_INPUT_NOTE_CLASS = "store-rate-input-note";
-const SAVE_STORE_FEEDBACK_BUTTON_CLASS = "store-rate-button";
-
+const STORE_FEEDBACK_TEXT_AREA_CLASS = "store-feedback-text-area";
+const SAVE_STORE_FEEDBACK_BUTTON_CLASS = "save-store-feedback-button";
+const SAVE_STORE_FEEDBACK_BUTTON_LABEL_CLASS = "save-store-feedback-button-label";
+const FINISH_RATING_BUTTON_ID = "finish-rating-button";
+const MIN_RATE = 1;
+const MAX_RATE = 5;
+const RATE_ERROR_MSG = "Rate should be between " + MIN_RATE + " and " + MAX_RATE + ".";
 
 const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
 let SET_STORE_DELIVERY_COST_URL = buildUrlWithContextPath(SET_STORE_DELIVERY_COST_URL_RESOURCE);
@@ -128,7 +141,6 @@ function ajaxSetStores() {
         },
         error: function() {
             console.error("Failed to submit");
-            $("#error-msg").text("Failed to get result from server");
         },
         success: function(allStores) {
             stores = allStores;
@@ -166,7 +178,6 @@ function ajaxItemsTable() {
         },
         error: function() {
             console.error("Failed to submit");
-            $("#error-msg").text("Failed to get result from server");
         },
         success: function(allItems) {
             setItemsArray(allItems);
@@ -226,7 +237,7 @@ function isAllQuantitiesInputAreEmpty() {
 }
 
 
-function isLocationAlreadyExistsForStore() {
+function isLocationAlreadyExistsForStore(customerXLocation, customerYLocation) {
     let store;
     let storeXLocation;
     let storeYLocation;
@@ -234,7 +245,7 @@ function isLocationAlreadyExistsForStore() {
         store = stores[j];
         storeXLocation = store["xLocation"];
         storeYLocation = store["yLocation"];
-        if (storeXLocation === parseInt(xLocation) && storeYLocation === parseInt(yLocation)) {
+        if (storeXLocation === customerXLocation && storeYLocation === customerYLocation) {
             return true
         }
     }
@@ -841,20 +852,38 @@ function showOrderSummery() {
 }
 
 
-function disableOrderInterface() {
-    let finishOrderButton = document.getElementById(FINISH_ORDER_BUTTON_ID);
+function enableOrderCategoryRadioButtons() {
+    let OrderCategoryRadioButtonsInputs = document.getElementsByClassName(ORDER_CATEGORY_RADIO_BUTTON_CLASS);
+
+    for (let radio of OrderCategoryRadioButtonsInputs) {
+        radio.disabled = false;
+    }
+}
+
+
+function disableOrderBasicInfoInterface() {
+    let addOrderBasicInfoButton = document.getElementById(ADD_ORDER_BASIC_INFO_BUTTON_ID);
     let datePicker = document.getElementById(DATE_PICKER_INPUT_ID);
     let xLocationInput = document.getElementById(X_LOCATION_INPUT_ID);
     let yLocationInput = document.getElementById(Y_LOCATION_INPUT_ID);
+
+    addOrderBasicInfoButton.disabled = true;
+    datePicker.disabled = true;
+    xLocationInput.disabled = true;
+    yLocationInput.disabled = true;
+}
+
+
+function disableOrderInterface() {
+    let finishOrderButton = document.getElementById(FINISH_ORDER_BUTTON_ID);
     let OrderCategoryRadioButtonsInputs = document.getElementsByClassName(ORDER_CATEGORY_RADIO_BUTTON_CLASS);
     let storeSelectInput = document.getElementById(STORES_SELECT_ID);
     let deliveryCostLabel = document.getElementById(STORE_DELIVERY_COST_LABEL_CONTAINER_ID);
     let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
+
     finishOrderButton.disabled = true;
-    datePicker.disabled = true;
-    xLocationInput.disabled = true;
-    yLocationInput.disabled = true;
-    for (let radio of OrderCategoryRadioButtonsInputs) {
+
+   for (let radio of OrderCategoryRadioButtonsInputs) {
         radio.disabled = true;
     }
     storeSelectInput.disabled = true;
@@ -865,30 +894,65 @@ function disableOrderInterface() {
 }
 
 
-function finishOrder() {
-    let finishOrderMsgLabel = document.getElementById(FINISH_ORDER_MSG_LABEL_ID);
-    finishOrderMsgLabel.textContent = "";
+function setOrderBasicInfo() {
+    let addOrderBasicInfoMsgLabel = document.getElementById(ADD_ORDER_BASIC_INFO_LABEL_ID);
+    addOrderBasicInfoMsgLabel.textContent = "";
 
     let datePickerValue = document.getElementById(DATE_PICKER_INPUT_ID).value;
     let xLocationValue = document.getElementById(X_LOCATION_INPUT_ID).value;
     let yLocationValue = document.getElementById(Y_LOCATION_INPUT_ID).value;
-
-    let isLocationAlreadyExists = isLocationAlreadyExistsForStore();
-    let isAllQuantitiesAreEmpty = isAllQuantitiesInputAreEmpty();
+    let xLocationValueInt = parseInt(xLocationValue);
+    let yLocationValueInt = parseInt(yLocationValue);
 
     if (!datePickerValue) {
-        finishOrderMsgLabel.textContent = FINISH_EMPTY_DATE_MSG;
+        addOrderBasicInfoMsgLabel.textContent = FINISH_EMPTY_DATE_MSG;
     }
     else if (!xLocationValue) {
-        finishOrderMsgLabel.textContent = FINISH_EMPTY_LOCATION_X_MSG;
+        addOrderBasicInfoMsgLabel.textContent = FINISH_EMPTY_LOCATION_X_MSG;
     }
     else if (!yLocationValue) {
-        finishOrderMsgLabel.textContent = FINISH_EMPTY_LOCATION_Y_MSG;
+        addOrderBasicInfoMsgLabel.textContent = FINISH_EMPTY_LOCATION_Y_MSG;
     }
-    else if (isLocationAlreadyExists) {
-        finishOrderMsgLabel.textContent = FINISH_ORDER_TAKEN_LOCATION_MSG;
+    else if (xLocationValueInt < MIN_COORDINATE_LOCATION || xLocationValueInt > MAX_COORDINATE_LOCATION) {
+        addOrderBasicInfoMsgLabel.textContent = FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG;
     }
-    else if (isAllQuantitiesAreEmpty) {
+    else if (yLocationValueInt < MIN_COORDINATE_LOCATION || yLocationValueInt > MAX_COORDINATE_LOCATION) {
+        addOrderBasicInfoMsgLabel.textContent = FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG;
+    }
+    else if (isLocationAlreadyExistsForStore(xLocationValueInt, yLocationValueInt)) {
+        addOrderBasicInfoMsgLabel.textContent = FINISH_ORDER_TAKEN_LOCATION_MSG;
+    }
+    else {
+        disableOrderBasicInfoInterface();
+        enableOrderCategoryRadioButtons();
+    }
+}
+
+
+function disableStoresFeedbacks() {
+    let saveStoreFeedbackButtons = document.getElementsByClassName(SAVE_STORE_FEEDBACK_BUTTON_CLASS);
+    let storeRateInputs = document.getElementsByClassName(STORE_RATE_INPUT_CLASS);
+    let storeFeedbackTextAreas = document.getElementsByClassName(STORE_FEEDBACK_TEXT_AREA_CLASS);
+
+    for (let button of saveStoreFeedbackButtons) {
+        button.disabled = true;
+    }
+    for (let input of storeRateInputs) {
+        input.disabled = true;
+    }
+    for (let textArea of storeFeedbackTextAreas) {
+        textArea.disabled = true;
+    }
+}
+
+
+function finishOrder() {
+    let finishOrderMsgLabel = document.getElementById(FINISH_ORDER_MSG_LABEL_ID);
+    finishOrderMsgLabel.textContent = "";
+
+    let isAllQuantitiesAreEmpty = isAllQuantitiesInputAreEmpty();
+
+    if (isAllQuantitiesAreEmpty) {
         finishOrderMsgLabel.textContent = FINISH_ORDER_EMPTY_QUANTITIES_MSG;
     }
     else {
@@ -912,10 +976,10 @@ function enableOrderConfirmAndCancelButtons() {
 }
 
 
-function storeWasRated(storeId, storeRateInput, storeRateFeedback) {
+function storeWasRated(storeId, storeRateInput, storeFeedback) {
     storesAndRates[storeId] = {
         "storeRate": parseInt(storeRateInput.value),
-        "storeFeedback": storeRateFeedback.value,
+        "storeFeedback": storeFeedback.value,
     }
 }
 
@@ -926,10 +990,11 @@ function showRateStore(store) {
     let storeName = store["name"];
 
     const STORE_RATE_INPUT_ID = `${storeId}-store-rate-input`;
-    const STORE_RATE_FEEDBACK_ID = `${storeId}-store-rate-feedback`;
-    const STORE_RATE_FEEDBACK_ROWS = 6;
-    const STORE_RATE_FEEDBACK_COLS = 70;
-    const STORE_RATE_FEEDBACK_LENGTH = 300;
+    const STORE_FEEDBACK_TEXT_AREA_ID = `${storeId}-store-rate-feedback`;
+    const SAVE_STORE_FEEDBACK_BUTTON_ID = `${storeId}-save-store-feedback-button`;
+    const STORE_FEEDBACK_TEXT_AREA_ROWS = 6;
+    const STORE_FEEDBACK_TEXT_AREA_COLS = 70;
+    const STORE_FEEDBACK_TEXT_AREA_LENGTH = 300;
 
     let storeRateContainer = document.createElement("div");
     storeRateContainer.classList.add(STORE_RATE_CONTAINER_CLASS);
@@ -940,8 +1005,8 @@ function showRateStore(store) {
     storeRateInput.id = STORE_RATE_INPUT_ID;
     storeRateInput.classList.add(STORE_RATE_INPUT_CLASS);
     storeRateInput.type = "number";
-    storeRateInput.min = "1";
-    storeRateInput.max = "5";
+    storeRateInput.min = `${MIN_RATE}`;
+    storeRateInput.max = `${MAX_RATE}`;
     let storeRateInputLabel = document.createElement("label");
     storeRateInputLabel.classList.add(STORE_RATE_FIELD_CLASS);
     storeRateInputLabel.textContent = "Rate: ";
@@ -952,28 +1017,40 @@ function showRateStore(store) {
     let storeRateFeedbackLabel = document.createElement("label");
     storeRateFeedbackLabel.classList.add(STORE_RATE_FIELD_CLASS);
     storeRateFeedbackLabel.textContent = "Feedback: ";
-    let storeRateFeedback = document.createElement("textarea");
-    storeRateFeedback.id = STORE_RATE_FEEDBACK_ID;
-    storeRateFeedback.classList.add(STORE_RATE_FIELD_CLASS);
-    storeRateFeedback.rows = STORE_RATE_FEEDBACK_ROWS;
-    storeRateFeedback.cols = STORE_RATE_FEEDBACK_COLS;
-    storeRateFeedback.maxlength = STORE_RATE_FEEDBACK_LENGTH;
-    storeRateFeedback.disabled = true;
+    let storeFeedback = document.createElement("textarea");
+    storeFeedback.id = STORE_FEEDBACK_TEXT_AREA_ID;
+    storeFeedback.classList.add(STORE_FEEDBACK_TEXT_AREA_CLASS);
+    storeFeedback.rows = STORE_FEEDBACK_TEXT_AREA_ROWS;
+    storeFeedback.cols = STORE_FEEDBACK_TEXT_AREA_COLS;
+    storeFeedback.maxlength = STORE_FEEDBACK_TEXT_AREA_LENGTH;
+    storeFeedback.disabled = true;
 
-    let saveStoreRateButton = document.createElement("button");
-    saveStoreRateButton.classList.add(SAVE_STORE_FEEDBACK_BUTTON_CLASS);
-    saveStoreRateButton.textContent = "Save Rate";
-    saveStoreRateButton.disabled = true;
-    saveStoreRateButton.addEventListener("click", () => {
-        saveStoreRateButton.disabled = true;
-        storeRateInput.disabled = true;
-        storeRateFeedback.disabled = true;
-        storeWasRated(storeId, storeRateInput, storeRateFeedback);
+    let saveStoreFeedbackButton = document.createElement("button");
+    saveStoreFeedbackButton.id = SAVE_STORE_FEEDBACK_BUTTON_ID;
+    saveStoreFeedbackButton.classList.add(SAVE_STORE_FEEDBACK_BUTTON_CLASS);
+    saveStoreFeedbackButton.textContent = "Save Feedback";
+    saveStoreFeedbackButton.disabled = true;
+
+    let saveStoreFeedbackButtonLabel = document.createElement("label");
+    saveStoreFeedbackButtonLabel.classList.add(SAVE_STORE_FEEDBACK_BUTTON_LABEL_CLASS);
+    saveStoreFeedbackButtonLabel.htmlFor = SAVE_STORE_FEEDBACK_BUTTON_ID;
+
+    saveStoreFeedbackButton.addEventListener("click", () => {
+        if (parseInt(storeRateInput.value) >= MIN_RATE && parseInt(storeRateInput.value) <= MAX_RATE) {
+            saveStoreFeedbackButtonLabel.textContent = "";
+            saveStoreFeedbackButton.disabled = true;
+            storeRateInput.disabled = true;
+            storeFeedback.disabled = true;
+            storeWasRated(storeId, storeRateInput, storeFeedback);
+        }
+        else {
+            saveStoreFeedbackButtonLabel.textContent = RATE_ERROR_MSG;
+        }
     });
 
     storeRateInput.addEventListener("change", () => {
-        saveStoreRateButton.disabled = !storeRateInput.value;
-        storeRateFeedback.disabled = !storeRateInput.value;
+        saveStoreFeedbackButton.disabled = !storeRateInput.value;
+        storeFeedback.disabled = !storeRateInput.value;
     });
 
     let newLine = document.createElement("br");
@@ -985,10 +1062,11 @@ function showRateStore(store) {
     storeRateContainer.appendChild(storeRateFeedbackLabel);
     newLine = document.createElement("br");
     storeRateContainer.appendChild(newLine);
-    storeRateContainer.appendChild(storeRateFeedback);
+    storeRateContainer.appendChild(storeFeedback);
     newLine = document.createElement("br");
     storeRateContainer.appendChild(newLine);
-    storeRateContainer.appendChild(saveStoreRateButton);
+    storeRateContainer.appendChild(saveStoreFeedbackButton);
+    storeRateContainer.appendChild(saveStoreFeedbackButtonLabel);
 
     orderFeedbackContainer.appendChild(storeRateContainer);
 }
@@ -1015,12 +1093,14 @@ function ajaxAddOrderFeedback() {
         error: function(e) {
             console.error(e);
             console.error("Failed to submit");
-            $("#error-msg").text("Failed to get result from server");
         },
         success: function() {
+
+            disableStoresFeedbacks();
+
             let orderFeedbackContainer = document.getElementById(ORDER_FEEDBACK_CONTAINER_ID);
 
-            let finishButton = document.getElementById("order-rate-finish-button");
+            let finishButton = document.getElementById(FINISH_RATING_BUTTON_ID);
             finishButton.disabled = true;
             let backToSellZoneButton = document.createElement("button");
             backToSellZoneButton.id = GO_BACK_BUTTON_ID;
@@ -1059,18 +1139,19 @@ function showOrderRateStores() {
         });
     }
 
-    let finishButton = document.createElement("button");
-    finishButton.id = "order-rate-finish-button";
-    finishButton.textContent = "Finish";
-    finishButton.onclick = finishOrderRate;
+    let finishRatingButton = document.createElement("button");
+    finishRatingButton.id = "finish-rating-button";
+    finishRatingButton.textContent = "Finish Rating";
+    finishRatingButton.onclick = finishOrderRate;
 
-    orderFeedbackContainer.appendChild(finishButton);
+    orderFeedbackContainer.appendChild(finishRatingButton);
     orderFeedbackContainer.style.display = "block";
 }
 
 
 function ajaxAddOrder() {
     $("#add-order-form").submit(function() {
+        let confirmOrderLabel = document.getElementById(CONFIRM_ORDER_LABEL_ID);
         let parameters = getAddOrderFormInputsAsQueryParameters();
 
         $.ajax({
@@ -1082,10 +1163,10 @@ function ajaxAddOrder() {
             },
             error: function(e) {
                 console.error(e);
-                console.error("Failed to submit");
-                $("#error-msg").text("Failed to get result from server");
+                confirmOrderLabel.textContent = "Failed to get result from server: " + e;
             },
             success: function(orderIdRes) {
+                confirmOrderLabel.textContent = "Your order was confirmed!";
                 orderId = orderIdRes;
                 enableOrderConfirmAndCancelButtons();
                 showOrderRateStores();
@@ -1201,7 +1282,7 @@ function ajaxGetStoreDeliveryCost(storeId) {
         },
         error: function() {
             console.error("Failed to submit");
-            $("#error-msg").text("Failed to get result from server");
+            $("#store-delivery-cost-label").text("Failed to get result from server");
         },
         success: function(storeDeliveryCost) {
             deliveryCost = parseFloat(storeDeliveryCost);
@@ -1250,7 +1331,6 @@ function ajaxGetDistanceFromStore(storeId, orderCategoryValue) {
         },
         error: function() {
             console.error("Failed to submit");
-            $("#error-msg").text("Failed to get result from server");
         },
         success: function(distanceFromStoreRes) {
             distanceFromStore = parseFloat(distanceFromStoreRes);
@@ -1306,9 +1386,6 @@ function addCellsToPriceColumn(prices) {
         }
 
         priceCell = row.cells[row.cells.length-2];
-        if (!priceCell.classList.contains(ITEMS_TABLE_PRICE_CELL_CLASS)) {
-            priceCell.classList.add(ITEMS_TABLE_PRICE_CELL_CLASS);
-        }
         priceCell.textContent = cellContent;
     }
 }
@@ -1375,6 +1452,13 @@ function setItemsTableData() {
         addElemToTable(item, ITEMS_TABLE_BODY_ID, ITEMS_TABLE_CELL_CLASS);
     });
 
+    let itemsTableBody = document.getElementById(ITEMS_TABLE_BODY_ID);
+    for (let row of itemsTableBody.rows) {
+        let priceCell = row.cells[row.cells.length-1];
+        priceCell.classList.add(ITEMS_TABLE_PRICE_CELL_CLASS);
+        priceCell.style.display = "none";
+    }
+
     addQuantityCellsInputs();
 }
 
@@ -1400,7 +1484,4 @@ $(function() {
     });
 
     ajaxAddOrder();
-
-    // $.when(ajaxAddOrder()).then(function() {
-    // });
 });

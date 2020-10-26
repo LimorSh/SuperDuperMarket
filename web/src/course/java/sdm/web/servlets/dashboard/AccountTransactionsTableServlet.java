@@ -30,7 +30,7 @@ public class AccountTransactionsTableServlet extends HttpServlet {
             Gson gson = new Gson();
             List<TransactionDto> transactions = accountManager.getUserTransactionsDto(usernameFromSession);
             String json = gson.toJson(transactions);
-            System.out.println(json);
+//            System.out.println(json);
             out.println(json);
             out.flush();
         }

@@ -31,7 +31,7 @@ public class UsersListServlet extends HttpServlet {
                     Comparator.comparing(User::getId))
                     .collect(Collectors.toList());
             String json = gson.toJson(usersListSortedById);
-            System.out.println(json);
+//            System.out.println(json);
             out.println(json);
             out.flush();
         }

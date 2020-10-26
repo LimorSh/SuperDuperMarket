@@ -1,6 +1,7 @@
 package course.java.sdm.engine.dto;
 
 import course.java.sdm.engine.Utils;
+import course.java.sdm.engine.engine.Location;
 import course.java.sdm.engine.engine.Offer;
 import course.java.sdm.engine.engine.OrderLine;
 import course.java.sdm.engine.engine.StoreOrder;
@@ -9,7 +10,10 @@ import java.util.*;
 
 public class StoreOrderDto {
 
-    private final Date date;
+    private final int orderId;
+    private final String dateStr;
+    private final String customerName;
+    private final String customerLocation;
     private final int storeId;
     private final String storeName;
     private final int storePpk;
@@ -20,9 +24,13 @@ public class StoreOrderDto {
     private final float deliveryCost;
     private final float totalCost;
     private final double distanceFromCustomer;
+    private ArrayList<PurchasedItemStoreOrderDto> purchasedItemsStoreOrderDto;
 
     public StoreOrderDto(StoreOrder storeOrder) {
-        this.date = storeOrder.getDate();
+        this.orderId = storeOrder.getOrderId();
+        this.dateStr = Utils.convertDateToString(storeOrder.getDate());
+        this.customerName = storeOrder.getCustomerName();
+        this.customerLocation = Location.getLocationStr(storeOrder.getCustomerLocation());
         this.storeId = storeOrder.getStore().getId();
         this.storeName = storeOrder.getStore().getName();
         this.storePpk = storeOrder.getStore().getPpk();
@@ -57,8 +65,20 @@ public class StoreOrderDto {
         });
     }
 
-    public Date getDate() {
-        return date;
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public String getDateStr() {
+        return dateStr;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public String getCustomerLocation() {
+        return customerLocation;
     }
 
     public int getStoreId() {
@@ -104,5 +124,14 @@ public class StoreOrderDto {
 
     public double getDistanceFromCustomer() {
         return distanceFromCustomer;
+    }
+
+    public ArrayList<PurchasedItemStoreOrderDto> getPurchasedItemsStoreOrderDto() {
+        return purchasedItemsStoreOrderDto;
+    }
+
+    public void setPurchasedItemStoreOrderDto(
+            ArrayList<PurchasedItemStoreOrderDto> purchasedItemsStoreOrderDto) {
+        this.purchasedItemsStoreOrderDto = purchasedItemsStoreOrderDto;
     }
 }

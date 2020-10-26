@@ -1,20 +1,26 @@
+const NOTIFICATIONS_CONTAINER_ID = "notifications-container";
+const UPLOAD_FILE_CONTAINER_ID = "upload-file-container";
+const FILE_CHOOSER_INPUT_ID = "file-chooser";
+const UPLOAD_FILE_FORM_SUBMIT_ID = "upload-file-form-submit";
+const UPLOAD_FILE_MSG_LABEL_ID = "upload-file-msg-label";
+const CHARGE_CREDIT_CONTAINER_ID = "charge-credit-container";
+
 const SELL_ZONES_TABLE_BODY_ID = "sell-zones-table-body";
 const SELL_ZONES_TABLE_CELL_ID = "sell-zones-table-cell";
 const SELL_ZONE_TABLE_LINK_CELL_CLASS = "sell-zone-link-cell-class";
 const ACCOUNT_TABLE_BODY_ID = "account-table-body";
 const ACCOUNT_TABLE_CELL_ID = "account-table-cell";
 
-const USER_LIST_URL_RESOURCE = "userslist";
-const SELL_ZONES_TABLE_URL_RESOURCE = "sellZonesTable";
-const ACCOUNT_TABLE_URL_RESOURCE = "accountTable";
-const SELL_ZONE_URL_RESOURCE = "pages/sellZone/sell-zone.html";
-const SELL_ZONE_CHOSEN_URL_RESOURCE = "sellZoneChosen";
-
 let refreshRate = 2000; //milli seconds
+const USER_LIST_URL_RESOURCE = "userslist";
 let USER_LIST_URL = buildUrlWithContextPath(USER_LIST_URL_RESOURCE);
+const SELL_ZONES_TABLE_URL_RESOURCE = "sellZonesTable";
 let SELL_ZONES_TABLE_URL = buildUrlWithContextPath(SELL_ZONES_TABLE_URL_RESOURCE);
+const ACCOUNT_TABLE_URL_RESOURCE = "accountTable";
 let ACCOUNT_TABLE_URL = buildUrlWithContextPath(ACCOUNT_TABLE_URL_RESOURCE);
+const SELL_ZONE_URL_RESOURCE = "pages/sellZone/sell-zone.html";
 let SELL_ZONE_URL = buildUrlWithContextPath(SELL_ZONE_URL_RESOURCE);
+const SELL_ZONE_CHOSEN_URL_RESOURCE = "sellZoneChosen";
 let SELL_ZONE_CHOSEN_URL = buildUrlWithContextPath(SELL_ZONE_CHOSEN_URL_RESOURCE);
 
 
@@ -137,8 +143,40 @@ function ajaxAccountTable() {
     });
 }
 
+
+function showElementsByUserType(currUserType) {
+    let notificationsContainer = document.getElementById(NOTIFICATIONS_CONTAINER_ID);
+    let uploadFileContainer = document.getElementById(UPLOAD_FILE_CONTAINER_ID);
+    let chargeCreditContainer = document.getElementById(CHARGE_CREDIT_CONTAINER_ID);
+
+    if (currUserType === USER_TYPE_CUSTOMER_STR) {
+        notificationsContainer.style.display = "none";
+        uploadFileContainer.style.display = "none";
+    }
+    else {
+        chargeCreditContainer.style.display = "none";
+    }
+}
+
+
+function ajaxGetUserType() {
+    $.ajax({
+        url: GET_USER_TYPE_URL,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
+        success: function(currUserType) {
+            showElementsByUserType(currUserType);
+        }
+    });
+}
+
+
 //activate the timer calls after the page is loaded
 $(function() {
+
+    // get user type
+    ajaxGetUserType();
 
     //The users list is refreshed automatically every second
     setInterval(ajaxUsersList, refreshRate);
@@ -154,28 +192,35 @@ $(function() {
 // upload file
 $(function() {
     $("#upload-file").submit(function() {
-        let file = this[0].files[0];
-        let formData = new FormData();
-        formData.append("file", file);
 
-        $.ajax({
-            method:'POST',
-            data: formData,
-            url: this.action,
-            processData: false, // Don't process the files
-            contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-            timeout: 4000,
-            headers: {
-                'cache-control': 'no-store,no-cache',
-            },
-            error: function(r) {
-                // console.error("Failed to submit");
-                $("#upload-file-msg-label").text("Failed to get result from server " + r);
-            },
-            success: function(r) {
-                $("#upload-file-msg-label").text(r);
-            }
-        });
+        let fileChooserInput = document.getElementById(FILE_CHOOSER_INPUT_ID);
+        if (fileChooserInput.value) {
+            let file = this[0].files[0];
+            let formData = new FormData();
+            formData.append("file", file);
+
+            $.ajax({
+                method:'POST',
+                data: formData,
+                url: this.action,
+                processData: false, // Don't process the files
+                contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                timeout: 4000,
+                headers: {
+                    'cache-control': 'no-store,no-cache',
+                },
+                error: function(r) {
+                    // console.error("Failed to submit");
+                    $(`#${UPLOAD_FILE_MSG_LABEL_ID}`).text("Failed to get result from server " + r);
+                },
+                success: function(r) {
+                    $(`#${UPLOAD_FILE_MSG_LABEL_ID}`).text(r);
+                }
+            });
+        }
+        else {
+            $(`#${UPLOAD_FILE_MSG_LABEL_ID}`).text("Please choose a file.");
+        }
 
         // return value of the submit operation
         // by default - we'll always return false so it doesn't redirect the user.

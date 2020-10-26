@@ -31,7 +31,7 @@ public class SellZonesTableServlet extends HttpServlet {
                     (Comparator.comparing(ZoneDetailsDto::getZoneName))
                     .collect(Collectors.toList());
             String json = gson.toJson(zonesSortedByName);
-            System.out.println(json);
+//            System.out.println(json);
             out.println(json);
             out.flush();
         }

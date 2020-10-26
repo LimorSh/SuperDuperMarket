@@ -1,3 +1,8 @@
+/*#body {*/
+/*    overflow-x: scroll;*/
+/*    white-space: nowrap;*/
+/*}*/
+
 #header {
     color: blue;
     margin-left: 20px;

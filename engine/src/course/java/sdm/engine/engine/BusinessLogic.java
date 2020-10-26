@@ -2,10 +2,12 @@ package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
 import course.java.sdm.engine.dto.*;
 import course.java.sdm.engine.engine.accounts.AccountManager;
+import course.java.sdm.engine.engine.notifications.NotificationManager;
 
 import javax.xml.bind.JAXBException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BusinessLogic {
     private final Map<String, SuperDuperMarket> superDuperMarkets;    // the key is zone name
@@ -50,6 +52,13 @@ public class BusinessLogic {
         return SuperDuperMarketDto.getStoresDto(chosenSuperDuperMarket.getStores());
     }
 
+    public Collection<StoreDto> getOwnerStoresDto(String zoneName, String ownerName) {
+        Collection<StoreDto> storesDto = getStoresDto(zoneName);
+        return storesDto.stream()
+                .filter(storeDto-> storeDto.getOwnerName().equalsIgnoreCase(ownerName))
+                .collect(Collectors.toList());
+    }
+
     public Collection<CustomerDto> getCustomersDto(String zoneName) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
         Collection<CustomerDto> customersDto = new ArrayList<>();
@@ -66,6 +75,21 @@ public class BusinessLogic {
     public Collection<BasicCustomerDto> getBasicCustomersDto(String zoneName) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
         return SuperDuperMarketDto.getBasicCustomersDto(chosenSuperDuperMarket.getCustomers());
+    }
+
+    public Collection<BasicStoreDto> getOwnerBasicStoresDto(String zoneName, String ownerName) {
+        Collection<StoreDto> storesDto = getOwnerStoresDto(zoneName, ownerName);
+        Collection<BasicStoreDto> basicStoresDto = new ArrayList<>();
+        for (StoreDto storeDto : storesDto) {
+            BasicStoreDto basicStoreDto = new BasicStoreDto(storeDto);
+            basicStoresDto.add(basicStoreDto);
+        }
+        return basicStoresDto;
+    }
+
+    public Collection<BasicStoreDto> getBasicStoresDto(String zoneName) {
+        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
+        return SuperDuperMarketDto.getBasicStoresDto(chosenSuperDuperMarket.getStores());
     }
 
     public Collection<BasicItemDto> getBasicItemsDto(String zoneName) {
@@ -270,21 +294,22 @@ public class BusinessLogic {
         return chosenSuperDuperMarket.getDistanceBetweenCustomerAndStore(storeId, customerLocationX, customerLocationY);
     }
 
-    public int createOrder(AccountManager accountManager, String zoneName, String username, Date date,
-                            int locationX, int locationY,
+    public int createOrder(AccountManager accountManager, NotificationManager notificationManager,
+                           String zoneName, String username, Date date, int locationX, int locationY,
                             int storeId, Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        return chosenSuperDuperMarket.createOrder(accountManager, username, date,
-                locationX, locationY, storeId, itemsIdsAndQuantities, appliedOffersStoreItemsIds);
+        return chosenSuperDuperMarket.createOrder(accountManager, notificationManager, username,
+                date, locationX, locationY, storeId, itemsIdsAndQuantities, appliedOffersStoreItemsIds);
     }
 
-    public int createOrder(AccountManager accountManager, String zoneName, String username, Date date,
+    public int createOrder(AccountManager accountManager, NotificationManager notificationManager,
+                           String zoneName, String username, Date date,
                             int locationX, int locationY,
                             Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        return chosenSuperDuperMarket.createOrder(accountManager, username, date,
+        return chosenSuperDuperMarket.createOrder(accountManager, notificationManager, username, date,
                 locationX, locationY, itemsIdsAndQuantities, appliedOffersStoreItemsIds);
     }
 
@@ -391,10 +416,12 @@ public class BusinessLogic {
         return minAndMaxLocations;
     }
 
-    public void createNewStore(String zoneName, String ownerName, String storeName,
+    public void createNewStore(NotificationManager notificationManager, String zoneName,
+                               String ownerName, String storeName,
                                int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.addStore(ownerName, storeName, locationX, locationY, ppk, itemIdsAndPrices);
+        chosenSuperDuperMarket.addStore(notificationManager, ownerName, storeName,
+                locationX, locationY, ppk, itemIdsAndPrices);
     }
 
     public void validateStoreId(String zoneName, int id) {
@@ -445,10 +472,10 @@ public class BusinessLogic {
         return Item.PurchaseCategory.PER_WEIGHT.getPurchaseCategoryStr();
     }
 
-    public void createNewItem(String zoneName, int itemId, String itemName, String purchasedCategory,
+    public void createNewItem(String zoneName, String itemName, String purchasedCategory,
                               Map<Integer, Float> storeIdsAndPrices) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.addItem(itemId, itemName, purchasedCategory, storeIdsAndPrices);
+        chosenSuperDuperMarket.addItem(itemName, purchasedCategory, storeIdsAndPrices);
     }
 
     public ZoneDetailsDto getZoneDetailsDto(SuperDuperMarket superDuperMarket) {
@@ -499,10 +526,10 @@ public class BusinessLogic {
         return convertDiscountsToDiscountsDto(chosenSuperDuperMarket, discounts);
     }
 
-    public void addOrderFeedback(String zoneName, int orderId,
+    public void addOrderFeedback(NotificationManager notificationManager, String zoneName, int orderId,
                                  Map<Integer, ArrayList<String>> storesAndRates) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
-        chosenSuperDuperMarket.addOrderFeedback(orderId, storesAndRates);
+        chosenSuperDuperMarket.addOrderFeedback(notificationManager, orderId, storesAndRates);
     }
 
     public ArrayList<PurchasedItemDto> getOrderPurchasedItemsDtoFromOrderLines
@@ -550,17 +577,28 @@ public class BusinessLogic {
     }
 
     private ArrayList<PurchasedItemDto> getOrderPurchasedItemsDto(Order order) {
-        ArrayList<PurchasedItemDto> purchasedItemsDto = new ArrayList<>();
         Collection<StoreOrder> storesOrder = order.getStoresOrder();
+        return getOrderPurchasedItemsDto(storesOrder);
+    }
+
+    private Collection<PurchasedItemDto> getStoreOrderPurchasedItemsDto
+            (StoreOrder storeOrder) {
+        ArrayList<PurchasedItemDto> purchasedItemsDto = new ArrayList<>();
+        ArrayList<PurchasedItemDto> purchasedItemsDtoFromOrderLines =
+                getOrderPurchasedItemsDtoFromOrderLines(storeOrder);
+
+        ArrayList<PurchasedItemDto> purchasedItemsDtoFromAppliedOffers =
+                getOrderPurchasedItemsDtoFromAppliedOffers(storeOrder);
+
+        purchasedItemsDto.addAll(purchasedItemsDtoFromOrderLines);
+        purchasedItemsDto.addAll(purchasedItemsDtoFromAppliedOffers);
+        return purchasedItemsDto;
+    }
+
+    private ArrayList<PurchasedItemDto> getOrderPurchasedItemsDto(Collection<StoreOrder> storesOrder) {
+        ArrayList<PurchasedItemDto> purchasedItemsDto = new ArrayList<>();
         for (StoreOrder storeOrder : storesOrder) {
-            ArrayList<PurchasedItemDto> purchasedItemsDtoFromOrderLines =
-                    getOrderPurchasedItemsDtoFromOrderLines(storeOrder);
-
-            ArrayList<PurchasedItemDto> purchasedItemsDtoFromAppliedOffers =
-                    getOrderPurchasedItemsDtoFromAppliedOffers(storeOrder);
-
-            purchasedItemsDto.addAll(purchasedItemsDtoFromOrderLines);
-            purchasedItemsDto.addAll(purchasedItemsDtoFromAppliedOffers);
+            purchasedItemsDto.addAll(getStoreOrderPurchasedItemsDto(storeOrder));
         }
         return purchasedItemsDto;
     }
@@ -581,6 +619,26 @@ public class BusinessLogic {
         return ordersDto;
     }
 
+    public Collection<StoreOrderDto> getStoreOrderHistory(String zoneName, int storeId) {
+        SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
+        Collection<StoreOrderDto> storeOrdersDto = new ArrayList<>();
+        Collection<StoreOrder> storeOrders = chosenSuperDuperMarket.getStoreOrders(storeId);
+
+        for (StoreOrder storeOrder : storeOrders) {
+            StoreOrderDto storeOrderDto = new StoreOrderDto(storeOrder);
+            Collection<PurchasedItemDto> purchasedItemsDto = getStoreOrderPurchasedItemsDto(storeOrder);
+            ArrayList<PurchasedItemStoreOrderDto> purchasedItemsStoreOrderDto = new ArrayList<>();
+            for (PurchasedItemDto purchasedItemDto : purchasedItemsDto) {
+                PurchasedItemStoreOrderDto purchasedItemStoreOrderDto =
+                        new PurchasedItemStoreOrderDto(purchasedItemDto);
+                purchasedItemsStoreOrderDto.add(purchasedItemStoreOrderDto);
+            }
+            storeOrderDto.setPurchasedItemStoreOrderDto(purchasedItemsStoreOrderDto);
+            storeOrdersDto.add(storeOrderDto);
+        }
+        return storeOrdersDto;
+    }
+
     public Collection<StoreFeedbackDto> getFeedbacksDto(String zoneName, String storeOwnerName) {
         SuperDuperMarket chosenSuperDuperMarket = getChosenSuperDuperMarket(zoneName);
         Collection<StoreFeedbackDto> feedbacksDto = new ArrayList<>();
@@ -591,6 +649,8 @@ public class BusinessLogic {
         }
         return feedbacksDto;
     }
+
+
 
 
 }

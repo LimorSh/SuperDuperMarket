@@ -41,6 +41,10 @@
         <servlet-class>course.java.sdm.web.servlets.SellZoneBasicItemsServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>SellZoneBasicStoresServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.SellZoneBasicStoresServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>SellZoneStoresServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.SellZoneStoresServlet</servlet-class>
     </servlet>
@@ -120,6 +124,48 @@
         <servlet-name>AddStoreServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.sellZone.seller.AddStoreServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddItemServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.seller.AddItemServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SellZoneOwnerStoresServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.seller.SellZoneOwnerStoresServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SellZoneOwnerBasicStoresServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.SellZoneOwnerBasicStoresServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetOwnerStoreOrdersServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.sellZone.seller.GetOwnerStoreOrdersServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StoreNotificationServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.notifications.StoreNotificationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StoreFeedbackNotificationServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.notifications.StoreFeedbackNotificationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderNotificationServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.notifications.OrderNotificationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChatServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.dashboard.chatroom.ChatServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SendChatServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.dashboard.chatroom.SendChatServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetUserTypeServlet</servlet-name>
+        <servlet-class>course.java.sdm.web.servlets.GetUserTypeServlet</servlet-class>
+    </servlet>
+
+
 
 
 
@@ -158,6 +204,10 @@
     <servlet-mapping>
         <servlet-name>SellZoneBasicItemsServlet</servlet-name>
         <url-pattern>/basicItems</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellZoneBasicStoresServlet</servlet-name>
+        <url-pattern>/basicStores</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SellZoneStoresServlet</servlet-name>
@@ -238,5 +288,45 @@
     <servlet-mapping>
         <servlet-name>AddStoreServlet</servlet-name>
         <url-pattern>/pages/sellZone/seller/addStore/createNewStore</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddItemServlet</servlet-name>
+        <url-pattern>/pages/sellZone/seller/addItem/createNewItem</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellZoneOwnerStoresServlet</servlet-name>
+        <url-pattern>/ownerStores</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellZoneOwnerBasicStoresServlet</servlet-name>
+        <url-pattern>/ownerBasicStores</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetOwnerStoreOrdersServlet</servlet-name>
+        <url-pattern>/ownerStoreOrders</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StoreNotificationServlet</servlet-name>
+        <url-pattern>/storeNotifications</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StoreFeedbackNotificationServlet</servlet-name>
+        <url-pattern>/storeFeedbackNotifications</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderNotificationServlet</servlet-name>
+        <url-pattern>/orderNotifications</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChatServlet</servlet-name>
+        <url-pattern>/chat</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendChatServlet</servlet-name>
+        <url-pattern>/pages/dashboard/sendChat</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetUserTypeServlet</servlet-name>
+        <url-pattern>/getUserType</url-pattern>
     </servlet-mapping>
 </web-app>

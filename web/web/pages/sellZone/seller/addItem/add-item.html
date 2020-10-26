@@ -21,7 +21,49 @@
         </div>
     </div>
     <h1 id="header">Add Item</h1>
-
+    <br/>
+    <div id="add-item-container">
+        <div id="add-item-form-container">
+            <form id="add-item-form" method="GET" action="createNewItem">
+                <label for="item-name" class="add-item-label">Name:</label>
+                <input type="text" id="item-name" name="itemName" required>
+                <br/>
+                <br/>
+                <div id="purchase-category-radio-buttons-container">
+                    <div id="purchase-category-label-container">
+                        <label id="purchase-category-label" class="add-item-label">Purchase Category:</label>
+                        <div id="item-purchase-category-radio-buttons">
+                            <input id="chosen-purchase-category-input" type="hidden" name="chosen-purchase-category"/>
+                            <input type="radio" id="quantity-radio-button" class="item-purchase-category-radio-button" required name="purchase-category" value="quantity" onchange="purchaseCategoryWasChosen()">
+                            <label for="quantity-radio-button">Quantity</label><br>
+                            <input type="radio" id="weight-radio-button" class="item-purchase-category-radio-button" required name="purchase-category" value="weight" onchange="purchaseCategoryWasChosen()">
+                            <label for="weight-radio-button">Weight</label><br>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <div id="stores-table-container">
+                    <table id="stores-table">
+                        <caption id="stores-table-caption">Choose Stores:</caption>
+                        <thead id="stores-table-thead">
+                        <th class="stores-table-col">ID</th>
+                        <th class="stores-table-col">Name</th>
+                        <th class="stores-table-col">PPK</th>
+                        <th class="stores-table-col">Location</th>
+                        <th id="stores-table-price-col" class="stores-table-col">Price</th>
+                        </thead>
+                        <tbody id="stores-table-body">
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <br>
+                <input id="add-item" class="add-item-buttons" type="submit" value="Add Item"/>
+                <label for="add-item" id="add-item-msg-label"></label>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>

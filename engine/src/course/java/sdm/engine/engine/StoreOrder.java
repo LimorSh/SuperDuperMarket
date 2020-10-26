@@ -1,12 +1,17 @@
 package course.java.sdm.engine.engine;
 
+import course.java.sdm.engine.engine.notifications.NotificationManager;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
 public class StoreOrder {
 
+    private final int orderId;
     private final Date date;
+    private final String customerName;
+    private final Location customerLocation;
     private final Store store;
     private final Map<Integer, OrderLine> orderLines; //the key is itemId
     private Map<String, ArrayList<Offer>> appliedOffers;  //the key is discount name
@@ -17,8 +22,12 @@ public class StoreOrder {
     private double distanceFromCustomer;
     private StoreFeedback storeFeedback;
 
-    public StoreOrder(Date date, Store store, Map<Integer, OrderLine> orderLines) {
+    public StoreOrder(int orderId, Date date, String customerName, Location customerLocation,
+                      Store store, Map<Integer, OrderLine> orderLines) {
+        this.orderId = orderId;
         this.date = date;
+        this.customerName = customerName;
+        this.customerLocation = customerLocation;
         this.store = store;
         this.orderLines = orderLines;
     }
@@ -51,11 +60,14 @@ public class StoreOrder {
         return storeFeedback;
     }
 
-    public void setStoreFeedback(Date date, String customerName, ArrayList<String> storeRateDetails) {
+    public void setStoreFeedback(NotificationManager notificationManager, String zoneName,
+                                 Date date, String customerName, ArrayList<String> storeRateDetails) {
         int rate = Integer.parseInt(storeRateDetails.get(0));
         String feedback = storeRateDetails.get(1);
         this.storeFeedback = new StoreFeedback(store.getId(), store.getName(), date,
                 customerName, rate, feedback);
+        notificationManager.addStoreFeedbackNotification(zoneName, store.getOwnerName(),
+                store.getName(), customerName, rate);
     }
 
     private void setTotalItems() {
@@ -101,8 +113,20 @@ public class StoreOrder {
         });
     }
 
+    public int getOrderId() {
+        return orderId;
+    }
+
     public Date getDate() {
         return date;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public Location getCustomerLocation() {
+        return customerLocation;
     }
 
     public Store getStore() {

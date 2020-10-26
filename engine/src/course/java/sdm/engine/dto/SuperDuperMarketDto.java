@@ -25,6 +25,14 @@ public class SuperDuperMarketDto {
         return basicItemsDto;
     }
 
+    public static Collection<BasicStoreDto> getBasicStoresDto(Collection<Store> stores) {
+        Collection<BasicStoreDto> basicStoresDto = new ArrayList<>();
+        for (Store store : stores) {
+            basicStoresDto.add(new BasicStoreDto(store));
+        }
+        return basicStoresDto;
+    }
+
     public static Collection<BasicCustomerDto> getBasicCustomersDto(Collection<Customer> customers) {
         Collection<BasicCustomerDto> basicCustomersDto = new ArrayList<>();
         for (Customer customer : customers) {

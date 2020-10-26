@@ -3,6 +3,7 @@ package course.java.sdm.web.servlets.sellZone.seller;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import course.java.sdm.engine.engine.BusinessLogic;
+import course.java.sdm.engine.engine.notifications.NotificationManager;
 import course.java.sdm.web.constants.Constants;
 import course.java.sdm.web.utils.ServletUtils;
 import course.java.sdm.web.utils.SessionUtils;
@@ -24,6 +25,7 @@ public class AddStoreServlet extends HttpServlet {
         String zoneNameFromSession = SessionUtils.getZoneName(request);
         String usernameFromSession = SessionUtils.getUsername(request);
         BusinessLogic businessLogic = ServletUtils.getBusinessLogic(getServletContext());
+        NotificationManager notificationManager = ServletUtils.getNotificationManager(getServletContext());
 
         String storeNameFromParameter = request.getParameter(Constants.STORE_NAME_PARAM_KEY);
         String locationXFromParameter = request.getParameter(Constants.LOCATION_X_PARAM_KEY);
@@ -42,9 +44,10 @@ public class AddStoreServlet extends HttpServlet {
             itemIdsAndPrices.put(itemId, price);
         });
 
-        synchronized (this) {
+        synchronized (getServletContext()) {
             try {
-                businessLogic.createNewStore(zoneNameFromSession, usernameFromSession, storeNameFromParameter,
+                businessLogic.createNewStore(notificationManager, zoneNameFromSession,
+                        usernameFromSession, storeNameFromParameter,
                         locationX, locationY, ppk, itemIdsAndPrices);
                 response.getWriter().print("");
             }

@@ -1,5 +1,6 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
+import course.java.sdm.engine.engine.notifications.NotificationManager;
 
 import java.util.*;
 
@@ -127,7 +128,8 @@ public class Order {
         return storesOrder.get(storeId);
     }
 
-    public void addStoreOrder(Store store, Map<Item, Float> itemsAndQuantities,
+    public void addStoreOrder(NotificationManager notificationManager, String zoneName,
+                              Store store, Map<Item, Float> itemsAndQuantities,
                               Map<String, ArrayList<Offer>> appliedOffers) {
         store.addOrder(this);
 
@@ -148,10 +150,11 @@ public class Order {
             store.updateTotalNumberSoldItem(item, itemQuantity);
         });
 
-        StoreOrder storeOrder = new StoreOrder(date, store, orderLines);
+        StoreOrder storeOrder = new StoreOrder(id, date,customerName, customerLocation, store, orderLines);
         storeOrder.SetValues(customerLocation, appliedOffers);
         storesOrder.put(store.getId(), storeOrder);
         setValues(storeOrder);
+        notificationManager.addOrderNotification(zoneName, storeOrder);
     }
 
     private void setValues(StoreOrder storeOrder) {
@@ -159,18 +162,23 @@ public class Order {
         deliveryCost += storeOrder.getDeliveryCost();
     }
 
-    public void addStoresOrder(Collection<DynamicOrderStoreData> dynamicOrderStoresData) {
+    public void addStoresOrder(NotificationManager notificationManager, String zoneName,
+                               Collection<DynamicOrderStoreData> dynamicOrderStoresData) {
         for (DynamicOrderStoreData dynamicOrderStoreData : dynamicOrderStoresData) {
-            addStoreOrder(dynamicOrderStoreData.getStore(),
+            addStoreOrder(
+                    notificationManager, zoneName,
+                    dynamicOrderStoreData.getStore(),
                     dynamicOrderStoreData.getItemsAndQuantities(),
-                    dynamicOrderStoreData.getAppliedOffers());
+                    dynamicOrderStoreData.getAppliedOffers()
+            );
         }
     }
 
-    public void addFeedback(Map<Integer, ArrayList<String>> storesAndRates) {
+    public void addFeedback(NotificationManager notificationManager, String zoneName,
+                            Map<Integer, ArrayList<String>> storesAndRates) {
         storesAndRates.forEach((storeId,storeRateDetails) -> {
             StoreOrder storeOrder = getStoreOrder(storeId);
-            storeOrder.setStoreFeedback(date, customerName, storeRateDetails);
+            storeOrder.setStoreFeedback(notificationManager, zoneName, date, customerName, storeRateDetails);
         });
     }
 

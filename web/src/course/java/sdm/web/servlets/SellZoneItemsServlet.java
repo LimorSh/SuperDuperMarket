@@ -33,7 +33,7 @@ public class SellZoneItemsServlet extends HttpServlet {
                     (Comparator.comparing(ItemDto::getId))
                     .collect(Collectors.toList());
             String json = gson.toJson(itemsSortedById);
-            System.out.println(json);
+//            System.out.println(json);
             out.println(json);
             out.flush();
         }

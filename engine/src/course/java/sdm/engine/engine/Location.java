@@ -43,6 +43,16 @@ public class Location {
         return MAX_LOCATION_VALUE;
     }
 
+    public static String getLocationStr(int x, int y) {
+        return String.format("(%d,%d)", x, y);
+    }
+
+    public static String getLocationStr(Location location) {
+        int x = location.coordinate.x;
+        int y = location.coordinate.y;
+        return getLocationStr(x, y);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

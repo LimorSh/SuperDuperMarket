@@ -25,7 +25,17 @@ public class Constants {
     public static final String STORE_NAME_PARAM_KEY = "storeName";
     public static final String PPK_PARAM_KEY = "ppk";
     public static final String ITEM_IDS_AND_PRICES_PARAM_KEY = "itemsIdsAndPrices";
-
+    // add item window
+    public static final String ITEM_NAME_PARAM_KEY = "itemName";
+    public static final String CHOSEN_PURCHASE_CATEGORY_PARAM_KEY = "chosen-purchase-category";
+    public static final String STORES_IDS_AND_PRICES_PARAM_KEY = "storesIdsAndPrices";
+    // notifications
+    public static final String STORE_NOTIFICATION_VERSION_PARAMETER = "storeNotificationVersion";
+    public static final String STORE_FEEDBACK_NOTIFICATION_VERSION_PARAMETER = "storeFeedbackNotificationVersion";
+    public static final String ORDER_NOTIFICATION_VERSION_PARAMETER = "orderNotificationVersion";
+    // chatroom
+    public static final String CHAT_PARAMETER = "user-chat-msg";
+    public static final String CHAT_VERSION_PARAMETER = "chatVersion";
     // common
     public static final String EMPTY_JSON_RESPONSE = "{}";
     public static final int INT_PARAMETER_ERROR = Integer.MIN_VALUE;

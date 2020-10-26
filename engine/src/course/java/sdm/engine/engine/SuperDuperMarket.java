@@ -1,8 +1,7 @@
 package course.java.sdm.engine.engine;
 import course.java.sdm.engine.Constants;
-import course.java.sdm.engine.dto.DiscountDto;
-import course.java.sdm.engine.dto.OfferDto;
 import course.java.sdm.engine.engine.accounts.AccountManager;
+import course.java.sdm.engine.engine.notifications.NotificationManager;
 import course.java.sdm.engine.exception.DuplicateElementIdException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheStoreException;
 import course.java.sdm.engine.exception.ItemDoesNotExistInTheSuperException;
@@ -155,8 +154,8 @@ public class SuperDuperMarket {
         return Collections.max(stores.keySet()) + 1;
     }
 
-    public void addStore(String ownerName, String storeName,
-                         int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
+    public void addStore(NotificationManager notificationManager, String ownerName, String storeName,
+                          int locationX, int locationY, int ppk, Map<Integer, Float> itemIdsAndPrices) {
         Location location = new Location(locationX, locationY);
         int id = getNextFreeStoreId();
         Store store = new Store(id, storeName, ownerName, ppk, location);
@@ -166,6 +165,7 @@ public class SuperDuperMarket {
             Item item = getItem(itemId);
             store.addItem(item, price);
         });
+        notificationManager.addStoreNotification(zoneName, zoneOwnerName, store, getTotalItems());
     }
 
     private void validateLocation(Object object, Location location) {
@@ -280,8 +280,14 @@ public class SuperDuperMarket {
         addItemToStore(itemId, itemPrice, store);
     }
 
-    public void addItem(int itemId, String itemName, String purchasedCategory,
+    private int getNextFreeItemId() {
+        return Collections.max(items.keySet()) + 1;
+    }
+
+    // add new item from seller (not file)
+    public void addItem(String itemName, String purchasedCategory,
                                 Map<Integer, Float> storeIdsAndPrices) {
+        int itemId =  getNextFreeItemId();
         addItem(itemId, itemName, purchasedCategory);
         storeIdsAndPrices.forEach((storeId, itemPrice) -> {
             addItemToStore(itemId, itemPrice, storeId);
@@ -509,7 +515,8 @@ public class SuperDuperMarket {
         return appliedOffers;
     }
 
-    public int createOrder(AccountManager accountManager, String customerName, Date date,
+    public int createOrder(AccountManager accountManager, NotificationManager notificationManager,
+                            String customerName, Date date,
                             int locationX, int locationY,
                             Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
@@ -520,7 +527,7 @@ public class SuperDuperMarket {
         Location location = new Location(locationX, locationY);
         Order order = new Order(date, customer.getName(), location, Constants.ORDER_CATEGORY_DYNAMIC_STR);
         addOrder(order);
-        order.addStoresOrder(dynamicOrderStoresData);
+        order.addStoresOrder(notificationManager, zoneName, dynamicOrderStoresData);
         Collection<Store> stores = storesToItemsAndQuantities.keySet();
         for (Store store : stores) {
             store.updateTotalDeliveriesRevenue(location);
@@ -530,7 +537,8 @@ public class SuperDuperMarket {
         return order.getId();
     }
 
-    public int createOrder(AccountManager accountManager, String customerName, Date date,
+    public int createOrder(AccountManager accountManager, NotificationManager notificationManager,
+                           String customerName, Date date,
                             int locationX, int locationY,
                             int storeId, Map<Integer, Float> itemsIdsAndQuantities,
                             Map<String, Collection<Integer>> appliedOffersStoreItemsIds) {
@@ -544,7 +552,8 @@ public class SuperDuperMarket {
             Item item = getItem(itemId);
             itemsAndQuantities.put(item, itemQuantity);
         });
-        order.addStoreOrder(store, itemsAndQuantities, getAppliedOffers(appliedOffersStoreItemsIds));
+        order.addStoreOrder(notificationManager, zoneName, store,
+                itemsAndQuantities, getAppliedOffers(appliedOffersStoreItemsIds));
         store.updateTotalDeliveriesRevenue(location);
         customer.addOrder(order);
         transferPaymentToStoresOwners(accountManager, order, customerName);
@@ -585,13 +594,23 @@ public class SuperDuperMarket {
         return discounts;
     }
 
-    public void addOrderFeedback(int orderId, Map<Integer, ArrayList<String>> storesAndRates) {
+    public void addOrderFeedback(NotificationManager notificationManager,
+                                 int orderId, Map<Integer, ArrayList<String>> storesAndRates) {
         Order order = getOrder(orderId);
-        order.addFeedback(storesAndRates);
+        order.addFeedback(notificationManager, zoneName, storesAndRates);
     }
 
     public Collection<Order> getCustomerOrders(String name) {
         Customer customer = getCustomer(name);
         return customer.getOrders();
+    }
+
+    public Collection<StoreOrder> getStoreOrders(int storeId) {
+        Store store = getStore(storeId);
+        return store.getStoreOrders();
+    }
+
+    public int getTotalItems() {
+        return items.size();
     }
 }

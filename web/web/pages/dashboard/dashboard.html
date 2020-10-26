@@ -7,9 +7,14 @@
     <script src="../../common/context-path-helper.js"></script>
     <script src="../../constants/constants.js"></script>
     <script src="../../utils/utils.js"></script>
+    <script src="../../notifications/notifications.js"></script>
+    <script src="chatroom/chatroom.js"></script>
     <script src="dashboard.js"></script>
     <link rel="stylesheet" href="../../common/w3_style.css">
+    <link rel="stylesheet" href="../../common/bootstrap.min.css">
+    <link rel="stylesheet" href="chatroom/chatroom.css">
     <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="../../notifications/notifications.css">
     <title>Dashboard</title>
 </head>
 <body>
@@ -24,17 +29,59 @@
         <br/>
         <br/>
     </div>
-    <div id="users-list-container">
-        <ul id="users-list">
-        </ul>
+    <div id="notifications-container">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-10">
+                    <div class="content">
+                        <div id="notifications-window">
+                            <h4>Notifications</h4>
+                            <div id="notifications-area" class="span6"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-2">
+                <div class="sidebar">
+                    <h4>Online</h4>
+                    <div class="clearfix">
+                        <div class="input">
+                            <div id="users-list-container">
+                                <ul id="users-list">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="content">
+                    <div id="chat-window">
+                        <h4>Chat</h4>
+                        <!-- place holder to hold all the chat lines -->
+                        <div id="chat-area" class="span6"></div>
+                        <!-- The actual form through which you send data back to the user -->
+                        <form id="chat-form" method="POST" action="sendChat">
+                            <input type="text" id="user-chat-msg" name="user-chat-msg"/>
+                            <input type="submit" value="Send"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="upload-file-container">
         <p id="upload-zone-file-p">Upload Zone File</p>
         <form id="upload-file" action="uploadFile" enctype="multipart/form-data" method="POST">
-            <input id="file-chooser" type="file" name="file" accept=".xml"><br><br>
-            <input id="upload-file-form-submit" type="Submit" value="Upload File"><br>
+            <input id="file-chooser" type="file" name="file" accept=".xml">
+            <br>
+            <input id="upload-file-form-submit" type="Submit" value="Upload File">
+            <label id="upload-file-msg-label" for="upload-file-form-submit"></label>
         </form>
-        <label id="upload-file-msg-label"></label>
     </div>
     <br/>
     <br/>

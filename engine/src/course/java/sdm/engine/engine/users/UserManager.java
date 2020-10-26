@@ -47,4 +47,14 @@ public class UserManager {
     public String getSellerUserTypeStr() {
         return User.getSellerUserTypeStr();
     }
+
+    public String getUserType(String username) {
+        String userType = "";
+        for (User user : users) {
+            if (user.getName().equalsIgnoreCase(username)) {
+                userType = user.getUserType();
+            }
+        }
+        return userType;
+    }
 }

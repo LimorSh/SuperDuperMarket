@@ -61,7 +61,7 @@ public class GetDiscountsServlet extends HttpServlet {
                     (Comparator.comparing(DiscountDto::getStoreItemId))
                     .collect(Collectors.toList());
             String json = gson.toJson(discountsSortedByName);
-            System.out.println(json);
+//            System.out.println(json);
             out.println(json);
             out.flush();
         }

@@ -1,3 +1,7 @@
+const ACTIONS_BAR_CUSTOMER_CONTAINER = "actions-bar-customer-container";
+const ACTIONS_BAR_SELLER_CONTAINER = "actions-bar-seller-container";
+const NOTIFICATIONS_CONTAINER = "notifications-container";
+
 const ITEMS_TABLE_BODY_ID = "items-table-body";
 const ITEMS_TABLE_CELL_ID = "items-table-cell";
 
@@ -192,7 +196,38 @@ function ajaxStores() {
 }
 
 
+function showElementsByUserType(currUserType) {
+    let actionsBarCustomerContainer = document.getElementById(ACTIONS_BAR_CUSTOMER_CONTAINER);
+    let actionsBarSellerContainer = document.getElementById(ACTIONS_BAR_SELLER_CONTAINER);
+    let notificationsContainer = document.getElementById(NOTIFICATIONS_CONTAINER);
+
+    if (currUserType === USER_TYPE_CUSTOMER_STR) {
+        actionsBarSellerContainer.style.display = "none";
+        notificationsContainer.style.display = "none";
+    }
+    else {
+        actionsBarCustomerContainer.style.display = "none";
+    }
+}
+
+
+function ajaxGetUserType() {
+    $.ajax({
+        url: GET_USER_TYPE_URL,
+        headers: {
+            'cache-control': 'no-store,no-cache',
+        },
+        success: function(currUserType) {
+            showElementsByUserType(currUserType);
+        }
+    });
+}
+
+
 $(function() {
+    // get user type
+    ajaxGetUserType();
+
     ajaxSetTitle();
 
     //The items table content is refreshed automatically every second
