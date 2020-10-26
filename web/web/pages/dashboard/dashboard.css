@@ -15,23 +15,35 @@
     font-weight: normal;
 }
 
+#sell-zones-table tr:nth-child(even),
+#account-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#sell-zones-table tr:hover,
+#account-table tr:hover {
+    background-color: #ddd;
+}
+
+#sell-zones-table td, #sell-zones-table th,
+#account-table td, #account-table th  {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
 #sell-zones-table {
-    /*align-content: center;*/
-    width: 80%;
-    border: 1px solid black;
+    width: 90%;
     border-collapse: collapse;
-    /*padding: 15px;*/
 }
 
 .sell-zones-table-col {
-    /*background-color: black;*/
-    /*color: white;*/
+    background-color: #0f6dbe;
+    color: white;
     text-align: center;
-    /*word-wrap: break-word;*/
+    word-wrap: break-word;
 }
 
 .sell-zones-table-cell {
-    /*position: center;*/
     text-align: center;
 }
 
@@ -49,19 +61,17 @@
 }
 
 #account-table {
-    /*align-content: center;*/
-    width: 80%;
-    border: 1px solid black;
+    width: 70%;
     border-collapse: collapse;
-    /*padding: 15px;*/
 }
 
 .account-table-col {
+    background-color: #0f6dbe;
+    color: white;
     text-align: center;
-    /*word-wrap: break-word;*/
+    word-wrap: break-word;
 }
 
 .account-table-cell {
-    /*position: center;*/
     text-align: center;
 }

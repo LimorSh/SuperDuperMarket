@@ -32,7 +32,7 @@ function refreshUsersList(users) {
 
     // rebuild the list of users: scan all users and add them to the list of users
     $.each(users || [], function(index, user) {
-        let userStr = `id: ${user.id}, name: ${user.name}, type: ${user["userType"]}`;
+        let userStr = `${user.name} - ${user["userType"].toLowerCase()}`;
         $('<li>' + userStr + '</li>').appendTo($("#users-list"));
     });
 }
@@ -53,15 +53,10 @@ function zoneWasChosen(zoneName) {
     });
 }
 
-function addZoneLinksToTable(zone) {
+function addZoneLinkToTable(zone, index) {
     let zoneName = zone["zoneName"];
     let link = document.createElement("a");
     link.setAttribute("href", SELL_ZONE_URL);
-    // let linkIcon = document.createElement("i");
-    // linkIcon.setAttribute("class", "fas fa-bars");
-    // let linkIcon = document.createElement("img");
-    // linkIcon.setAttribute("src", "../../common/images/cart-icon.jpg");
-    // link.append('<i class="fas fa-bars"></i>');
     link.className = SELL_ZONE_TABLE_LINK_CELL_CLASS;
 
     link.innerHTML = zoneName;
@@ -70,12 +65,10 @@ function addZoneLinksToTable(zone) {
     });
 
     let tableBody = document.getElementById(SELL_ZONES_TABLE_BODY_ID);
-    for (let i = 0; i < tableBody.rows.length; i++) {
-        let row = tableBody.rows[i];
-        let cell = row.insertCell();
-        cell.classList.add(SELL_ZONES_TABLE_CELL_ID);
-        cell.appendChild(link);
-    }
+    let row = tableBody.rows[index];
+    let cell = row.insertCell();
+    cell.classList.add(SELL_ZONES_TABLE_CELL_ID);
+    cell.appendChild(link);
 }
 
 //zones = a list of zones, essentially an array of javascript strings:
@@ -87,7 +80,7 @@ function refreshSellZoneTable(zones) {
     // rebuild the table of sell zones: scan all zones and add them to the table of sell zones
     $.each(zones || [], function(index, zone) {
         addElemToTable(zone, SELL_ZONES_TABLE_BODY_ID, SELL_ZONES_TABLE_CELL_ID);
-        addZoneLinksToTable(zone);
+        addZoneLinkToTable(zone, index);
     });
 }
 

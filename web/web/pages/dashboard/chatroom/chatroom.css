@@ -1,9 +1,4 @@
-#chatarea {
+#chat-area {
     overflow-y: scroll;
     max-height: 100px;
 }
-
-/*.smiley-image {*/
-/*    width: 20px;*/
-/*    height: 20px;*/
-/*}*/
