@@ -55,3 +55,9 @@
 .store-details-p {
     margin-left: 5px;
 }
+
+hr.rounded {
+    border-top: solid #bbb;
+    border-radius: 5px;
+    border-width: thin;
+}
