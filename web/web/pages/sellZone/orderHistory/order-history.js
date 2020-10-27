@@ -20,7 +20,7 @@ let ORDER_HISTORY_URL = buildUrlWithContextPath(ORDER_HISTORY_URL_RESOURCE);
 function addHeadersToPurchasedItemsTable(thead) {
     for (let i = 0; i < ORDER_ITEMS_TABLE_HEADERS.length; i++) {
         let header = document.createElement("th");
-        header.class = ORDER_ITEMS_TABLE_COL_CLASS;
+        header.classList.add(ORDER_ITEMS_TABLE_COL_CLASS);
         header.innerHTML = ORDER_ITEMS_TABLE_HEADERS[i];
         thead.appendChild(header);
     }
@@ -74,7 +74,6 @@ function addOrder(order) {
                                    ${NEW_LINE}
                                    Total Stores: ${totalStores}${TAB}
                                    Total Items: ${totalItems}${TAB}
-                                   ${NEW_LINE}
                                    Items Cost: ${itemsCost}${TAB}
                                    Delivery Cost: ${deliveryCost}${TAB}
                                    Total Cost: ${totalCost}${TAB}
