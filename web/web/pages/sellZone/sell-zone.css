@@ -46,10 +46,12 @@
 
 .store-details-container {
     background-color: #b9d8f3;
-    width: 45%;
+    width: 50%;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    padding: 5px 5px 3px;
 }
 
-hr.rounded {
-    border-top: 3px solid #bbb;
-    border-radius: 5px;
+.store-details-p {
+    margin-left: 5px;
 }

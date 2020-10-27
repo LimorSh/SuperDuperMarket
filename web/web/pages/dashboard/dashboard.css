@@ -36,6 +36,7 @@ body {
 
 #users-list-container {
     background-color: #c8e6f3;
+    border-radius: 5px;
 }
 
 
@@ -102,4 +103,10 @@ body {
 
 .account-table-cell {
     text-align: center;
+}
+
+hr.rounded {
+    border-top: solid #bbb;
+    border-radius: 5px;
+    border-width: thin;
 }

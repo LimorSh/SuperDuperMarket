@@ -25,20 +25,6 @@
         <br/>
         <br/>
     </div>
-    <div id="notifications-container">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xs-10">
-                    <div class="content">
-                        <div id="notifications-window">
-                            <h2>Notifications</h2>
-                            <div id="notifications-area" class="span6"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-3">
@@ -70,6 +56,22 @@
             </div>
         </div>
     </div>
+    <hr class="rounded"/>
+    <div id="notifications-container">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-10">
+                    <div class="content">
+                        <div id="notifications-window">
+                            <h2>Notifications</h2>
+                            <div id="notifications-area" class="span6"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="rounded" id="notifications-divider"/>
     <div id="upload-file-container">
         <h2 id="upload-zone-file-h2">Upload Zone File</h2>
         <form id="upload-file" action="uploadFile" enctype="multipart/form-data" method="POST">
@@ -81,7 +83,7 @@
     </div>
     <br/>
     <br/>
-    <h2>Sell Zones:</h2>
+    <h2>Sell Zones</h2>
     <label id="empty-sell-zones-table-label">There are no zones here yet.</label>
     <div id="sell-zones-table-container">
         <table id="sell-zones-table">
@@ -100,7 +102,8 @@
     </div>
     <br/>
     <br/>
-    <h2>My Account:</h2>
+    <hr class="rounded"/>
+    <h2>My Account</h2>
     <label id="empty-account-table-label">You don't have any transactions yet.</label>
     <div id="charge-credit-container">
         <form id="charge-credit-form" method="GET" action="chargeCredit">

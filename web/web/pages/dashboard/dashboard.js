@@ -1,4 +1,5 @@
 const NOTIFICATIONS_CONTAINER_ID = "notifications-container";
+const NOTIFICATIONS_DIVIDER_ID = "notifications-divider";
 const UPLOAD_FILE_CONTAINER_ID = "upload-file-container";
 const FILE_CHOOSER_INPUT_ID = "file-chooser";
 const UPLOAD_FILE_FORM_SUBMIT_ID = "upload-file-form-submit";
@@ -158,10 +159,13 @@ function showElementsByUserType(currUserType) {
     let notificationsContainer = document.getElementById(NOTIFICATIONS_CONTAINER_ID);
     let uploadFileContainer = document.getElementById(UPLOAD_FILE_CONTAINER_ID);
     let chargeCreditContainer = document.getElementById(CHARGE_CREDIT_CONTAINER_ID);
+    let notificationsDividers = document.getElementById(NOTIFICATIONS_DIVIDER_ID);
+
 
     if (currUserType === USER_TYPE_CUSTOMER_STR) {
         notificationsContainer.style.display = "none";
         uploadFileContainer.style.display = "none";
+        notificationsDividers.style.display = "none";
     }
     else {
         chargeCreditContainer.style.display = "none";

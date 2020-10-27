@@ -2,4 +2,5 @@
     overflow-y: scroll;
     max-height: 100px;
     background-color: #c8e6f3;
+    border-radius: 5px;
 }
