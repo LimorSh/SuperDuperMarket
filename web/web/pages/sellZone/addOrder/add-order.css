@@ -4,6 +4,26 @@
     display: none;
 }
 
+.add-order-buttons {
+    font-size: 18px;
+    border-radius: 6px;
+    color: #fff;
+    background-color: #0f6dbe;
+    border-color: #0b63b0;
+}
+
+.order-category-radio-button-label, .location-coordinate-label {
+    font-weight: normal;
+}
+
+#date {
+    line-height: 20px;
+    margin-left: 5px;
+}
+
+#location-x {
+    margin-right: 10px;
+}
 
 #add-order-basic-info-container {
     margin-bottom: 10px;
@@ -11,158 +31,218 @@
 
 .add-order-label {
     font-weight: bold;
+    font-size: 18px;
 }
 
-#items-table-container {
-    /*position:relative;*/
-    /*width: 200px;*/
+#stores-select {
+    height: 28px;
+    font-size: 16px;
+    margin-right: 10px;
 }
 
-#items-table {
-    /*width: 100%;*/
-    /*width: 200px;*/
-    border: 1px solid black;
-    /*border-collapse: inherit;*/
-    /*padding: 15px;*/
-    /*border-spacing: 5px;*/
-}
-
-#items-table-container table thead th .items-table-col {
-    position:absolute;
-    top:-20px;
-    height:20px;
-    /*width:80%;*/
-    /*border:1px solid red;*/
-    text-align: center;
-    /*align-items: center;*/
-    /*word-wrap: break-word;*/
-}
-
-.items-table-cell {
-    /*position: center;*/
-    text-align: center;
+#store-delivery-cost-label {
+    font-size: 16px;
 }
 
 #items-table-caption {
     margin-bottom: 5px;
-    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    font-size: 18px;
+}
+
+
+#items-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#items-table tr:hover {
+    background-color: #ddd;
+}
+
+#items-table td, #items-table th {
+    border: 1px solid #ddd;
+    padding: 2px;
+    height: 25px;
+}
+
+#items-table {
+    border-collapse: collapse;
+    width: 520px;
+}
+
+.items-table-col {
+    background-color: #0f6dbe;
+    color: white;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.items-table-cell {
+    text-align: center;
+}
+
+.items-table-quantity-cell-input {
+    height: 22px;
+    width: 140px;
+}
+
+#finish-order-button {
+    width: 200px;
+}
+
+#special-offers-p {
+    font-size: 16px;
 }
 
 .discount-container {
-    /*border: thick black;*/
-    /*background-color: #87CEEB;*/
+    background-color: #cfeaf5;
+    width: 80%;
+    padding: 5px;
+    margin-bottom: 20px;
+    border-radius: 10px;
 }
 
 .discount-header {
-    color: #6231a5;
+    color: #023f73;
     margin-left: 20px;
-    /*text-align: center;*/
-    font-family: Georgia, cursive;
+    text-align: center;
 }
 
 .discount-field-label {
     font-weight: bold;
     color: black;
+    margin-right: 5px;
+}
+
+.discount-value-label,
+.discount-applies-amount-label {
+    font-weight: normal;
 }
 
 .apply-discount-button {
-    margin-right: 10px;
+    margin: 20px 10px 10px 20px;
+    font-size: 16px;
+    border-radius: 6px;
+    color: #fff;
+    background-color: dodgerblue;
+    border-color: #0361be;
 }
 
-.discount-single-offer-radio-button {
-    /*margin-right: 5px;*/
+.discount-single-offer-radio-label-button {
+    font-weight: normal;
 }
 
-.discount-applies-amount-label {
+#order-discounts-next-button {
+    margin-top: 15px;
+    width: 200px
+}
+
+.order-summery-order-category-value-label {
+    font-weight: normal;
 }
 
 #order-summery-stores-info-ul {
-    /*padding: 0;*/
-    /*margin: 0;*/
-    /*list-style: none;*/
 
-    /*!*-ms-box-orient: horizontal;*!*/
-    /*display: -webkit-box;*/
-    /*display: -moz-box;*/
-    /*display: -ms-flexbox;*/
-    /*display: -moz-flex;*/
-    /*display: -webkit-flex;*/
-    /*display: flex;*/
-
-    /*-webkit-flex-direction: column;*/
-    /*flex-direction: column;*/
-    /*float: left;*/
 }
 
 .order-summery-stores-info-ul li {
-    /*background: deepskyblue;*/
-    /*padding: 5px;*/
-    /*width: 50px;*/
-    /*height: 50px;*/
-    /*margin: 5px;*/
 
-    /*line-height: 50px;*/
-    /*color: white;*/
-    /*font-weight: bold;*/
-    /*font-size: 2em;*/
-    /*text-align: center;*/
 }
 
 .order-summery-field-label {
     font-weight: bold;
 }
 
-#purchased-store-items-table {
-    /*width: 100%;*/
-    /*width: 200px;*/
-    /*width: 60%;*/
-    /*border: 1px solid black;*/
-    /*border-collapse: inherit;*/
-    /*padding: 15px;*/
-    /*border-spacing: 5px;*/
-    /*align-content: center;*/
-    width: 300px;
-    border: 1px solid black;
-    /*border-collapse: collapse;*/
-    /*padding: 15px;*/
+.order-summery-value-label {
+    font-weight: normal;
+    margin-right: 25px;
 }
 
-#purchased-store-items-table-container table thead th .purchased-store-items-table-col {
-    position:absolute;
-    top:-20px;
-    height:20px;
-    /*width:80%;*/
-    /*border:1px solid red;*/
-    text-align: center;
-    /*align-items: center;*/
-    /*word-wrap: break-word;*/
+.order-summery-store-value-label {
+    font-weight: normal;
 }
 
-.purchased-store-items-table-cell {
-    /*position: center;*/
-    text-align: center;
-}
-
-#purchased-store-items-table-caption {
-    margin-top: 10px;
-    margin-bottom: 5px;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.discount-field-label {
-    font-weight: bold;
-}
 
 .order-summery-store-field-label {
     font-weight: bold;
+    margin-right: 5px;
 }
 
-#order-discounts-next-button, #finish-rating-button {
-    margin-top: 15px;
+#purchased-store-items-table-caption {
+    margin-bottom: 5px;
+    color: black;
+    font-size: 14px;
+}
+
+#purchased-store-items-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#purchased-store-items-table tr:hover {
+    background-color: #ddd;
+}
+
+#purchased-store-items-table td, #purchased-store-items-table th {
+    border: 1px solid #ddd;
+    padding: 2px;
+    height: 25px;
+}
+
+#purchased-store-items-table {
+    border-collapse: collapse;
+    width: 520px;
+}
+
+.purchased-store-items-table-col {
+    background-color: #0f6dbe;
+    color: white;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.purchased-store-items-table-cell {
+    text-align: center;
+}
+
+#cancel-order-button {
+    margin-left: 20px;
+}
+
+#confirm-order-label {
+    margin-left: 20px;
+    font-size: 16px;
 }
 
 .final-order-button {
-    font-weight: bold;
+    width: 150px;
+}
+
+.store-rate-input-note {
+    font-weight: normal;
+    margin-left: 10px;
+}
+
+#finish-rating-button {
+    margin-top: 15px;
+    margin-right: 20px;
+    width: 200px;
+}
+
+.save-store-feedback-button-label {
+    margin-left: 10px;
+    font-weight: normal;
+}
+
+.save-store-feedback-button {
+    font-size: 16px;
+    border-radius: 6px;
+    color: #fff;
+    background-color: dodgerblue;
+    border-color: #0361be;
+}
+
+#go-back-button {
+    width: 200px;
 }
 

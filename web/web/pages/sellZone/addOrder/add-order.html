@@ -23,7 +23,8 @@
         </div>
     <div id="add-order-container" class="container">
         <h1 id="header">Add Order</h1>
-        <p>Please fill order details:</p>
+        <br/>
+        <br/>
         <form id="add-order-form" method="GET" action="createNewOrder">
             <div id="date-container">
                 <label for="date" class="add-order-label">Date:</label>
@@ -33,14 +34,14 @@
             <div id="locations-container">
                 <label class="add-order-label">Your Location:</label>
                 <br/>
-                <label for="location-x">X:</label>
+                <label for="location-x" class="location-coordinate-label">X:</label>
                 <input type="number" min="1" max="50" id="location-x" name="location-x">
-                <label for="location-y">Y:</label>
+                <label for="location-y" class="location-coordinate-label">Y:</label>
                 <input type="number" min="1" max="50" id="location-y" name="location-y">
             </div>
             <br/>
             <div id="add-order-basic-info-container">
-                <button type="button" id="add-order-basic-info-button" onclick=setOrderBasicInfo()>Set Order Basic Info</button>
+                <button type="button" id="add-order-basic-info-button" class="add-order-buttons" onclick=setOrderBasicInfo()>Set Order Basic Info</button>
                 <label for="add-order-basic-info-button" id="add-order-basic-info-label"></label>
             </div>
             <div id="order-category-radio-buttons-container">
@@ -50,9 +51,9 @@
                 <div id="order-category-radio-buttons">
                     <input id="chosen-order-category-input" type="hidden" name="chosen-order-category"/>
                     <input type="radio" disabled="disabled" id="static-order-radio-button" class="order-category-radio-button" name="order-category" value="static">
-                    <label for="static-order-radio-button">One Store</label><br>
+                    <label for="static-order-radio-button" class="order-category-radio-button-label">One Store</label><br>
                     <input type="radio" disabled="disabled" id="dynamic-order-radio-button" class="order-category-radio-button" name="order-category" value="dynamic">
-                    <label for="dynamic-order-radio-button">Best Cart</label><br>
+                    <label for="dynamic-order-radio-button" class="order-category-radio-button-label">Best Cart</label><br>
                 </div>
             </div>
             <br/>
@@ -85,7 +86,7 @@
         </div>
         <br>
         <br>
-        <button type="button" id="finish-order-button" disabled="disabled">
+        <button type="button" id="finish-order-button" class="add-order-buttons" disabled="disabled">
             Finish Order
         </button>
         <label id="finish-order-msg-label">
@@ -93,19 +94,16 @@
         <br>
         <br>
         <div id="dynamic-order-stores-details-container">
-            <h2>Stores Details:</h2>
-            <br>
+            <h2>Stores Details</h2>
             <div id="dynamic-order-stores-details-list-container">
                 <ul id="dynamic-order-stores-details-list">
                 </ul>
             </div>
         </div>
         <br>
-        <br>
         <div id="order-discounts-container">
-            <h2>Special Offers:</h2>
-            <br>
-            <h3>You can get the following discounts:</h3>
+            <h2>Special Offers</h2>
+            <p id="special-offers-p">You can get the following discounts:</p>
             <br>
         </div>
         <br>
@@ -136,16 +134,16 @@
         <br>
         <br>
         <div id="final-order-buttons-container">
-            <button id="confirm-order-button" class="final-order-button" form="add-order-form" type="submit" value="AddOrder">
+            <button id="confirm-order-button" class="final-order-button add-order-buttons" form="add-order-form" type="submit" value="AddOrder">
                 Confirm
             </button>
-            <button id="cancel-order-button" class="final-order-button" onclick="cancelOrder()">
+            <button id="cancel-order-button" class="final-order-button add-order-buttons" onclick="cancelOrder()">
                 Cancel
             </button>
             <label id="confirm-order-label" for="confirm-order-button"></label>
         </div>
         <div id="order-feedback-container">
-            <h2>Rate The Stores:</h2>
+            <h2>Rate The Stores</h2>
             <p id="order-feedback-p">Please tell us what you think about the stores -
                 save each feedback you leave. Finally, click on "Finish Rating".</p>
         </div>

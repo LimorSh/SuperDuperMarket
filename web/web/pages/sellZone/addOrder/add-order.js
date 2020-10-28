@@ -53,7 +53,9 @@ const DISCOUNT_VALUE_LABEL_CLASS = "discount-value-label";
 const APPLY_DISCOUNT_BUTTON_CLASS = "apply-discount-button";
 const DISCOUNT_SINGLE_OFFER_CLASS = "discount-single-offer";
 const DISCOUNT_SINGLE_OFFER_RADIO_BUTTON_CLASS = "discount-single-offer-radio-button";
-const DISCOUNT_APPLIES_AMOUNT_CLASS = "discount-applies-amount-label"
+const DISCOUNT_SINGLE_OFFER_RADIO_BUTTON_LABEL_CLASS = "discount-single-offer-radio-label-button";
+const DISCOUNT_APPLIES_AMOUNT_CLASS = "discount-applies-amount-label";
+const ORDER_DISCOUNTS_NEXT_BUTTON_ID = "order-discounts-next-button";
 
 const ORDER_SUMMERY_CONTAINER_ID = "order-summery-container";
 const ORDER_SUMMERY_STORES_INFO_CONTAINER_ID = "order-summery-stores-info-container";
@@ -74,6 +76,7 @@ const ITEM_PURCHASE_NOT_FROM_DISCOUNT_STR = "NO";
 const ITEM_PURCHASE_FROM_DISCOUNT_STR = "YES";
 
 const ADD_ORDER_FORM_ID = "add-order-form";
+const ADD_ORDER_BUTTONS_CLASS = "add-order-buttons";
 const FINAL_ORDER_BUTTONS_CONTAINER_ID = "final-order-buttons-container";
 const FINAL_ORDER_BUTTON_CLASS = "final-order-button";
 const CONFIRM_ORDER_BUTTON_ID = "confirm-order-button";
@@ -398,6 +401,7 @@ function addOneOfDiscountOffers(discountContainer, discountOffers, applyDiscount
         offerRadioButton.name = "one-of-offer";
         offerRadioButton.value = offerStoreItemId;
         let offerRadioButtonLabel = document.createElement("label");
+        offerRadioButtonLabel.classList.add(DISCOUNT_SINGLE_OFFER_RADIO_BUTTON_LABEL_CLASS);
         offerRadioButtonLabel.htmlFor = offerStoreItemId;
 
         offerRadioButtonLabel.innerHTML = `ID: ${offerStoreItemId}${TAB}Name: ${offerStoreItemName}${TAB}
@@ -583,7 +587,8 @@ function showDiscounts() {
         showDiscount(discount);
     }
     let orderDiscountsNextButton = document.createElement("button");
-    orderDiscountsNextButton.id = "order-discounts-next-button";
+    orderDiscountsNextButton.id = ORDER_DISCOUNTS_NEXT_BUTTON_ID;
+    orderDiscountsNextButton.classList.add(ADD_ORDER_BUTTONS_CLASS);
     orderDiscountsNextButton.textContent = "Next";
     orderDiscountsNextButton.addEventListener("click", () => {
         let discountsContainer = document.getElementById(ORDER_DISCOUNTS_CONTAINER_ID);
@@ -631,7 +636,7 @@ function addStoreDetailsToOrderSummeryStore(storeContainer, store) {
 function addHeadersToPurchasedItemsTable(thead) {
     for (let i = 0; i < PURCHASED_STORE_ITEMS_TABLE_HEADERS .length; i++) {
         let header = document.createElement("th");
-        header.class = PURCHASED_STORE_ITEMS_TABLE_COL ;
+        header.classList.add(PURCHASED_STORE_ITEMS_TABLE_COL);
         header.innerHTML = PURCHASED_STORE_ITEMS_TABLE_HEADERS[i];
         thead.appendChild(header);
     }
@@ -923,6 +928,7 @@ function setOrderBasicInfo() {
         addOrderBasicInfoMsgLabel.textContent = FINISH_ORDER_TAKEN_LOCATION_MSG;
     }
     else {
+        date = datePickerValue;
         disableOrderBasicInfoInterface();
         enableOrderCategoryRadioButtons();
     }
@@ -1104,16 +1110,13 @@ function ajaxAddOrderFeedback() {
             finishButton.disabled = true;
             let backToSellZoneButton = document.createElement("button");
             backToSellZoneButton.id = GO_BACK_BUTTON_ID;
-            backToSellZoneButton.textContent = "Go Back";
+            backToSellZoneButton.textContent = "Back To Sell Zone";
             backToSellZoneButton.classList.add(FINAL_ORDER_BUTTON_CLASS);
-            let backToSellZoneButtonLabel = document.createElement("label");
-            backToSellZoneButtonLabel.textContent = "Go Back To Sell Zone -->";
-            backToSellZoneButtonLabel.htmlFor = GO_BACK_BUTTON_ID;
+            backToSellZoneButton.classList.add(ADD_ORDER_BUTTONS_CLASS);
             backToSellZoneButton.addEventListener("click", () => {
                 goBack();
             })
 
-            orderFeedbackContainer.appendChild(backToSellZoneButtonLabel);
             orderFeedbackContainer.appendChild(backToSellZoneButton);
         }
     });
@@ -1140,7 +1143,8 @@ function showOrderRateStores() {
     }
 
     let finishRatingButton = document.createElement("button");
-    finishRatingButton.id = "finish-rating-button";
+    finishRatingButton.id = FINISH_RATING_BUTTON_ID;
+    finishRatingButton.classList.add(ADD_ORDER_BUTTONS_CLASS);
     finishRatingButton.textContent = "Finish Rating";
     finishRatingButton.onclick = finishOrderRate;
 
@@ -1205,7 +1209,6 @@ function configOrderCategoryRadioButtons() {
     let storeDeliveryCostLabelContainer = document.getElementById(STORE_DELIVERY_COST_LABEL_CONTAINER_ID);
     let itemsTableContainer = document.getElementById(ITEMS_TABLE_CONTAINER_ID);
     let itemsTable = document.getElementById(ITEMS_TABLE_ID);
-    let itemTablePriceHeader = document.getElementById(ITEMS_TABLE_PRICE_TH_ID);
     let itemTableQuantityCells = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_CLASS);
     let finishOrderButton = document.getElementById(FINISH_ORDER_BUTTON_ID);
     for (let i = 0; i < radios.length; i++) {
@@ -1216,7 +1219,7 @@ function configOrderCategoryRadioButtons() {
             if (orderCategory === ORDER_CATEGORY_STATIC_STR) {
                 storesSelectContainer.style.display = "inline-block";
                 storeDeliveryCostLabelContainer.style.display = "inline-block";
-                itemTablePriceHeader.style.display = "block";
+                $(`#${ITEMS_TABLE_PRICE_TH_ID}`).show();
                 $(".items-table-price-cell").show();
             }
             else {
@@ -1233,7 +1236,7 @@ function configOrderCategoryRadioButtons() {
                 }
                 storeDeliveryCostLabelContainer.style.display = "none";
                 storesSelectContainer.style.display = "none";
-                itemTablePriceHeader.style.display = "none";
+                $(`#${ITEMS_TABLE_PRICE_TH_ID}`).hide();
                 $(".items-table-price-cell").hide();
             }
         }
