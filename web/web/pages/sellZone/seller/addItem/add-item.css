@@ -68,3 +68,8 @@
 #add-item {
     margin-bottom: 10px;
 }
+
+#add-item-msg-label {
+    font-weight: normal;
+    margin-left: 10px;
+}

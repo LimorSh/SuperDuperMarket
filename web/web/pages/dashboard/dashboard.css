@@ -41,6 +41,7 @@ body {
 
 #upload-file-msg-label {
     font-weight: normal;
+    margin-left: 10px;
 }
 
 #sell-zones-table tr:nth-child(even),

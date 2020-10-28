@@ -23,3 +23,7 @@ h3 {
 h4 {
     color: #0f6dbe;
 }
+
+.error {
+    color: tomato;
+}

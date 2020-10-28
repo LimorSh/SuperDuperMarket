@@ -64,3 +64,8 @@
 #add-item {
     margin-bottom: 10px;
 }
+
+#add-store-msg-label {
+    font-weight: normal;
+    margin-left: 10px;
+}
