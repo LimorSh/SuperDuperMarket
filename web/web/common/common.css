@@ -1,8 +1,8 @@
-/*#header-container {*/
-/*    margin: auto;*/
-/*    width: 50%;*/
-/*    background-color: white;*/
-/*}*/
+html {
+    overflow-x: scroll;
+    width: auto;
+    white-space: nowrap;
+}
 
 #header {
     color: #0f6dbe;

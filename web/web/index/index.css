@@ -1,9 +1,4 @@
-body {
-    overflow-x: scroll;
-    width: 100%;
-    white-space: nowrap;
-    /*background-image: url('../common/images/background.jpg');*/
-}
+
 
 body, html {
     height: 100%;
@@ -25,14 +20,12 @@ body, html {
 }
 
 #form-container, #header-container {
+    margin: auto;
     background-color: white;
     border-color: #96bbea;
     border-width: 2px;
     border-radius: 5px;
     border-style: solid;
-    margin: auto;
-    width: 50%;
-
 }
 
 #user-type-radio-buttons-container {
