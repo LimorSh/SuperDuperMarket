@@ -162,13 +162,30 @@
 
 }
 
+#order-summery-basic-info-container, #order-summery-totals-info-container {
+    border: 1px groove darkblue;
+    border-radius: 5px;
+    padding: 3px;
+    width: 70%;
+}
+
+#order-summery-totals-info-container {
+    margin-top: 20px;
+}
+
+#order-summery-date-field-label, #order-summery-total-items-cost-field-label {
+    margin-left: 10px;
+}
+
 .order-summery-field-label {
     font-weight: bold;
+    font-size: 17px;
 }
 
 .order-summery-value-label {
     font-weight: normal;
     margin-right: 25px;
+    font-size: 17px;
 }
 
 .order-summery-store-value-label {
