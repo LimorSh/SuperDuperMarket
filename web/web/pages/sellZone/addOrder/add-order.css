@@ -1,6 +1,10 @@
 #stores-select-container, #items-table-container, #dynamic-order-stores-details-container,
 #order-discounts-container, #order-summery-container, #final-order-buttons-container,
-#order-feedback-container, #items-table-price-th, #finish-order-button {
+#order-feedback-container, #items-table-price-th, #finish-order-button,
+#finish-order-button-hr,
+#dynamic-order-stores-details-hr,
+#order-summery-hr,
+#order-feedback-hr {
     display: none;
 }
 
@@ -255,3 +259,8 @@
     width: 200px;
 }
 
+hr.rounded {
+    border-top: solid #bbb;
+    border-radius: 5px;
+    border-width: thin;
+}

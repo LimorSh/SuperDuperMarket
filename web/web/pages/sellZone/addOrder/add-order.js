@@ -100,6 +100,10 @@ const MIN_RATE = 1;
 const MAX_RATE = 5;
 const RATE_ERROR_MSG = "Rate should be between " + MIN_RATE + " and " + MAX_RATE + ".";
 
+const FINISH_ORDER_BUTTON_HR_ID = "finish-order-button-hr";
+const ORDER_SUMMERY_HR_ID = "order-summery-hr";
+const ORDER_FEEDBACK_HR_ID = "order-feedback-hr";
+
 const SET_STORE_DELIVERY_COST_URL_RESOURCE = "setStoreDeliveryCost";
 let SET_STORE_DELIVERY_COST_URL = buildUrlWithContextPath(SET_STORE_DELIVERY_COST_URL_RESOURCE);
 const SET_DISTANCE_FROM_STORE_URL_RESOURCE = "setDistanceFromStore";
@@ -110,6 +114,7 @@ const SET_DISCOUNTS_RESOURCE = "setDiscounts";
 let SET_DISCOUNT_URL = buildUrlWithContextPath(SET_DISCOUNTS_RESOURCE);
 const ADD_ORDER_FEEDBACK_RESOURCE = "addOrderFeedback";
 let ADD_ORDER_FEEDBACK_URL = buildUrlWithContextPath(ADD_ORDER_FEEDBACK_RESOURCE);
+
 
 let stores = [];
 let items = [];
@@ -875,6 +880,8 @@ function showOrderSummeryForDynamicOrder(orderCategoryValue) {
 
 function showOrderSummery() {
     $(`#${ORDER_SUMMERY_CONTAINER_ID}`).show();
+    let hr = document.getElementById(ORDER_SUMMERY_HR_ID);
+    hr.style.display = "block";
     document.getElementById(ORDER_SUMMERY_DATE_VALUE_LABEL_ID).textContent = date;
     document.getElementById(ORDER_SUMMERY_LOCATION_VALUE_LABEL_ID).textContent = `(${xLocation},${yLocation})`;
 
@@ -998,6 +1005,8 @@ function finishOrder() {
         let isAllQuantitiesValid =
             isAllQuantitiesInputsAreValid(finishOrderMsgLabel);
         if (isAllQuantitiesValid) {
+            let hr = document.getElementById(FINISH_ORDER_BUTTON_HR_ID);
+            hr.style.display = "block";
             disableOrderInterface();
             setItemsIdsAndQuantities();
             if (orderCategory === ORDER_CATEGORY_DYNAMIC_STR) {
@@ -1168,6 +1177,8 @@ function finishOrderRate() {
 
 
 function showOrderRateStores() {
+    let hr = document.getElementById(ORDER_FEEDBACK_HR_ID);
+    hr.style.display = "block";
     let orderFeedbackContainer = document.getElementById(ORDER_FEEDBACK_CONTAINER_ID);
     if (orderCategory === ORDER_CATEGORY_STATIC_STR) {
         let store = getSelectedStore();
