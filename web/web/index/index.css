@@ -5,11 +5,35 @@ body {
     /*background-image: url('../common/images/background.jpg');*/
 }
 
-/*#form-container {*/
-/*    background-color: white;*/
-/*    border-color: #0f6dbe;*/
-/*    border-width: 1px;*/
-/*}*/
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.bg {
+    /* The image used */
+    background-image: url("../common/images/background.jpg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.85;
+}
+
+#form-container, #header-container {
+    background-color: white;
+    border-color: #96bbea;
+    border-width: 2px;
+    border-radius: 5px;
+    border-style: solid;
+    margin: auto;
+    width: 50%;
+
+}
 
 #user-type-radio-buttons-container {
     margin-bottom: 20px;
