@@ -32,8 +32,10 @@ const FINISH_EMPTY_LOCATION_Y_MSG = "Please fill out Location Y field";
 const MIN_COORDINATE_LOCATION = 1;
 const MAX_COORDINATE_LOCATION = 50;
 const FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG = "Location's coordinate should be between " + MIN_COORDINATE_LOCATION + " and " + MAX_COORDINATE_LOCATION + ".";
-const FINISH_ORDER_TAKEN_LOCATION_MSG = "The order location is a store location, please choose a different location.";
+const FINISH_ORDER_TAKEN_LOCATION_MSG = "The location you entered already exists for store, please enter a different one.";
 const FINISH_ORDER_EMPTY_QUANTITIES_MSG = "Your cart is empty, please choose at least one item and fill its quantity.";
+const FINISH_ORDER_QUANTITY_IS_NOT_INTEGER_MSG = "The quantity of an item with purchase category 'quantity' should be a positive integer.";
+const FINISH_ORDER_QUANTITY_IS_NOT_POSITIVE_MSG = "The quantity of an item should be a positive number.";
 const DYNAMIC_ORDER_STORES_DETAILS_CONTAINER_ID = "dynamic-order-stores-details-container";
 const DYNAMIC_ORDER_STORES_DETAILS_LIST_ID = "dynamic-order-stores-details-list";
 
@@ -228,12 +230,43 @@ function setItemsIdsAndQuantities() {
 }
 
 
-function isAllQuantitiesInputAreEmpty() {
+function isAllQuantitiesInputsAreEmpty() {
     let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
     for (let input of itemsTableQuantityCellsInputs) {
         let quantity = input.value;
         if (quantity) {
             return false;
+        }
+    }
+    return true;
+}
+
+
+function isAllQuantitiesInputsAreValid(finishOrderMsgLabel) {
+    let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
+
+    for (let input of itemsTableQuantityCellsInputs) {
+        let quantity = input.value;
+        if (quantity) {
+            let row = input.closest('tr');
+            let itemId = row.cells[row.cells.length-5].textContent;
+            let itemName = row.cells[row.cells.length-4].textContent;
+
+            if (parseFloat(quantity) <= 0) {
+                finishOrderMsgLabel.textContent =
+                    `The quantity of item ${itemName} (ID ${itemId}) should be a positive number.`;
+                return false;
+            }
+            else {
+                let purchaseCategory = row.cells[row.cells.length-3].textContent;
+                if (purchaseCategory === ITEM_PURCHASE_CATEGORY_QUANTITY_STR) {
+                    if (!(Number.isInteger(parseFloat(quantity)))) {
+                        finishOrderMsgLabel.textContent =
+                            `The quantity of item ${itemName} (ID ${itemId}) should be an integer.`;
+                        return false;
+                    }
+                }
+            }
         }
     }
     return true;
@@ -956,19 +989,23 @@ function finishOrder() {
     let finishOrderMsgLabel = document.getElementById(FINISH_ORDER_MSG_LABEL_ID);
     finishOrderMsgLabel.textContent = "";
 
-    let isAllQuantitiesAreEmpty = isAllQuantitiesInputAreEmpty();
+    let isAllQuantitiesAreEmpty = isAllQuantitiesInputsAreEmpty();
 
     if (isAllQuantitiesAreEmpty) {
         finishOrderMsgLabel.textContent = FINISH_ORDER_EMPTY_QUANTITIES_MSG;
     }
     else {
-        disableOrderInterface();
-        setItemsIdsAndQuantities();
-        if (orderCategory === ORDER_CATEGORY_DYNAMIC_STR) {
-            ajaxGetDynamicOrderStoresDetails();
-        }
-        else {
-            ajaxGetDiscounts();
+        let isAllQuantitiesValid =
+            isAllQuantitiesInputsAreValid(finishOrderMsgLabel);
+        if (isAllQuantitiesValid) {
+            disableOrderInterface();
+            setItemsIdsAndQuantities();
+            if (orderCategory === ORDER_CATEGORY_DYNAMIC_STR) {
+                ajaxGetDynamicOrderStoresDetails();
+            }
+            else {
+                ajaxGetDiscounts();
+            }
         }
     }
 }
@@ -1225,6 +1262,7 @@ function configOrderCategoryRadioButtons() {
             else {
                 itemsTableContainer.style.display = "inline-block";
                 finishOrderButton.disabled = false;
+                $(`#${FINISH_ORDER_BUTTON_ID}`).show();
                 document.getElementById(CHOSEN_STORE_INPUT_ID).value = DYNAMIC_ORDER_STORE_INPUT_ID;
                 for (let cell of itemTableQuantityCells) {
                     if (cell.innerHTML === "") {
@@ -1351,7 +1389,7 @@ function setQuantityCellContentToInput(row, quantityCell, itemId) {
                                          type="number" min="0.1" step=".01"
                                          form=${ADD_ORDER_FORM_ID}>`;
     let purchaseCategory = row.cells[row.cells.length-3].textContent;
-    if (purchaseCategory === "quantity") {
+    if (purchaseCategory === ITEM_PURCHASE_CATEGORY_QUANTITY_STR) {
         let input = document.getElementById(itemId);
         input.removeAttribute("step");
         input.setAttribute("min", "1");
@@ -1415,6 +1453,8 @@ function storeWasChosenForStaticOrder() {
     itemsTableContainer.style.display = "inline-block";
     let finishOrderButton = document.getElementById(FINISH_ORDER_BUTTON_ID);
     finishOrderButton.disabled = false;
+    $(`#${FINISH_ORDER_BUTTON_ID}`).show();
+
     let index;
 
     document.getElementById(STORE_SELECT_DEFAULT_OPTION_ID).disabled = true;

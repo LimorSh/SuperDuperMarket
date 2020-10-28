@@ -1,6 +1,6 @@
 #stores-select-container, #items-table-container, #dynamic-order-stores-details-container,
 #order-discounts-container, #order-summery-container, #final-order-buttons-container,
-#order-feedback-container, #items-table-price-th {
+#order-feedback-container, #items-table-price-th, #finish-order-button {
     display: none;
 }
 
@@ -27,6 +27,13 @@
 
 #add-order-basic-info-container {
     margin-bottom: 10px;
+}
+
+#add-order-basic-info-label, #finish-order-msg-label {
+    margin-left: 10px;
+    font-weight: normal;
+    color: tomato;
+    font-size: 16px;
 }
 
 .add-order-label {
@@ -107,6 +114,7 @@
     color: #023f73;
     margin-left: 20px;
     text-align: center;
+    font-weight: bold;
 }
 
 .discount-field-label {
