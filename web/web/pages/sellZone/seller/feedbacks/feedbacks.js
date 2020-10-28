@@ -16,7 +16,7 @@ function getNewLineElement() {
 function addFeedbackData(feedbackContainer, fieldLabelText, valueLabelText) {
     let fieldLabel = document.createElement("label");
     fieldLabel.classList.add(FEEDBACK_FIELD_LABEL_CLASS);
-    fieldLabel.textContent = fieldLabelText;
+    fieldLabel.innerHTML = fieldLabelText;
     let valueLabel = document.createElement("label");
     valueLabel.classList.add(FEEDBACK_VALUE_LABEL_CLASS);
     valueLabel.textContent = valueLabelText;
@@ -38,11 +38,11 @@ function addFeedback(feedback) {
     let feedbackContainer = document.createElement("div");
     feedbackContainer.classList.add(FEEDBACK_CONTAINER_ID);
 
-    addFeedbackData(feedbackContainer, "Store: ", `${storeName} (ID ${storeId})`);
-    addFeedbackData(feedbackContainer, "Order Date: ", `${orderDate}`);
-    addFeedbackData(feedbackContainer, "Customer Name: ", `${customerName}`);
-    addFeedbackData(feedbackContainer, "Rate: ", `${rate}`);
-    addFeedbackData(feedbackContainer,  "Feedback: ", `${feedbackDescription}`);
+    addFeedbackData(feedbackContainer, "Store:", `${storeName} (ID ${storeId})`);
+    addFeedbackData(feedbackContainer, "Order Date:", `${orderDate}`);
+    addFeedbackData(feedbackContainer, "Customer Name:", `${customerName}`);
+    addFeedbackData(feedbackContainer, "Rate:", `${rate}`);
+    addFeedbackData(feedbackContainer,  "Feedback:", `${feedbackDescription}`);
 
     feedbacksContainer.appendChild(feedbackContainer);
 }

@@ -1,14 +1,20 @@
-#header{
-    color: blue;
-    margin-left: 20px;
-    text-align: center;
-    font-family: Georgia, cursive;
-}
-
 #add-item-form-container {
     display: none;
 }
 
+#no-stores-p {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#item-name {
+    margin-left: 10px;
+}
+
+.purchase-category-radio-button-label {
+    font-weight: normal;
+}
 
 .add-item-label {
     font-weight: bold;
@@ -16,30 +22,49 @@
 }
 
 #stores-table-caption {
-    margin-top: 10px;
     margin-bottom: 5px;
-    font-size: 16px;
     font-weight: bold;
+    color: black;
+}
+
+
+#stores-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#stores-table tr:hover {
+    background-color: #ddd;
+}
+
+#stores-table td, #stores-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
 }
 
 #stores-table {
-    width: 80%;
-    border: 1px solid black;
+    width: 65%;
     border-collapse: collapse;
-    /*padding: 15px;*/
 }
 
-#stores-table-container table thead th .stores-table-col{
-    position:absolute;
-    top:-20px;
-    height:20px;
-    /*width:35%;*/
-    /*border:1px solid red;*/
+.stores-table-col {
+    background-color: #0f6dbe;
+    color: white;
     text-align: center;
-    /*word-wrap: break-word;*/
+    word-wrap: break-word;
 }
 
-.stores-table-cell{
-    /*position: center;*/
+.stores-table-cell {
     text-align: center;
+}
+
+.add-item-buttons {
+    font-size: 18px;
+    border-radius: 6px;
+    color: #fff;
+    background-color: #0f6dbe;
+    border-color: #0b63b0;
+}
+
+#add-item {
+    margin-bottom: 10px;
 }

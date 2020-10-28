@@ -6,7 +6,7 @@ const ADD_ITEM_MSG_LABEL_ID = "add-item-msg-label";
 const ADD_ITEM_MSG_SUCCESS = "The item was added successfully!";
 const ADD_ITEM_MSG_EMPTY_ITEMS = "Please choose at least one store and enter the item price.";
 const NO_STORES_P_ID = "no-stores-p";
-const NO_STORES_P_TEXT_CONTENT = "You don't have stores yet.";
+const NO_STORES_P_TEXT_CONTENT = "You don't have any stores yet.";
 const ITEM_PURCHASE_CATEGORY_RADIO_BUTTON = "item-purchase-category-radio-button";
 const CHOSEN_PURCHASE_CATEGORY_INPUT = "chosen-purchase-category-input";
 
@@ -136,17 +136,13 @@ function finishedAddItem() {
 
     let backToSellZoneButton = document.createElement("button");
     backToSellZoneButton.id = GO_BACK_BUTTON_ID;
-    backToSellZoneButton.textContent = "Go Back";
+    backToSellZoneButton.textContent = "Back To Sell Zone";
     backToSellZoneButton.classList.add(ADD_ITEM_BUTTONS_CLASS);
-    let backToSellZoneButtonLabel = document.createElement("label");
-    backToSellZoneButtonLabel.textContent = "Go Back To Sell Zone -->";
-    backToSellZoneButtonLabel.htmlFor = GO_BACK_BUTTON_ID;
     backToSellZoneButton.addEventListener("click", () => {
         goBack();
     })
 
     let addItemContainer = document.getElementById(ADD_ITEM_CONTAINER_ID);
-    addItemContainer.appendChild(backToSellZoneButtonLabel);
     addItemContainer.appendChild(backToSellZoneButton);
 }
 

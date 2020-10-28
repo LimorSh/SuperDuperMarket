@@ -9,19 +9,22 @@
     <script src="../../../../utils/utils.js"></script>
     <script src="orders.js"></script>
     <link rel="stylesheet" href="../../../../common/w3_style.css">
+    <link rel="stylesheet" href="../../../../common/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../../common/common.css">
     <link rel="stylesheet" href="orders.css">
     <title>Orders</title>
 </head>
 <body>
-    <div id="container">
-        <div id="general-bar-container">
-            <div id="general-bar" class="w3-bar w3-black">
-                <a href="/sdm/home" id="dashboard-button" class="w3-bar-item w3-button w3">Home</a>
-                <a href="/sdm/sellZone" id="sell-zone-button" class="w3-bar-item w3-button w3">Sell Zone</a>
-            </div>
+    <div id="general-bar-container">
+        <div id="general-bar" class="w3-bar w3-black">
+            <a href="/sdm/home" id="dashboard-button" class="w3-bar-item w3-button w3">Home</a>
+            <a href="/sdm/sellZone" id="sell-zone-button" class="w3-bar-item w3-button w3">Sell Zone</a>
         </div>
+    </div>
+    <div id="container" class="container">
         <h1 id="header">Orders</h1>
         <div id="orders-container">
+            <p id="no-stores-p">You don't have any stores in this zone.</p>
             <div id="stores-orders-container">
                 <div id="stores-select-container">
                     <label id="stores-select-label" for="stores-select">Choose a Store:</label>
@@ -30,6 +33,9 @@
                     </select>
                 </div>
                 <div id="store-orders-container">
+                    <div id="orders-accordion-container">
+                    </div>
+                    <p id="no-store-orders-p">There are no orders from this store yet.</p>
                 </div>
             </div>
         </div>

@@ -1,0 +1,25 @@
+/*#header-container {*/
+/*    margin: auto;*/
+/*    width: 50%;*/
+/*    background-color: white;*/
+/*}*/
+
+#header {
+    color: #0f6dbe;
+    text-align: center;
+    font-family: Georgia, cursive;
+}
+
+h2 {
+    color: #0f6dbe;
+    font-size: 24px;
+}
+
+h3 {
+    color: #0f6dbe;
+    font-size: 20px;
+}
+
+h4 {
+    color: #0f6dbe;
+}

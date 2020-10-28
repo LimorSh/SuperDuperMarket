@@ -1,15 +1,21 @@
 const NOTIFICATIONS_CONTAINER_ID = "notifications-container";
+const NOTIFICATIONS_DIVIDER_ID = "notifications-divider";
 const UPLOAD_FILE_CONTAINER_ID = "upload-file-container";
 const FILE_CHOOSER_INPUT_ID = "file-chooser";
 const UPLOAD_FILE_FORM_SUBMIT_ID = "upload-file-form-submit";
 const UPLOAD_FILE_MSG_LABEL_ID = "upload-file-msg-label";
 const CHARGE_CREDIT_CONTAINER_ID = "charge-credit-container";
 
+const SELL_ZONES_TABLE_CONTAINER_ID = "sell-zones-table-container";
 const SELL_ZONES_TABLE_BODY_ID = "sell-zones-table-body";
 const SELL_ZONES_TABLE_CELL_ID = "sell-zones-table-cell";
 const SELL_ZONE_TABLE_LINK_CELL_CLASS = "sell-zone-link-cell-class";
+const EMPTY_SELL_ZONES_TABLE_LABEL_ID = "empty-sell-zones-table-label";
+
+const ACCOUNT_TABLE_CONTAINER_ID = "account-table-container";
 const ACCOUNT_TABLE_BODY_ID = "account-table-body";
 const ACCOUNT_TABLE_CELL_ID = "account-table-cell";
+const EMPTY_ACCOUNT_TABLE_LABEL_ID = "empty-account-table-label";
 
 let refreshRate = 2000; //milli seconds
 const USER_LIST_URL_RESOURCE = "userslist";
@@ -32,7 +38,7 @@ function refreshUsersList(users) {
 
     // rebuild the list of users: scan all users and add them to the list of users
     $.each(users || [], function(index, user) {
-        let userStr = `id: ${user.id}, name: ${user.name}, type: ${user["userType"]}`;
+        let userStr = `${user.name} - ${user["userType"].toLowerCase()}`;
         $('<li>' + userStr + '</li>').appendTo($("#users-list"));
     });
 }
@@ -53,15 +59,10 @@ function zoneWasChosen(zoneName) {
     });
 }
 
-function addZoneLinksToTable(zone) {
+function addZoneLinkToTable(zone, index) {
     let zoneName = zone["zoneName"];
     let link = document.createElement("a");
     link.setAttribute("href", SELL_ZONE_URL);
-    // let linkIcon = document.createElement("i");
-    // linkIcon.setAttribute("class", "fas fa-bars");
-    // let linkIcon = document.createElement("img");
-    // linkIcon.setAttribute("src", "../../common/images/cart-icon.jpg");
-    // link.append('<i class="fas fa-bars"></i>');
     link.className = SELL_ZONE_TABLE_LINK_CELL_CLASS;
 
     link.innerHTML = zoneName;
@@ -70,12 +71,10 @@ function addZoneLinksToTable(zone) {
     });
 
     let tableBody = document.getElementById(SELL_ZONES_TABLE_BODY_ID);
-    for (let i = 0; i < tableBody.rows.length; i++) {
-        let row = tableBody.rows[i];
-        let cell = row.insertCell();
-        cell.classList.add(SELL_ZONES_TABLE_CELL_ID);
-        cell.appendChild(link);
-    }
+    let row = tableBody.rows[index];
+    let cell = row.insertCell();
+    cell.classList.add(SELL_ZONES_TABLE_CELL_ID);
+    cell.appendChild(link);
 }
 
 //zones = a list of zones, essentially an array of javascript strings:
@@ -87,7 +86,7 @@ function refreshSellZoneTable(zones) {
     // rebuild the table of sell zones: scan all zones and add them to the table of sell zones
     $.each(zones || [], function(index, zone) {
         addElemToTable(zone, SELL_ZONES_TABLE_BODY_ID, SELL_ZONES_TABLE_CELL_ID);
-        addZoneLinksToTable(zone);
+        addZoneLinkToTable(zone, index);
     });
 }
 
@@ -125,7 +124,13 @@ function ajaxSellZonesTable() {
             'cache-control': 'no-store,no-cache',
         },
         success: function(zones) {
-            refreshSellZoneTable(zones);
+            if (zones.length > 0) {
+                let sellZonesTableContainer = document.getElementById(SELL_ZONES_TABLE_CONTAINER_ID);
+                sellZonesTableContainer.style.display = "block";
+                let emptySellZonesTableLabel = document.getElementById(EMPTY_SELL_ZONES_TABLE_LABEL_ID);
+                emptySellZonesTableLabel.style.display = "none";
+                refreshSellZoneTable(zones);
+            }
         }
     });
 }
@@ -137,8 +142,14 @@ function ajaxAccountTable() {
         headers: {
             'cache-control': 'no-store,no-cache',
         },
-        success: function(account) {
-            refreshAccountTable(account);
+        success: function(transactions) {
+            if (transactions.length > 0) {
+                let emptyAccountTableLabel = document.getElementById(EMPTY_ACCOUNT_TABLE_LABEL_ID);
+                emptyAccountTableLabel.style.display = "none";
+                let accountTableContainer = document.getElementById(ACCOUNT_TABLE_CONTAINER_ID);
+                accountTableContainer.style.display = "block";
+                refreshAccountTable(transactions);
+            }
         }
     });
 }
@@ -148,10 +159,13 @@ function showElementsByUserType(currUserType) {
     let notificationsContainer = document.getElementById(NOTIFICATIONS_CONTAINER_ID);
     let uploadFileContainer = document.getElementById(UPLOAD_FILE_CONTAINER_ID);
     let chargeCreditContainer = document.getElementById(CHARGE_CREDIT_CONTAINER_ID);
+    let notificationsDividers = document.getElementById(NOTIFICATIONS_DIVIDER_ID);
+
 
     if (currUserType === USER_TYPE_CUSTOMER_STR) {
         notificationsContainer.style.display = "none";
         uploadFileContainer.style.display = "none";
+        notificationsDividers.style.display = "none";
     }
     else {
         chargeCreditContainer.style.display = "none";

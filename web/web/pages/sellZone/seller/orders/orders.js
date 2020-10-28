@@ -18,9 +18,9 @@ const ORDER_ITEMS_TABLE_HEADERS = ["ID", "Name", "Purchase Category", "Quantity"
     "Price", "Total Cost", "Discount"];
 
 const NO_STORES_P_ID = "no-stores-p";
-const NO_STORES_P_TEXT_CONTENT = "You don't have any stores in this zone.";
+// const NO_STORES_P_TEXT_CONTENT = "You don't have any stores in this zone.";
 const NO_STORE_ORDERS_P_ID = "no-store-orders-p";
-const NO_STORE_ORDERS_P_TEXT_CONTENT = "There are no orders from this store yet.";
+// const NO_STORE_ORDERS_P_TEXT_CONTENT = "There are no orders from this store yet.";
 
 const OWNER_STORES_URL_RESOURCE = "ownerStores";
 let OWNER_STORES_URL = buildUrlWithContextPath(OWNER_STORES_URL_RESOURCE);
@@ -52,7 +52,7 @@ function addEventListenersToStoreOrders() {
 function addHeadersToPurchasedItemsTable(thead) {
     for (let i = 0; i < ORDER_ITEMS_TABLE_HEADERS.length; i++) {
         let header = document.createElement("th");
-        header.class = ORDER_ITEMS_TABLE_COL_CLASS;
+        header.classList.add(ORDER_ITEMS_TABLE_COL_CLASS);
         header.innerHTML = ORDER_ITEMS_TABLE_HEADERS[i];
         thead.appendChild(header);
     }
@@ -126,17 +126,16 @@ function showStoreOrders(storeOrders) {
     });
 
     addEventListenersToStoreOrders();
-        // console.log(orders);
 }
 
-
-function showNoContentMsg(containerId, noContentPId, noContentPText) {
-    let container = document.getElementById(containerId);
-    let noContentP = document.createElement("p");
-    noContentP.id = noContentPId;
-    noContentP.textContent = noContentPText;
-    container.appendChild(noContentP);
-}
+//
+// function showNoContentMsg(containerId, noContentPId, noContentPText) {
+//     let container = document.getElementById(containerId);
+//     let noContentP = document.createElement("p");
+//     noContentP.id = noContentPId;
+//     noContentP.textContent = noContentPText;
+//     container.appendChild(noContentP);
+// }
 
 
 function ajaxGetStoreOrders() {
@@ -151,17 +150,19 @@ function ajaxGetStoreOrders() {
             console.error("Failed to submit");
         },
         success: function(storeOrders) {
-            let ordersContainer = document.getElementById(ORDERS_CONTAINER_ID);
+            let noStoreOrdersP = document.getElementById(NO_STORE_ORDERS_P_ID);
+            let ordersAccordionContainer = document.getElementById(ORDERS_ACCORDION_CONTAINER_ID);
 
             if (storeOrders.length > 0) {
-                let ordersAccordionContainer = document.createElement("div");
-                ordersAccordionContainer.id = ORDERS_ACCORDION_CONTAINER_ID;
-                ordersContainer.appendChild(ordersAccordionContainer);
+                noStoreOrdersP.style.display = "none";
+                ordersAccordionContainer.style.display = "block";
                 showStoreOrders(storeOrders);
             }
             else {
-                showNoContentMsg(STORE_ORDERS_CONTAINER_ID, NO_STORE_ORDERS_P_ID,
-                    NO_STORE_ORDERS_P_TEXT_CONTENT);
+                ordersAccordionContainer.style.display = "none";
+                noStoreOrdersP.style.display = "block";
+                // showNoContentMsg(STORE_ORDERS_CONTAINER_ID, NO_STORE_ORDERS_P_ID,
+                //     NO_STORE_ORDERS_P_TEXT_CONTENT);
             }
         }
     });
@@ -222,7 +223,10 @@ function ajaxSetOwnerStores() {
                 addOwnerStoresToStoresSelect();
             }
             else {
-                showNoContentMsg(ORDERS_CONTAINER_ID, NO_STORES_P_ID, NO_STORES_P_TEXT_CONTENT);
+                let noStoresP = document.getElementById(NO_STORES_P_ID);
+                noStoresP.style.display = "block";
+                storesOrdersContainer.style.display = "none";
+                // showNoContentMsg(ORDERS_CONTAINER_ID, NO_STORES_P_ID, NO_STORES_P_TEXT_CONTENT);
             }
         }
     });

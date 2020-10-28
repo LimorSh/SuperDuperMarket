@@ -8,17 +8,19 @@
     <script src="constants/constants.js"></script>
     <script src="utils/utils.js"></script>
     <script src="index/index.js"></script>
+    <link rel="stylesheet" href="common/bootstrap.min.css">
+    <link rel="stylesheet" href="common/common.css">
     <link rel="stylesheet" href="index/index.css">
     <title>SDM</title>
 </head>
 <body>
-<div id="container">
+<div id="container" class="container">
     <div id="header-container">
         <h1 id="header">Welcome to Super Duper Market!</h1>
         <br/>
     </div>
     <br/>
-    <div id="form-container">
+    <div id="form-container" class="container">
         <form id="login-form" method="GET" action="login">
             <div id="user-type-radio-buttons-container">
                 <div id="user-type-label-container">
@@ -26,17 +28,16 @@
                 </div>
                 <div id="user-type-radio-buttons">
                     <input type="radio" id="customer-radio-button" class="user-type-radio-button" name="user-type" value="customer">
-                    <label for="customer-radio-button">Customer</label><br>
+                    <label for="customer-radio-button" class="user-type-radio-button-label">Customer</label><br>
                     <input type="radio" id="seller-radio-button" class="user-type-radio-button" name="user-type" value="seller">
-                    <label for="seller-radio-button">Seller</label><br>
+                    <label for="seller-radio-button" class="user-type-radio-button-label">Seller</label><br>
                 </div>
             </div>
-            <label id="username-label">
-                Please enter a username:
-                <input type="text" name="username" required/>
-            </label>
-            <input id="login" disabled="disabled" type="submit" value="Login"/>
+            <label id="username-label" for="username-input">Please enter a username:</label>
+            <input type="text" id="username-input" name="username" required/>
+            <input id="login" class="btn btn-lg btn-primary btn-block" disabled="disabled" type="submit" value="Login"/>
         </form>
+        <br/>
         <label id="error-msg"></label>
     </div>
 </div>

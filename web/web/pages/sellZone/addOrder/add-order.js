@@ -32,8 +32,10 @@ const FINISH_EMPTY_LOCATION_Y_MSG = "Please fill out Location Y field";
 const MIN_COORDINATE_LOCATION = 1;
 const MAX_COORDINATE_LOCATION = 50;
 const FINISH_INVALID_COORDINATE_LOCATION_ERROR_MSG = "Location's coordinate should be between " + MIN_COORDINATE_LOCATION + " and " + MAX_COORDINATE_LOCATION + ".";
-const FINISH_ORDER_TAKEN_LOCATION_MSG = "The order location is a store location, please choose a different location.";
+const FINISH_ORDER_TAKEN_LOCATION_MSG = "The location you entered already exists for store, please enter a different one.";
 const FINISH_ORDER_EMPTY_QUANTITIES_MSG = "Your cart is empty, please choose at least one item and fill its quantity.";
+const FINISH_ORDER_QUANTITY_IS_NOT_INTEGER_MSG = "The quantity of an item with purchase category 'quantity' should be a positive integer.";
+const FINISH_ORDER_QUANTITY_IS_NOT_POSITIVE_MSG = "The quantity of an item should be a positive number.";
 const DYNAMIC_ORDER_STORES_DETAILS_CONTAINER_ID = "dynamic-order-stores-details-container";
 const DYNAMIC_ORDER_STORES_DETAILS_LIST_ID = "dynamic-order-stores-details-list";
 
@@ -53,7 +55,9 @@ const DISCOUNT_VALUE_LABEL_CLASS = "discount-value-label";
 const APPLY_DISCOUNT_BUTTON_CLASS = "apply-discount-button";
 const DISCOUNT_SINGLE_OFFER_CLASS = "discount-single-offer";
 const DISCOUNT_SINGLE_OFFER_RADIO_BUTTON_CLASS = "discount-single-offer-radio-button";
-const DISCOUNT_APPLIES_AMOUNT_CLASS = "discount-applies-amount-label"
+const DISCOUNT_SINGLE_OFFER_RADIO_BUTTON_LABEL_CLASS = "discount-single-offer-radio-label-button";
+const DISCOUNT_APPLIES_AMOUNT_CLASS = "discount-applies-amount-label";
+const ORDER_DISCOUNTS_NEXT_BUTTON_ID = "order-discounts-next-button";
 
 const ORDER_SUMMERY_CONTAINER_ID = "order-summery-container";
 const ORDER_SUMMERY_STORES_INFO_CONTAINER_ID = "order-summery-stores-info-container";
@@ -74,6 +78,7 @@ const ITEM_PURCHASE_NOT_FROM_DISCOUNT_STR = "NO";
 const ITEM_PURCHASE_FROM_DISCOUNT_STR = "YES";
 
 const ADD_ORDER_FORM_ID = "add-order-form";
+const ADD_ORDER_BUTTONS_CLASS = "add-order-buttons";
 const FINAL_ORDER_BUTTONS_CONTAINER_ID = "final-order-buttons-container";
 const FINAL_ORDER_BUTTON_CLASS = "final-order-button";
 const CONFIRM_ORDER_BUTTON_ID = "confirm-order-button";
@@ -225,12 +230,43 @@ function setItemsIdsAndQuantities() {
 }
 
 
-function isAllQuantitiesInputAreEmpty() {
+function isAllQuantitiesInputsAreEmpty() {
     let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
     for (let input of itemsTableQuantityCellsInputs) {
         let quantity = input.value;
         if (quantity) {
             return false;
+        }
+    }
+    return true;
+}
+
+
+function isAllQuantitiesInputsAreValid(finishOrderMsgLabel) {
+    let itemsTableQuantityCellsInputs = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_INPUT_CLASS);
+
+    for (let input of itemsTableQuantityCellsInputs) {
+        let quantity = input.value;
+        if (quantity) {
+            let row = input.closest('tr');
+            let itemId = row.cells[row.cells.length-5].textContent;
+            let itemName = row.cells[row.cells.length-4].textContent;
+
+            if (parseFloat(quantity) <= 0) {
+                finishOrderMsgLabel.textContent =
+                    `The quantity of item ${itemName} (ID ${itemId}) should be a positive number.`;
+                return false;
+            }
+            else {
+                let purchaseCategory = row.cells[row.cells.length-3].textContent;
+                if (purchaseCategory === ITEM_PURCHASE_CATEGORY_QUANTITY_STR) {
+                    if (!(Number.isInteger(parseFloat(quantity)))) {
+                        finishOrderMsgLabel.textContent =
+                            `The quantity of item ${itemName} (ID ${itemId}) should be an integer.`;
+                        return false;
+                    }
+                }
+            }
         }
     }
     return true;
@@ -398,6 +434,7 @@ function addOneOfDiscountOffers(discountContainer, discountOffers, applyDiscount
         offerRadioButton.name = "one-of-offer";
         offerRadioButton.value = offerStoreItemId;
         let offerRadioButtonLabel = document.createElement("label");
+        offerRadioButtonLabel.classList.add(DISCOUNT_SINGLE_OFFER_RADIO_BUTTON_LABEL_CLASS);
         offerRadioButtonLabel.htmlFor = offerStoreItemId;
 
         offerRadioButtonLabel.innerHTML = `ID: ${offerStoreItemId}${TAB}Name: ${offerStoreItemName}${TAB}
@@ -583,7 +620,8 @@ function showDiscounts() {
         showDiscount(discount);
     }
     let orderDiscountsNextButton = document.createElement("button");
-    orderDiscountsNextButton.id = "order-discounts-next-button";
+    orderDiscountsNextButton.id = ORDER_DISCOUNTS_NEXT_BUTTON_ID;
+    orderDiscountsNextButton.classList.add(ADD_ORDER_BUTTONS_CLASS);
     orderDiscountsNextButton.textContent = "Next";
     orderDiscountsNextButton.addEventListener("click", () => {
         let discountsContainer = document.getElementById(ORDER_DISCOUNTS_CONTAINER_ID);
@@ -631,7 +669,7 @@ function addStoreDetailsToOrderSummeryStore(storeContainer, store) {
 function addHeadersToPurchasedItemsTable(thead) {
     for (let i = 0; i < PURCHASED_STORE_ITEMS_TABLE_HEADERS .length; i++) {
         let header = document.createElement("th");
-        header.class = PURCHASED_STORE_ITEMS_TABLE_COL ;
+        header.classList.add(PURCHASED_STORE_ITEMS_TABLE_COL);
         header.innerHTML = PURCHASED_STORE_ITEMS_TABLE_HEADERS[i];
         thead.appendChild(header);
     }
@@ -923,6 +961,7 @@ function setOrderBasicInfo() {
         addOrderBasicInfoMsgLabel.textContent = FINISH_ORDER_TAKEN_LOCATION_MSG;
     }
     else {
+        date = datePickerValue;
         disableOrderBasicInfoInterface();
         enableOrderCategoryRadioButtons();
     }
@@ -950,19 +989,23 @@ function finishOrder() {
     let finishOrderMsgLabel = document.getElementById(FINISH_ORDER_MSG_LABEL_ID);
     finishOrderMsgLabel.textContent = "";
 
-    let isAllQuantitiesAreEmpty = isAllQuantitiesInputAreEmpty();
+    let isAllQuantitiesAreEmpty = isAllQuantitiesInputsAreEmpty();
 
     if (isAllQuantitiesAreEmpty) {
         finishOrderMsgLabel.textContent = FINISH_ORDER_EMPTY_QUANTITIES_MSG;
     }
     else {
-        disableOrderInterface();
-        setItemsIdsAndQuantities();
-        if (orderCategory === ORDER_CATEGORY_DYNAMIC_STR) {
-            ajaxGetDynamicOrderStoresDetails();
-        }
-        else {
-            ajaxGetDiscounts();
+        let isAllQuantitiesValid =
+            isAllQuantitiesInputsAreValid(finishOrderMsgLabel);
+        if (isAllQuantitiesValid) {
+            disableOrderInterface();
+            setItemsIdsAndQuantities();
+            if (orderCategory === ORDER_CATEGORY_DYNAMIC_STR) {
+                ajaxGetDynamicOrderStoresDetails();
+            }
+            else {
+                ajaxGetDiscounts();
+            }
         }
     }
 }
@@ -1104,16 +1147,13 @@ function ajaxAddOrderFeedback() {
             finishButton.disabled = true;
             let backToSellZoneButton = document.createElement("button");
             backToSellZoneButton.id = GO_BACK_BUTTON_ID;
-            backToSellZoneButton.textContent = "Go Back";
+            backToSellZoneButton.textContent = "Back To Sell Zone";
             backToSellZoneButton.classList.add(FINAL_ORDER_BUTTON_CLASS);
-            let backToSellZoneButtonLabel = document.createElement("label");
-            backToSellZoneButtonLabel.textContent = "Go Back To Sell Zone -->";
-            backToSellZoneButtonLabel.htmlFor = GO_BACK_BUTTON_ID;
+            backToSellZoneButton.classList.add(ADD_ORDER_BUTTONS_CLASS);
             backToSellZoneButton.addEventListener("click", () => {
                 goBack();
             })
 
-            orderFeedbackContainer.appendChild(backToSellZoneButtonLabel);
             orderFeedbackContainer.appendChild(backToSellZoneButton);
         }
     });
@@ -1140,7 +1180,8 @@ function showOrderRateStores() {
     }
 
     let finishRatingButton = document.createElement("button");
-    finishRatingButton.id = "finish-rating-button";
+    finishRatingButton.id = FINISH_RATING_BUTTON_ID;
+    finishRatingButton.classList.add(ADD_ORDER_BUTTONS_CLASS);
     finishRatingButton.textContent = "Finish Rating";
     finishRatingButton.onclick = finishOrderRate;
 
@@ -1205,7 +1246,6 @@ function configOrderCategoryRadioButtons() {
     let storeDeliveryCostLabelContainer = document.getElementById(STORE_DELIVERY_COST_LABEL_CONTAINER_ID);
     let itemsTableContainer = document.getElementById(ITEMS_TABLE_CONTAINER_ID);
     let itemsTable = document.getElementById(ITEMS_TABLE_ID);
-    let itemTablePriceHeader = document.getElementById(ITEMS_TABLE_PRICE_TH_ID);
     let itemTableQuantityCells = document.getElementsByClassName(ITEMS_TABLE_QUANTITY_CELL_CLASS);
     let finishOrderButton = document.getElementById(FINISH_ORDER_BUTTON_ID);
     for (let i = 0; i < radios.length; i++) {
@@ -1216,12 +1256,13 @@ function configOrderCategoryRadioButtons() {
             if (orderCategory === ORDER_CATEGORY_STATIC_STR) {
                 storesSelectContainer.style.display = "inline-block";
                 storeDeliveryCostLabelContainer.style.display = "inline-block";
-                itemTablePriceHeader.style.display = "block";
+                $(`#${ITEMS_TABLE_PRICE_TH_ID}`).show();
                 $(".items-table-price-cell").show();
             }
             else {
                 itemsTableContainer.style.display = "inline-block";
                 finishOrderButton.disabled = false;
+                $(`#${FINISH_ORDER_BUTTON_ID}`).show();
                 document.getElementById(CHOSEN_STORE_INPUT_ID).value = DYNAMIC_ORDER_STORE_INPUT_ID;
                 for (let cell of itemTableQuantityCells) {
                     if (cell.innerHTML === "") {
@@ -1233,7 +1274,7 @@ function configOrderCategoryRadioButtons() {
                 }
                 storeDeliveryCostLabelContainer.style.display = "none";
                 storesSelectContainer.style.display = "none";
-                itemTablePriceHeader.style.display = "none";
+                $(`#${ITEMS_TABLE_PRICE_TH_ID}`).hide();
                 $(".items-table-price-cell").hide();
             }
         }
@@ -1348,7 +1389,7 @@ function setQuantityCellContentToInput(row, quantityCell, itemId) {
                                          type="number" min="0.1" step=".01"
                                          form=${ADD_ORDER_FORM_ID}>`;
     let purchaseCategory = row.cells[row.cells.length-3].textContent;
-    if (purchaseCategory === "quantity") {
+    if (purchaseCategory === ITEM_PURCHASE_CATEGORY_QUANTITY_STR) {
         let input = document.getElementById(itemId);
         input.removeAttribute("step");
         input.setAttribute("min", "1");
@@ -1412,6 +1453,8 @@ function storeWasChosenForStaticOrder() {
     itemsTableContainer.style.display = "inline-block";
     let finishOrderButton = document.getElementById(FINISH_ORDER_BUTTON_ID);
     finishOrderButton.disabled = false;
+    $(`#${FINISH_ORDER_BUTTON_ID}`).show();
+
     let index;
 
     document.getElementById(STORE_SELECT_DEFAULT_OPTION_ID).disabled = true;

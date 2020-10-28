@@ -1,10 +1,3 @@
-#header{
-    color: blue;
-    margin-left: 20px;
-    text-align: center;
-    font-family: Georgia, cursive;
-}
-
 .add-store-label {
     font-weight: bold;
     color: black;
@@ -17,24 +10,57 @@
     font-weight: bold;
 }
 
+#store-name,
+#location-x,
+#location-y,
+#ppk {
+    margin-left: 10px;
+}
+
+#items-table-caption {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: black;
+}
+
+
+#items-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#items-table tr:hover {
+    background-color: #ddd;
+}
+
+#items-table td, #items-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
 #items-table {
-    width: 80%;
-    border: 1px solid black;
+    width: 65%;
     border-collapse: collapse;
-    /*padding: 15px;*/
 }
 
-#items-table-container table thead th .items-table-col{
-    position:absolute;
-    top:-20px;
-    height:20px;
-    /*width:35%;*/
-    /*border:1px solid red;*/
+.items-table-col {
+    background-color: #0f6dbe;
+    color: white;
     text-align: center;
-    /*word-wrap: break-word;*/
+    word-wrap: break-word;
 }
 
-.items-table-cell{
-    /*position: center;*/
+.items-table-cell {
     text-align: center;
+}
+
+.add-store-buttons {
+    font-size: 18px;
+    border-radius: 6px;
+    color: #fff;
+    background-color: #0f6dbe;
+    border-color: #0b63b0;
+}
+
+#add-item {
+    margin-bottom: 10px;
 }

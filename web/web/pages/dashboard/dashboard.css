@@ -1,63 +1,111 @@
-#header {
-    color: blue;
-    margin-left: 20px;
-    text-align: center;
-    font-family: Georgia, cursive;
+body {
+    overflow-x: scroll;
+    width: 100%;
+    white-space: nowrap;
 }
 
-#upload-file-form-submit {
+/*#container,*/
+/*#container-fluid,*/
+/*#row,*/
+/*#col-xs-10,*/
+/*#col-xs-4,*/
+/*#col-xs-3,*/
+/*#sidebar,*/
+/*#clearfix,*/
+/*#input,*/
+/*#content,*/
+/*#span6 {*/
+/*    width: 100% !important;*/
+/*}*/
+
+#account-table-container, #sell-zones-table-container {
+    display: none;
 }
 
-#upload-zone-file-p {
-    color: blue;
-    font-weight: bold;
-    font-size: 16px;
+#chat-submit-button, #charge, #credit-label {
+    margin-left: 5px;
+}
+
+.dashboard-buttons {
+    font-size: 18px;
+    border-radius: 6px;
+    color: #fff;
+    background-color: #0f6dbe;
+    border-color: #0b63b0;
+}
+
+#users-list-container {
+    background-color: #c8e6f3;
+    border-radius: 5px;
 }
 
 #upload-file-msg-label {
     font-weight: normal;
 }
 
+#sell-zones-table tr:nth-child(even),
+#account-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#sell-zones-table tr:hover,
+#account-table tr:hover {
+    background-color: #ddd;
+}
+
+#sell-zones-table td, #sell-zones-table th,
+#account-table td, #account-table th  {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
 #sell-zones-table {
-    /*align-content: center;*/
-    width: 60%;
-    border: 1px solid black;
+    width: 90%;
     border-collapse: collapse;
-    /*padding: 15px;*/
 }
 
 .sell-zones-table-col {
+    background-color: #0f6dbe;
+    color: white;
     text-align: center;
-    /*word-wrap: break-word;*/
+    word-wrap: break-word;
 }
 
 .sell-zones-table-cell {
-    /*position: center;*/
     text-align: center;
-}
-
-#charge-credit-header{
-    color: DodgerBlue;
 }
 
 .charge-credit-label {
     font-weight: bold;
+    font-size: 18px;
+}
+
+#date {
+    line-height: 25px;
+}
+
+#credit {
+    font-size: 18px;
 }
 
 #account-table {
-    /*align-content: center;*/
-    width: 80%;
-    border: 1px solid black;
+    width: 70%;
     border-collapse: collapse;
-    /*padding: 15px;*/
 }
 
 .account-table-col {
+    background-color: #0f6dbe;
+    color: white;
     text-align: center;
-    /*word-wrap: break-word;*/
+    word-wrap: break-word;
 }
 
 .account-table-cell {
-    /*position: center;*/
     text-align: center;
+}
+
+hr.rounded {
+    border-top: solid #bbb;
+    border-radius: 5px;
+    border-width: thin;
 }

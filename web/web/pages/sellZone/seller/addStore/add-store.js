@@ -109,17 +109,13 @@ function finishedAddStore() {
 
     let backToSellZoneButton = document.createElement("button");
     backToSellZoneButton.id = GO_BACK_BUTTON_ID;
-    backToSellZoneButton.textContent = "Go Back";
+    backToSellZoneButton.textContent = "Back To Sell Zone";
     backToSellZoneButton.classList.add(ADD_STORE_BUTTONS_CLASS);
-    let backToSellZoneButtonLabel = document.createElement("label");
-    backToSellZoneButtonLabel.textContent = "Go Back To Sell Zone -->";
-    backToSellZoneButtonLabel.htmlFor = GO_BACK_BUTTON_ID;
     backToSellZoneButton.addEventListener("click", () => {
         goBack();
     })
 
     let addStoreContainer = document.getElementById(ADD_STORE_CONTAINER_ID);
-    addStoreContainer.appendChild(backToSellZoneButtonLabel);
     addStoreContainer.appendChild(backToSellZoneButton);
 }
 
