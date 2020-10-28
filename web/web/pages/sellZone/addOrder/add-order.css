@@ -4,7 +4,9 @@
 #finish-order-button-hr,
 #dynamic-order-stores-details-hr,
 #order-summery-hr,
-#order-feedback-hr {
+#order-feedback-hr,
+#order-feedback-header,
+#finish-order-feedback-container {
     display: none;
 }
 
@@ -280,4 +282,26 @@ hr.rounded {
     border-top: solid #bbb;
     border-radius: 5px;
     border-width: thin;
+}
+
+#order-feedback-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.store-rate-container {
+    background-color: floralwhite;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    padding: 10px 10px 10px 10px;
+    border-style: solid;
+    border-color: #0378ab;
+    border-width: 1px;
+    border-radius: 5px;
+    width: 400px;
+}
+
+.store-rate-field {
+    margin-right: 10px;
 }

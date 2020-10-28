@@ -142,10 +142,21 @@
             <label id="confirm-order-label" for="confirm-order-button"></label>
         </div>
         <hr id="order-feedback-hr" class="rounded"/>
-        <div id="order-feedback-container">
+        <div id="order-feedback-header">
             <h2>Rate The Stores</h2>
             <p id="order-feedback-p">Please tell us what you think about the stores -
-                save each feedback you leave. Finally, click on "Finish Rating".</p>
+                save each feedback you leave. Finally, click on "Finish Rating".
+            </p>
+            <label id="store-rate-instructions-label">
+                1 - very poor, 5 - excellent
+            </label>
+        </div>
+        <div id="order-feedback-container">
+        </div>
+        <div id="finish-order-feedback-container">
+            <button id="finish-rating-button" class="add-order-buttons" onclick="finishOrderRate()">
+                Finish Rating
+            </button>
         </div>
     </div>
 </body>

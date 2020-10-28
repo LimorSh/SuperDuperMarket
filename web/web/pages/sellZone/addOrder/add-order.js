@@ -91,10 +91,11 @@ const STORE_RATE_CONTAINER_CLASS = "store-rate-container";
 const STORE_RATE_HEADER_CLASS = "store-rate-header";
 const STORE_RATE_FIELD_CLASS = "store-rate-field";
 const STORE_RATE_INPUT_CLASS = "store-rate-input";
-const STORE_RATE_INPUT_NOTE_CLASS = "store-rate-input-note";
+const ORDER_FEEDBACK_HEADER_ID = "order-feedback-header";
 const STORE_FEEDBACK_TEXT_AREA_CLASS = "store-feedback-text-area";
 const SAVE_STORE_FEEDBACK_BUTTON_CLASS = "save-store-feedback-button";
 const SAVE_STORE_FEEDBACK_BUTTON_LABEL_CLASS = "save-store-feedback-button-label";
+const FINISH_ORDER_FEEDBACK_CONTAINER = "finish-order-feedback-container";
 const FINISH_RATING_BUTTON_ID = "finish-rating-button";
 const MIN_RATE = 1;
 const MAX_RATE = 5;
@@ -1045,7 +1046,7 @@ function showRateStore(store) {
     const STORE_FEEDBACK_TEXT_AREA_ID = `${storeId}-store-rate-feedback`;
     const SAVE_STORE_FEEDBACK_BUTTON_ID = `${storeId}-save-store-feedback-button`;
     const STORE_FEEDBACK_TEXT_AREA_ROWS = 6;
-    const STORE_FEEDBACK_TEXT_AREA_COLS = 70;
+    const STORE_FEEDBACK_TEXT_AREA_COLS = 40;
     const STORE_FEEDBACK_TEXT_AREA_LENGTH = 300;
 
     let storeRateContainer = document.createElement("div");
@@ -1063,9 +1064,6 @@ function showRateStore(store) {
     storeRateInputLabel.classList.add(STORE_RATE_FIELD_CLASS);
     storeRateInputLabel.textContent = "Rate: ";
     storeRateInputLabel.htmlFor = STORE_RATE_INPUT_ID;
-    let storeRateInputNoteLabel = document.createElement("label");
-    storeRateInputNoteLabel.classList.add(STORE_RATE_INPUT_NOTE_CLASS);
-    storeRateInputNoteLabel.textContent = "1 - very poor, 5 - excellent";
     let storeRateFeedbackLabel = document.createElement("label");
     storeRateFeedbackLabel.classList.add(STORE_RATE_FIELD_CLASS);
     storeRateFeedbackLabel.textContent = "Feedback: ";
@@ -1109,7 +1107,6 @@ function showRateStore(store) {
     storeRateContainer.appendChild(storeRateHeader);
     storeRateContainer.appendChild(storeRateInputLabel);
     storeRateContainer.appendChild(storeRateInput);
-    storeRateContainer.appendChild(storeRateInputNoteLabel);
     storeRateContainer.appendChild(newLine);
     storeRateContainer.appendChild(storeRateFeedbackLabel);
     newLine = document.createElement("br");
@@ -1147,10 +1144,9 @@ function ajaxAddOrderFeedback() {
             console.error("Failed to submit");
         },
         success: function() {
-
             disableStoresFeedbacks();
 
-            let orderFeedbackContainer = document.getElementById(ORDER_FEEDBACK_CONTAINER_ID);
+            let finishOrderFeedbackContainer = document.getElementById(FINISH_ORDER_FEEDBACK_CONTAINER);
 
             let finishButton = document.getElementById(FINISH_RATING_BUTTON_ID);
             finishButton.disabled = true;
@@ -1163,7 +1159,7 @@ function ajaxAddOrderFeedback() {
                 goBack();
             })
 
-            orderFeedbackContainer.appendChild(backToSellZoneButton);
+            finishOrderFeedbackContainer.appendChild(backToSellZoneButton);
         }
     });
 }
@@ -1179,7 +1175,6 @@ function finishOrderRate() {
 function showOrderRateStores() {
     let hr = document.getElementById(ORDER_FEEDBACK_HR_ID);
     hr.style.display = "block";
-    let orderFeedbackContainer = document.getElementById(ORDER_FEEDBACK_CONTAINER_ID);
     if (orderCategory === ORDER_CATEGORY_STATIC_STR) {
         let store = getSelectedStore();
         showRateStore(store);
@@ -1190,14 +1185,12 @@ function showOrderRateStores() {
         });
     }
 
-    let finishRatingButton = document.createElement("button");
-    finishRatingButton.id = FINISH_RATING_BUTTON_ID;
-    finishRatingButton.classList.add(ADD_ORDER_BUTTONS_CLASS);
-    finishRatingButton.textContent = "Finish Rating";
-    finishRatingButton.onclick = finishOrderRate;
-
-    orderFeedbackContainer.appendChild(finishRatingButton);
-    orderFeedbackContainer.style.display = "block";
+    let orderFeedbackContainer = document.getElementById(ORDER_FEEDBACK_CONTAINER_ID);
+    let orderFeedbackHeader = document.getElementById(ORDER_FEEDBACK_HEADER_ID);
+    let finishOrderFeedbackContainer = document.getElementById(FINISH_ORDER_FEEDBACK_CONTAINER);
+    orderFeedbackContainer.style.display = "flex";
+    orderFeedbackHeader.style.display = "block";
+    finishOrderFeedbackContainer.style.display = "block";
 }
 
 
