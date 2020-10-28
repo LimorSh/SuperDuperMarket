@@ -29,8 +29,10 @@ public class GetFeedbacksServlet extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            Collection<StoreFeedbackDto> feedbacks =
-                    businessLogic.getFeedbacksDto(zoneNameFromSession, usernameFromSession);
+            Collection<StoreFeedbackDto> feedbacks;
+            synchronized (getServletContext()) {
+                feedbacks = businessLogic.getFeedbacksDto(zoneNameFromSession, usernameFromSession);
+            }
             if (feedbacks.isEmpty()) {
                 out.write(Constants.EMPTY_JSON_RESPONSE);
             }

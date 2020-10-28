@@ -29,8 +29,10 @@ public class GetOrderHistoryServlet extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            Collection<OrderDto> orders =
-                    businessLogic.getOrderHistory(zoneNameFromSession, usernameFromSession);
+            Collection<OrderDto> orders;
+            synchronized (getServletContext()) {
+                orders = businessLogic.getOrderHistory(zoneNameFromSession, usernameFromSession);
+            }
             if (orders.isEmpty()) {
                 out.write(Constants.EMPTY_JSON_RESPONSE);
             }

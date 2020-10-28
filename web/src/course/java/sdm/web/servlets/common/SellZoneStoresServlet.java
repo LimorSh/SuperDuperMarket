@@ -1,8 +1,7 @@
-package course.java.sdm.web.servlets;
+package course.java.sdm.web.servlets.common;
 
 import com.google.gson.Gson;
-import course.java.sdm.engine.dto.BasicItemDto;
-import course.java.sdm.engine.dto.ItemDto;
+import course.java.sdm.engine.dto.StoreDto;
 import course.java.sdm.engine.engine.BusinessLogic;
 import course.java.sdm.web.utils.ServletUtils;
 import course.java.sdm.web.utils.SessionUtils;
@@ -16,8 +15,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-//@WebServlet(name = "SellZoneBasicItemsServlet", urlPatterns = {"/basicItems"})
-public class SellZoneBasicItemsServlet extends HttpServlet {
+//@WebServlet(name = "SellZoneStoresServlet", urlPatterns = {"/stores"})
+public class SellZoneStoresServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -29,11 +28,14 @@ public class SellZoneBasicItemsServlet extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            Collection<BasicItemDto> basicItems = businessLogic.getBasicItemsDto(zoneNameFromSession);
-            Collection<BasicItemDto> basicItemsSortedById = basicItems.stream().sorted
-                    (Comparator.comparing(BasicItemDto::getId))
+            Collection<StoreDto> stores;
+            synchronized (getServletContext()) {
+                stores = businessLogic.getStoresDto(zoneNameFromSession);
+            }
+            Collection<StoreDto> storesSortedById = stores.stream().sorted
+                    (Comparator.comparing(StoreDto::getId))
                     .collect(Collectors.toList());
-            String json = gson.toJson(basicItemsSortedById);
+            String json = gson.toJson(storesSortedById);
 //            System.out.println(json);
             out.println(json);
             out.flush();

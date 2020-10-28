@@ -47,9 +47,12 @@ public class GetDynamicOrderStoresDetailsServlet extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            Collection<DynamicOrderStoreDetailsDto> storesDetails =
-                    businessLogic.getDynamicOrderStoresDetailsDto(zoneNameFromSession,
-                            itemsIdsAndQuantities, locationX, locationY);
+
+            Collection<DynamicOrderStoreDetailsDto> storesDetails;
+            synchronized (getServletContext()) {
+                storesDetails = businessLogic.getDynamicOrderStoresDetailsDto(zoneNameFromSession,
+                                itemsIdsAndQuantities, locationX, locationY);
+            }
             Collection<DynamicOrderStoreDetailsDto> storesDetailsSortedById
                     = storesDetails.stream().sorted
                     (Comparator.comparing(DynamicOrderStoreDetailsDto::getId))

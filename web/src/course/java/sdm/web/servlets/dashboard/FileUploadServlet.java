@@ -18,7 +18,7 @@ import java.util.Collection;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class FileUploadServlet extends HttpServlet {
 
-    private static final String SUCCESS_MSG = "The file was loaded successfully. " +
+    private static final String SUCCESS_MSG = "The file was loaded successfully! " +
             "You can see the zone details in the table below.";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

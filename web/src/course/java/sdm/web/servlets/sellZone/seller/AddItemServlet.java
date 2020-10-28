@@ -36,7 +36,7 @@ public class AddItemServlet extends HttpServlet {
             storeIdsAndPrices.put(storeId, price);
         });
 
-        synchronized (this) {
+        synchronized (getServletContext()) {
             try {
                 businessLogic.createNewItem(zoneNameFromSession, itemNameFromParameter,
                         chosenPurchaseCategoryParameter, storeIdsAndPrices);

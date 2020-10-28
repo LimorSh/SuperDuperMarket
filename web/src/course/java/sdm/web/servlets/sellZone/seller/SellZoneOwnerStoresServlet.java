@@ -30,8 +30,10 @@ public class SellZoneOwnerStoresServlet extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            Collection<StoreDto> ownerStores = businessLogic.getOwnerStoresDto(
-                    zoneNameFromSession, usernameFromSession);
+            Collection<StoreDto> ownerStores;
+            synchronized (getServletContext()) {
+                ownerStores = businessLogic.getOwnerStoresDto(zoneNameFromSession, usernameFromSession);
+            }
             if (ownerStores.isEmpty()) {
                 out.write(Constants.EMPTY_JSON_RESPONSE);
             }

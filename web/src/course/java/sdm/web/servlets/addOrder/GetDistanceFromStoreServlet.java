@@ -21,10 +21,13 @@ public class GetDistanceFromStoreServlet extends HttpServlet {
         int locationX = Integer.parseInt(request.getParameter(Constants.LOCATION_X_PARAM_KEY));
         int locationY = Integer.parseInt(request.getParameter(Constants.LOCATION_Y_PARAM_KEY));
 
-        double distanceFromStore = ServletUtils.roundNumberWithTwoDigitsAfterPoint(
-                businessLogic.getDistanceBetweenCustomerAndStore(
-                        zoneNameFromSession, storeId, locationX, locationY
-                ));
+        double distanceFromStore;
+        synchronized (getServletContext()) {
+            distanceFromStore = ServletUtils.roundNumberWithTwoDigitsAfterPoint(
+                    businessLogic.getDistanceBetweenCustomerAndStore(
+                            zoneNameFromSession, storeId, locationX, locationY
+                    ));
+        }
 
         response.getWriter().print(ServletUtils.roundNumberWithTwoDigitsAfterPoint(distanceFromStore));
     }
