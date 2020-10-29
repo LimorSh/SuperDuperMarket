@@ -1,9 +1,9 @@
-package course.java.sdm.web.servlets;
+package course.java.sdm.web.servlets.common;
 
 import com.google.gson.Gson;
-import course.java.sdm.engine.dto.BasicStoreDto;
+import course.java.sdm.engine.dto.BasicItemDto;
+import course.java.sdm.engine.dto.ItemDto;
 import course.java.sdm.engine.engine.BusinessLogic;
-import course.java.sdm.web.constants.Constants;
 import course.java.sdm.web.utils.ServletUtils;
 import course.java.sdm.web.utils.SessionUtils;
 
@@ -16,8 +16,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-//@WebServlet(name = "SellZoneOwnerBasicStoresServlet", urlPatterns = {"/ownerBasicStores"})
-public class SellZoneOwnerBasicStoresServlet extends HttpServlet {
+//@WebServlet(name = "SellZoneBasicItemsServlet", urlPatterns = {"/basicItems"})
+public class SellZoneBasicItemsServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -26,23 +26,19 @@ public class SellZoneOwnerBasicStoresServlet extends HttpServlet {
 
         String zoneNameFromSession = SessionUtils.getZoneName(request);
         BusinessLogic businessLogic = ServletUtils.getBusinessLogic(getServletContext());
-        String usernameFromSession = SessionUtils.getUsername(request);
 
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            Collection<BasicStoreDto> OwnerBasicStores =
-                    businessLogic.getOwnerBasicStoresDto(zoneNameFromSession, usernameFromSession);
-            if (OwnerBasicStores.isEmpty()) {
-                out.write(Constants.EMPTY_JSON_RESPONSE);
+            Collection<BasicItemDto> basicItems;
+            synchronized (getServletContext()) {
+                basicItems = businessLogic.getBasicItemsDto(zoneNameFromSession);
             }
-            else {
-                Collection<BasicStoreDto> basicStoresSortedById = OwnerBasicStores.stream().sorted
-                        (Comparator.comparing(BasicStoreDto::getId))
-                        .collect(Collectors.toList());
-                String json = gson.toJson(basicStoresSortedById);
-//                System.out.println(json);
-                out.println(json);
-            }
+            Collection<BasicItemDto> basicItemsSortedById = basicItems.stream().sorted
+                    (Comparator.comparing(BasicItemDto::getId))
+                    .collect(Collectors.toList());
+            String json = gson.toJson(basicItemsSortedById);
+//            System.out.println(json);
+            out.println(json);
             out.flush();
         }
     }

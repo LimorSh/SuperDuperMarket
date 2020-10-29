@@ -84,8 +84,6 @@
                     </tbody>
                 </table>
         </div>
-        <br>
-        <br>
         <div>
             <button type="button" id="finish-order-button" class="add-order-buttons" disabled="disabled">
                 Finish Shopping
@@ -93,8 +91,7 @@
             <label id="finish-order-msg-label" for="finish-order-button">
             </label>
         </div>
-        <br>
-        <br>
+<!--        <hr id="finish-order-button-hr" class="rounded"/>-->
         <div id="dynamic-order-stores-details-container">
             <h2>Stores Details</h2>
             <div id="dynamic-order-stores-details-list-container">
@@ -102,7 +99,6 @@
                 </ul>
             </div>
         </div>
-        <br>
         <div id="order-discounts-container">
             <h2>Special Offers</h2>
             <p id="special-offers-p">You can get the following discounts:</p>
@@ -110,6 +106,7 @@
         </div>
         <br>
         <br>
+        <hr id="order-summery-hr" class="rounded"/>
         <div id="order-summery-container">
             <h2>Order Summery</h2>
             <div id="order-summery-basic-info-container">
@@ -144,10 +141,22 @@
             </button>
             <label id="confirm-order-label" for="confirm-order-button"></label>
         </div>
-        <div id="order-feedback-container">
+        <hr id="order-feedback-hr" class="rounded"/>
+        <div id="order-feedback-header">
             <h2>Rate The Stores</h2>
             <p id="order-feedback-p">Please tell us what you think about the stores -
-                save each feedback you leave. Finally, click on "Finish Rating".</p>
+                save each feedback you leave. Finally, click on "Finish Rating".
+            </p>
+            <label id="store-rate-instructions-label">
+                1 - very poor, 5 - excellent
+            </label>
+        </div>
+        <div id="order-feedback-container">
+        </div>
+        <div id="finish-order-feedback-container">
+            <button id="finish-rating-button" class="add-order-buttons" onclick="finishOrderRate()">
+                Finish Rating
+            </button>
         </div>
     </div>
 </body>

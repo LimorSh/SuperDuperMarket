@@ -102,7 +102,7 @@ function goBack() {
 
 
 function finishedAddStore() {
-    $(`#${ADD_STORE_MSG_LABEL_ID}`).text(ADD_STORE_MSG_SUCCESS);
+    $(`#${ADD_STORE_MSG_LABEL_ID}`).text(ADD_STORE_MSG_SUCCESS).removeClass("error");;
 
     let addStoreFormButton = document.getElementById(ADD_STORE_FORM_BUTTON_ID);
     addStoreFormButton.disabled = true;
@@ -139,7 +139,7 @@ $(function() {
                 },
                 success: function(r) {
                     if (r.length > 0) {
-                        $(`#${ADD_STORE_MSG_LABEL_ID}`).text(r);
+                        $(`#${ADD_STORE_MSG_LABEL_ID}`).text(r).addClass("error");
                     }
                     else {
                         finishedAddStore();
@@ -148,7 +148,7 @@ $(function() {
             });
         }
         else {
-            $(`#${ADD_STORE_MSG_LABEL_ID}`).text(ADD_STORE_MSG_EMPTY_ITEMS);
+            $(`#${ADD_STORE_MSG_LABEL_ID}`).text(ADD_STORE_MSG_EMPTY_ITEMS).addClass("error");;
         }
 
         // return value of the submit operation

@@ -66,14 +66,14 @@ public class AddOrderServlet extends HttpServlet {
         if (orderCategoryFromParameter.equals(Constants.STATIC_ORDER_CATEGORY_STR)) {
             String storeIdFromParameter = request.getParameter(Constants.CHOSEN_STORE_ID_PARAM_KEY);
             int storeId = Integer.parseInt(storeIdFromParameter);
-            synchronized (this) {
+            synchronized (getServletContext()) {
                 orderId = businessLogic.createOrder(accountManager, notificationManager,
                         zoneNameFromSession, usernameFromSession, date, locationX, locationY,
                         storeId, itemsIdsAndQuantities, appliedOffers);
             }
         }
         else {
-            synchronized (this) {
+            synchronized (getServletContext()) {
                 orderId = businessLogic.createOrder(accountManager, notificationManager,
                         zoneNameFromSession, usernameFromSession, date, locationX, locationY,
                         itemsIdsAndQuantities, appliedOffers);

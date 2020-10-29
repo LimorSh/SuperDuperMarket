@@ -28,7 +28,8 @@ public class AccountTransactionsTableServlet extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            List<TransactionDto> transactions = accountManager.getUserTransactionsDto(usernameFromSession);
+            List<TransactionDto> transactions = accountManager
+                    .getUserTransactionsDto(usernameFromSession);
             String json = gson.toJson(transactions);
 //            System.out.println(json);
             out.println(json);

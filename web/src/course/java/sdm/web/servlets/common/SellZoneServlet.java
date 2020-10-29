@@ -1,4 +1,4 @@
-package course.java.sdm.web.servlets;
+package course.java.sdm.web.servlets.common;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

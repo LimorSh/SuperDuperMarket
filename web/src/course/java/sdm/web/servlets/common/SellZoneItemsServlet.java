@@ -1,4 +1,4 @@
-package course.java.sdm.web.servlets;
+package course.java.sdm.web.servlets.common;
 
 import com.google.gson.Gson;
 import course.java.sdm.engine.dto.ItemDto;
@@ -28,7 +28,10 @@ public class SellZoneItemsServlet extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            Collection<ItemDto> items = businessLogic.getItemsDto(zoneNameFromSession);
+            Collection<ItemDto> items;
+            synchronized (getServletContext()) {
+                items = businessLogic.getItemsDto(zoneNameFromSession);
+            }
             Collection<ItemDto> itemsSortedById = items.stream().sorted
                     (Comparator.comparing(ItemDto::getId))
                     .collect(Collectors.toList());

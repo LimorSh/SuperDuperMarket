@@ -40,7 +40,7 @@ public class AddOrderFeedbackServlet extends HttpServlet {
             storesAndRates.put(storeId, storeRateDetails);
         });
 
-        synchronized (this) {
+        synchronized (getServletContext()) {
             businessLogic.addOrderFeedback(notificationManager, zoneNameFromSession, orderId, storesAndRates);
         }
     }

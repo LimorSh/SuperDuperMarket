@@ -21,8 +21,11 @@ public class GetStoreDeliveryCostServlet extends HttpServlet {
         int locationX = Integer.parseInt(request.getParameter(Constants.LOCATION_X_PARAM_KEY));
         int locationY = Integer.parseInt(request.getParameter(Constants.LOCATION_Y_PARAM_KEY));
 
-        float storeDeliveryCost = businessLogic.getStoreDeliveryCost(
-                zoneNameFromSession, storeId, locationX, locationY);
+        float storeDeliveryCost;
+        synchronized (getServletContext()) {
+            storeDeliveryCost = businessLogic.getStoreDeliveryCost(
+                    zoneNameFromSession, storeId, locationX, locationY);
+        }
 
         response.getWriter().print(ServletUtils.roundNumberWithTwoDigitsAfterPoint(storeDeliveryCost));
     }

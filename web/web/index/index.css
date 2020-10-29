@@ -1,15 +1,37 @@
-body {
-    overflow-x: scroll;
-    width: 100%;
-    white-space: nowrap;
-    /*background-image: url('../common/images/background.jpg');*/
+
+
+body, html {
+    height: 100%;
+    margin: 0;
 }
 
-/*#form-container {*/
-/*    background-color: white;*/
-/*    border-color: #0f6dbe;*/
-/*    border-width: 1px;*/
-/*}*/
+.bg {
+    /* The image used */
+    background-image: url("../common/images/background.jpg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.85;
+}
+
+#form-container, #header-container {
+    margin: auto;
+    background-color: white;
+    border-color: #96bbea;
+    border-width: 2px;
+    border-radius: 5px;
+    border-style: solid;
+    width: fit-content;
+}
+
+#form-container {
+    padding: 10px;
+}
 
 #user-type-radio-buttons-container {
     margin-bottom: 20px;
@@ -18,12 +40,6 @@ body {
 #login {
     margin-top: 20px;
     line-height: 1.3333333;
-}
-
-#form-container {
-    margin: auto;
-    width: 40%;
-    padding: 10px;
 }
 
 #username-label {
@@ -79,4 +95,11 @@ body {
     user-select: none;
     background-image: none;
     border: 1px solid transparent;
+}
+
+#error-msg {
+    width: 450px;
+    text-align: center;
+    font-weight: normal;
+    color: tomato;
 }

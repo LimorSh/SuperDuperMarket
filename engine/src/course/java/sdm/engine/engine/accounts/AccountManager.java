@@ -52,8 +52,8 @@ public class AccountManager {
         return accounts.get(username);
     }
 
-    public void transferCredit(Date date, String receiver, String sender, float credit) {
-        receiveCreditForUser(receiver, date, credit);
-        transferCreditForUser(sender, date, credit);
-    }
+//    public void transferCredit(Date date, String receiver, String sender, float credit) {
+//        receiveCreditForUser(receiver, date, credit);
+//        transferCreditForUser(sender, date, credit);
+//    }
 }

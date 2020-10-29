@@ -13,10 +13,6 @@
         <servlet-class>course.java.sdm.web.servlets.dashboard.UsersListServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.LogoutServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>FileUploadServlet</servlet-name>
         <servlet-class>course.java.sdm.web.servlets.dashboard.FileUploadServlet</servlet-class>
     </servlet>
@@ -34,19 +30,19 @@
     </servlet>
     <servlet>
         <servlet-name>SellZoneItemsServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.SellZoneItemsServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.common.SellZoneItemsServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SellZoneBasicItemsServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.SellZoneBasicItemsServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.common.SellZoneBasicItemsServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SellZoneBasicStoresServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.SellZoneBasicStoresServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.common.SellZoneBasicStoresServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SellZoneStoresServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.SellZoneStoresServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.common.SellZoneStoresServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SellZoneWasChosenServlet</servlet-name>
@@ -54,7 +50,7 @@
     </servlet>
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.HomeServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.common.HomeServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>GetChosenSellZone</servlet-name>
@@ -98,7 +94,7 @@
     </servlet>
     <servlet>
         <servlet-name>SellZoneServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.SellZoneServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.common.SellZoneServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RedirectOrdersServlet</servlet-name>
@@ -134,7 +130,7 @@
     </servlet>
     <servlet>
         <servlet-name>SellZoneOwnerBasicStoresServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.SellZoneOwnerBasicStoresServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.common.SellZoneOwnerBasicStoresServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>GetOwnerStoreOrdersServlet</servlet-name>
@@ -162,7 +158,7 @@
     </servlet>
     <servlet>
         <servlet-name>GetUserTypeServlet</servlet-name>
-        <servlet-class>course.java.sdm.web.servlets.GetUserTypeServlet</servlet-class>
+        <servlet-class>course.java.sdm.web.servlets.common.GetUserTypeServlet</servlet-class>
     </servlet>
 
 
@@ -176,10 +172,6 @@
     <servlet-mapping>
         <servlet-name>UsersListServlet</servlet-name>
         <url-pattern>/userslist</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LogoutServlet</servlet-name>
-        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FileUploadServlet</servlet-name>

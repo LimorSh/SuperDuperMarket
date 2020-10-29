@@ -485,12 +485,11 @@ public class SuperDuperMarket {
         return customer;
     }
 
-    private void transferPaymentToStoresOwners(AccountManager accountManager,
-                                               Order order, String customerName) {
+    private void transferPaymentToStoresOwners(AccountManager accountManager, Order order) {
         for (StoreOrder storeOrder : order.getStoresOrder()) {
             float totalCost = storeOrder.getTotalCost();
             String storeOwner = storeOrder.getStore().getOwnerName();
-            accountManager.transferCredit(order.getDate(), storeOwner, customerName, totalCost);
+            accountManager.receiveCreditForUser(storeOwner, order.getDate(), totalCost);
         }
     }
 
@@ -533,7 +532,8 @@ public class SuperDuperMarket {
             store.updateTotalDeliveriesRevenue(location);
         }
         customer.addOrder(order);
-        transferPaymentToStoresOwners(accountManager, order, customerName);
+        transferPaymentToStoresOwners(accountManager, order);
+        accountManager.transferCreditForUser(customerName, date, order.getTotalCost());
         return order.getId();
     }
 
@@ -556,7 +556,8 @@ public class SuperDuperMarket {
                 itemsAndQuantities, getAppliedOffers(appliedOffersStoreItemsIds));
         store.updateTotalDeliveriesRevenue(location);
         customer.addOrder(order);
-        transferPaymentToStoresOwners(accountManager, order, customerName);
+        transferPaymentToStoresOwners(accountManager, order);
+        accountManager.transferCreditForUser(customerName, date, order.getTotalCost());
         return order.getId();
     }
 

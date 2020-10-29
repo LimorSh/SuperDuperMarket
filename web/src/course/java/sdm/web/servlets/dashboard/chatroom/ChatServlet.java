@@ -22,13 +22,11 @@ public class ChatServlet extends HttpServlet {
         
         response.setContentType("application/json");
         ChatManager chatManager = ServletUtils.getChatManager(getServletContext());
-//        String username = SessionUtils.getUsername(request);
 
         int chatVersion = ServletUtils.getIntParameter(request, Constants.CHAT_VERSION_PARAMETER);
         if (chatVersion == Constants.INT_PARAMETER_ERROR) {
             return;
         }
-
 
         int chatManagerVersion;
         List<SingleChatEntry> chatEntries;

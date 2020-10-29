@@ -26,7 +26,10 @@ public class SellZonesTableServlet extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            Set<ZoneDetailsDto> zones = businessLogic.getZonesDetailsDto();
+            Set<ZoneDetailsDto> zones;
+            synchronized (getServletContext()) {
+                zones = businessLogic.getZonesDetailsDto();
+            }
             List<ZoneDetailsDto> zonesSortedByName = zones.stream().sorted
                     (Comparator.comparing(ZoneDetailsDto::getZoneName))
                     .collect(Collectors.toList());

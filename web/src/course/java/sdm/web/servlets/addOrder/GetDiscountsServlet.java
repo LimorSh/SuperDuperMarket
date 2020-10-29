@@ -44,12 +44,12 @@ public class GetDiscountsServlet extends HttpServlet {
         String orderCategoryFromParameter = request.getParameter(Constants.CHOSEN_ORDER_CATEGORY_PARAM_KEY);
         if (orderCategoryFromParameter.equals(Constants.STATIC_ORDER_CATEGORY_STR)) {
             int storeId = Integer.parseInt(request.getParameter(Constants.CHOSEN_STORE_ID_PARAM_KEY));
-            synchronized (this) {
+            synchronized (getServletContext()) {
                 discounts = businessLogic.getRelevantDiscounts(zoneNameFromSession, storeId, itemsIdsAndQuantities);
             }
         }
         else {
-            synchronized (this) {
+            synchronized (getServletContext()) {
                 discounts = businessLogic.getRelevantDiscounts(zoneNameFromSession, itemsIdsAndQuantities);
             }
         }

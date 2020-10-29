@@ -229,6 +229,12 @@ $(function() {
                 },
                 success: function(r) {
                     $(`#${UPLOAD_FILE_MSG_LABEL_ID}`).text(r);
+                    if (r.includes("successfully")) {
+                        $(`#${UPLOAD_FILE_MSG_LABEL_ID}`).removeClass("error");
+                    }
+                    else {
+                        $(`#${UPLOAD_FILE_MSG_LABEL_ID}`).addClass("error");
+                    }
                 }
             });
         }
