@@ -99,4 +99,7 @@ body, html {
 
 #error-msg {
     width: 450px;
+    text-align: center;
+    font-weight: normal;
+    color: tomato;
 }
