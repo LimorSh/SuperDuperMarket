@@ -636,6 +636,7 @@ function showDiscounts() {
     });
     let orderDiscountsContainer = document.getElementById(ORDER_DISCOUNTS_CONTAINER_ID);
     orderDiscountsContainer.appendChild(orderDiscountsNextButton);
+    window.scrollBy(0,400);
 }
 
 
@@ -881,6 +882,7 @@ function showOrderSummeryForDynamicOrder(orderCategoryValue) {
 
 function showOrderSummery() {
     $(`#${ORDER_SUMMERY_CONTAINER_ID}`).show();
+    window.scrollBy(0,700);
     let hr = document.getElementById(ORDER_SUMMERY_HR_ID);
     hr.style.display = "block";
     document.getElementById(ORDER_SUMMERY_DATE_VALUE_LABEL_ID).textContent = date;
@@ -1006,8 +1008,8 @@ function finishOrder() {
         let isAllQuantitiesValid =
             isAllQuantitiesInputsAreValid(finishOrderMsgLabel);
         if (isAllQuantitiesValid) {
-            let hr = document.getElementById(FINISH_ORDER_BUTTON_HR_ID);
-            hr.style.display = "block";
+            // let hr = document.getElementById(FINISH_ORDER_BUTTON_HR_ID);
+            // hr.style.display = "block";
             disableOrderInterface();
             setItemsIdsAndQuantities();
             if (orderCategory === ORDER_CATEGORY_DYNAMIC_STR) {
@@ -1191,6 +1193,8 @@ function showOrderRateStores() {
     orderFeedbackContainer.style.display = "flex";
     orderFeedbackHeader.style.display = "block";
     finishOrderFeedbackContainer.style.display = "block";
+
+    window.scrollBy(0,400);
 }
 
 

@@ -26,6 +26,11 @@ body, html {
     border-width: 2px;
     border-radius: 5px;
     border-style: solid;
+    width: fit-content;
+}
+
+#form-container {
+    padding: 10px;
 }
 
 #user-type-radio-buttons-container {
@@ -35,12 +40,6 @@ body, html {
 #login {
     margin-top: 20px;
     line-height: 1.3333333;
-}
-
-#form-container {
-    margin: auto;
-    width: 40%;
-    padding: 10px;
 }
 
 #username-label {
@@ -96,4 +95,8 @@ body, html {
     user-select: none;
     background-image: none;
     border: 1px solid transparent;
+}
+
+#error-msg {
+    width: 450px;
 }
