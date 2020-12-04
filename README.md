@@ -1,6 +1,6 @@
 # SuperDuperMarket (SDM)
 
-#### * --- This project was written while I was a CS student in 2020 --- *
+#### _ --- This project was written while I was a CS student in 2020 --- _
 
 
 #### The final result is a smart super duper market (SDM) web system.
