@@ -4,7 +4,7 @@
 
 
 
-#### The final result is a smart super duper market (SDM) web system.
+#### The final result is a smart super duper market (SDM) web system.    
   
   
 
