@@ -5,10 +5,10 @@
 
 
 #### The final result is a smart super duper market (SDM) web system.
-__
-__
+  
+  
 
-The project has three parts.__
+The project has three parts.  
 In each part the engine remains the same except for additional features, while the UI is changing.
 
 * Part 1 - Ex1 brunch:
