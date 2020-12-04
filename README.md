@@ -18,5 +18,5 @@ Console UI.
 JavaFX UI.
 
 * Part 3 - Master brunch:  
-Web UI.
+Web UI.  
 (using Apache Tomcat) 
