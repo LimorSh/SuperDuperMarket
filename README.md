@@ -1,4 +1,4 @@
-# SuperDuperMarket (SDM)
+# SuperDuperMarket
 
 *This project was written while I was a CS student in 2020.*
 
