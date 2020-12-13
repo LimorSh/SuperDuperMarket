@@ -36,7 +36,7 @@ Full version of the system (web system):
 - Support notifications
 
 ## 3 main windows:
-### 1)	Sign up window: 
+### 1)	Sign up: 
 - sign up with username and user type (customer/seller) and then move to dashboard window.
 ### 2)	Dashboard:
 - List of the users online
