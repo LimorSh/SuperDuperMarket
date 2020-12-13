@@ -4,7 +4,8 @@ smart super market web system.
 ## General Story
 ### Locations
 - The system will support two-dimension map: every store and customer (order in some cases) can be position between the range of 1 to 50 [1:50].
-- The distance between two coordinates is calculated using Pythagorean theorem: D = SQRT( (|X1-X2|)^2 + (|Y1-Y2|)^2).
+- The distance between two coordinates is calculated using Pythagorean theorem:
+D = SQRT( (|X1-X2|)^2 + (|Y1-Y2|)^2).
 ### Items
 - The system will allow to define different items which sells in different stores.
 - Each item has the following information:
