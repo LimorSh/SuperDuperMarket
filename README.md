@@ -31,7 +31,7 @@ D = SQRT( (|X1-X2|)^2 + (|Y1-Y2|)^2).
 - There is one user in the system (no customers).
 - The order is just from one store.
 - No support of discounts, best cart algorithm or feedbacks.
-- the UI is console application )using a menu(
+- the UI is console application (using a menu)
 
 ### The supported actions:
 1) Reading system data (stores and items) from XML file and checking validity. 
