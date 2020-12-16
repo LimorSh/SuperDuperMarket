@@ -2,8 +2,6 @@
 
 *This project was written while I was a CS student in 2020.*
 
-SuperDuperMarket is the project of Java Language and introduction for web development course (2020C).
-
 #### The final result is a smart super duper market (SDM) web system.    
   
   
