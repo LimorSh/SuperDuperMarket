@@ -1,5 +1,4 @@
 # SuperDuperMarket
-smart super market web system.
 
 ## General Story
 ### Locations
